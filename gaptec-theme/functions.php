@@ -116,23 +116,6 @@ add_action( 'init', function (): void {
 } );
 
 // ──────────────────────────────────────────────────────────────
-// Block Patterns (loaded from /patterns directory automatically
-// in WP 6.0+, but we also register here for compatibility)
-// ──────────────────────────────────────────────────────────────
-
-add_action( 'init', function (): void {
-	$patterns_dir = GAPTEC_DIR . '/patterns';
-
-	if ( ! is_dir( $patterns_dir ) ) {
-		return;
-	}
-
-	foreach ( glob( $patterns_dir . '/*.php' ) as $file ) {
-		require_once $file;
-	}
-} );
-
-// ──────────────────────────────────────────────────────────────
 // Block Style Variations
 // ──────────────────────────────────────────────────────────────
 
