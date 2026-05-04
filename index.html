@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAPTEC Electronic – Power Conversion Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #5cb800;
+    --green-dark: #4a9600;
+    --green-deep: #2d6315;
+    --green-deep-2: #3a7d1c;
+    --green-light: #f0f9e6;
+    --bg: #ffffff;
+    --surface: #f7f8f9;
+    --surface2: #eef0f2;
+    --border: #e2e5e9;
+    --border-dark: #c8cdd4;
+    --text: #1a1d22;
+    --text-muted: #6b7280;
+    --text-dim: #b0b7c3;
+    --header-h: 64px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ══ PLUS SVG helper ══ */
+  .plus {
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .plus svg { display: block; }
+  .plus--sm svg  { width: 18px; height: 18px; }
+  .plus--md svg  { width: 24px; height: 24px; }
+  .plus--lg svg  { width: 36px; height: 36px; }
+  .plus--xl svg  { width: 52px; height: 52px; }
+
+  /* ══ HEADER ══ */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    height: var(--header-h);
+    display: flex; align-items: center;
+    padding: 0 clamp(1rem, 4vw, 2.5rem);
+    gap: 2rem;
+  }
+  .logo-wrap { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+  .logo-wrap svg { height: 34px; width: auto; display: block; }
+
+  nav { display: flex; align-items: center; gap: 0; margin-left: auto; }
+  nav a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 0.8rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.4rem 0.8rem; transition: color 0.2s;
+  }
+  nav a:hover { color: var(--text); }
+  .nav-cta {
+    display: inline-flex !important; align-items: center; gap: 0.4rem;
+    background: var(--green-deep) !important; color: #fff !important;
+    font-weight: 600 !important; padding: 0.45rem 1rem !important;
+    border-radius: 3px; margin-left: 0.5rem;
+  }
+  .nav-cta:hover { background: var(--green-deep-2) !important; color: #fff !important; }
+
+  .hamburger {
+    display: none; margin-left: auto;
+    background: none; border: none; cursor: pointer;
+    flex-direction: column; gap: 5px; padding: 4px;
+  }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+  .mobile-nav {
+    display: none; position: fixed;
+    top: var(--header-h); left: 0; right: 0;
+    background: #fff; border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    padding: 1rem 1.5rem 1.5rem; z-index: 99;
+    flex-direction: column;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a {
+    display: flex; align-items: center; gap: 0.8rem;
+    color: var(--text); text-decoration: none;
+    font-size: 0.95rem; font-weight: 500;
+    padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+    transition: color 0.2s;
+  }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover { color: var(--green); }
+
+  /* ══ HERO ══ */
+  .hero {
+    padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 4vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px; opacity: 0.35; pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(92,184,0,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-vector {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    opacity: 0.85;
+    z-index: 0;
+  }
+  .hero-vector svg { width: 100%; height: 100%; display: block; }
+  /* layered fade so right side reads, left stays clean for text */
+  .hero::before {
+    z-index: 0;
+  }
+  .hero-fade {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, var(--bg) 28%, rgba(255,255,255,0.85) 45%, rgba(255,255,255,0.55) 60%, rgba(255,255,255,0.4) 100%);
+    pointer-events: none; z-index: 1;
+  }
+  .hero-inner {
+    position: relative; z-index: 1; max-width: 700px;
+    animation: fadeUp 0.7s ease both;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 1.2rem;
+  }
+  .eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--green); }
+
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 9vw, 6rem);
+    line-height: 0.93; letter-spacing: -0.01em;
+    text-transform: uppercase; color: var(--text);
+    margin-bottom: 1.4rem;
+  }
+  h1 em { font-style: normal; color: var(--green); }
+
+  .hero-sub {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: var(--text-muted); max-width: 500px;
+    line-height: 1.75; font-weight: 400; margin-bottom: 2.2rem;
+  }
+
+  /* 4 Hero Cards */
+  .hero-cards {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem; max-width: 580px; margin-bottom: 2.5rem;
+  }
+  .hero-card {
+    display: flex; align-items: center; gap: 0.9rem;
+    background: #fff; border: 1.5px solid var(--border);
+    border-radius: 6px; padding: 1rem 1.1rem;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .hero-card:hover {
+    border-color: var(--green);
+    box-shadow: 0 4px 18px rgba(92,184,0,0.13);
+    transform: translateY(-2px);
+  }
+  .hero-card--accent { border-color: var(--green-deep); background: var(--green-deep); color: #fff; }
+  .hero-card--accent:hover { box-shadow: 0 4px 22px rgba(31,61,15,0.35); border-color: var(--green-deep-2); }
+  .hero-card--accent .hero-card-sub { color: rgba(255,255,255,0.7); }
+  .hero-card-text { flex: 1; min-width: 0; }
+  .hero-card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.95rem;
+    text-transform: uppercase; letter-spacing: 0.03em;
+    line-height: 1.1; color: var(--text);
+  }
+  .hero-card--accent .hero-card-title { color: #fff; }
+  .hero-card-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.15rem; }
+  .hero-card-arrow {
+    font-size: 1rem; color: var(--text-dim); flex-shrink: 0;
+    transition: color 0.2s, transform 0.2s;
+  }
+  .hero-card:hover .hero-card-arrow { color: var(--green); transform: translateX(3px); }
+  .hero-card--accent .hero-card-arrow { color: var(--green); }
+  .hero-card--accent:hover .hero-card-arrow { color: var(--green); transform: translateX(3px); }
+
+  /* Cert badges */
+  .cert-row {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+  .cert-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 3px; font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted);
+  }
+  .cert-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+  /* ══ STATS ══ */
+  .stats {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-item {
+    padding: 1.6rem clamp(1rem,2.5vw,2rem);
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    display: block; font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: clamp(1.5rem,3.5vw,2.2rem);
+    color: var(--green); line-height: 1; margin-bottom: 0.25rem;
+  }
+  .stat-label {
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted);
+  }
+
+  /* ══ SECTION COMMON ══ */
+  section { padding: clamp(2.5rem,7vw,5rem) clamp(1rem,4vw,2.5rem); }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 0.8rem;
+  }
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800; font-size: clamp(1.8rem,4.5vw,3rem);
+    text-transform: uppercase; letter-spacing: 0.01em;
+    line-height: 1; margin-bottom: 0.8rem;
+  }
+  .section-intro {
+    font-size: 0.92rem; color: var(--text-muted);
+    max-width: 520px; line-height: 1.75; margin-bottom: 2rem;
+  }
+
+  /* ══ PRODUCT SEARCH ══ */
+  .search-section { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .search-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .search-card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 6px;
+    padding: 1.6rem 1.4rem; display: flex; flex-direction: column; gap: 0.7rem;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .search-card:hover { border-color: var(--green); box-shadow: 0 4px 20px rgba(92,184,0,0.1); }
+  .search-card-header { display: flex; align-items: center; gap: 0.8rem; }
+  .search-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 1.05rem;
+    text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.2;
+  }
+  .search-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; flex: 1; }
+  .search-card-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--green); transition: gap 0.2s;
+  }
+  .search-card:hover .search-card-link { gap: 0.65rem; }
+  .search-card-link::after { content: '→'; }
+
+  .sg-banner {
+    background: #2d6315;
+    border: 1.5px solid #2d6315;
+    border-radius: 8px; padding: 1.6rem 2rem;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .sg-banner::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(92,184,0,0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .sg-banner > * { position: relative; }
+  .sg-left { display: flex; align-items: center; gap: 1rem; }
+  .sg-text h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+    font-size: 1.25rem; text-transform: uppercase;
+    color: #fff; margin-bottom: 0.2rem; letter-spacing: 0.02em;
+  }
+  .sg-text p { font-size: 0.82rem; color: rgba(255,255,255,0.75); }
+  .sg-banner .btn-primary { background: #fff; color: #2d6315; }
+  .sg-banner .btn-primary:hover { background: #f0f9e6; color: #2d6315; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.7rem 1.4rem; font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.88rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; border-radius: 4px;
+    transition: all 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary { background: var(--green); color: #fff; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-deep { background: var(--green-deep); color: #fff; }
+  .btn-deep:hover { background: var(--green-deep-2); transform: translateY(-1px); }
+  .btn-outline-deep { background: transparent; color: var(--green-deep); border: 2px solid var(--green-deep); }
+  .btn-outline-deep:hover { background: var(--green-deep); color: #fff; transform: translateY(-1px); }
+
+  /* ══ CATEGORIES ══ */
+  .categories-section { background: #fff; border-bottom: 1px solid var(--border); }
+  .cat-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .cat-tab {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.5rem 1rem; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 4px; color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+  }
+  .cat-tab.active, .cat-tab:hover { background: var(--green); color: #fff; border-color: var(--green); }
+  .cat-tab.active svg circle, .cat-tab:hover svg circle { stroke: #fff; }
+  .cat-tab.active svg path, .cat-tab:hover svg path { stroke: #fff; }
+
+  .cat-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 0.7rem;
+  }
+  .cat-item {
+    background: var(--surface); border: 1.5px solid var(--border); border-radius: 5px;
+    padding: 1.2rem 1rem; display: flex; flex-direction: column; gap: 0.3rem;
+    text-decoration: none; color: inherit; transition: border-color 0.2s, background 0.2s;
+  }
+  .cat-item:hover { border-color: var(--green); background: var(--green-light); }
+  .cat-item-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.1rem; }
+  .cat-type {
+    font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--green);
+  }
+  .cat-item h4 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.2;
+  }
+  .cat-sub { font-size: 0.72rem; color: var(--text-muted); }
+
+  /* ══ APPLICATIONS ══ */
+  .applications { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .app-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 0.7rem;
+  }
+  .app-card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 6px;
+    padding: 1.4rem 1rem; text-align: center;
+    text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .app-card:hover { border-color: var(--green); box-shadow: 0 4px 14px rgba(92,184,0,0.1); }
+  .app-icon { display: flex; align-items: center; justify-content: center; margin: 0 auto 0.7rem; }
+  .app-label {
+    font-size: 0.73rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); display: block;
+  }
+
+  /* ══ WHY GAPTEC (DARK GREEN) ══ */
+  .why-section {
+    background: var(--green-deep);
+    color: #fff;
+    border-bottom: 1px solid var(--green-deep-2);
+    position: relative; overflow: hidden;
+  }
+  .why-section::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  .why-section::after {
+    content: ''; position: absolute; bottom: -150px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(92,184,0,0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .why-inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+  .why-section .section-label { color: var(--green); }
+  .why-section h2 { color: #fff; }
+  .why-section h2 em { font-style: normal; color: var(--green); }
+  .why-intro {
+    font-size: 1rem; color: rgba(255,255,255,0.7);
+    max-width: 560px; line-height: 1.7; margin-bottom: 2.5rem;
+  }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px; background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 6px;
+    overflow: hidden; margin-bottom: 2.5rem;
+  }
+  .why-card {
+    background: var(--green-deep);
+    padding: 1.8rem 1.6rem 1.6rem;
+    display: flex; flex-direction: column; gap: 0.7rem;
+    transition: background 0.2s;
+  }
+  .why-card:hover { background: var(--green-deep-2); }
+  .why-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; font-size: 0.7rem;
+    letter-spacing: 0.18em; color: var(--green);
+  }
+  .why-card h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 1.25rem; text-transform: uppercase;
+    letter-spacing: 0.02em; line-height: 1.15; color: #fff;
+  }
+  .why-card p { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.65; }
+  .why-cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+
+  /* ══ TOOLS ══ */
+  .tools-section { background: #fff; border-bottom: 1px solid var(--border); }
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1rem; }
+  .tool-card {
+    background: var(--surface); border: 1.5px solid var(--border); border-radius: 6px;
+    padding: 1.6rem 1.4rem; display: flex; flex-direction: column; gap: 0.5rem;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s; position: relative; overflow: hidden;
+  }
+  .tool-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--green); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+  }
+  .tool-card:hover { border-color: var(--border-dark); }
+  .tool-card:hover::after { transform: scaleX(1); }
+  .tool-header { display: flex; align-items: center; gap: 0.6rem; }
+  .tool-tag {
+    font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--green);
+  }
+  .tool-card h3 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 1.05rem; text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .tool-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; }
+
+  /* ══ NEWS ══ */
+  .news-section { background: var(--surface); border-bottom: 1px solid var(--border); }
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 1rem; }
+  .news-card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 6px;
+    overflow: hidden; text-decoration: none; color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .news-card:hover { border-color: var(--green); box-shadow: 0 4px 20px rgba(92,184,0,0.1); }
+  .news-img {
+    width: 100%; aspect-ratio: 16/7;
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .news-img img { width: 100%; height: 100%; object-fit: cover; }
+  .news-body { padding: 1.2rem 1.2rem 1.4rem; }
+  .news-date {
+    display: block; font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 0.5rem;
+  }
+  .news-card h4 {
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.02em; line-height: 1.25; margin-bottom: 0.5rem;
+  }
+  .news-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ══ DISTRIBUTORS ══ */
+  .dist-section { background: #fff; border-bottom: 1px solid var(--border); }
+  .dist-row { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+  .dist-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--surface); border: 1.5px solid var(--border); border-radius: 5px;
+    padding: 0.75rem 1.2rem;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+    font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-muted); transition: all 0.2s; text-decoration: none;
+  }
+  .dist-badge:hover { border-color: var(--green); color: var(--green); background: var(--green-light); }
+
+  /* ══ FOOTER ══ */
+  footer { background: var(--green-deep); color: rgba(255,255,255,0.65); padding: clamp(2.5rem,6vw,4rem) clamp(1rem,4vw,2.5rem) 2rem; position: relative; overflow: hidden; }
+  footer::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px; pointer-events: none;
+  }
+  footer > * { position: relative; }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem;
+    margin-bottom: 2.5rem; padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .footer-logo { display: flex; align-items: center; margin-bottom: 1rem; }
+  .footer-logo img { height: 30px; width: auto; filter: brightness(0) invert(1); opacity: 0.85; }
+  .footer-desc { font-size: 0.82rem; line-height: 1.7; }
+  .footer-col h5 {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--green); margin-bottom: 0.9rem;
+  }
+  .footer-col a {
+    display: block; font-size: 0.82rem; color: rgba(255,255,255,0.7);
+    text-decoration: none; padding: 0.22rem 0; transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--green); }
+  .footer-bottom {
+    display: flex; flex-wrap: wrap; align-items: center;
+    justify-content: space-between; gap: 0.8rem;
+    font-size: 0.72rem; color: rgba(255,255,255,0.5);
+  }
+  .footer-links { display: flex; gap: 1.2rem; }
+  .footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--green); }
+
+  /* ══ ANIMATION ══ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 900px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(3), .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+    .footer-top > div:first-child { grid-column: 1/-1; }
+  }
+  @media (max-width: 560px) {
+    .hero-cards { grid-template-columns: 1fr; max-width: 100%; }
+    .footer-top { grid-template-columns: 1fr; }
+    .app-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <a href="https://gaptec-electronic.com" class="logo-wrap" aria-label="GAPTEC Electronic">
+    <!-- Logo inline SVG — kein externer Bildaufruf -->
+    <svg height="36" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="GAPTEC Electronic GmbH">
+      <!-- Grüner Kreis mit weißem Plus -->
+      <circle cx="20" cy="20" r="18" fill="#5cb800"/>
+      <rect x="18" y="9" width="4" height="22" rx="2" fill="white"/>
+      <rect x="9" y="18" width="22" height="4" rx="2" fill="white"/>
+      <!-- GAPTEC -->
+      <text x="46" y="27" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="19" fill="#5cb800" letter-spacing="1">GAPTEC</text>
+      <!-- Electronic -->
+      <text x="46" y="37" font-family="Arial, sans-serif" font-weight="400" font-size="9.5" fill="#555" letter-spacing="2.5">ELECTRONIC</text>
+    </svg>
+  </a>
+  <nav>
+    <a href="#">Products</a>
+    <a href="#">Applications</a>
+    <a href="#">Tools</a>
+    <a href="#">About</a>
+    <a href="#">Press</a>
+    <a href="https://gaptec-electronic.com/wp-content/uploads/2026/02/Shortform_Selection_Guide_2026.pdf" class="nav-cta">Selection Guide ↓</a>
+  </nav>
+  <button class="hamburger" onclick="document.querySelector('.mobile-nav').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav">
+  <a href="#">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Products
+  </a>
+  <a href="#">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Applications
+  </a>
+  <a href="#">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Tools & Resources
+  </a>
+  <a href="#">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    About Us
+  </a>
+  <a href="https://gaptec-electronic.com/contact/">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Contact
+  </a>
+</div>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-vector" aria-hidden="true">
+    <svg viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#5cb800" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- ============ LAYER 1: Circuit board traces (full width, faint) ============ -->
+      <g stroke-opacity="0.22" stroke-width="1">
+        <!-- horizontal trunks -->
+        <path d="M0 80 L420 80 L460 120 L900 120 L940 80 L1600 80"/>
+        <path d="M0 180 L260 180 L300 220 L780 220 L820 180 L1180 180 L1220 220 L1600 220"/>
+        <path d="M0 520 L340 520 L380 480 L1100 480 L1140 520 L1600 520"/>
+        <!-- vertical traces -->
+        <path d="M180 0 L180 60 L220 100 L220 200"/>
+        <path d="M580 0 L580 100"/>
+        <path d="M820 0 L820 60"/>
+        <path d="M1280 0 L1280 80 L1320 120 L1320 200"/>
+        <path d="M380 600 L380 540 L420 500"/>
+        <path d="M780 600 L780 500"/>
+        <path d="M1180 600 L1180 540"/>
+      </g>
+      <!-- via dots / pads -->
+      <g fill="#5cb800" stroke="none" fill-opacity="0.35">
+        <circle cx="180" cy="60" r="3"/><circle cx="460" cy="120" r="3"/><circle cx="940" cy="80" r="3"/>
+        <circle cx="300" cy="220" r="3"/><circle cx="820" cy="180" r="3"/><circle cx="1220" cy="220" r="3"/>
+        <circle cx="380" cy="520" r="3"/><circle cx="1140" cy="520" r="3"/>
+        <circle cx="580" cy="100" r="3"/><circle cx="780" cy="500" r="3"/>
+      </g>
+      <g stroke-opacity="0.3" fill="none">
+        <circle cx="180" cy="60" r="6"/><circle cx="940" cy="80" r="6"/>
+        <circle cx="820" cy="180" r="6"/><circle cx="1140" cy="520" r="6"/>
+      </g>
+
+      <!-- ============ LAYER 2: ECG / waveform across top ============ -->
+      <g stroke-opacity="0.4" stroke-width="1.3">
+        <path d="M0 60 L120 60 L140 60 L160 30 L175 90 L190 20 L205 80 L220 60 L320 60 L340 60 L360 35 L375 85 L390 25 L405 78 L420 60 L560 60 L580 60 L600 30 L615 90 L630 20 L645 80 L660 60 L800 60 L820 60 L840 35 L855 85 L870 25 L885 78 L900 60 L1040 60 L1060 60 L1080 30 L1095 90 L1110 20 L1125 80 L1140 60 L1280 60 L1300 60 L1320 35 L1335 85 L1350 25 L1365 78 L1380 60 L1600 60"/>
+      </g>
+
+      <!-- ============ LAYER 3: ICE Train silhouette (right 60%) ============ -->
+      <g transform="translate(640 0)" stroke-opacity="0.85" stroke-width="1.5">
+        <!-- catenary -->
+        <path d="M0 200 L960 200" stroke-opacity="0.35" stroke-dasharray="5 7"/>
+        <!-- pantograph -->
+        <path d="M280 280 L280 230 M260 280 L240 220 L360 220 L340 280 L320 280" stroke-opacity="0.7"/>
+        <path d="M240 210 L360 210" stroke-opacity="0.5"/>
+
+        <!-- locomotive nose (aerodynamic ICE-style front) -->
+        <path d="M40 480 L40 380 Q40 320, 90 290 Q140 270, 200 270 L860 270 L920 320 L920 480 Z"/>
+        <!-- roof curve -->
+        <path d="M200 270 Q220 260, 250 258 L860 258 L900 290" stroke-opacity="0.7"/>
+        <!-- nose accent line -->
+        <path d="M40 380 Q90 340, 200 320 L860 320" stroke-opacity="0.55"/>
+
+        <!-- windshield (sloped) -->
+        <path d="M70 380 L70 330 Q90 305, 130 300 L180 300 L180 380 Z"/>
+        <!-- driver cab line -->
+        <path d="M180 300 L180 380" stroke-opacity="0.4"/>
+
+        <!-- side windows row 1 -->
+        <rect x="220" y="310" width="60" height="42"/>
+        <rect x="295" y="310" width="60" height="42"/>
+        <rect x="370" y="310" width="60" height="42"/>
+        <rect x="445" y="310" width="60" height="42"/>
+        <rect x="520" y="310" width="60" height="42"/>
+        <rect x="595" y="310" width="60" height="42"/>
+        <rect x="670" y="310" width="60" height="42"/>
+        <rect x="745" y="310" width="60" height="42"/>
+
+        <!-- door -->
+        <path d="M820 480 L820 360 L860 360 L860 480"/>
+
+        <!-- side belt line / livery stripe -->
+        <path d="M40 400 L920 400" stroke-opacity="0.55"/>
+        <path d="M40 420 L920 420" stroke-opacity="0.35"/>
+        <!-- ICE accent stripe near base -->
+        <path d="M70 460 L900 460" stroke-opacity="0.4"/>
+
+        <!-- headlight -->
+        <circle cx="75" cy="360" r="8" stroke-opacity="0.7"/>
+        <circle cx="75" cy="360" r="3" fill="#5cb800" stroke="none" fill-opacity="0.85"/>
+
+        <!-- wheels / bogies -->
+        <g stroke-opacity="0.85">
+          <circle cx="170" cy="480" r="22"/><circle cx="170" cy="480" r="10"/>
+          <circle cx="230" cy="480" r="22"/><circle cx="230" cy="480" r="10"/>
+          <circle cx="480" cy="480" r="22"/><circle cx="480" cy="480" r="10"/>
+          <circle cx="540" cy="480" r="22"/><circle cx="540" cy="480" r="10"/>
+          <circle cx="790" cy="480" r="22"/><circle cx="790" cy="480" r="10"/>
+          <circle cx="850" cy="480" r="22"/><circle cx="850" cy="480" r="10"/>
+        </g>
+      </g>
+
+      <!-- ============ LAYER 4: Rails (full width) ============ -->
+      <g stroke-opacity="0.4">
+        <path d="M0 480 L1600 480"/>
+        <path d="M0 502 L1600 502"/>
+      </g>
+      <g stroke-opacity="0.25">
+        <path d="M40 478 L40 504"/><path d="M100 478 L100 504"/><path d="M160 478 L160 504"/><path d="M220 478 L220 504"/><path d="M280 478 L280 504"/><path d="M340 478 L340 504"/><path d="M400 478 L400 504"/><path d="M460 478 L460 504"/><path d="M520 478 L520 504"/><path d="M580 478 L580 504"/>
+        <path d="M1480 478 L1480 504"/><path d="M1540 478 L1540 504"/>
+      </g>
+
+      <!-- ============ LAYER 5: Power / sine wave bottom ============ -->
+      <g stroke-opacity="0.25" stroke-width="1">
+        <path d="M0 560 Q80 530, 160 560 T320 560 T480 560 T640 560 T800 560 T960 560 T1120 560 T1280 560 T1440 560 T1600 560"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-fade"></div>
+  <div class="hero-inner">
+    <div class="eyebrow">Since 2010 · Germany</div>
+    <h1>Power Conversion<br><em>Engineered</em><br>Precisely</h1>
+    <p class="hero-sub">
+      Innovative designs. Premium quality. Micro-size converters from 0.1W to 1000W —
+      for industrial, medical, railway, and telecom applications.
+    </p>
+
+    <!-- 4 PRODUCT CARDS — Plus-Icon aus dem Logo -->
+    <div class="hero-cards">
+      <a href="https://gaptec-electronic.com/ac-dc-filter/" class="hero-card">
+        <span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <div class="hero-card-text">
+          <div class="hero-card-title">AC-DC</div>
+          <div class="hero-card-sub">Power Supplies</div>
+        </div>
+        <span class="hero-card-arrow">→</span>
+      </a>
+      <a href="https://gaptec-electronic.com/DC-DC-Filter/" class="hero-card">
+        <span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <div class="hero-card-text">
+          <div class="hero-card-title">DC-DC Isolated</div>
+          <div class="hero-card-sub">Converters</div>
+        </div>
+        <span class="hero-card-arrow">→</span>
+      </a>
+      <a href="https://gaptec-electronic.com/DC-DC-Wandler-POL/" class="hero-card">
+        <span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <div class="hero-card-text">
+          <div class="hero-card-title">DC-DC Non-Isolated</div>
+          <div class="hero-card-sub">POL / LED Drivers</div>
+        </div>
+        <span class="hero-card-arrow">→</span>
+      </a>
+      <a href="https://gaptec-electronic.com/wp-content/uploads/2026/02/Shortform_Selection_Guide_2026.pdf" class="hero-card hero-card--accent">
+        <span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#4a9600" stroke-width="1.5" fill="rgba(92,184,0,0.15)"/><path d="M10 6v8M6 10h8" stroke="#4a9600" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <div class="hero-card-text">
+          <div class="hero-card-title">Selection Guide</div>
+          <div class="hero-card-sub">2026 — Download PDF</div>
+        </div>
+        <span class="hero-card-arrow">↓</span>
+      </a>
+    </div>
+
+    <div class="cert-row">
+      <div class="cert-badge"><span class="cert-dot"></span>EN 60601</div>
+      <div class="cert-badge"><span class="cert-dot"></span>EN 50155</div>
+      <div class="cert-badge"><span class="cert-dot"></span>RoHS</div>
+      <div class="cert-badge"><span class="cert-dot"></span>UL</div>
+      <div class="cert-badge"><span class="cert-dot"></span>ISO</div>
+      <div class="cert-badge"><span class="cert-dot"></span>SCP</div>
+      <div class="cert-badge"><span class="cert-dot"></span>LFT</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STATS ══ -->
+<div class="stats">
+  <div class="stat-item reveal"><span class="stat-num">0.1W–1kW</span><span class="stat-label">Power Range</span></div>
+  <div class="stat-item reveal"><span class="stat-num">7</span><span class="stat-label">Certifications</span></div>
+  <div class="stat-item reveal"><span class="stat-num">2010</span><span class="stat-label">Founded</span></div>
+  <div class="stat-item reveal"><span class="stat-num">Custom</span><span class="stat-label">Design Service</span></div>
+</div>
+
+<!-- ══ PRODUCT SEARCH ══ -->
+<section class="search-section">
+  <div class="section-label">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Quick Access
+  </div>
+  <h2>Find Your Converter</h2>
+  <p class="section-intro">Use our advanced parametric search to filter by voltage, power, topology, package, and certification.</p>
+  <div class="search-grid">
+    <a href="https://gaptec-electronic.com/ac-dc-filter/" class="search-card reveal">
+      <div class="search-card-header">
+        <span class="plus plus--lg"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <h3>AC-DC Power Supplies</h3>
+      </div>
+      <p>Industrial & medical modules from 1W to 1000W. DIN Rail, open frame, and enclosed housing variants.</p>
+      <span class="search-card-link">Advanced Search</span>
+    </a>
+    <a href="https://gaptec-electronic.com/DC-DC-Filter/" class="search-card reveal">
+      <div class="search-card-header">
+        <span class="plus plus--lg"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <h3>DC-DC Converters (Isolated)</h3>
+      </div>
+      <p>SIP/DIP/SMD footprints for industrial, railway, telecom, IGBT, SiC, and photovoltaic use.</p>
+      <span class="search-card-link">Advanced Search</span>
+    </a>
+    <a href="https://gaptec-electronic.com/DC-DC-Wandler-POL/" class="search-card reveal">
+      <div class="search-card-header">
+        <span class="plus plus--lg"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <h3>DC-DC Non-Isolated</h3>
+      </div>
+      <p>POL step-down regulators and LED drivers for point-of-load applications.</p>
+      <span class="search-card-link">Advanced Search</span>
+    </a>
+  </div>
+  <div class="sg-banner reveal">
+    <div class="sg-left">
+      <span class="plus plus--xl"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#fff" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <div class="sg-text">
+        <h3>Selection Guide 2026</h3>
+        <p>Complete portfolio — all series, packages, certifications.</p>
+      </div>
+    </div>
+    <a href="https://gaptec-electronic.com/wp-content/uploads/2026/02/Shortform_Selection_Guide_2026.pdf" class="btn btn-primary">Download PDF ↓</a>
+  </div>
+</section>
+
+<!-- ══ CATEGORIES ══ -->
+<section class="categories-section">
+  <div class="section-label">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Product Portfolio
+  </div>
+  <h2>All Categories</h2>
+  <div class="cat-tabs">
+    <button class="cat-tab active">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      AC-DC
+    </button>
+    <button class="cat-tab">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      DC-DC Isolated
+    </button>
+    <button class="cat-tab">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      DC-DC Non-Isolated
+    </button>
+  </div>
+  <div class="cat-grid">
+    <a href="#" class="cat-item reveal">
+      <div class="cat-item-header"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="6" width="14" height="8"/><circle cx="6" cy="9" r=".8" fill="#5cb800"/><circle cx="14" cy="9" r=".8" fill="#5cb800"/><path d="M3 11h14M7 14v2M13 14v2" stroke-linecap="round"/></svg><span class="cat-type">Module</span></div>
+      <h4>AC-DC Industrial</h4><span class="cat-sub">Compact PCB modules</span>
+    </a>
+    <a href="#" class="cat-item reveal">
+      <div class="cat-item-header"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="5" width="14" height="12" rx="1"/><path d="M10 8v6M7 11h6"/></svg><span class="cat-type">Module</span></div>
+      <h4>AC-DC Medical</h4><span class="cat-sub">EN 60601 certified</span>
+    </a>
+    <a href="#" class="cat-item reveal">
+      <div class="cat-item-header"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16l3-9h8l3 9M3 16h14M6 13h8"/><circle cx="7" cy="15" r=".5" fill="#5cb800"/><circle cx="13" cy="15" r=".5" fill="#5cb800"/></svg><span class="cat-type">Power Supply</span></div>
+      <h4>Medical PSU</h4><span class="cat-sub">2×MOPP isolation</span>
+    </a>
+    <a href="#" class="cat-item reveal">
+      <div class="cat-item-header"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linecap="round"><path d="M3 8h14M3 12h14"/><rect x="6" y="6" width="3" height="8"/><rect x="11" y="6" width="3" height="8"/></svg><span class="cat-type">DIN Rail</span></div>
+      <h4>DIN Rail Industrial</h4><span class="cat-sub">Panel mount</span>
+    </a>
+    <a href="#" class="cat-item reveal">
+      <div class="cat-item-header"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="5" width="14" height="10" rx="1"/><circle cx="6" cy="8" r=".8"/><circle cx="14" cy="8" r=".8"/><path d="M7 12h6" stroke-linecap="round"/></svg><span class="cat-type">Housing</span></div>
+      <h4>Off-Board Housing</h4><span class="cat-sub">Enclosed supplies</span>
+    </a>
+    <a href="#" class="cat-item reveal">
+      <div class="cat-item-header"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="5" width="14" height="10"/><circle cx="6" cy="8" r=".8"/><circle cx="14" cy="8" r=".8"/><circle cx="6" cy="12" r=".8"/><circle cx="14" cy="12" r=".8"/><rect x="8" y="9" width="4" height="2" fill="#5cb800"/></svg><span class="cat-type">Open Frame</span></div>
+      <h4>Open Frame PSU</h4><span class="cat-sub">OEM integration</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══ APPLICATIONS ══ -->
+<section class="applications">
+  <div class="section-label">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Industries Served
+  </div>
+  <h2>Application Areas</h2>
+  <div class="app-grid reveal">
+    <a href="#" class="app-card"><div class="app-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#5cb800" stroke-width="1.6" stroke-linejoin="round"><path d="M5 33V16l8 5V16l8 5V13l11 6v14H5z"/><path d="M11 28v2M17 28v2M23 28v2M29 28v2"/></svg></div><span class="app-label">Industrial</span></a>
+    <a href="#" class="app-card"><div class="app-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#5cb800" stroke-width="1.6"><rect x="7" y="11" width="26" height="22" rx="2"/><path d="M14 11V7h12v4M20 18v8M16 22h8"/></svg></div><span class="app-label">Medical</span></a>
+    <a href="#" class="app-card"><div class="app-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#5cb800" stroke-width="1.6" stroke-linecap="round"><rect x="9" y="6" width="22" height="22" rx="2"/><path d="M9 17h22M14 23h2M24 23h2M11 28l-2 5M29 28l2 5M16 11h8"/></svg></div><span class="app-label">Railway</span></a>
+    <a href="#" class="app-card"><div class="app-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#5cb800" stroke-width="1.6" stroke-linecap="round"><circle cx="20" cy="20" r="2.5" fill="#5cb800"/><path d="M20 22v12M11 11a12 12 0 0118 0M14 14a8 8 0 0112 0"/></svg></div><span class="app-label">Telecom</span></a>
+    <a href="#" class="app-card"><div class="app-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#5cb800" stroke-width="1.6" stroke-linecap="round"><rect x="6" y="12" width="28" height="18" stroke-linejoin="round"/><path d="M6 18h28M6 24h28M15 12v18M25 12v18M20 6v3M11 8l1.5 1.5M29 8l-1.5 1.5"/></svg></div><span class="app-label">Photovoltaic</span></a>
+    <a href="#" class="app-card"><div class="app-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#5cb800" stroke-width="1.6" stroke-linecap="round"><path d="M20 4v6M20 30v6M4 20h6M30 20h6"/><rect x="12" y="12" width="16" height="16" stroke-linejoin="round"/><path d="M16 16l8 8M24 16l-8 8"/></svg></div><span class="app-label">IGBT / SiC</span></a>
+  </div>
+</section>
+
+<!-- ══ WHY GAPTEC (DARK GREEN) ══ -->
+<section class="why-section">
+  <div class="why-inner">
+    <div class="section-label">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      Why Engineers Choose Gaptec
+    </div>
+    <h2>Reliability is <em>key</em> — always.</h2>
+    <p class="why-intro">
+      Built in Germany since 2010 with certified manufacturing in Taiwan and China. Long-term availability, short lead times, and a 3-year warranty on every module.
+    </p>
+
+    <div class="why-grid reveal">
+      <div class="why-card">
+        <span class="why-num">/ 01</span>
+        <h3>Innovative Designs</h3>
+        <p>Micro-size converters with high power density — engineered to fit where bigger modules can't.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-num">/ 02</span>
+        <h3>Premium Quality</h3>
+        <p>100% full-load burn-in testing. ISO 9001:2015 certified manufacturing for every series.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-num">/ 03</span>
+        <h3>Short Lead Times</h3>
+        <p>Most products delivered in approx. 5–6 weeks. Distributor stock for bestsellers via DigiKey.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-num">/ 04</span>
+        <h3>Custom Engineering</h3>
+        <p>Tailored designs for OEMs. Long-term supply commitment well beyond standard product lifecycles.</p>
+      </div>
+    </div>
+
+    <div class="why-cta-row">
+      <a href="https://gaptec-electronic.com/contact/" class="btn btn-primary">Talk to Engineering →</a>
+      <a href="https://gaptec-electronic.com/about-us/" class="btn btn-outline-deep" style="background:transparent;color:#fff;border-color:rgba(255,255,255,0.3);">About GAPTEC</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TOOLS ══ -->
+<section class="tools-section">
+  <div class="section-label">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Engineering Tools
+  </div>
+  <h2>Calculators & Resources</h2>
+  <div class="tools-grid">
+    <a href="https://gaptec-electronic.com/isolation-calculator-general-purpose/" class="tool-card reveal">
+      <div class="tool-header"><span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="14" height="14" rx="1.5"/><path d="M3 7.5h14"/><path d="M6 11h1.5M9.5 11H11M13 11h1.5M6 14h1.5M9.5 14H11M13 14h1.5"/><path d="M5.5 5.5h1M8 5.5h1M10.5 5.5h1M13 5.5h1.5"/></svg></span><span class="tool-tag">Online Tool</span></div>
+      <h3>Isolation Calculator</h3>
+      <p>Creepage, clearance, and working voltage for your application standard.</p>
+    </a>
+    <a href="https://gaptec-electronic.com/3d-cad-data-file-inquiry/" class="tool-card reveal">
+      <div class="tool-header"><span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M10 2.5 L17 6 V14 L10 17.5 L3 14 V6 Z"/><path d="M3 6 L10 9.5 L17 6"/><path d="M10 9.5 V17.5"/><path d="M10 13 L13 17 M10 13 L7 17" stroke-opacity="0.5"/></svg></span><span class="tool-tag">Free Download</span></div>
+      <h3>3D CAD Data</h3>
+      <p>Request STEP files for mechanical integration into your enclosure design.</p>
+    </a>
+    <a href="https://gaptec-electronic.com/wp-content/uploads/2019/11/AC-DC-Application-Notes.pdf" class="tool-card reveal">
+      <div class="tool-header"><span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M5 2.5 H12 L15.5 6 V17.5 H5 Z"/><path d="M12 2.5 V6 H15.5"/><path d="M7.5 10 H13 M7.5 12.5 H13 M7.5 15 H11"/></svg></span><span class="tool-tag">PDF Library</span></div>
+      <h3>Application Notes</h3>
+      <p>Technical guidance for AC-DC, DC-DC, railway, IGBT, PV, and LED drivers.</p>
+    </a>
+    <a href="https://gaptec-electronic.com/linear-vs-switching/" class="tool-card reveal">
+      <div class="tool-header"><span class="plus plus--md"><svg viewBox="0 0 20 20" fill="none" stroke="#5cb800" stroke-width="1.5" stroke-linejoin="round"><rect x="2.5" y="4" width="15" height="12" rx="1.5"/><path d="M8.5 8 L13 10 L8.5 12 Z" fill="#5cb800" stroke="none"/></svg></span><span class="tool-tag">Video</span></div>
+      <h3>Linear vs. Switching</h3>
+      <p>Educational comparison video for regulator topology decisions.</p>
+    </a>
+  </div>
+</section>
+
+<!-- ══ NEWS ══ -->
+<section class="news-section">
+  <div class="section-label">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Latest News
+  </div>
+  <h2>Press Releases</h2>
+  <div class="news-grid">
+    <a href="https://gaptec-electronic.com/gaptec-electronic-introduces-the-new-1tm14r1_3up-series/" class="news-card reveal">
+      <div class="news-img"><img src="https://gaptec-electronic.com/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-08-at-1.23.20-AM-1-e1772926618744-1.jpeg" alt="" loading="lazy"/></div>
+      <div class="news-body">
+        <span class="news-date">March 2026</span>
+        <h4>New 1TM14R1_3UP Series</h4>
+        <p>Triple output in compact SIP package for space-critical designs.</p>
+      </div>
+    </a>
+    <a href="https://gaptec-electronic.com/gaptec-electronic-introduces-the-new-1s5w_1-5rp-series-with-21-input-range-in-a-sip5-case/" class="news-card reveal">
+      <div class="news-img"><img src="https://gaptec-electronic.com/wp-content/uploads/2026/03/Key_1S5W_1.5RPjpg-e1772925304643-1.jpeg" alt="" loading="lazy"/></div>
+      <div class="news-body">
+        <span class="news-date">March 2026</span>
+        <h4>1S5W_1.5RP: 2:1 Input Range in SIP5</h4>
+        <p>Wide 2:1 input range in an ultra-compact SIP5 footprint.</p>
+      </div>
+    </a>
+    <a href="https://gaptec-electronic.com/selection-guide-2026/" class="news-card reveal">
+      <div class="news-img" style="background:var(--green-light);">
+        <span class="plus plus--xl"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      </div>
+      <div class="news-body">
+        <span class="news-date">February 2026</span>
+        <h4>Selection Guide 2026 Available</h4>
+        <p>Updated portfolio with new series and expanded power ranges.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ══ DISTRIBUTORS ══ -->
+<section class="dist-section">
+  <div class="section-label">
+    <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M10 6v8M6 10h8" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+    Where to Buy
+  </div>
+  <h2>Authorized Distributors</h2>
+  <p class="section-intro">Available worldwide through our authorized distribution network.</p>
+  <div class="dist-row reveal">
+    <a href="https://www.digikey.com/en/supplier-centers/gaptec-electronic/" class="dist-badge" target="_blank" rel="noopener">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M7.5 12.5 L13 7 M8.5 7 H13 V11.5" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      DigiKey
+    </a>
+    <a href="https://www.tme.eu/de/katalog/?queryPhrase=gaptec" class="dist-badge" target="_blank" rel="noopener">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#5cb800" stroke-width="1.5"/><path d="M7.5 12.5 L13 7 M8.5 7 H13 V11.5" stroke="#5cb800" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      TME
+    </a>
+    <a href="https://gaptec-electronic.com/sample/" class="dist-badge">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><path d="M10 3 L16.5 6 V13 L10 16.5 L3.5 13 V6 Z" stroke="#5cb800" stroke-width="1.5" stroke-linejoin="round"/><path d="M3.5 6 L10 9.3 L16.5 6 M10 9.3 V16.5" stroke="#5cb800" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
+      Request Sample
+    </a>
+    <a href="https://gaptec-electronic.com/contact/" class="dist-badge">
+      <span class="plus plus--sm"><svg viewBox="0 0 20 20" fill="none"><path d="M2.5 11 L5 9 L7.5 9 L9 7.5 L12 7.5 L14 9 L17.5 9 L17.5 13 L14.5 13 L12.5 14.5 L9 14.5 L7.5 13 L2.5 13 Z" stroke="#5cb800" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 11 L11 11 M5 9 L5 13 M15 9 L15 13" stroke="#5cb800" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+      Become a Partner →
+    </a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">
+        <svg height="30" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="18" fill="#5cb800"/>
+          <rect x="18" y="9" width="4" height="22" rx="2" fill="white"/>
+          <rect x="9" y="18" width="22" height="4" rx="2" fill="white"/>
+          <text x="46" y="27" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="19" fill="white" letter-spacing="1">GAPTEC</text>
+          <text x="46" y="37" font-family="Arial, sans-serif" font-weight="400" font-size="9.5" fill="#8a919e" letter-spacing="2.5">ELECTRONIC</text>
+        </svg>
+      </div>
+      <p class="footer-desc">Specialist manufacturer of isolated and non-isolated voltage converters for industrial, medical, railway, and telecom markets. Founded 2010, Germany.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Products</h5>
+      <a href="#">AC-DC Industrial</a>
+      <a href="#">AC-DC Medical</a>
+      <a href="#">DC-DC Industrial</a>
+      <a href="#">DC-DC Railway</a>
+      <a href="#">DC-DC Telecom</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Selection Guide</a>
+      <a href="#">Application Notes</a>
+      <a href="#">Isolation Calculator</a>
+      <a href="#">3D CAD Files</a>
+      <a href="#">Power Chart</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About Us</a>
+      <a href="#">Press Releases</a>
+      <a href="#">Contact</a>
+      <a href="#">Certifications</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 GAPTEC Electronic GmbH. All Rights Reserved.</span>
+    <div class="footer-links">
+      <a href="#">Legal Notice</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms & Conditions</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
