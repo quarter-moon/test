@@ -1,0 +1,349 @@
+/*
+Theme Name:        GAPTEC
+Theme URI:         https://gaptec-electronic.com
+Description:       A modern FSE block theme for GAPTEC Electronic. Built for the Gutenberg editor with full site editing support, custom block patterns, and the GAPTEC green brand palette.
+Version:           1.0.0
+Requires at least: 6.4
+Tested up to:      6.7
+Requires PHP:      8.0
+Author:            GAPTEC Electronic GmbH
+Author URI:        https://gaptec-electronic.com
+License:           GNU General Public License v2 or later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:       gaptec
+Tags:              full-site-editing, block-patterns, wide-blocks, custom-colors, custom-typography, featured-images, translation-ready, business, industrial
+*/
+
+/* Base resets and utility classes that complement theme.json styles */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Eyebrow label ── */
+.gaptec-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--green);
+}
+
+.gaptec-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── Cert / tag badges ── */
+.gaptec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  background: var(--wp--preset--color--surface);
+  border: 1px solid var(--wp--preset--color--border);
+  border-radius: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--text-muted);
+}
+
+.gaptec-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--wp--preset--color--green);
+  flex-shrink: 0;
+}
+
+/* ── Section label ── */
+.gaptec-section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--green);
+  margin-bottom: 0.6rem;
+}
+
+/* ── Stat number ── */
+.gaptec-stat-num {
+  display: block;
+  font-family: var(--wp--preset--font-family--barlow-condensed);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  color: var(--wp--preset--color--green);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.gaptec-stat-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--text-muted);
+}
+
+/* ── Grid pattern background ── */
+.gaptec-grid-bg {
+  background-image:
+    linear-gradient(var(--wp--preset--color--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wp--preset--color--border) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.gaptec-grid-bg--white {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Card component ── */
+.gaptec-card {
+  background: #fff;
+  border: 1.5px solid var(--wp--preset--color--border);
+  border-radius: 6px;
+  padding: 1.4rem;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+
+.gaptec-card:hover {
+  border-color: var(--wp--preset--color--green);
+  box-shadow: 0 4px 18px rgba(92,184,0,0.12);
+  transform: translateY(-2px);
+}
+
+.gaptec-card--dark {
+  background: var(--wp--preset--color--green-deep);
+  border-color: var(--wp--preset--color--green-deep2);
+  color: #fff;
+}
+
+/* ── Scroll reveal ── */
+.gaptec-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.gaptec-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Wide / full alignment helpers ── */
+.alignwide  { max-width: var(--wp--style--global--wide-size); margin-left: auto; margin-right: auto; }
+.alignfull  { width: 100%; max-width: 100%; }
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  background: var(--wp--preset--color--green);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 4px 4px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  z-index: 9999;
+  text-decoration: none;
+}
+
+.skip-link:focus { top: 0; }
+
+/* ── Sticky header support ── */
+.wp-block-template-part[data-slug="header"] {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* ── Navigation ── */
+.wp-block-navigation a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--wp--preset--color--text-muted);
+  transition: color 0.2s;
+}
+
+.wp-block-navigation a:hover {
+  color: var(--wp--preset--color--text);
+}
+
+/* ── Post meta ── */
+.gaptec-post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--text-muted);
+  margin-bottom: 1rem;
+}
+
+.gaptec-post-meta .gaptec-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--wp--preset--color--border);
+  flex-shrink: 0;
+}
+
+/* ── Entry content typography ── */
+.entry-content > * + * { margin-top: 1.5rem; }
+
+.entry-content ul,
+.entry-content ol {
+  padding-left: 1.5rem;
+}
+
+.entry-content li + li { margin-top: 0.5rem; }
+
+.entry-content img { max-width: 100%; height: auto; border-radius: 4px; }
+
+.entry-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.entry-content th,
+.entry-content td {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--wp--preset--color--border);
+  text-align: left;
+}
+
+.entry-content th {
+  background: var(--wp--preset--color--surface);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Pagination ── */
+.wp-block-query-pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+}
+
+.wp-block-query-pagination a,
+.wp-block-query-pagination-numbers a,
+.wp-block-query-pagination-numbers span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  height: 2.2rem;
+  padding: 0 0.5rem;
+  border: 1.5px solid var(--wp--preset--color--border);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--wp--preset--color--text-muted);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.wp-block-query-pagination a:hover {
+  border-color: var(--wp--preset--color--green);
+  color: var(--wp--preset--color--green);
+}
+
+.wp-block-query-pagination-numbers span.current {
+  background: var(--wp--preset--color--green);
+  border-color: var(--wp--preset--color--green);
+  color: #fff;
+}
+
+/* ── Search form ── */
+.wp-block-search__inside-wrapper {
+  border: 1.5px solid var(--wp--preset--color--border);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+}
+
+.wp-block-search__input {
+  border: none;
+  outline: none;
+  padding: 0.7rem 1rem;
+  font-family: var(--wp--preset--font-family--barlow);
+  font-size: 0.9rem;
+  flex: 1;
+  background: #fff;
+}
+
+.wp-block-search__button {
+  background: var(--wp--preset--color--green);
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  font-family: var(--wp--preset--font-family--barlow-condensed);
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.wp-block-search__button:hover {
+  background: var(--wp--preset--color--green-dark);
+}
+
+/* ── Comments ── */
+.comment-meta { font-size: 0.82rem; color: var(--wp--preset--color--text-muted); }
+.comment-body { margin-top: 0.5rem; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .gaptec-hide-mobile { display: none !important; }
+}
+
+@media (min-width: 769px) {
+  .gaptec-hide-desktop { display: none !important; }
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.gaptec-animate-in {
+  animation: fadeUp 0.6s ease both;
+}

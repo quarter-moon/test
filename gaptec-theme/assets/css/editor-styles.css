@@ -1,0 +1,186 @@
+/*
+ * Editor styles – loaded inside the Gutenberg iframe.
+ * Mirrors the front-end design system so the editor is WYSIWYG.
+ */
+
+/* ── Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap');
+
+/* ── Body ── */
+body {
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #1a1d22;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Headings ── */
+h1, h2, h3, h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+/* ── Eyebrow / section label ── */
+.gaptec-eyebrow,
+.gaptec-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #5cb800;
+}
+
+.gaptec-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── Badges ── */
+.gaptec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  background: #f7f8f9;
+  border: 1px solid #e2e5e9;
+  border-radius: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.gaptec-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5cb800;
+  flex-shrink: 0;
+}
+
+/* ── Stat numbers ── */
+.gaptec-stat-num {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #5cb800;
+  line-height: 1;
+}
+
+.gaptec-stat-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+/* ── Card ── */
+.gaptec-card {
+  background: #fff;
+  border: 1.5px solid #e2e5e9;
+  border-radius: 6px;
+  padding: 1.4rem;
+}
+
+/* ── Grid backgrounds (visual hint in editor) ── */
+.gaptec-grid-bg {
+  background-image:
+    linear-gradient(#e2e5e9 1px, transparent 1px),
+    linear-gradient(90deg, #e2e5e9 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.gaptec-grid-bg--white {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Buttons ── */
+.wp-block-button .wp-block-button__link {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+.wp-block-button.is-style-gaptec-deep .wp-block-button__link {
+  background: #2d6315;
+  color: #fff;
+}
+
+.wp-block-button.is-style-gaptec-outline .wp-block-button__link {
+  background: transparent;
+  color: #2d6315;
+  border: 2px solid #2d6315;
+}
+
+/* ── Navigation ── */
+.wp-block-navigation a {
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Quote ── */
+.wp-block-quote {
+  border-left: 3px solid #5cb800;
+  padding-left: 1.5rem;
+}
+
+.wp-block-quote cite {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+/* ── Separator ── */
+.wp-block-separator.is-style-gaptec-green {
+  border-color: #5cb800;
+  border-top-width: 2px;
+  opacity: 1;
+}
+
+/* ── Table ── */
+.wp-block-table td,
+.wp-block-table th {
+  border: 1px solid #e2e5e9;
+  padding: 0.6rem 0.8rem;
+}
+
+.wp-block-table th {
+  background: #f7f8f9;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Code ── */
+code, pre {
+  font-size: 0.88rem;
+  background: #f7f8f9;
+  border-radius: 4px;
+}
+
+pre {
+  padding: 1rem;
+}
