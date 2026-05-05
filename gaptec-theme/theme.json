@@ -246,6 +246,7 @@
     { "name": "sidebar", "title": "Sidebar", "area": "uncategorized" }
   ],
   "customTemplates": [
+    { "name": "front-page",    "title": "Homepage",       "postTypes": ["page"] },
     { "name": "blank",         "title": "Blank",          "postTypes": ["page", "post"] },
     { "name": "no-sidebar",    "title": "No Sidebar",     "postTypes": ["page", "post"] },
     { "name": "full-width",    "title": "Full Width",     "postTypes": ["page"] },
