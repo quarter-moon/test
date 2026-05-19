@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F5F4F2">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
+  {%- endif -%}
+
+  <title>
+    {{ page_title }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  {{ content_for_header }}
+
+  {{ 'kova.css' | asset_url | stylesheet_tag }}
+</head>
+
+<body class="template-{{ template.name }}">
+
+  {%- sections 'header-group' -%}
+
+  {% comment %} Mobile nav drawer {% endcomment %}
+  <div id="kv-nav-overlay" class="kv-overlay hidden" style="display:none;"></div>
+  <nav id="kv-nav-drawer" class="kv-nav-drawer" aria-label="Mobile navigation">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <span class="kv-logo">{{ shop.name | upcase }}</span>
+      <button id="kv-nav-drawer-close" aria-label="Close menu" style="background:none;border:none;cursor:pointer;font-size:20px;">&#x2715;</button>
+    </div>
+    <div class="kv-nav-drawer__links">
+      <a class="kv-nav-drawer__link" href="/collections/new-in">New In</a>
+      <a class="kv-nav-drawer__link" href="/collections/clothing">Clothing</a>
+      <a class="kv-nav-drawer__link" href="/collections/knitwear">Knitwear</a>
+      <a class="kv-nav-drawer__link" href="/collections/accessories">Accessories</a>
+      <a class="kv-nav-drawer__link" href="/collections/sale">Sale</a>
+    </div>
+  </nav>
+
+  {% comment %} Cart drawer {% endcomment %}
+  <div id="kv-cart-overlay" class="kv-overlay hidden" style="display:none;"></div>
+  {%- render 'cart-drawer' -%}
+
+  {% comment %} Quick view modal {% endcomment %}
+  <div id="kv-quick-overlay" class="kv-overlay hidden" style="display:none;"></div>
+  <div id="kv-quick-modal" class="kv-modal hidden" role="dialog" aria-label="Quick view" style="display:none;">
+    <button id="kv-quick-close" class="kv-modal__close" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <div class="kv-modal__img kv-ph">KOVA</div>
+    <div class="kv-modal__body"></div>
+  </div>
+
+  <main id="MainContent" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {%- sections 'footer-group' -%}
+
+  <script src="{{ 'kova.js' | asset_url }}" defer></script>
+</body>
+</html>

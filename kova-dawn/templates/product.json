@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "recommendations_heading": "Quietly complementary"
+      }
+    }
+  },
+  "order": ["main"]
+}

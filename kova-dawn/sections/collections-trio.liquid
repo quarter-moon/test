@@ -1,0 +1,120 @@
+<section class="kv-section" style="padding-top:0;">
+  <div class="kv-container">
+    <header class="kv-section-head">
+      <div class="kv-section-head__title">
+        {%- if section.settings.label != blank -%}
+          <span class="t-micro" style="color:var(--color-clay);">{{ section.settings.label }}</span>
+        {%- endif -%}
+        <h2 class="t-h1">{{ section.settings.heading }}</h2>
+      </div>
+    </header>
+
+    <div class="kv-trio">
+      {%- for block in section.blocks -%}
+        <a class="kv-trio__card" href="{{ block.settings.url | default: '#' }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <img
+              src="{{ block.settings.image | image_url: width: 700 }}"
+              alt="{{ block.settings.image.alt | escape | default: block.settings.title }}"
+              width="700"
+              height="933"
+              loading="lazy"
+            >
+          {%- else -%}
+            <div class="kv-ph">{{ block.settings.title }}</div>
+          {%- endif -%}
+          <div class="kv-trio__label">
+            {%- if block.settings.count != blank -%}
+              <span class="kv-trio__meta">{{ block.settings.count }}</span>
+            {%- endif -%}
+            <span class="kv-trio__title">{{ block.settings.title }}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections Trio",
+  "tag": "section",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Three quiet directions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Tops & Shirting"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Item count",
+          "default": "42 styles"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collections Trio",
+      "settings": {
+        "label": "Shop by Category",
+        "heading": "Three quiet directions"
+      },
+      "blocks": [
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Tops & Shirting",
+            "count": "42 styles"
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Dresses",
+            "count": "18 styles"
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Outerwear",
+            "count": "24 styles"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

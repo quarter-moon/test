@@ -1,0 +1,40 @@
+<section class="kv-statement">
+  <div class="kv-container">
+    <div class="kv-statement__inner">
+      <p class="kv-statement__quote">{{ section.settings.quote }}</p>
+      {%- if section.settings.attribution != blank -%}
+        <div class="kv-statement__attr">{{ section.settings.attribution }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Statement",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote / statement",
+      "default": "\"Buy less. Buy considered. Wear it for a decade — and then pass it on.\""
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution",
+      "default": "The KOVA manifesto"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Statement",
+      "settings": {
+        "quote": "\"Buy less. Buy considered. Wear it for a decade — and then pass it on.\"",
+        "attribution": "The KOVA manifesto"
+      }
+    }
+  ]
+}
+{% endschema %}

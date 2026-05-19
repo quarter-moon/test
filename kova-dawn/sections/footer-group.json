@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "brand_desc": "A wardrobe of considered essentials, designed in Copenhagen and crafted across Europe.",
+        "newsletter_desc": "Quietly considered new arrivals, delivered monthly."
+      }
+    }
+  },
+  "order": ["footer"]
+}

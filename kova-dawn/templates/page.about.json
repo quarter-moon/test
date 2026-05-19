@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "hero": {
+      "type": "editorial-split",
+      "settings": {
+        "label": "Our Story",
+        "heading": "Built on restraint, not seasons.",
+        "text": "KOVA was founded with one belief: that great design means knowing when to stop. We work with the finest European ateliers to create pieces designed not for trends, but for decades."
+      }
+    },
+    "statement": {
+      "type": "brand-statement",
+      "settings": {
+        "quote": "\"Buy less. Buy considered. Wear it for a decade — and then pass it on.\"",
+        "attribution": "The KOVA manifesto"
+      }
+    }
+  },
+  "order": ["hero", "statement"]
+}

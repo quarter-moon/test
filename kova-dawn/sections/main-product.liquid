@@ -1,0 +1,228 @@
+{%- assign product = product -%}
+{%- assign first_variant = product.selected_or_first_available_variant -%}
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price > product.price -%}
+  {%- assign on_sale = true -%}
+{%- endif -%}
+
+<div class="kv-container">
+  {%- comment -%} Breadcrumb {%- endcomment -%}
+  <div class="kv-breadcrumb" style="padding-top:24px;">
+    <a href="{{ routes.root_url }}">Home</a>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    <a href="{{ product.collections.first.url | default: routes.collections_url }}">{{ product.vendor }}</a>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    <span>{{ product.title }}</span>
+  </div>
+
+  <div class="kv-pdp">
+    {%- comment -%} LEFT — Image Gallery {%- endcomment -%}
+    <div class="kv-pdp__gallery">
+      <div class="kv-pdp__hero">
+        {%- if product.featured_image -%}
+          <img
+            id="kv-pdp-main-img"
+            src="{{ product.featured_image | image_url: width: 1000 }}"
+            alt="{{ product.featured_image.alt | escape | default: product.title }}"
+            width="1000"
+            height="1333"
+            loading="eager"
+          >
+        {%- else -%}
+          <div class="kv-ph">{{ product.title }}</div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.images.size > 1 -%}
+        <div class="kv-pdp__thumbs">
+          {%- for image in product.images limit: 4 -%}
+            <div
+              class="kv-pdp__thumb{% if forloop.first %} is-active{% endif %}"
+              data-src="{{ image | image_url: width: 1000 }}"
+            >
+              <img
+                src="{{ image | image_url: width: 200 }}"
+                alt="{{ image.alt | escape | default: product.title }}"
+                width="200"
+                height="200"
+                loading="lazy"
+              >
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} RIGHT — Product info {%- endcomment -%}
+    <div class="kv-pdp__info">
+      <span class="t-micro" style="color:var(--color-clay);">{{ product.vendor }}</span>
+      <h1 class="t-h1">{{ product.title }}</h1>
+
+      <div style="display:flex;gap:12px;align-items:baseline;">
+        {%- if on_sale -%}
+          <span class="t-body-lg" style="text-decoration:line-through;color:#999;">{{ product.compare_at_price | money }}</span>
+          <span class="t-body-lg" style="font-weight:500;color:var(--color-error);">{{ product.price | money }}</span>
+          <span class="t-micro" style="color:var(--color-error);">Save {{ product.compare_at_price | minus: product.price | money }}</span>
+        {%- else -%}
+          <span class="t-body-lg" style="font-weight:500;">{{ product.price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      <p class="t-body" style="color:#555;margin-top:4px;">Or 4 interest-free payments of {{ product.price | divided_by: 4 | money }}.</p>
+
+      <div class="kv-divider"></div>
+
+      <form id="kv-pdp-form" action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{ first_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+
+        {%- comment -%} Color option {%- endcomment -%}
+        {%- assign color_option = product.options_with_values | where: "name", "Color" | first -%}
+        {%- if color_option -%}
+          <div class="kv-pdp__swatch-row">
+            <div class="kv-pdp__row">
+              <span class="t-micro">Color · <span style="color:#777;text-transform:none;letter-spacing:0;" id="kv-selected-color">{{ color_option.values.first }}</span></span>
+            </div>
+            <div class="swatches">
+              {%- for value in color_option.values -%}
+                <button
+                  type="button"
+                  class="kv-swatch{% if forloop.first %} is-active{% endif %}"
+                  style="width:22px;height:22px;background:{{ value | downcase }};"
+                  aria-label="{{ value }}"
+                  title="{{ value }}"
+                  onclick="document.getElementById('kv-selected-color').textContent='{{ value }}';"
+                ></button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Size option {%- endcomment -%}
+        {%- assign size_option_index = nil -%}
+        {%- for option in product.options -%}
+          {%- if option == 'Size' or option == 'size' -%}
+            {%- assign size_option_index = forloop.index0 -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if size_option_index != nil -%}
+          <div class="kv-pdp__swatch-row">
+            <div class="kv-pdp__row">
+              <span class="t-micro">Size</span>
+              <a class="t-small" href="#" style="text-decoration:underline;text-underline-offset:3px;">Size guide</a>
+            </div>
+            <div class="kv-sizes">
+              {%- for variant in product.variants -%}
+                {%- assign size_value = variant.options[size_option_index] -%}
+                <button
+                  type="button"
+                  class="kv-size{% unless variant.available %} {% endunless %}"
+                  {% unless variant.available %}disabled{% endunless %}
+                  data-variant-id="{{ variant.id }}"
+                  aria-label="{{ size_value }}"
+                >{{ size_value }}</button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        <button
+          class="kv-btn kv-btn--full kv-btn--lg"
+          type="submit"
+          data-add-to-cart
+          {%- unless product.available -%}disabled{%- endunless -%}
+        >
+          {%- if product.available -%}Select a size{%- else -%}Sold Out{%- endif -%}
+        </button>
+
+      </form>
+
+      <button class="kv-btn kv-btn--ghost" data-wishlist style="align-self:center;display:inline-flex;gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Save to wishlist
+      </button>
+
+      <div class="kv-pdp__shipping-bar">
+        <span class="kv-pdp__shipping-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+          Free shipping over $150
+        </span>
+        <span class="kv-pdp__shipping-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 14.85-6.85L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-14.85 6.85L3 16"/><path d="M3 21v-5h5"/></svg>
+          30-day free returns
+        </span>
+      </div>
+
+      {%- comment -%} Accordions {%- endcomment -%}
+      <div class="kv-accordion" style="border-top:none;">
+        <div class="kv-accordion__item is-open">
+          <button class="kv-accordion__head" type="button">
+            <span>Description</span>
+            <svg class="kv-accordion__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(45deg);"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </button>
+          <div class="kv-accordion__body" style="max-height:400px;padding:0 0 24px;">{{ product.description }}</div>
+        </div>
+        {%- if product.metafields.custom.materials != blank -%}
+          <div class="kv-accordion__item">
+            <button class="kv-accordion__head" type="button">
+              <span>Materials &amp; Care</span>
+              <svg class="kv-accordion__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            </button>
+            <div class="kv-accordion__body">{{ product.metafields.custom.materials }}</div>
+          </div>
+        {%- endif -%}
+        <div class="kv-accordion__item">
+          <button class="kv-accordion__head" type="button">
+            <span>Shipping &amp; Returns</span>
+            <svg class="kv-accordion__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          </button>
+          <div class="kv-accordion__body">Complimentary shipping on orders over $150. Express options available at checkout. Returns are free within 30 days; pieces should be unworn with tags attached.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} You may also like {%- endcomment -%}
+{%- if section.settings.recommendations_heading != blank -%}
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <section class="kv-section">
+      <div class="kv-container">
+        <header class="kv-section-head">
+          <div class="kv-section-head__title">
+            <span class="t-micro" style="color:var(--color-clay);">You may also like</span>
+            <h2 class="t-h2">{{ section.settings.recommendations_heading }}</h2>
+          </div>
+        </header>
+        <div class="kv-grid">
+          {%- for rec in recommendations.products limit: 4 -%}
+            {%- render 'product-card', product: rec -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+<script>
+  // Initialize accordion - first one open
+  (function(){
+    var first = document.querySelector('.kv-accordion__item');
+    if(first) first.classList.add('is-open');
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Detail",
+  "settings": [
+    {
+      "type": "text",
+      "id": "recommendations_heading",
+      "label": "Recommendations heading",
+      "default": "Quietly complementary"
+    }
+  ]
+}
+{% endschema %}
