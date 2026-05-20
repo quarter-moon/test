@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-policy",
+      "blocks": {
+        "intro_block": { "type": "text", "settings": { "content": "<p>We want you to love every KOVA piece. If something isn't right, we make it easy to return.</p>" } },
+        "h1": { "type": "heading", "settings": { "text": "30-Day Free Returns" } },
+        "t1": { "type": "text", "settings": { "content": "<p>EU customers may return any full-price item within 30 days of delivery, free of charge. Items must be in their original, unworn condition with all tags attached and in original packaging.</p><p>Sale items (marked with a red price) are final sale and cannot be returned unless faulty.</p>" } },
+        "h2": { "type": "heading", "settings": { "text": "How to Return" } },
+        "t2": { "type": "text", "settings": { "content": "<p>1. Log in to your account and navigate to your order.<br>2. Select the items you wish to return and your reason.<br>3. Download and print your prepaid DHL return label.<br>4. Pack the item securely in the original box or a plain box.<br>5. Drop it off at any DHL ServicePoint.</p><p>We recommend keeping your proof of postage until your refund is confirmed.</p>" } },
+        "hl1": { "type": "highlight", "settings": { "text": "Returns from outside the EU may incur a return shipping fee. Please contact us at hello@kova-studio.com before returning." } },
+        "h3": { "type": "heading", "settings": { "text": "Refund Timeline" } },
+        "t3": { "type": "text", "settings": { "content": "<p>Once we receive your return, we inspect it within 2 business days. Refunds are processed to your original payment method within 5–7 business days. You'll receive an email confirmation at each step.</p>" } },
+        "h4": { "type": "heading", "settings": { "text": "Exchanges" } },
+        "t4": { "type": "text", "settings": { "content": "<p>We do not process direct exchanges. To get the correct size or colour, return your original item for a full refund and place a new order. This ensures your preferred item doesn't sell out while you wait.</p>" } },
+        "h5": { "type": "heading", "settings": { "text": "Faulty or Incorrect Items" } },
+        "t5": { "type": "text", "settings": { "content": "<p>If you receive a faulty or incorrect item, please contact us within 7 days of delivery with your order number and photos. We will arrange collection and replacement at no cost to you, or issue a full refund including original shipping.</p>" } }
+      },
+      "block_order": ["intro_block","h1","t1","h2","t2","hl1","h3","t3","h4","t4","h5","t5"],
+      "settings": {
+        "page_title": "Returns & Exchanges",
+        "intro_text": "We want you to love every KOVA piece. Free returns within 30 days for EU customers."
+      }
+    }
+  },
+  "order": ["main"]
+}

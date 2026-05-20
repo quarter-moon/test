@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 16,
+        "demo_title": "Dresses",
+        "demo_description": "Effortless silhouettes for every occasion. From the linen midi to the merino shift — designed to move with you, not define you.",
+        "demo_image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=85"
+      }
+    }
+  },
+  "order": ["main"]
+}

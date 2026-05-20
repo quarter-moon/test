@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-policy",
+      "blocks": {
+        "h1": { "type": "heading", "settings": { "text": "1. Acceptance of Terms" } },
+        "t1": { "type": "text", "settings": { "content": "<p>By accessing or using the KOVA website (kova-studio.com), you agree to be bound by these Terms of Service. If you do not agree, please do not use our site.</p>" } },
+        "h2": { "type": "heading", "settings": { "text": "2. Products & Pricing" } },
+        "t2": { "type": "text", "settings": { "content": "<p>All prices are displayed in EUR and include applicable VAT for EU customers. We reserve the right to change prices at any time without notice. Prices are confirmed at the time of checkout.</p><p>We make every effort to display product colours accurately, however slight variations may occur due to monitor settings.</p>" } },
+        "h3": { "type": "heading", "settings": { "text": "3. Orders & Payment" } },
+        "t3": { "type": "text", "settings": { "content": "<p>Placing an order constitutes an offer to purchase. We reserve the right to refuse or cancel any order for reasons including product unavailability, errors in pricing, or suspected fraud. Payment is taken at the time of order confirmation.</p>" } },
+        "h4": { "type": "heading", "settings": { "text": "4. Intellectual Property" } },
+        "t4": { "type": "text", "settings": { "content": "<p>All content on this website — including photography, text, design, and branding — is the property of KOVA ApS and protected under Danish and international copyright law. Reproduction without express written permission is prohibited.</p>" } },
+        "h5": { "type": "heading", "settings": { "text": "5. Limitation of Liability" } },
+        "t5": { "type": "text", "settings": { "content": "<p>KOVA shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products or website. Our liability is limited to the purchase price of the relevant order.</p>" } },
+        "h6": { "type": "heading", "settings": { "text": "6. Governing Law" } },
+        "t6": { "type": "text", "settings": { "content": "<p>These terms are governed by the laws of Denmark. Any disputes shall be subject to the exclusive jurisdiction of the courts of Copenhagen.</p><p>Last updated: January 2026. KOVA ApS, CVR 40123456, Bredgade 45, 1260 Copenhagen K.</p>" } }
+      },
+      "block_order": ["h1","t1","h2","t2","h3","t3","h4","t4","h5","t5","h6","t6"],
+      "settings": {
+        "page_title": "Terms of Service",
+        "intro_text": "Please read these terms carefully before using the KOVA website or placing an order."
+      }
+    }
+  },
+  "order": ["main"]
+}

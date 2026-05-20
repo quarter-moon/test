@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 16,
+        "demo_title": "Outerwear",
+        "demo_description": "Coats and jackets that earn their place year after year. Cut generously in wool-cashmere and organic cotton for the long haul.",
+        "demo_image": "https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=1600&q=85"
+      }
+    }
+  },
+  "order": ["main"]
+}

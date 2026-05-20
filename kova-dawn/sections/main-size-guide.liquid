@@ -1,0 +1,433 @@
+{% comment %}
+  KOVA — main-size-guide.liquid
+  Size guide page: stone hero, tab nav (Tops/Bottoms/Dresses/Outerwear),
+  measurement tables, and a "How to measure" card row.
+  Tab switching via lightweight inline JS; no external dependencies.
+{% endcomment %}
+
+<style>
+  /* ── Hero ── */
+  .kv-sg-hero {
+    height: 50vh;
+    min-height: 360px;
+    background: var(--color-stone);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  /* ── Body ── */
+  .kv-sg-body {
+    padding: 80px 0;
+  }
+
+  /* ── Tab navigation ── */
+  .kv-sg-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--color-mist);
+    padding-bottom: 0;
+  }
+
+  .kv-sg-tab {
+    padding: 10px 24px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-mist);
+    border-bottom: none;
+    cursor: pointer;
+    position: relative;
+    bottom: -1px;
+    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+  }
+
+  .kv-sg-tab:hover:not(.is-active) {
+    background: var(--color-white);
+    border-color: var(--color-mist);
+  }
+
+  .kv-sg-tab.is-active {
+    background: var(--color-ink);
+    color: var(--color-white);
+    border-color: var(--color-ink);
+  }
+
+  /* ── Tab panels ── */
+  .kv-sg-panel {
+    display: none;
+  }
+
+  .kv-sg-panel.is-active {
+    display: block;
+  }
+
+  /* ── Measurement tables ── */
+  .kv-sg-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .kv-sg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    font-size: 14px;
+  }
+
+  .kv-sg-table thead tr {
+    background: var(--color-ink);
+    color: var(--color-white);
+  }
+
+  .kv-sg-table th {
+    padding: 16px;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .kv-sg-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .kv-sg-table tbody tr:nth-child(odd) {
+    background: var(--color-stone);
+  }
+
+  .kv-sg-table tbody tr:nth-child(even) {
+    background: var(--color-white);
+  }
+
+  .kv-sg-table tbody tr:hover {
+    background: var(--color-mist);
+  }
+
+  .kv-sg-table td:first-child {
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Table note ── */
+  .kv-sg-table-note {
+    font-size: 12px;
+    color: rgba(26,26,26,0.55);
+    margin-top: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── How to measure ── */
+  .kv-sg-measure {
+    margin-top: 80px;
+    padding-top: 64px;
+    border-top: 1px solid var(--color-mist);
+  }
+
+  .kv-sg-measure__heading {
+    margin: 0 0 40px;
+  }
+
+  .kv-sg-measure__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 767px) {
+    .kv-sg-measure__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .kv-sg-measure-card {
+    background: var(--color-stone);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .kv-sg-measure-card__icon {
+    width: 40px;
+    height: 40px;
+    color: var(--color-clay);
+    flex-shrink: 0;
+  }
+
+  .kv-sg-measure-card__title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin: 0;
+  }
+
+  .kv-sg-measure-card__text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(26,26,26,0.72);
+    margin: 0;
+  }
+</style>
+
+{%- comment -%} Hero {%- endcomment -%}
+<div class="kv-sg-hero">
+  <h1 class="t-display" style="margin: 0; color: var(--color-ink);">Size Guide</h1>
+  <p class="t-body-lg" style="margin: 0; color: rgba(26,26,26,0.6); max-width: 400px;">
+    All measurements in centimetres unless stated.
+  </p>
+</div>
+
+{%- comment -%} Body {%- endcomment -%}
+<section class="kv-sg-body">
+  <div class="kv-container">
+
+    {%- comment -%} Tab navigation {%- endcomment -%}
+    <div class="kv-sg-tabs" role="tablist" aria-label="Garment categories">
+      <button
+        class="kv-sg-tab is-active"
+        role="tab"
+        aria-selected="true"
+        aria-controls="kv-sg-panel-tops"
+        data-tab="tops"
+      >Tops</button>
+      <button
+        class="kv-sg-tab"
+        role="tab"
+        aria-selected="false"
+        aria-controls="kv-sg-panel-bottoms"
+        data-tab="bottoms"
+      >Bottoms</button>
+      <button
+        class="kv-sg-tab"
+        role="tab"
+        aria-selected="false"
+        aria-controls="kv-sg-panel-dresses"
+        data-tab="dresses"
+      >Dresses</button>
+      <button
+        class="kv-sg-tab"
+        role="tab"
+        aria-selected="false"
+        aria-controls="kv-sg-panel-outerwear"
+        data-tab="outerwear"
+      >Outerwear</button>
+    </div>
+
+    {%- comment -%} ── Tops panel ── {%- endcomment -%}
+    <div id="kv-sg-panel-tops" class="kv-sg-panel is-active" role="tabpanel">
+      <div class="kv-sg-table-wrap">
+        <table class="kv-sg-table">
+          <thead>
+            <tr>
+              <th scope="col">Size</th>
+              <th scope="col">Chest</th>
+              <th scope="col">Waist</th>
+              <th scope="col">Hip</th>
+              <th scope="col">Length</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>XS</td><td>84</td><td>68</td><td>90</td><td>62</td></tr>
+            <tr><td>S</td><td>88</td><td>72</td><td>94</td><td>64</td></tr>
+            <tr><td>M</td><td>92</td><td>76</td><td>98</td><td>66</td></tr>
+            <tr><td>L</td><td>96</td><td>80</td><td>102</td><td>68</td></tr>
+            <tr><td>XL</td><td>100</td><td>84</td><td>106</td><td>70</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="kv-sg-table-note t-small">Measurements are of the garment, laid flat and doubled. For a fitted look, choose your exact measurement; for a relaxed fit, size up.</p>
+    </div>
+
+    {%- comment -%} ── Bottoms panel ── {%- endcomment -%}
+    <div id="kv-sg-panel-bottoms" class="kv-sg-panel" role="tabpanel">
+      <div class="kv-sg-table-wrap">
+        <table class="kv-sg-table">
+          <thead>
+            <tr>
+              <th scope="col">Size</th>
+              <th scope="col">Waist</th>
+              <th scope="col">Hip</th>
+              <th scope="col">Inseam</th>
+              <th scope="col">Rise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>XS</td><td>64</td><td>90</td><td>76</td><td>25</td></tr>
+            <tr><td>S</td><td>68</td><td>94</td><td>77</td><td>26</td></tr>
+            <tr><td>M</td><td>72</td><td>98</td><td>78</td><td>26</td></tr>
+            <tr><td>L</td><td>76</td><td>102</td><td>79</td><td>27</td></tr>
+            <tr><td>XL</td><td>80</td><td>106</td><td>80</td><td>27</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="kv-sg-table-note t-small">Waist and hip measurements are body measurements. Inseam is measured from crotch seam to hem.</p>
+    </div>
+
+    {%- comment -%} ── Dresses panel ── {%- endcomment -%}
+    <div id="kv-sg-panel-dresses" class="kv-sg-panel" role="tabpanel">
+      <div class="kv-sg-table-wrap">
+        <table class="kv-sg-table">
+          <thead>
+            <tr>
+              <th scope="col">Size</th>
+              <th scope="col">Chest</th>
+              <th scope="col">Waist</th>
+              <th scope="col">Hip</th>
+              <th scope="col">Length</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>XS</td><td>84</td><td>68</td><td>90</td><td>95</td></tr>
+            <tr><td>S</td><td>88</td><td>72</td><td>94</td><td>98</td></tr>
+            <tr><td>M</td><td>92</td><td>76</td><td>98</td><td>101</td></tr>
+            <tr><td>L</td><td>96</td><td>80</td><td>102</td><td>104</td></tr>
+            <tr><td>XL</td><td>100</td><td>84</td><td>106</td><td>107</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="kv-sg-table-note t-small">Dress length is measured from the highest point of the shoulder to the hem. Measurements are of the garment.</p>
+    </div>
+
+    {%- comment -%} ── Outerwear panel ── {%- endcomment -%}
+    <div id="kv-sg-panel-outerwear" class="kv-sg-panel" role="tabpanel">
+      <div class="kv-sg-table-wrap">
+        <table class="kv-sg-table">
+          <thead>
+            <tr>
+              <th scope="col">Size</th>
+              <th scope="col">Chest</th>
+              <th scope="col">Shoulder</th>
+              <th scope="col">Sleeve</th>
+              <th scope="col">Length</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>XS</td><td>90</td><td>38</td><td>60</td><td>68</td></tr>
+            <tr><td>S</td><td>94</td><td>39</td><td>61</td><td>70</td></tr>
+            <tr><td>M</td><td>98</td><td>40</td><td>62</td><td>72</td></tr>
+            <tr><td>L</td><td>102</td><td>42</td><td>63</td><td>74</td></tr>
+            <tr><td>XL</td><td>106</td><td>44</td><td>64</td><td>76</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="kv-sg-table-note t-small">Outerwear is cut with room for layering. Chest is measured across the widest point; sleeve is from shoulder seam to cuff.</p>
+    </div>
+
+    {%- comment -%} ── How to measure ── {%- endcomment -%}
+    <div class="kv-sg-measure">
+      <h2 class="t-h2 kv-sg-measure__heading">How to measure</h2>
+      <div class="kv-sg-measure__cards">
+
+        {%- comment -%} Chest card {%- endcomment -%}
+        <div class="kv-sg-measure-card">
+          <svg class="kv-sg-measure-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- Measuring tape icon -->
+            <rect x="6" y="14" width="28" height="12" rx="6"/>
+            <line x1="6" y1="20" x2="34" y2="20"/>
+            <line x1="11" y1="14" x2="11" y2="17"/>
+            <line x1="17" y1="14" x2="17" y2="17"/>
+            <line x1="23" y1="14" x2="23" y2="17"/>
+            <line x1="29" y1="14" x2="29" y2="17"/>
+          </svg>
+          <p class="kv-sg-measure-card__title">Chest</p>
+          <p class="kv-sg-measure-card__text">
+            Wrap the tape measure around the fullest part of your chest, keeping it parallel to the floor. Keep the tape snug but not tight, and measure over lightweight clothing or directly on the skin.
+          </p>
+        </div>
+
+        {%- comment -%} Waist card {%- endcomment -%}
+        <div class="kv-sg-measure-card">
+          <svg class="kv-sg-measure-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- Waist / hourglass silhouette icon -->
+            <path d="M12 8 C12 8 8 14 8 20 C8 26 12 32 12 32"/>
+            <path d="M28 8 C28 8 32 14 32 20 C32 26 28 32 28 32"/>
+            <line x1="8" y1="20" x2="32" y2="20"/>
+            <line x1="12" y1="8" x2="28" y2="8"/>
+            <line x1="12" y1="32" x2="28" y2="32"/>
+          </svg>
+          <p class="kv-sg-measure-card__title">Waist</p>
+          <p class="kv-sg-measure-card__text">
+            Measure around your natural waistline — the narrowest part of your torso, typically an inch or two above your navel. Stand relaxed with the tape lying flat and not pulled in.
+          </p>
+        </div>
+
+        {%- comment -%} Hip card {%- endcomment -%}
+        <div class="kv-sg-measure-card">
+          <svg class="kv-sg-measure-card__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <!-- Hip / oval icon -->
+            <ellipse cx="20" cy="22" rx="13" ry="9"/>
+            <line x1="7" y1="22" x2="33" y2="22"/>
+            <line x1="20" y1="8" x2="20" y2="14"/>
+            <polyline points="17,11 20,8 23,11"/>
+          </svg>
+          <p class="kv-sg-measure-card__title">Hip</p>
+          <p class="kv-sg-measure-card__text">
+            Stand with feet together and measure around the fullest part of your hips and seat, usually 8–10 cm below your natural waist. Keep the tape parallel to the ground for an accurate reading.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function () {
+    var tabs = document.querySelectorAll('.kv-sg-tab');
+    var panels = document.querySelectorAll('.kv-sg-panel');
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.dataset.tab;
+
+        // Update tabs
+        tabs.forEach(function (t) {
+          t.classList.remove('is-active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+
+        // Update panels
+        panels.forEach(function (panel) {
+          panel.classList.remove('is-active');
+        });
+        var activePanel = document.getElementById('kv-sg-panel-' + target);
+        if (activePanel) {
+          activePanel.classList.add('is-active');
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Size Guide",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Size guide"
+    }
+  ]
+}
+{% endschema %}

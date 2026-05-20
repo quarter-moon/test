@@ -385,7 +385,7 @@
 }
 </style>
 
-{%- assign collection_title = collection.title | default: section.settings.fallback_title | default: 'All Pieces' -%}
+{%- assign collection_title = collection.title | default: section.settings.demo_title | default: section.settings.fallback_title | default: 'All Pieces' -%}
 
 {%- comment -%} ════════════ HERO ════════════ {%- endcomment -%}
 <div class="kv-col-hero">
@@ -407,6 +407,15 @@
       height="640"
       loading="eager"
     >
+  {%- elsif section.settings.demo_image != blank -%}
+    <img
+      class="kv-col-hero__img"
+      src="{{ section.settings.demo_image }}"
+      alt="{{ collection_title }}"
+      width="1600"
+      height="640"
+      loading="eager"
+    >
   {%- else -%}
     <img
       class="kv-col-hero__img"
@@ -423,6 +432,8 @@
     <h1 class="kv-col-hero__title">{{ collection_title }}</h1>
     {%- if collection.description != blank -%}
       <p class="kv-col-hero__desc">{{ collection.description | strip_html | truncate: 200 }}</p>
+    {%- elsif section.settings.demo_description != blank -%}
+      <p class="kv-col-hero__desc">{{ section.settings.demo_description }}</p>
     {%- elsif section.settings.collection_desc != blank -%}
       <p class="kv-col-hero__desc">{{ section.settings.collection_desc }}</p>
     {%- else -%}
@@ -811,6 +822,28 @@
       "step": 4,
       "default": 16,
       "label": "Products per page"
+    },
+    {
+      "type": "header",
+      "content": "Demo content (used when no collection is assigned)"
+    },
+    {
+      "type": "text",
+      "id": "demo_title",
+      "label": "Demo collection title",
+      "default": "Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "demo_description",
+      "label": "Demo collection description",
+      "default": "A curated selection of KOVA essentials."
+    },
+    {
+      "type": "text",
+      "id": "demo_image",
+      "label": "Demo hero image URL (Unsplash)",
+      "default": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1600&q=85"
     }
   ]
 }
