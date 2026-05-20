@@ -787,3 +787,51 @@ body.kv-lock { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ───────────────────────────────────────────
+   VISUALLY HIDDEN (accessibility utility)
+─────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ───────────────────────────────────────────
+   PDP — Satoshi-style: shared overrides
+   (Section-scoped styles live in the section
+   <style> block; these are reusable tokens)
+─────────────────────────────────────────── */
+
+/* Ensure the desktop gallery strip + main image layout
+   doesn't collapse when the section <style> isn't parsed yet */
+@media (min-width: 1024px) {
+  .kv-pdp-s__carousel { display: none !important; }
+}
+@media (max-width: 1023px) {
+  .kv-pdp-s__gallery { display: block !important; }
+}
+
+/* ───────────────────────────────────────────
+   COLLECTION — Prestige Allure-style overrides
+─────────────────────────────────────────── */
+
+/* White card background differentiates from stone-bg page */
+.kv-col-card { background: var(--color-white); }
+
+/* Quick-shop label colour (darker slide-up vs. standard Quick View) */
+.kv-col-card__qs { background: rgba(26,26,26,0.92); color: var(--color-white); }
+
+/* ───────────────────────────────────────────
+   ABOUT PAGE — shared layout tokens
+─────────────────────────────────────────── */
+
+/* Used by the quote block blockquote reset */
+blockquote { margin: 0; padding: 0; }
+
+/* Value icon stroke inherits clay via color, no fill */
+.kv-about-value__icon { fill: none; }

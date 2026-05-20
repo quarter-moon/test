@@ -1,20 +1,63 @@
 {
   "sections": {
-    "hero": {
-      "type": "editorial-split",
-      "settings": {
-        "label": "Our Story",
-        "heading": "Built on restraint, not seasons.",
-        "text": "KOVA was founded with one belief: that great design means knowing when to stop. We work with the finest European ateliers to create pieces designed not for trends, but for decades."
-      }
-    },
-    "statement": {
-      "type": "brand-statement",
-      "settings": {
-        "quote": "\"Buy less. Buy considered. Wear it for a decade — and then pass it on.\"",
-        "attribution": "The KOVA manifesto"
-      }
+    "about": {
+      "type": "about",
+      "blocks": {
+        "hero": {
+          "type": "hero",
+          "settings": {
+            "label": "KOVA",
+            "headline": "We believe in less, done better."
+          }
+        },
+        "story": {
+          "type": "story",
+          "settings": {
+            "story_label": "Our Story",
+            "story_headline": "Founded on a single belief.",
+            "cta_text": "Shop the collection",
+            "cta_url": "/collections/all"
+          }
+        },
+        "values": {
+          "type": "values",
+          "settings": {
+            "value1_label": "Craft",
+            "value1_title": "Handcrafted in Europe",
+            "value1_text": "Every piece is made in small batches by skilled artisans across Portugal, Italy and Scotland. We visit our makers, we know their names, and we choose them for their care as much as their craft.",
+            "value2_label": "Longevity",
+            "value2_title": "Designed to outlast trends",
+            "value2_text": "We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy KOVA, you are opting out of the cycle, not into a new one.",
+            "value3_label": "Responsibility",
+            "value3_title": "Responsible materials",
+            "value3_text": "Natural fibres only. We trace every material to its source and work only with GOTS- and OEKO-TEX-certified suppliers. Our dyeing processes are low-impact and waterway-safe."
+          }
+        },
+        "quote": {
+          "type": "quote",
+          "settings": {
+            "quote_text": "The best garment is the one you reach for again and again.",
+            "quote_attribution": "— KOVA, est. 2019"
+          }
+        },
+        "image_grid": {
+          "type": "image_grid",
+          "settings": {}
+        },
+        "email_cta": {
+          "type": "email_cta",
+          "settings": {
+            "email_label": "Stay connected",
+            "email_headline": "Hear from us, rarely but meaningfully.",
+            "email_subtext": "We write about craft, materials and the pieces we are working on. No promotions. Unsubscribe any time.",
+            "email_placeholder": "Your email address",
+            "email_btn": "Subscribe"
+          }
+        }
+      },
+      "block_order": ["hero", "story", "values", "quote", "image_grid", "email_cta"],
+      "settings": {}
     }
   },
-  "order": ["hero", "statement"]
+  "order": ["about"]
 }
