@@ -72,7 +72,7 @@
           }
         }
       },
-      "blocks_order": ["tops", "dresses", "outerwear"]
+      "block_order": ["tops", "dresses", "outerwear"]
     },
     "bestsellers": {
       "type": "featured-collection",
@@ -106,7 +106,7 @@
         "p5": { "type": "image", "settings": {} },
         "p6": { "type": "image", "settings": {} }
       },
-      "blocks_order": ["p1", "p2", "p3", "p4", "p5", "p6"]
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"]
     },
     "email": {
       "type": "email-capture",
