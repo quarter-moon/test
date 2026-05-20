@@ -32,8 +32,17 @@
         {%- endif -%}
       </div>
     {%- else -%}
-      {%- for i in (1..6) -%}
-        <div class="kv-ugc__cell"><div class="kv-ph">@kova</div></div>
+      {%- assign demo_ugc = "1490481651871-ab68de25d43d,1525507119028-ed4c629a60a3,1496747611176-843222e1e57c,1539109136881-3be0616acf4b,1485231183945-fffde7cc051e,1551803091-e20673f15770" | split: "," -%}
+      {%- for photo_id in demo_ugc -%}
+        <div class="kv-ugc__cell">
+          <img
+            src="https://images.unsplash.com/photo-{{ photo_id | strip }}?auto=format&fit=crop&w=600&q=80"
+            alt="@kova.studio"
+            width="600"
+            height="600"
+            loading="lazy"
+          >
+        </div>
       {%- endfor -%}
     {%- endfor -%}
   </div>

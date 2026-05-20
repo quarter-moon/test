@@ -49,7 +49,8 @@
           "settings": {
             "title": "Tops & Shirting",
             "count": "42 styles",
-            "url": "/collections/tops"
+            "url": "/collections/tops",
+            "demo_image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=700&q=80"
           }
         },
         "dresses": {
@@ -57,7 +58,8 @@
           "settings": {
             "title": "Dresses",
             "count": "18 styles",
-            "url": "/collections/dresses"
+            "url": "/collections/dresses",
+            "demo_image": "https://images.unsplash.com/photo-1583744946564-b52ac1c389c8?auto=format&fit=crop&w=700&q=80"
           }
         },
         "outerwear": {
@@ -65,7 +67,8 @@
           "settings": {
             "title": "Outerwear",
             "count": "24 styles",
-            "url": "/collections/outerwear"
+            "url": "/collections/outerwear",
+            "demo_image": "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=700&q=80"
           }
         }
       },

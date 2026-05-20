@@ -20,6 +20,14 @@
               height="933"
               loading="lazy"
             >
+          {%- elsif block.settings.demo_image != blank -%}
+            <img
+              src="{{ block.settings.demo_image }}"
+              alt="{{ block.settings.title }}"
+              width="700"
+              height="933"
+              loading="lazy"
+            >
           {%- else -%}
             <div class="kv-ph">{{ block.settings.title }}</div>
           {%- endif -%}
@@ -63,6 +71,12 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "demo_image",
+          "label": "Demo image URL (Unsplash fallback)",
+          "info": "Used when no image is uploaded. Remove once you add a real image."
         },
         {
           "type": "text",

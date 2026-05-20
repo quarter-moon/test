@@ -1,5 +1,17 @@
 {%- assign collection = collections[section.settings.collection] -%}
 
+{%- comment -%} Demo products — shown when no real collection is assigned {%- endcomment -%}
+{%- assign demo_products = "
+  Mira Wool Topcoat|Outerwear|690||new|https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1551803091-e20673f15770?auto=format&fit=crop&w=600&q=80,
+  Sable Silk Blouse|Tops|280||new|https://images.unsplash.com/photo-1485518882345-15568b007407?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=600&q=80,
+  Halden Pleated Trouser|Trousers|320|420|sale|https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=600&q=80,
+  Linea Cashmere Crew|Knitwear|410||new|https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=600&q=80,
+  Otto Calfskin Mule|Footwear|360|||https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1614253429340-98120bd6d753?auto=format&fit=crop&w=600&q=80,
+  Ines Bias Linen Dress|Dresses|380||eco|https://images.unsplash.com/photo-1583744946564-b52ac1c389c8?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?auto=format&fit=crop&w=600&q=80,
+  Carro Structured Tote|Accessories|540|||https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=600&q=80,
+  Verra Wool Midi Skirt|Skirts|290|||https://images.unsplash.com/photo-1551048632-24e444b48a3e?auto=format&fit=crop&w=600&q=80|https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=600&q=80
+" | split: "," -%}
+
 <section class="kv-section">
   <div class="kv-container">
     <header class="kv-section-head">
@@ -18,29 +30,51 @@
     </header>
 
     <div class="kv-grid">
-      {%- if collection != blank -%}
+      {%- if collection != blank and collection.products.size > 0 -%}
         {%- for product in collection.products limit: section.settings.products_to_show -%}
           {%- render 'product-card', product: product -%}
-        {%- else -%}
-          {%- for i in (1..section.settings.products_to_show) -%}
-            <article class="kv-card">
-              <div class="kv-card__img-wrap kv-ph">KOVA</div>
-              <div class="kv-card__info">
-                <span class="kv-card__vendor">Collection</span>
-                <span class="kv-card__name">Product {{ i }}</span>
-                <div class="kv-card__price"><span>$000</span></div>
-              </div>
-            </article>
-          {%- endfor -%}
         {%- endfor -%}
       {%- else -%}
-        {%- for i in (1..section.settings.products_to_show) -%}
+        {%- assign limit = section.settings.products_to_show | at_most: 8 -%}
+        {%- for raw in demo_products limit: limit -%}
+          {%- assign parts = raw | strip | split: "|" -%}
+          {%- assign d_name   = parts[0] | strip -%}
+          {%- assign d_vendor = parts[1] | strip -%}
+          {%- assign d_price  = parts[2] | strip -%}
+          {%- assign d_was    = parts[3] | strip -%}
+          {%- assign d_badge  = parts[4] | strip -%}
+          {%- assign d_img    = parts[5] | strip -%}
+          {%- assign d_imgalt = parts[6] | strip -%}
           <article class="kv-card">
-            <div class="kv-card__img-wrap kv-ph">KOVA</div>
+            <div class="kv-card__img-wrap">
+              {%- if d_badge != blank -%}
+                <span class="kv-card__badge {% if d_badge == 'sale' %}kv-card__badge--sale{% elsif d_badge == 'eco' %}kv-card__badge--eco{% endif %}">
+                  {{ d_badge | capitalize }}
+                </span>
+              {%- endif -%}
+              <button class="kv-card__wishlist" data-wishlist aria-label="Add to wishlist">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+              <img class="kv-card__img kv-card__img--main" src="{{ d_img }}" alt="{{ d_name }}" loading="lazy" width="600" height="800">
+              <img class="kv-card__img kv-card__img--alt" src="{{ d_imgalt }}" alt="{{ d_name }}" loading="lazy" width="600" height="800">
+              <button class="kv-card__quick" aria-label="Quick view {{ d_name }}">+ Quick View</button>
+            </div>
             <div class="kv-card__info">
-              <span class="kv-card__vendor">Category</span>
-              <span class="kv-card__name">Placeholder Product {{ i }}</span>
-              <div class="kv-card__price"><span>$000</span></div>
+              <span class="kv-card__vendor">{{ d_vendor }}</span>
+              <span class="kv-card__name">{{ d_name }}</span>
+              <div class="kv-card__price">
+                {%- if d_was != blank -%}
+                  <span class="kv-card__price--was">${{ d_was }}</span>
+                  <span class="kv-card__price--sale">${{ d_price }}</span>
+                {%- else -%}
+                  <span>${{ d_price }}</span>
+                {%- endif -%}
+              </div>
+              <div class="kv-card__swatches">
+                <button class="kv-swatch is-active" style="background:#1A1A1A;" aria-label="Ink"></button>
+                <button class="kv-swatch" style="background:#C4A882;" aria-label="Clay"></button>
+                <button class="kv-swatch" style="background:#E2DDD3;" aria-label="Stone"></button>
+              </div>
             </div>
           </article>
         {%- endfor -%}
@@ -75,7 +109,7 @@
       "type": "range",
       "id": "products_to_show",
       "min": 2,
-      "max": 12,
+      "max": 8,
       "step": 1,
       "default": 4,
       "label": "Products to show"
