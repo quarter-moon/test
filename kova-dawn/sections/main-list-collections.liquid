@@ -1,0 +1,225 @@
+{%- comment -%} KOVA — /collections page {%- endcomment -%}
+
+{%- liquid
+  assign fallback_images = 'new-in:https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=85,clothing:https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=85,knitwear:https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=800&q=85,dresses:https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85,outerwear:https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=800&q=85,accessories:https://images.unsplash.com/photo-1584917865442-de89be144caa?auto=format&fit=crop&w=800&q=85,sale:https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&w=800&q=85' | split: ','
+-%}
+
+{%- comment -%} Build a handle→image map {%- endcomment -%}
+{%- assign fb_map = '' -%}
+
+<style>
+  .kv-collections-hero {
+    background: var(--color-ink);
+    color: var(--color-white);
+    padding: 100px 24px 64px;
+    text-align: center;
+  }
+  .kv-collections-hero .t-display { color: var(--color-white); margin-bottom: 16px; }
+  .kv-collections-hero p { opacity: 0.7; font-size: 16px; letter-spacing: 0.04em; max-width: 480px; margin: 0 auto; }
+
+  .kv-coll-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--color-mist);
+  }
+  @media (max-width: 767px) { .kv-coll-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 479px) { .kv-coll-grid { grid-template-columns: 1fr; } }
+
+  .kv-coll-card {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: var(--color-stone);
+    display: block;
+    text-decoration: none;
+  }
+  .kv-coll-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: block;
+  }
+  .kv-coll-card:hover .kv-coll-card__img { transform: scale(1.04); }
+
+  .kv-coll-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26,26,24,0.72) 0%, rgba(26,26,24,0.1) 55%, transparent 100%);
+  }
+  .kv-coll-card__info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 32px 28px;
+    color: var(--color-white);
+  }
+  .kv-coll-card__label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .kv-coll-card__title {
+    font-family: var(--font-heading);
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0 0 12px;
+  }
+  .kv-coll-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-white);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .kv-coll-card:hover .kv-coll-card__cta { opacity: 1; transform: translateY(0); }
+  .kv-coll-card__cta svg { transition: transform 0.3s ease; }
+  .kv-coll-card:hover .kv-coll-card__cta svg { transform: translateX(4px); }
+
+  .kv-coll-card--featured {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+  @media (max-width: 767px) { .kv-coll-card--featured { grid-column: span 2; aspect-ratio: 3/4; } }
+  @media (max-width: 479px) { .kv-coll-card--featured { grid-column: span 1; } }
+
+  .kv-coll-footer {
+    background: var(--color-stone);
+    text-align: center;
+    padding: 64px 24px;
+  }
+  .kv-coll-footer p {
+    font-size: 14px;
+    opacity: 0.6;
+    letter-spacing: 0.06em;
+    margin-top: 16px;
+  }
+</style>
+
+{%- comment -%} Hero {%- endcomment -%}
+<section class="kv-collections-hero">
+  <p class="t-micro" style="color:var(--color-clay);letter-spacing:0.16em;text-transform:uppercase;margin-bottom:16px;">{{ section.settings.hero_label }}</p>
+  <h1 class="t-display">{{ section.settings.hero_headline }}</h1>
+  <p>{{ section.settings.hero_subtext }}</p>
+</section>
+
+{%- comment -%} Collection grid {%- endcomment -%}
+<div class="kv-coll-grid">
+  {%- assign featured_handles = section.settings.featured_collection | downcase | split: ',' -%}
+
+  {%- for collection in collections -%}
+    {%- unless collection.handle == 'frontpage' -%}
+
+      {%- comment -%} Pick fallback image by handle {%- endcomment -%}
+      {%- assign fb_img = 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=85' -%}
+      {%- for fb_entry in fallback_images -%}
+        {%- assign fb_parts = fb_entry | split: ':' -%}
+        {%- assign fb_handle = fb_parts | first | strip -%}
+        {%- if collection.handle contains fb_handle -%}
+          {%- assign fb_img = fb_entry | remove_first: fb_handle | remove_first: ':' -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- assign is_featured = false -%}
+      {%- for fh in featured_handles -%}
+        {%- if collection.handle == fh -%}{%- assign is_featured = true -%}{%- endif -%}
+      {%- endfor -%}
+
+      <a href="{{ collection.url }}" class="kv-coll-card{% if is_featured %} kv-coll-card--featured{% endif %}">
+        {%- if collection.image -%}
+          <img
+            class="kv-coll-card__img"
+            src="{{ collection.image | image_url: width: 900 }}"
+            alt="{{ collection.image.alt | default: collection.title | escape }}"
+            width="900"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            class="kv-coll-card__img"
+            src="{{ fb_img }}"
+            alt="{{ collection.title | escape }}"
+            width="900"
+            loading="lazy"
+          >
+        {%- endif -%}
+
+        <div class="kv-coll-card__overlay"></div>
+        <div class="kv-coll-card__info">
+          <div class="kv-coll-card__label">{{ collection.products_count }} piece{% if collection.products_count != 1 %}s{% endif %}</div>
+          <h2 class="kv-coll-card__title">{{ collection.title }}</h2>
+          <span class="kv-coll-card__cta">
+            Shop now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+    {%- endunless -%}
+  {%- endfor -%}
+</div>
+
+<div class="kv-coll-footer">
+  <a href="{{ section.settings.all_link }}" class="kv-btn">{{ section.settings.all_label }}</a>
+  <p>{{ collections.size }} collections · Free shipping on orders over €150</p>
+</div>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_label",
+      "label": "Hero label",
+      "default": "Collections"
+    },
+    {
+      "type": "text",
+      "id": "hero_headline",
+      "label": "Hero headline",
+      "default": "Shop by collection"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtext",
+      "label": "Hero subtext",
+      "default": "Each collection is a considered edit. Start with what you reach for most."
+    },
+    {
+      "type": "text",
+      "id": "featured_collection",
+      "label": "Featured collection handles (comma-separated, will span 2 columns)",
+      "default": "new-in"
+    },
+    {
+      "type": "url",
+      "id": "all_link",
+      "label": "\"Shop all\" link"
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "label": "\"Shop all\" button label",
+      "default": "Shop all pieces"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collections list"
+    }
+  ]
+}
+{% endschema %}

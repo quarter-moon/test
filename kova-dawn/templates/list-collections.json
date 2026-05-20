@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "hero_label": "Collections",
+        "hero_headline": "Shop by collection",
+        "hero_subtext": "Each collection is a considered edit. Start with what you reach for most.",
+        "featured_collection": "new-in",
+        "all_label": "Shop all pieces"
+      }
+    }
+  },
+  "order": ["main"]
+}
