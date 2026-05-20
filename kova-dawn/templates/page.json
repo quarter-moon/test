@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-policy",
+      "settings": {
+        "page_title": "{{ page.title }}",
+        "intro_text": ""
+      },
+      "blocks": {},
+      "block_order": []
+    }
+  },
+  "order": ["main"]
+}
