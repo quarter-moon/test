@@ -1,0 +1,169 @@
+{% comment %}
+  KOVA — main-policy.liquid
+  Generic rich-content section for policy pages:
+  Return Policy, Terms of Service, Privacy Policy, etc.
+  Controlled entirely via section settings + blocks.
+{% endcomment %}
+
+<style>
+  .kv-policy {
+    padding: 80px 24px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .kv-policy__title {
+    margin: 0 0 8px;
+  }
+
+  .kv-policy__intro {
+    color: var(--color-clay);
+    margin: 0 0 48px;
+  }
+
+  .kv-policy__heading {
+    margin: 40px 0 16px;
+  }
+
+  .kv-policy__heading:first-of-type {
+    margin-top: 0;
+  }
+
+  .kv-policy__text {
+    opacity: 0.85;
+    line-height: 1.8;
+    margin: 0;
+  }
+
+  .kv-policy__text p {
+    margin: 0 0 16px;
+  }
+
+  .kv-policy__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .kv-policy__text a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .kv-policy__text a:hover {
+    color: var(--color-clay);
+  }
+
+  .kv-policy__text ul,
+  .kv-policy__text ol {
+    margin: 0 0 16px;
+    padding-left: 20px;
+  }
+
+  .kv-policy__text li {
+    margin-bottom: 6px;
+    line-height: 1.7;
+  }
+
+  .kv-policy__highlight {
+    background: var(--color-stone);
+    border-left: 2px solid var(--color-clay);
+    padding: 24px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--color-ink);
+  }
+</style>
+
+<article class="kv-policy">
+
+  {%- if section.settings.page_title != blank -%}
+    <h1 class="t-h1 kv-policy__title">{{ section.settings.page_title }}</h1>
+  {%- endif -%}
+
+  {%- if section.settings.intro_text != blank -%}
+    <p class="t-body-lg kv-policy__intro">{{ section.settings.intro_text }}</p>
+  {%- endif -%}
+
+  {%- for block in section.blocks -%}
+
+    {%- case block.type -%}
+
+      {%- when 'heading' -%}
+        <h2 class="t-h3 kv-policy__heading" {{ block.shopify_attributes }}>
+          {{- block.settings.text -}}
+        </h2>
+
+      {%- when 'text' -%}
+        <div class="t-body kv-policy__text" {{ block.shopify_attributes }}>
+          {{- block.settings.content -}}
+        </div>
+
+      {%- when 'highlight' -%}
+        <div class="kv-policy__highlight t-body" {{ block.shopify_attributes }}>
+          {{- block.settings.text -}}
+        </div>
+
+    {%- endcase -%}
+
+  {%- endfor -%}
+
+</article>
+
+{% schema %}
+{
+  "name": "Policy Content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "Page title"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Intro text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "highlight",
+      "name": "Highlight",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Highlight text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Policy page"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,359 @@
+{% comment %}
+  KOVA — main-contact.liquid
+  Full contact page: hero + two-column form / info layout
+{% endcomment %}
+
+<style>
+  .kv-contact-hero {
+    height: 40vh;
+    min-height: 320px;
+    background: var(--color-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 24px;
+  }
+
+  .kv-contact-body {
+    padding: 80px 0;
+  }
+
+  .kv-contact-layout {
+    display: grid;
+    grid-template-columns: 60fr 40fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  @media (max-width: 1023px) {
+    .kv-contact-layout {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  /* Form */
+  .kv-contact-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .kv-contact-form__group:last-of-type {
+    margin-bottom: 32px;
+  }
+
+  .kv-contact-form label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+
+  .kv-contact-form input,
+  .kv-contact-form select,
+  .kv-contact-form textarea {
+    width: 100%;
+    background: var(--color-white);
+    border: 1px solid var(--color-mist);
+    padding: 14px 16px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    border-radius: 0;
+    transition: border-color 200ms ease;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .kv-contact-form input:focus,
+  .kv-contact-form select:focus,
+  .kv-contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color-ink);
+  }
+
+  .kv-contact-form input::placeholder,
+  .kv-contact-form textarea::placeholder {
+    color: rgba(26,26,26,0.35);
+  }
+
+  .kv-contact-form textarea {
+    resize: vertical;
+    min-height: 160px;
+  }
+
+  .kv-contact-form__select-wrap {
+    position: relative;
+  }
+
+  .kv-contact-form__select-wrap::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--color-ink);
+    pointer-events: none;
+  }
+
+  .kv-contact-form__errors {
+    background: rgba(192,57,43,0.06);
+    border: 1px solid var(--color-error);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: var(--color-error);
+    line-height: 1.6;
+  }
+
+  .kv-contact-form__errors ul {
+    margin: 0;
+    padding: 0 0 0 18px;
+  }
+
+  .kv-contact-form__success {
+    background: rgba(39,174,96,0.06);
+    border: 1px solid var(--color-success);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 14px;
+    color: var(--color-ink);
+    line-height: 1.6;
+  }
+
+  .kv-contact-form__success svg {
+    flex-shrink: 0;
+    color: var(--color-success);
+  }
+
+  /* Info cards */
+  .kv-contact-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .kv-contact-card {
+    background: var(--color-stone);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .kv-contact-card__icon {
+    width: 36px;
+    height: 36px;
+    color: var(--color-clay);
+    flex-shrink: 0;
+  }
+
+  .kv-contact-card__heading {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin: 0;
+  }
+
+  .kv-contact-card__detail {
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(26,26,26,0.75);
+    margin: 0;
+  }
+
+  .kv-contact-card__detail a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .kv-contact-card__detail a:hover {
+    color: var(--color-clay);
+  }
+
+  .kv-contact-card__hours {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--color-clay);
+    font-weight: 500;
+  }
+</style>
+
+{%- comment -%} Hero {%- endcomment -%}
+<div class="kv-contact-hero">
+  <h1 class="t-display" style="color: var(--color-white); margin: 0;">Get in touch</h1>
+  <p class="t-body-lg" style="color: var(--color-clay); margin: 0; max-width: 400px;">
+    We aim to respond within one business day.
+  </p>
+</div>
+
+{%- comment -%} Body {%- endcomment -%}
+<section class="kv-contact-body">
+  <div class="kv-container">
+    <div class="kv-contact-layout">
+
+      {%- comment -%} LEFT — Contact Form {%- endcomment -%}
+      <div class="kv-contact-form-col">
+
+        {%- form 'contact' -%}
+
+          {%- if form.posted_successfully? -%}
+            <div class="kv-contact-form__success" role="status">
+              <svg class="kv-contact-card__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <div>
+                <strong style="display:block; margin-bottom:4px;">Message sent — thank you.</strong>
+                A member of our team will be in touch within one business day.
+              </div>
+            </div>
+          {%- else -%}
+
+            {%- if form.errors -%}
+              <div class="kv-contact-form__errors" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <div class="kv-contact-form">
+
+              <div class="kv-contact-form__group">
+                <label for="ContactForm-name">Full name</label>
+                <input
+                  type="text"
+                  id="ContactForm-name"
+                  name="contact[name]"
+                  autocomplete="name"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                  placeholder="Your full name"
+                  required
+                >
+              </div>
+
+              <div class="kv-contact-form__group">
+                <label for="ContactForm-email">Email address</label>
+                <input
+                  type="email"
+                  id="ContactForm-email"
+                  name="contact[email]"
+                  autocomplete="email"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                  placeholder="hello@example.com"
+                  required
+                >
+              </div>
+
+              <div class="kv-contact-form__group">
+                <label for="ContactForm-subject">Subject</label>
+                <div class="kv-contact-form__select-wrap">
+                  <select id="ContactForm-subject" name="contact[subject]" required>
+                    <option value="" disabled selected>Select a topic</option>
+                    <option value="Order enquiry"{% if form.subject == 'Order enquiry' %} selected{% endif %}>Order enquiry</option>
+                    <option value="Returns & exchanges"{% if form.subject == 'Returns & exchanges' %} selected{% endif %}>Returns &amp; exchanges</option>
+                    <option value="Product question"{% if form.subject == 'Product question' %} selected{% endif %}>Product question</option>
+                    <option value="Press & wholesale"{% if form.subject == 'Press & wholesale' %} selected{% endif %}>Press &amp; wholesale</option>
+                    <option value="Other"{% if form.subject == 'Other' %} selected{% endif %}>Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="kv-contact-form__group">
+                <label for="ContactForm-body">Message</label>
+                <textarea
+                  id="ContactForm-body"
+                  name="contact[body]"
+                  rows="6"
+                  placeholder="Tell us how we can help you..."
+                  required
+                >{{- form.body -}}</textarea>
+              </div>
+
+              <button type="submit" class="kv-btn kv-btn--full">
+                Send message
+              </button>
+
+            </div>{%- comment -%} .kv-contact-form {%- endcomment -%}
+
+          {%- endif -%}
+
+        {%- endform -%}
+
+      </div>
+
+      {%- comment -%} RIGHT — Info cards {%- endcomment -%}
+      <aside class="kv-contact-cards">
+
+        {%- comment -%} Card 1: Customer service {%- endcomment -%}
+        <div class="kv-contact-card">
+          <svg class="kv-contact-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <p class="kv-contact-card__heading">Customer service</p>
+          <p class="kv-contact-card__hours">Mon–Fri, 9am–6pm CET</p>
+          <p class="kv-contact-card__detail">
+            <a href="mailto:hello@kova-studio.com">hello@kova-studio.com</a><br>
+            <a href="tel:+4533120000">+45 33 12 00 00</a>
+          </p>
+        </div>
+
+        {%- comment -%} Card 2: Copenhagen Studio {%- endcomment -%}
+        <div class="kv-contact-card">
+          <svg class="kv-contact-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <p class="kv-contact-card__heading">Copenhagen Studio</p>
+          <p class="kv-contact-card__detail">
+            Bredgade 45<br>
+            1260 Copenhagen K<br>
+            Denmark
+          </p>
+          <p class="kv-contact-card__detail" style="font-style:italic;">Visits by appointment only</p>
+        </div>
+
+        {%- comment -%} Card 3: Press & Wholesale {%- endcomment -%}
+        <div class="kv-contact-card">
+          <svg class="kv-contact-card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+          </svg>
+          <p class="kv-contact-card__heading">Press &amp; Wholesale</p>
+          <p class="kv-contact-card__detail">For media enquiries and B2B partnerships</p>
+          <p class="kv-contact-card__detail">
+            <a href="mailto:press@kova-studio.com">press@kova-studio.com</a>
+          </p>
+        </div>
+
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Contact page"
+    }
+  ]
+}
+{% endschema %}
