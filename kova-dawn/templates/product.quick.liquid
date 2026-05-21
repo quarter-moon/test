@@ -1,0 +1,164 @@
+{% layout none %}
+{%- liquid
+  assign color_opt = nil
+  assign size_opt = nil
+  for option in product.options_with_values
+    if option.name == 'Color' or option.name == 'Colour'
+      assign color_opt = option
+    endif
+    if option.name == 'Size'
+      assign size_opt = option
+    endif
+  endfor
+  assign first_variant = product.selected_or_first_available_variant
+-%}
+
+<div class="kv-qv">
+  <div class="kv-qv__img">
+    <img
+      id="kv-qv-main-img"
+      src="{{ product.featured_image | image_url: width: 600 }}"
+      alt="{{ product.featured_image.alt | default: product.title | escape }}"
+      width="600" height="800"
+      style="width:100%;height:100%;object-fit:cover;display:block;"
+    >
+  </div>
+
+  <div class="kv-qv__info">
+    <span class="t-micro" style="color:var(--color-clay);letter-spacing:0.12em;text-transform:uppercase;">{{ product.vendor }}</span>
+    <h2 class="t-h3" style="margin:8px 0 12px;font-size:clamp(20px,2vw,28px);">{{ product.title }}</h2>
+
+    <div class="kv-qv__price" style="font-size:18px;font-weight:500;margin-bottom:20px;display:flex;gap:12px;align-items:center;">
+      {%- if product.compare_at_price > product.price -%}
+        <span style="text-decoration:line-through;opacity:0.45;font-size:14px;">{{ product.compare_at_price | money }}</span>
+        <span style="color:#b84a4a;">{{ product.price | money }}</span>
+      {%- else -%}
+        <span>{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if color_opt != nil -%}
+      <div style="margin-bottom:14px;">
+        <span class="t-micro" style="letter-spacing:0.1em;text-transform:uppercase;">Colour: </span>
+        <span class="t-micro" id="kv-qv-color-label" style="font-weight:600;">{{ color_opt.selected_value }}</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;">
+        {%- for val in color_opt.values -%}
+          {%- assign sw_img = '' -%}
+          {%- for variant in product.variants -%}
+            {%- if variant.option1 == val or variant.option2 == val -%}
+              {%- if variant.image != blank -%}
+                {%- assign sw_img = variant.image | image_url: width: 600 -%}
+              {%- endif -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign sw_hex = val | downcase | replace: ' ', '' -%}
+          <button
+            type="button"
+            class="kv-swatch{% if forloop.first %} is-active{% endif %}"
+            style="width:28px;height:28px;border-radius:50%;border:2px solid {% if forloop.first %}var(--color-ink){% else %}transparent{% endif %};background:{{ val | downcase }};cursor:pointer;outline:2px solid var(--color-mist);outline-offset:1px;"
+            data-color="{{ val }}"
+            data-img="{{ sw_img }}"
+            title="{{ val }}"
+            aria-label="{{ val }}"
+          ></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- form 'product', product, id: 'kv-qv-form' -%}
+      <input type="hidden" name="id" id="kv-qv-vid" value="{{ first_variant.id }}">
+
+      {%- if size_opt != nil -%}
+        <div style="margin-bottom:20px;">
+          <div class="t-micro" style="letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">Size</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            {%- for val in size_opt.values -%}
+              {%- assign sz_vid = '' -%}
+              {%- assign sz_avail = false -%}
+              {%- for variant in product.variants -%}
+                {%- assign matches = false -%}
+                {%- if product.options.size == 1 and variant.option1 == val -%}
+                  {%- assign matches = true -%}
+                {%- elsif product.options.size >= 2 -%}
+                  {%- if variant.option1 == val or variant.option2 == val -%}
+                    {%- assign matches = true -%}
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if matches -%}
+                  {%- if variant.available -%}
+                    {%- assign sz_avail = true -%}
+                    {%- assign sz_vid = variant.id -%}
+                  {%- endif -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <button
+                type="button"
+                class="kv-size{% if forloop.first %} is-active{% endif %}"
+                style="min-width:44px;height:44px;padding:0 10px;border:1px solid {% if forloop.first %}var(--color-ink){% else %}var(--color-mist){% endif %};font-family:var(--font-body);font-size:12px;letter-spacing:0.06em;cursor:{% unless sz_avail %}not-allowed{% else %}pointer{% endunless %};background:{% if forloop.first %}var(--color-ink){% else %}var(--color-white){% endif %};color:{% if forloop.first %}var(--color-white){% else %}var(--color-ink){% endif %};opacity:{% unless sz_avail %}0.35{% else %}1{% endunless %};"
+                data-variant-id="{{ sz_vid }}"
+                {% unless sz_avail %}disabled aria-disabled="true"{% endunless %}
+              >{{ val }}</button>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <button type="submit" class="kv-btn" style="width:100%;" data-add-to-cart>
+        Add to cart &mdash; {{ product.price | money }}
+      </button>
+    {%- endform -%}
+
+    <a href="{{ product.url }}" style="display:block;text-align:center;margin-top:14px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.55;">View full details &rarr;</a>
+  </div>
+</div>
+
+<style>
+.kv-qv { display:grid; grid-template-columns:1fr 1fr; }
+.kv-qv__img { aspect-ratio:3/4; overflow:hidden; background:var(--color-stone); }
+.kv-qv__info { padding:36px 28px; display:flex; flex-direction:column; justify-content:center; overflow-y:auto; }
+.kv-swatch.is-active { border-color:var(--color-ink) !important; }
+.kv-size.is-active { background:var(--color-ink) !important; color:var(--color-white) !important; border-color:var(--color-ink) !important; }
+@media (max-width:600px) { .kv-qv { grid-template-columns:1fr; } .kv-qv__img { aspect-ratio:4/3; max-height:260px; } }
+</style>
+
+<script>
+(function(){
+  var mainImg = document.getElementById('kv-qv-main-img');
+  var colorLabel = document.getElementById('kv-qv-color-label');
+  var vidInput = document.getElementById('kv-qv-vid');
+
+  // Colour swatch swap
+  document.querySelectorAll('.kv-qv .kv-swatch').forEach(function(sw) {
+    sw.addEventListener('click', function() {
+      document.querySelectorAll('.kv-qv .kv-swatch').forEach(function(s) {
+        s.style.borderColor = 'transparent';
+        s.classList.remove('is-active');
+      });
+      sw.style.borderColor = 'var(--color-ink)';
+      sw.classList.add('is-active');
+      if (colorLabel) colorLabel.textContent = sw.dataset.color;
+      if (mainImg && sw.dataset.img) mainImg.src = sw.dataset.img;
+    });
+  });
+
+  // Size selection
+  document.querySelectorAll('.kv-qv .kv-size').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.kv-qv .kv-size').forEach(function(b) {
+        b.style.background = 'var(--color-white)';
+        b.style.color = 'var(--color-ink)';
+        b.style.borderColor = 'var(--color-mist)';
+        b.classList.remove('is-active');
+      });
+      btn.style.background = 'var(--color-ink)';
+      btn.style.color = 'var(--color-white)';
+      btn.style.borderColor = 'var(--color-ink)';
+      btn.classList.add('is-active');
+      if (vidInput && btn.dataset.variantId) vidInput.value = btn.dataset.variantId;
+    });
+  });
+})();
+</script>

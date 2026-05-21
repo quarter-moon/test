@@ -626,7 +626,7 @@
                 {%- comment -%} Quick shop — "Quick shop" not "Quick View" {%- endcomment -%}
                 <button
                   class="kv-col-card__qs"
-                  data-quick-shop="{{ product.handle }}"
+                  data-quick-view="{{ product.handle }}"
                   data-product-url="{{ product.url }}"
                   aria-label="Quick shop {{ product.title | escape }}"
                 >
@@ -651,12 +651,35 @@
                 </div>
                 {%- if color_option -%}
                   <div class="kv-col-card__swatches">
+                    {%- comment -%} Color name → CSS hex map for known KOVA palette {%- endcomment -%}
+                    {%- assign kv_cmap = 'black|#1a1a18,white|#ffffff,ivory|#f5f0e8,ivory white|#f5f0e8,ecru|#e8e0ce,camel|#c4a882,sand|#d4c4a8,stone|#f5f3ef,slate|#6b7888,grey|#9a9a9a,gray|#9a9a9a,charcoal|#4a4a4a,navy|#1a2744,forest|#3d5c3e,forest green|#3d5c3e,sage|#6b7c6e,olive|#707840,burgundy|#7a2040,clay|#c4a882,blush|#e8c4b8,cream|#f5eed8,midnight|#1a1a2e,brown|#8b5e35,oat|#d8cebe,chalk|#f0ede8,cobalt|#1a3a6e,rust|#b84a2a' | split: ',' -%}
                     {%- for value in color_option.values limit: 5 -%}
+                      {%- assign sw_img = '' -%}
+                      {%- for variant in product.variants -%}
+                        {%- if variant.option1 == value or variant.option2 == value -%}
+                          {%- if variant.image != blank -%}
+                            {%- assign sw_img = variant.image | image_url: width: 600 -%}
+                          {%- elsif product.featured_image != blank -%}
+                            {%- assign sw_img = product.featured_image | image_url: width: 600 -%}
+                          {%- endif -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- assign sw_hex = value | downcase -%}
+                      {%- for centry in kv_cmap -%}
+                        {%- assign cparts = centry | split: '|' -%}
+                        {%- if cparts[0] == sw_hex -%}
+                          {%- assign sw_hex = cparts[1] -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
                       <button
                         class="kv-swatch{% if forloop.first %} is-active{% endif %}"
-                        style="background:{{ value | downcase }};"
+                        style="background:{{ sw_hex }};"
                         aria-label="{{ value }}"
                         title="{{ value }}"
+                        data-color="{{ value }}"
+                        data-img="{{ sw_img }}"
                       ></button>
                     {%- endfor -%}
                     {%- if color_option.values.size > 5 -%}

@@ -254,14 +254,22 @@
     }
   });
 
-  // ── Color swatch selection ────────────────────────────────────
+  // ── Color swatch selection (collection cards) ──────────────────
   document.addEventListener('click', (e) => {
     const swatch = e.target.closest('.kv-swatch');
     if (!swatch) return;
-    const group = swatch.closest('.swatches, .kv-card__swatches');
-    if (!group) return;
-    group.querySelectorAll('.kv-swatch').forEach(s => s.classList.remove('is-active'));
+    const swatchGroup = swatch.closest('.kv-col-card__swatches, .kv-card__swatches, .swatches');
+    if (!swatchGroup) return;
+    swatchGroup.querySelectorAll('.kv-swatch').forEach(s => s.classList.remove('is-active'));
     swatch.classList.add('is-active');
+    // Swap card image if data-img present
+    if (swatch.dataset.img) {
+      const wrap = swatch.closest('.kv-col-card, article');
+      if (wrap) {
+        const mainImg = wrap.querySelector('.kv-col-card__img--main, .kv-card__img--main');
+        if (mainImg) mainImg.src = swatch.dataset.img;
+      }
+    }
   });
 
   // ── Accordion ─────────────────────────────────────────────────
