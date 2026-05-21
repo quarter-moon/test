@@ -1,0 +1,227 @@
+{%- assign blog_handle = section.settings.blog -%}
+{%- assign kv_blog = blogs[blog_handle] -%}
+{%- assign has_articles = false -%}
+{%- if kv_blog != blank and kv_blog.articles.size > 0 -%}
+  {%- assign has_articles = true -%}
+{%- endif -%}
+
+<style>
+  .kv-blog-preview { padding: 96px 0; background: var(--color-stone); }
+  @media (max-width: 767px) { .kv-blog-preview { padding: 64px 0; } }
+
+  .kv-blog-preview__head { margin-bottom: 48px; }
+  .kv-blog-preview__label { display: block; margin-bottom: 12px; color: var(--color-clay); }
+  .kv-blog-preview__heading { margin: 0; }
+
+  .kv-blog-preview__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 1023px) {
+    .kv-blog-preview__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 599px) {
+    .kv-blog-preview__grid { grid-template-columns: 1fr; }
+  }
+
+  .kv-article-card { display: flex; flex-direction: column; }
+
+  .kv-article-card__img-wrap {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-mist);
+    display: block;
+  }
+  .kv-article-card__img-wrap img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 600ms ease;
+    display: block;
+  }
+  .kv-article-card:hover .kv-article-card__img-wrap img { transform: scale(1.04); }
+  .kv-article-card__ph {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 300;
+    font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(26,26,26,0.4);
+    background-image:
+      radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,0.7), transparent 60%),
+      linear-gradient(180deg, var(--color-mist) 0%, #DDD8CF 100%);
+    padding: 24px; text-align: center;
+  }
+
+  .kv-article-card__body { padding: 20px 0 0; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .kv-article-card__tag { color: var(--color-clay); letter-spacing: 0.12em; }
+  .kv-article-card__title {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(20px, 2vw, 26px);
+    line-height: 1.2; margin: 0;
+    color: var(--color-ink);
+    text-decoration: none; display: block;
+  }
+  .kv-article-card__title:hover { opacity: 0.75; }
+  .kv-article-card__excerpt { opacity: 0.75; margin: 0; }
+  .kv-article-card__more {
+    display: inline-block;
+    margin-top: auto; padding-top: 6px;
+    letter-spacing: 0.1em;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: opacity 150ms ease;
+  }
+  .kv-article-card__more:hover { opacity: 0.6; }
+
+  .kv-blog-preview__footer { margin-top: 56px; text-align: center; }
+</style>
+
+<section class="kv-blog-preview">
+  <div class="kv-container">
+
+    <header class="kv-blog-preview__head">
+      {%- if section.settings.label != blank -%}
+        <span class="t-micro kv-blog-preview__label">{{ section.settings.label }}</span>
+      {%- endif -%}
+      <h2 class="t-h2 kv-blog-preview__heading">{{ section.settings.heading }}</h2>
+    </header>
+
+    <div class="kv-blog-preview__grid">
+
+      {%- if has_articles -%}
+
+        {%- for article in kv_blog.articles limit: 3 -%}
+          <article class="kv-article-card">
+            <a class="kv-article-card__img-wrap" href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+              {%- if article.image -%}
+                {{ article.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: article.title }}
+              {%- else -%}
+                <div class="kv-article-card__ph">{{ article.title }}</div>
+              {%- endif -%}
+            </a>
+            <div class="kv-article-card__body">
+              <span class="t-micro kv-article-card__tag">
+                {%- if article.tags.size > 0 -%}
+                  {{ article.tags.first }}
+                {%- else -%}
+                  Journal
+                {%- endif -%}
+              </span>
+              <a class="kv-article-card__title" href="{{ article.url }}">
+                <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">{{ article.title }}</h3>
+              </a>
+              <p class="t-body kv-article-card__excerpt">
+                {{ article.excerpt | strip_html | truncate: 100 }}
+              </p>
+              <a class="t-small kv-article-card__more" href="{{ article.url }}">Read more &rarr;</a>
+            </div>
+          </article>
+        {%- endfor -%}
+
+      {%- else -%}
+
+        {%- comment -%} Demo article 1 {%- endcomment -%}
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="On choosing a loom over a machine">
+            <img
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=700&q=85"
+              alt="On choosing a loom over a machine"
+              loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Craft</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">On choosing a loom over a machine</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">We visited the Donegal tweed mill that weaves our autumn wool &mdash; a family operation that has run the same looms since 1947.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+        {%- comment -%} Demo article 2 {%- endcomment -%}
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="Why we only use GOTS-certified cotton">
+            <img
+              src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=700&q=85"
+              alt="Why we only use GOTS-certified cotton"
+              loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Materials</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">Why we only use GOTS-certified cotton</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">The certification process takes three years. We think it is worth every day of it. Here is what it actually means for your wardrobe.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+        {%- comment -%} Demo article 3 {%- endcomment -%}
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="A week in the Porto atelier">
+            <img
+              src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=700&q=85"
+              alt="A week in the Porto atelier"
+              loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Behind the Seams</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">A week in the Porto atelier</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">Four days with the hands that make our shirts. We documented every step &mdash; from the first pattern cut to the final press.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+      {%- endif -%}
+
+    </div>
+
+    <div class="kv-blog-preview__footer">
+      {%- if has_articles -%}
+        <a class="kv-btn kv-btn--out" href="{{ kv_blog.url }}">View all stories &rarr;</a>
+      {%- else -%}
+        <a class="kv-btn kv-btn--out" href="/blogs/news">View all stories &rarr;</a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog preview",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Journal"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Considered reading"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog preview",
+      "settings": {
+        "label": "Journal",
+        "heading": "Considered reading"
+      }
+    }
+  ]
+}
+{% endschema %}
