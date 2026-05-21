@@ -108,6 +108,14 @@
       },
       "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"]
     },
+    "journal": {
+      "type": "blog-preview",
+      "settings": {
+        "label": "Journal",
+        "heading": "Considered reading",
+        "blog": "news"
+      }
+    },
     "email": {
       "type": "email-capture",
       "settings": {
@@ -127,6 +135,7 @@
     "bestsellers",
     "statement",
     "ugc",
+    "journal",
     "email"
   ]
 }

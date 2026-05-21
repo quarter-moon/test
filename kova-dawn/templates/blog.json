@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "subtext": "Long reads on craft, materials, and the people behind the pieces."
+      }
+    }
+  },
+  "order": ["main"]
+}
