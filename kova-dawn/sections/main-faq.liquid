@@ -1,0 +1,402 @@
+{% comment %}
+  VELD — main-faq.liquid
+  FAQ page with hero, category quick-links, and CSS accordion
+  (details/summary — no JS required).
+  Demo content is hard-coded in Liquid.
+{% endcomment %}
+
+<style>
+  /* ── Hero ── */
+  .kv-faq-hero {
+    height: 40vh;
+    min-height: 320px;
+    background: var(--color-ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    padding: 0 24px;
+  }
+
+  /* ── Body layout ── */
+  .kv-faq-body {
+    padding: 80px 0;
+  }
+
+  .kv-faq-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  @media (max-width: 1023px) {
+    .kv-faq-layout {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  /* ── Quick-links sidebar ── */
+  .kv-faq-links {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+  }
+
+  .kv-faq-links__label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(26,26,26,0.5);
+    margin: 0 0 20px;
+  }
+
+  .kv-faq-links__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .kv-faq-links__list a {
+    display: block;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: border-color 150ms ease, color 150ms ease;
+  }
+
+  .kv-faq-links__list a:hover {
+    border-left-color: var(--color-clay);
+    color: var(--color-ink);
+  }
+
+  @media (max-width: 1023px) {
+    .kv-faq-links {
+      position: static;
+    }
+
+    .kv-faq-links__list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .kv-faq-links__list a {
+      border: 1px solid var(--color-mist);
+      border-left: 1px solid var(--color-mist);
+      padding: 8px 14px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+    }
+
+    .kv-faq-links__list a:hover {
+      border-color: var(--color-ink);
+    }
+  }
+
+  /* ── FAQ groups ── */
+  .kv-faq-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .kv-faq-group__title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-clay);
+    margin: 0 0 8px;
+    scroll-margin-top: calc(var(--nav-h) + 48px);
+  }
+
+  /* ── Accordion (details/summary, no JS) ── */
+  .kv-faq-accordion {
+    border-top: 1px solid var(--color-mist);
+  }
+
+  .kv-faq-item {
+    border-bottom: 1px solid var(--color-mist);
+  }
+
+  .kv-faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-ink);
+    user-select: none;
+    -webkit-user-select: none;
+    transition: color 150ms ease;
+  }
+
+  .kv-faq-item summary::-webkit-details-marker { display: none; }
+  .kv-faq-item summary::marker { display: none; }
+
+  .kv-faq-item summary:hover {
+    color: rgba(26,26,26,0.7);
+  }
+
+  .kv-faq-item summary:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  .kv-faq-item__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    color: var(--color-clay);
+  }
+
+  .kv-faq-item__icon::before,
+  .kv-faq-item__icon::after {
+    content: "";
+    position: absolute;
+    background: currentColor;
+    border-radius: 1px;
+    transition: transform 250ms ease, opacity 200ms ease;
+  }
+
+  .kv-faq-item__icon::before {
+    width: 12px;
+    height: 1.5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .kv-faq-item__icon::after {
+    width: 1.5px;
+    height: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .kv-faq-item[open] summary .kv-faq-item__icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+    opacity: 0;
+  }
+
+  .kv-faq-item__answer {
+    padding: 0 0 20px 0;
+    font-size: 14px;
+    line-height: 1.75;
+    color: rgba(26,26,26,0.72);
+    max-width: 640px;
+  }
+</style>
+
+{%- comment -%} Hero {%- endcomment -%}
+<div class="kv-faq-hero">
+  <h1 class="t-display" style="color: var(--color-white); margin: 0;">Frequently asked questions</h1>
+  <p class="t-body-lg" style="color: var(--color-clay); margin: 0; max-width: 440px;">
+    Everything you need to know about VELD.
+  </p>
+</div>
+
+{%- comment -%} FAQ Body {%- endcomment -%}
+<section class="kv-faq-body">
+  <div class="kv-container">
+    <div class="kv-faq-layout">
+
+      {%- comment -%} Quick links {%- endcomment -%}
+      <nav class="kv-faq-links" aria-label="FAQ categories">
+        <p class="kv-faq-links__label">Quick links</p>
+        <ul class="kv-faq-links__list">
+          <li><a href="#faq-ordering">Ordering &amp; Payment</a></li>
+          <li><a href="#faq-shipping">Shipping &amp; Delivery</a></li>
+          <li><a href="#faq-returns">Returns &amp; Exchanges</a></li>
+          <li><a href="#faq-product">Product &amp; Care</a></li>
+        </ul>
+      </nav>
+
+      {%- comment -%} Accordion groups {%- endcomment -%}
+      <div class="kv-faq-groups">
+
+        {%- comment -%} ── Ordering & Payment ── {%- endcomment -%}
+        <div class="kv-faq-group" id="faq-ordering">
+          <p class="kv-faq-group__title">Ordering &amp; Payment</p>
+          <div class="kv-faq-accordion">
+
+            <details class="kv-faq-item">
+              <summary>
+                What payment methods do you accept?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                We accept all major credit cards (Visa, Mastercard, Amex), PayPal, Apple Pay, and Google Pay. All transactions are processed securely via Stripe.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                Can I change or cancel my order?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Orders can be modified or cancelled within 2 hours of placement. After this window, our fulfilment team will have already processed it. Contact us at <a href="mailto:hello@veld-studio.com">hello@veld-studio.com</a> immediately.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                Do you offer gift wrapping?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Yes — VELD pieces ship in our signature kraft tissue with a hand-tied cotton ribbon. Add a personal note at checkout. Gift wrapping is complimentary.
+              </p>
+            </details>
+
+          </div>
+        </div>
+
+        {%- comment -%} ── Shipping & Delivery ── {%- endcomment -%}
+        <div class="kv-faq-group" id="faq-shipping">
+          <p class="kv-faq-group__title">Shipping &amp; Delivery</p>
+          <div class="kv-faq-accordion">
+
+            <details class="kv-faq-item">
+              <summary>
+                How long does delivery take?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Standard delivery is 3–5 business days within the EU, 5–8 days to the UK, and 7–12 days internationally. Express options are available at checkout.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                Do you ship worldwide?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                We ship to over 60 countries. Duties and taxes for non-EU destinations are the responsibility of the customer and are calculated at checkout.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                Is shipping free?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Complimentary standard shipping on all EU orders over €150. UK and international orders over €200 also qualify.
+              </p>
+            </details>
+
+          </div>
+        </div>
+
+        {%- comment -%} ── Returns & Exchanges ── {%- endcomment -%}
+        <div class="kv-faq-group" id="faq-returns">
+          <p class="kv-faq-group__title">Returns &amp; Exchanges</p>
+          <div class="kv-faq-accordion">
+
+            <details class="kv-faq-item">
+              <summary>
+                What is your returns policy?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                We offer free returns within 30 days of delivery for EU customers. Items must be unworn, unwashed, and in original packaging. Sale items are final sale.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                How do I start a return?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Log into your account and select the order and items to return. Print the prepaid label, pack securely, and drop off at any DHL ServicePoint.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                When will I receive my refund?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Refunds are processed within 5–7 business days of us receiving your return. You'll receive an email confirmation at each step.
+              </p>
+            </details>
+
+          </div>
+        </div>
+
+        {%- comment -%} ── Product & Care ── {%- endcomment -%}
+        <div class="kv-faq-group" id="faq-product">
+          <p class="kv-faq-group__title">Product &amp; Care</p>
+          <div class="kv-faq-accordion">
+
+            <details class="kv-faq-item">
+              <summary>
+                How do I care for my VELD pieces?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Each garment includes specific care instructions on the label. As a rule: natural fibres benefit from gentle hand wash or machine delicate at 30°C, laid flat to dry.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                Are your materials certified?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Yes. We work exclusively with GOTS-certified organic cotton, OEKO-TEX® certified wool, and Bluesign® approved linen. Every fibre is traceable to source.
+              </p>
+            </details>
+
+            <details class="kv-faq-item">
+              <summary>
+                How do I find my size?
+                <span class="kv-faq-item__icon" aria-hidden="true"></span>
+              </summary>
+              <p class="kv-faq-item__answer t-body">
+                Visit our <a href="/pages/size-guide">Size Guide</a> for full measurements. Our pieces are cut with a relaxed, European fit — if in doubt between sizes, size down in jersey and size up in woven.
+              </p>
+            </details>
+
+          </div>
+        </div>
+
+      </div>{%- comment -%} .kv-faq-groups {%- endcomment -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [],
+  "presets": [
+    {
+      "name": "FAQ page"
+    }
+  ]
+}
+{% endschema %}

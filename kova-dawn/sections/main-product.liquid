@@ -1,0 +1,454 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price > product.price -%}
+  {%- assign on_sale = true -%}
+{%- endif -%}
+
+<div class="kv-container">
+
+  {%- comment -%} Breadcrumb {%- endcomment -%}
+  <nav style="padding-top:28px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}" style="color:var(--color-ink);text-decoration:none;">Home</a>
+    &nbsp;/&nbsp;
+    {%- if product.collections.first -%}
+      <a href="{{ product.collections.first.url }}" style="color:var(--color-ink);text-decoration:none;">{{ product.collections.first.title }}</a>
+      &nbsp;/&nbsp;
+    {%- endif -%}
+    <span>{{ product.title }}</span>
+  </nav>
+
+  <div class="kv-pdp">
+
+    {%- comment -%} Gallery: thumb strip + main image (desktop) + carousel (mobile) {%- endcomment -%}
+    <div class="kv-pdp__gallery">
+
+      <div class="kv-pdp__thumbs" role="list" aria-label="Product images">
+        {%- for image in product.images limit: 6 -%}
+          <button
+            type="button"
+            class="kv-pdp__thumb{% if forloop.first %} is-active{% endif %}"
+            data-thumb-index="{{ forloop.index0 }}"
+            aria-label="View image {{ forloop.index }}"
+          >
+            <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape | default: product.title }}" width="80" height="107" loading="lazy">
+          </button>
+        {%- endfor -%}
+      </div>
+
+      <div class="kv-pdp__main">
+        {%- if product.featured_image -%}
+          <img
+            id="kv-pdp-main-img"
+            src="{{ product.featured_image | image_url: width: 1000 }}"
+            alt="{{ product.featured_image.alt | escape | default: product.title }}"
+            width="1000" height="1333"
+            loading="eager"
+          >
+        {%- else -%}
+          <div class="kv-ph">{{ product.title }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="kv-pdp__car" aria-label="Product images">
+        <div class="kv-pdp__car-track" id="kv-pdp-car-track">
+          {%- for image in product.images limit: 6 -%}
+            <div class="kv-pdp__car-slide">
+              <img src="{{ image | image_url: width: 900 }}" alt="{{ image.alt | escape | default: product.title }}" width="900" height="1200" loading="lazy">
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- if product.images.size > 1 -%}
+          <div class="kv-pdp__dots" role="tablist">
+            {%- for image in product.images limit: 6 -%}
+              <button type="button" class="kv-pdp__dot{% if forloop.first %} is-active{% endif %}" data-dot-index="{{ forloop.index0 }}" aria-label="Go to image {{ forloop.index }}"></button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    {%- comment -%} Info column {%- endcomment -%}
+    <div class="kv-pdp__info">
+
+      <span class="t-micro" style="color:var(--color-clay);">{{ product.vendor }}</span>
+      <h1 class="t-h1" style="margin:0;">{{ product.title }}</h1>
+
+      <div class="kv-pdp__rating">
+        <span class="kv-pdp__stars" aria-label="4.8 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <a href="#kv-pdp-tab-description">4.8 &middot; 124 reviews</a>
+      </div>
+
+      <div class="kv-pdp__price">
+        {%- if on_sale -%}
+          <span class="kv-pdp__price--sale">{{ current_variant.price | money }}</span>
+          <span class="kv-pdp__price--was">{{ current_variant.compare_at_price | money }}</span>
+          {%- assign saving = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+          <span class="kv-pdp__price--badge">&minus;{{ saving }}%</span>
+        {%- else -%}
+          <span>{{ current_variant.price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Tabs: Description / Materials / Shipping {%- endcomment -%}
+      <div class="kv-pdp__tabs">
+        <nav class="kv-pdp__tab-nav" role="tablist">
+          <button type="button" class="kv-pdp__tab-btn is-active" data-tab="description" role="tab" aria-selected="true">Description</button>
+          <button type="button" class="kv-pdp__tab-btn" data-tab="materials" role="tab" aria-selected="false">Materials &amp; Care</button>
+          <button type="button" class="kv-pdp__tab-btn" data-tab="shipping" role="tab" aria-selected="false">Shipping</button>
+        </nav>
+
+        <div class="kv-pdp__tab-panel is-active" data-panel="description" id="kv-pdp-tab-description" role="tabpanel">
+          {%- if product.description != blank -%}
+            {{ product.description }}
+          {%- else -%}
+            <p>Considered design, deliberate construction. This piece was conceived without reference to any trend calendar &mdash; only to the question of whether it would still feel essential in ten years.</p>
+          {%- endif -%}
+        </div>
+
+        <div class="kv-pdp__tab-panel" data-panel="materials" role="tabpanel">
+          {%- if product.metafields.custom.materials != blank -%}
+            {{ product.metafields.custom.materials }}
+          {%- else -%}
+            <ul>
+              <li>100% traceable natural fibres &mdash; certified to GOTS or OEKO-TEX Standard 100</li>
+              <li>Produced in a certified facility in Portugal with fair working conditions</li>
+              <li>Hand wash cold or dry clean only</li>
+              <li>Do not tumble dry &mdash; lay flat to dry</li>
+              <li>Cool iron on reverse if needed</li>
+            </ul>
+          {%- endif -%}
+        </div>
+
+        <div class="kv-pdp__tab-panel" data-panel="shipping" role="tabpanel">
+          <ul>
+            <li><strong>Free standard shipping</strong> on orders over {{ section.settings.free_shipping_threshold | default: '$150' }}</li>
+            <li>Standard delivery: 3&ndash;5 business days (EU &amp; UK), 5&ndash;10 business days (Rest of World)</li>
+            <li>Express options available at checkout</li>
+          </ul>
+          <p><strong>Free returns within 30 days.</strong> Pieces must be unworn with original tags attached.</p>
+        </div>
+      </div>
+
+      {%- form 'product', product, id: 'kv-pdp-form' -%}
+        <input type="hidden" name="id" id="kv-pdp-vid" value="{{ current_variant.id }}">
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            {%- assign opt_is_color = false -%}
+            {%- if option.name == 'Color' or option.name == 'Colour' -%}
+              {%- assign opt_is_color = true -%}
+            {%- endif -%}
+            {%- assign opt_is_size = false -%}
+            {%- if option.name == 'Size' or option.name == 'size' -%}
+              {%- assign opt_is_size = true -%}
+            {%- endif -%}
+
+            <div class="kv-pdp__opt">
+              <div class="kv-pdp__opt-label">
+                <span>{{ option.name }}{%- if opt_is_color -%}: <span class="val" data-opt-display="{{ option.position }}">{{ option.selected_value }}</span>{%- endif -%}</span>
+                {%- if opt_is_size -%}
+                  <button type="button" class="kv-pdp__size-guide-btn" data-open-size-guide>Size guide</button>
+                {%- endif -%}
+              </div>
+
+              {%- if opt_is_color -%}
+                <div class="kv-pdp__swatches">
+                  {%- for value in option.values -%}
+                    <button
+                      type="button"
+                      class="kv-pdp__swatch{% if value == option.selected_value %} is-sel{% endif %}"
+                      data-opt-pos="{{ option.position }}"
+                      data-opt-val="{{ value | escape }}"
+                      style="background: {{ value | downcase }};"
+                      title="{{ value }}"
+                      aria-label="{{ value }}"
+                    ></button>
+                  {%- endfor -%}
+                </div>
+              {%- else -%}
+                <div class="kv-pdp__sizes">
+                  {%- for value in option.values -%}
+                    <button
+                      type="button"
+                      class="kv-pdp__size-btn{% if value == option.selected_value %} is-sel{% endif %}"
+                      data-opt-pos="{{ option.position }}"
+                      data-opt-val="{{ value | escape }}"
+                    >{{ value }}</button>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <div class="kv-pdp__qty-row" style="margin-top:8px;">
+          <div class="kv-pdp__qty">
+            <button type="button" id="kv-pdp-qty-minus" aria-label="Decrease quantity">&minus;</button>
+            <input type="number" name="quantity" id="kv-pdp-qty" value="1" min="1" max="10" aria-label="Quantity">
+            <button type="button" id="kv-pdp-qty-plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button
+            type="submit"
+            name="add"
+            id="kv-pdp-atc"
+            class="kv-btn kv-btn--full kv-btn--lg"
+            {%- unless current_variant.available -%} disabled{%- endunless -%}
+          >
+            {%- if current_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+          </button>
+        </div>
+      {%- endform -%}
+
+      <button type="button" class="kv-pdp__wish" data-wishlist aria-label="Save to wishlist">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="kv-pdp__wish-label">Save to Wishlist</span>
+      </button>
+
+      <div class="kv-pdp__trust" role="list">
+        <div class="kv-pdp__trust-item" role="listitem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+          Free Shipping
+        </div>
+        <div class="kv-pdp__trust-item" role="listitem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 14.85-6.85L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-14.85 6.85L3 16"/><path d="M3 21v-5h5"/></svg>
+          Free Returns
+        </div>
+        <div class="kv-pdp__trust-item" role="listitem">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Secure Checkout
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+{%- comment -%} Size guide modal {%- endcomment -%}
+<div class="kv-modal-overlay" id="kv-size-guide-overlay" role="dialog" aria-modal="true" aria-label="Size guide">
+  <div class="kv-modal-box">
+    <div class="kv-modal-box__head">
+      <h3 class="t-h3" style="margin:0;">Size Guide</h3>
+      <button type="button" class="kv-modal-box__close" data-close-size-guide aria-label="Close">&times;</button>
+    </div>
+    <table class="kv-size-table">
+      <thead>
+        <tr><th>Size</th><th>UK</th><th>EU</th><th>Bust</th><th>Waist</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>XS</td><td>6</td><td>34</td><td>80cm</td><td>60cm</td></tr>
+        <tr><td>S</td><td>8</td><td>36</td><td>84cm</td><td>64cm</td></tr>
+        <tr><td>M</td><td>10&ndash;12</td><td>38&ndash;40</td><td>90cm</td><td>70cm</td></tr>
+        <tr><td>L</td><td>14</td><td>42</td><td>96cm</td><td>76cm</td></tr>
+        <tr><td>XL</td><td>16</td><td>44</td><td>102cm</td><td>82cm</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#777;margin-top:18px;">Body measurements in centimetres. Between sizes? Size up for a relaxed drape, down for a closer fit.</p>
+  </div>
+</div>
+
+{%- comment -%} You may also like {%- endcomment -%}
+{%- if section.settings.show_recommendations -%}
+  <section class="kv-pdp__recs" aria-label="You may also like">
+    <div class="kv-container">
+      <header class="kv-section-head">
+        <div class="kv-section-head__title">
+          <span class="t-micro" style="color:var(--color-clay);">Curated for you</span>
+          <h2 class="t-h2">{{ section.settings.recommendations_heading }}</h2>
+        </div>
+      </header>
+      <div class="kv-grid" id="kv-pdp-recs"
+        data-recs-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&amp;product_id={{ product.id }}&amp;limit=4">
+        {%- if recommendations.performed and recommendations.products_count > 0 -%}
+          {%- for rec in recommendations.products limit: 4 -%}
+            {%- render 'product-card', product: rec -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<script>
+(function () {
+  var variantData = {{ product.variants | json }};
+  var selected = {};
+  {%- for option in product.options_with_values -%}
+  selected[{{ option.position }}] = {{ option.selected_value | json }};
+  {%- endfor -%}
+
+  function findVariant() {
+    return variantData.find(function (v) {
+      return v.options.every(function (o, i) { return o === selected[i + 1]; });
+    });
+  }
+
+  function updateVariant() {
+    var v = findVariant();
+    if (!v) return;
+    var idInput = document.getElementById('kv-pdp-vid');
+    var atc = document.getElementById('kv-pdp-atc');
+    if (idInput) idInput.value = v.id;
+    if (atc) {
+      atc.disabled = !v.available;
+      atc.textContent = v.available ? 'Add to Cart' : 'Sold Out';
+    }
+    if (v.featured_image) {
+      var mainImg = document.getElementById('kv-pdp-main-img');
+      if (mainImg) mainImg.src = v.featured_image.src.replace(/_\d+x(?=\.\w+($|\?))/, '_1000x');
+    }
+  }
+
+  // Swatch / size selection
+  document.querySelectorAll('.kv-pdp__swatch, .kv-pdp__size-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var pos = parseInt(this.dataset.optPos, 10);
+      var val = this.dataset.optVal;
+      selected[pos] = val;
+      document.querySelectorAll('[data-opt-pos="' + pos + '"]').forEach(function (b) {
+        b.classList.toggle('is-sel', b.dataset.optVal === val);
+      });
+      var label = document.querySelector('[data-opt-display="' + pos + '"]');
+      if (label) label.textContent = val;
+      updateVariant();
+    });
+  });
+
+  // Quantity stepper
+  var qty = document.getElementById('kv-pdp-qty');
+  var qm = document.getElementById('kv-pdp-qty-minus');
+  var qp = document.getElementById('kv-pdp-qty-plus');
+  if (qm) qm.addEventListener('click', function () { qty.value = Math.max(1, parseInt(qty.value || 1, 10) - 1); });
+  if (qp) qp.addEventListener('click', function () { qty.value = Math.min(10, parseInt(qty.value || 1, 10) + 1); });
+
+  // Tabs
+  document.querySelectorAll('.kv-pdp__tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = this.dataset.tab;
+      document.querySelectorAll('.kv-pdp__tab-btn').forEach(function (b) {
+        b.classList.toggle('is-active', b === btn);
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      document.querySelectorAll('.kv-pdp__tab-panel').forEach(function (p) {
+        p.classList.toggle('is-active', p.dataset.panel === target);
+      });
+    });
+  });
+
+  // Thumbnail strip (desktop)
+  var mainImg = document.getElementById('kv-pdp-main-img');
+  var thumbs = document.querySelectorAll('.kv-pdp__thumb');
+  var thumbSrcs = [
+    {%- for image in product.images limit: 6 -%}
+      '{{ image | image_url: width: 1000 }}'{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ];
+  thumbs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      var i = parseInt(this.dataset.thumbIndex, 10);
+      thumbs.forEach(function (x) { x.classList.remove('is-active'); });
+      this.classList.add('is-active');
+      if (mainImg && thumbSrcs[i]) mainImg.src = thumbSrcs[i];
+    });
+  });
+
+  // Mobile carousel
+  var track = document.getElementById('kv-pdp-car-track');
+  var dots = document.querySelectorAll('.kv-pdp__dot');
+  var slide = 0;
+  function goto(n) {
+    slide = Math.max(0, Math.min(n, dots.length - 1));
+    if (track) track.style.transform = 'translateX(-' + (slide * 100) + '%)';
+    dots.forEach(function (d, i) { d.classList.toggle('is-active', i === slide); });
+  }
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () { goto(parseInt(this.dataset.dotIndex, 10)); });
+  });
+  var car = document.querySelector('.kv-pdp__car');
+  if (car) {
+    var sx = 0;
+    car.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+    car.addEventListener('touchend', function (e) {
+      var diff = sx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) goto(slide + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+  }
+
+  // Size guide modal
+  var sgOverlay = document.getElementById('kv-size-guide-overlay');
+  document.querySelectorAll('[data-open-size-guide]').forEach(function (b) {
+    b.addEventListener('click', function () { sgOverlay && sgOverlay.classList.add('is-open'); });
+  });
+  document.querySelectorAll('[data-close-size-guide]').forEach(function (b) {
+    b.addEventListener('click', function () { sgOverlay && sgOverlay.classList.remove('is-open'); });
+  });
+  if (sgOverlay) {
+    sgOverlay.addEventListener('click', function (e) {
+      if (e.target === sgOverlay) sgOverlay.classList.remove('is-open');
+    });
+  }
+
+  // Wishlist (local toggle)
+  var wish = document.querySelector('.kv-pdp__wish');
+  if (wish) {
+    wish.addEventListener('click', function () {
+      this.classList.toggle('is-on');
+      var label = this.querySelector('.kv-pdp__wish-label');
+      if (label) label.textContent = this.classList.contains('is-on') ? 'Saved' : 'Save to Wishlist';
+    });
+  }
+
+  // Recommendations: hydrate via Section Rendering API
+  var recsEl = document.getElementById('kv-pdp-recs');
+  if (recsEl && recsEl.dataset.recsUrl && !recsEl.querySelector('.kv-card')) {
+    fetch(recsEl.dataset.recsUrl)
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        var fetched = tmp.querySelector('#kv-pdp-recs');
+        if (fetched && fetched.innerHTML.trim()) {
+          recsEl.innerHTML = fetched.innerHTML;
+        } else {
+          var section = recsEl.closest('.kv-pdp__recs');
+          if (section) section.style.display = 'none';
+        }
+      })
+      .catch(function () {
+        var section = recsEl.closest('.kv-pdp__recs');
+        if (section) section.style.display = 'none';
+      });
+  } else if (recsEl && !recsEl.querySelector('.kv-card')) {
+    var section = recsEl.closest('.kv-pdp__recs');
+    if (section) section.style.display = 'none';
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Detail",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_recommendations",
+      "label": "Show recommendations",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "recommendations_heading",
+      "label": "Recommendations heading",
+      "default": "Quietly complementary"
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_threshold",
+      "label": "Free shipping threshold (display only)",
+      "default": "$150"
+    }
+  ]
+}
+{% endschema %}

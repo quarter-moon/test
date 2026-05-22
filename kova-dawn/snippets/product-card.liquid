@@ -1,0 +1,94 @@
+{%- comment -%}
+  Renders a VELD product card.
+  Usage: {% render 'product-card', product: product %}
+{%- endcomment -%}
+
+{%- assign first_image = product.featured_image -%}
+{%- assign second_image = product.images[1] -%}
+{%- assign first_variant = product.selected_or_first_available_variant -%}
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price > product.price -%}
+  {%- assign on_sale = true -%}
+{%- endif -%}
+
+<article class="kv-card" data-sizes="{{ product.variants | map: 'title' | join: ',' }}">
+  <a href="{{ product.url }}" class="kv-card__img-wrap" tabindex="-1" aria-label="{{ product.title | escape }}">
+
+    {%- comment -%} Badge {%- endcomment -%}
+    {%- if product.available == false -%}
+      <span class="kv-card__badge kv-card__badge--sold">Sold Out</span>
+    {%- elsif on_sale -%}
+      <span class="kv-card__badge kv-card__badge--sale">Sale</span>
+    {%- elsif product.tags contains 'new' or product.tags contains 'New' -%}
+      <span class="kv-card__badge">New</span>
+    {%- elsif product.tags contains 'eco' or product.tags contains 'Eco' -%}
+      <span class="kv-card__badge kv-card__badge--eco">Eco</span>
+    {%- endif -%}
+
+    {%- comment -%} Wishlist {%- endcomment -%}
+    <button class="kv-card__wishlist" data-wishlist aria-label="Add to wishlist">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </button>
+
+    {%- if first_image -%}
+      <img
+        class="kv-card__img kv-card__img--main"
+        src="{{ first_image | image_url: width: 600 }}"
+        alt="{{ first_image.alt | escape | default: product.title }}"
+        width="600"
+        height="800"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div class="kv-card__img kv-card__img--main kv-ph">{{ product.vendor }}</div>
+    {%- endif -%}
+
+    {%- if second_image -%}
+      <img
+        class="kv-card__img kv-card__img--alt"
+        src="{{ second_image | image_url: width: 600 }}"
+        alt="{{ second_image.alt | escape | default: product.title }}"
+        width="600"
+        height="800"
+        loading="lazy"
+      >
+    {%- endif -%}
+
+    <button
+      class="kv-card__quick"
+      data-quick-view="{{ product.handle }}"
+      aria-label="Quick view {{ product.title | escape }}"
+    >+ Quick View</button>
+
+  </a>
+
+  <div class="kv-card__info">
+    <span class="kv-card__vendor">{{ product.vendor }}</span>
+    <a class="kv-card__name" href="{{ product.url }}">{{ product.title }}</a>
+
+    <div class="kv-card__price">
+      {%- if on_sale -%}
+        <span class="kv-card__price--was">{{ product.compare_at_price | money }}</span>
+        <span class="kv-card__price--sale">{{ product.price | money }}</span>
+      {%- else -%}
+        <span>{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Color swatches from option named "Color" {%- endcomment -%}
+    {%- assign color_option = product.options_with_values | where: "name", "Color" | first -%}
+    {%- if color_option -%}
+      <div class="kv-card__swatches">
+        {%- for value in color_option.values limit: 5 -%}
+          {%- assign swatch_color = value | downcase -%}
+          <button
+            class="kv-swatch{% if forloop.first %} is-active{% endif %}"
+            style="background: {{ settings.swatch_colors | default: '' | split: value | last | strip | truncate: 9 | default: swatch_color }};"
+            aria-label="{{ value }}"
+            title="{{ value }}"
+          ></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</article>

@@ -1,0 +1,25 @@
+{
+  "general": {
+    "continue_shopping": "Continue shopping",
+    "close": "Close",
+    "open_cart": "Open cart"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold Out",
+      "quick_view": "Quick View",
+      "select_size": "Select a size",
+      "save_to_wishlist": "Save to wishlist",
+      "saved": "Saved to wishlist"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your cart",
+      "empty": "Your cart is empty",
+      "subtotal": "Subtotal",
+      "checkout": "Checkout"
+    }
+  }
+}

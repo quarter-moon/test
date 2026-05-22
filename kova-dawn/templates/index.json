@@ -1,0 +1,141 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "category_label": "Resort 26 · The New Edit",
+        "headline": "A quieter\nkind of confidence.",
+        "subheadline": "Considered essentials in fluid silk, virgin wool, and Italian calfskin — designed to last beyond the season.",
+        "cta_label": "Shop the edit",
+        "cta_url": "/collections/new-in",
+        "cta2_label": "Lookbook",
+        "cta2_url": "/pages/lookbook"
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "settings": {
+        "text": "New Arrivals|Free Returns|Sustainable Materials|Made in Europe|Shipping Worldwide"
+      }
+    },
+    "new-in": {
+      "type": "featured-collection",
+      "settings": {
+        "label": "New In · Resort 26",
+        "heading": "The latest arrivals",
+        "products_to_show": 4,
+        "view_all_label": "View all"
+      }
+    },
+    "editorial": {
+      "type": "editorial-split",
+      "settings": {
+        "label": "The Studio",
+        "heading": "Built on restraint, not seasons.",
+        "text": "Every VELD piece begins as a sketch refined until nothing else can be removed. We work with mills who treat fabric as an heirloom and ateliers who treat tailoring as a quiet craft.",
+        "cta_label": "Our approach",
+        "cta_url": "/pages/about"
+      }
+    },
+    "collections": {
+      "type": "collections-trio",
+      "settings": {
+        "label": "Shop by Category",
+        "heading": "Three quiet directions"
+      },
+      "blocks": {
+        "tops": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Tops & Shirting",
+            "count": "42 styles",
+            "url": "/collections/tops",
+            "demo_image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=700&q=80"
+          }
+        },
+        "dresses": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Dresses",
+            "count": "18 styles",
+            "url": "/collections/dresses",
+            "demo_image": "https://images.unsplash.com/photo-1583744946564-b52ac1c389c8?auto=format&fit=crop&w=700&q=80"
+          }
+        },
+        "outerwear": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Outerwear",
+            "count": "24 styles",
+            "url": "/collections/outerwear",
+            "demo_image": "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=700&q=80"
+          }
+        }
+      },
+      "block_order": ["tops", "dresses", "outerwear"]
+    },
+    "bestsellers": {
+      "type": "featured-collection",
+      "settings": {
+        "label": "Bestsellers",
+        "heading": "Quietly returning to.",
+        "products_to_show": 4,
+        "view_all_label": "View all"
+      }
+    },
+    "statement": {
+      "type": "brand-statement",
+      "settings": {
+        "quote": "\"Buy less. Buy considered. Wear it for a decade — and then pass it on.\"",
+        "attribution": "The VELD manifesto"
+      }
+    },
+    "ugc": {
+      "type": "ugc-grid",
+      "settings": {
+        "label": "Worn in the world",
+        "handle": "@kova.studio",
+        "cta_label": "Follow",
+        "cta_url": "https://instagram.com/kova.studio"
+      },
+      "blocks": {
+        "p1": { "type": "image", "settings": {} },
+        "p2": { "type": "image", "settings": {} },
+        "p3": { "type": "image", "settings": {} },
+        "p4": { "type": "image", "settings": {} },
+        "p5": { "type": "image", "settings": {} },
+        "p6": { "type": "image", "settings": {} }
+      },
+      "block_order": ["p1", "p2", "p3", "p4", "p5", "p6"]
+    },
+    "journal": {
+      "type": "blog-preview",
+      "settings": {
+        "label": "Journal",
+        "heading": "Considered reading",
+        "blog": "news"
+      }
+    },
+    "email": {
+      "type": "email-capture",
+      "settings": {
+        "label": "The Quiet Letter",
+        "heading": "Considered new arrivals, monthly.",
+        "subtext": "One email a month. Lookbook previews, atelier notes, no noise.",
+        "placeholder": "Enter your email"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "new-in",
+    "editorial",
+    "collections",
+    "bestsellers",
+    "statement",
+    "ugc",
+    "journal",
+    "email"
+  ]
+}

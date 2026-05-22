@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 16,
+        "demo_title": "Accessories",
+        "demo_description": "The finishing details that complete the VELD wardrobe. Scarves, belts, and bags — each made by the same artisan hands as our garments.",
+        "demo_image": "https://images.unsplash.com/photo-1584917865442-de89be144caa?auto=format&fit=crop&w=1600&q=85"
+      }
+    }
+  },
+  "order": ["main"]
+}

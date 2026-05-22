@@ -1,0 +1,125 @@
+<section class="kv-hero">
+  {%- if section.settings.image != blank -%}
+    <img
+      class="kv-hero__img"
+      src="{{ section.settings.image | image_url: width: 2400 }}"
+      srcset="{{ section.settings.image | image_url: width: 800 }} 800w,
+              {{ section.settings.image | image_url: width: 1200 }} 1200w,
+              {{ section.settings.image | image_url: width: 1920 }} 1920w,
+              {{ section.settings.image | image_url: width: 2400 }} 2400w"
+      sizes="100vw"
+      alt="{{ section.settings.image.alt | escape | default: section.settings.headline }}"
+      width="{{ section.settings.image.width }}"
+      height="{{ section.settings.image.height }}"
+      loading="eager"
+      fetchpriority="high"
+    >
+  {%- else -%}
+    <img
+      class="kv-hero__img"
+      src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=85"
+      alt="VELD Resort 26"
+      width="2000"
+      height="1333"
+      loading="eager"
+      fetchpriority="high"
+    >
+  {%- endif -%}
+
+  <div class="kv-hero__overlay"></div>
+
+  <div class="kv-container" style="position:relative;height:100%;">
+    <div class="kv-hero__content">
+      {%- if section.settings.category_label != blank -%}
+        <span class="t-micro kv-hero__cat" style="color:rgba(255,255,255,0.9);">{{ section.settings.category_label }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.headline != blank -%}
+        <h1 class="t-display kv-hero__head">{{ section.settings.headline | newline_to_br }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.subheadline != blank -%}
+        <p class="t-body-lg kv-hero__sub">{{ section.settings.subheadline }}</p>
+      {%- endif -%}
+
+      <div class="kv-hero__ctas">
+        {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+          <a href="{{ section.settings.cta_url }}" class="kv-btn kv-btn--white kv-btn--lg">
+            {{ section.settings.cta_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta2_label != blank and section.settings.cta2_url != blank -%}
+          <a href="{{ section.settings.cta2_url }}" class="kv-btn kv-btn--lg" style="color:#fff;border-color:rgba(255,255,255,0.5);background:transparent;">
+            {{ section.settings.cta2_label }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "category_label",
+      "label": "Category label",
+      "default": "Resort 26 · The New Edit"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "A quieter\nkind of confidence."
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Considered essentials in fluid silk, virgin wool, and Italian calfskin — designed to last beyond the season."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Primary CTA label",
+      "default": "Shop the edit"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Primary CTA URL"
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "Secondary CTA label",
+      "default": "Lookbook"
+    },
+    {
+      "type": "url",
+      "id": "cta2_url",
+      "label": "Secondary CTA URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "settings": {
+        "category_label": "Resort 26 · The New Edit",
+        "headline": "A quieter\nkind of confidence.",
+        "subheadline": "Considered essentials in fluid silk, virgin wool, and Italian calfskin — designed to last beyond the season.",
+        "cta_label": "Shop the edit",
+        "cta2_label": "Lookbook"
+      }
+    }
+  ]
+}
+{% endschema %}

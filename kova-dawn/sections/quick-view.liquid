@@ -1,0 +1,140 @@
+{%- assign qv_variant = product.selected_or_first_available_variant -%}
+{%- assign qv_image = product.featured_image -%}
+
+<div class="kv-qv">
+
+  {%- comment -%} Image column {%- endcomment -%}
+  <div class="kv-qv__img" id="kv-qv-img-wrap">
+    {%- if qv_image -%}
+      <img
+        id="kv-qv-main-img"
+        src="{{ qv_image | image_url: width: 800 }}"
+        alt="{{ qv_image.alt | escape | default: product.title }}"
+        width="800"
+        height="1067"
+        loading="eager"
+      >
+    {%- else -%}
+      <div class="kv-ph" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">{{ shop.name }}</div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Form column {%- endcomment -%}
+  <div class="kv-qv__form">
+
+    {%- if product.vendor != blank -%}
+      <span class="kv-qv__vendor">{{ product.vendor }}</span>
+    {%- endif -%}
+
+    <h2 class="kv-qv__title">{{ product.title }}</h2>
+
+    <div class="kv-qv__price" id="kv-qv-price">
+      {%- if qv_variant.compare_at_price > qv_variant.price -%}
+        <s class="kv-qv__price--was">{{ qv_variant.compare_at_price | money }}</s>
+        <span class="kv-qv__price--sale">{{ qv_variant.price | money }}</span>
+      {%- else -%}
+        <span>{{ qv_variant.price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Embed variants as JSON for JS variant switching {%- endcomment -%}
+    <script>
+    window.kvQvVariants = {{ product.variants | json }};
+    window.kvQvMoneyFormat = {{ shop.money_format | json }};
+    </script>
+
+    {%- form 'product', product, id: 'kv-qv-form' -%}
+      <input type="hidden" name="id" value="{{ qv_variant.id }}">
+
+      {%- for option in product.options_with_values -%}
+        <div class="kv-qv__option">
+          <span class="kv-qv__option-label">
+            {{ option.name }}
+            {%- unless option.name == 'Color' or option.name == 'Colour' -%}
+              <span class="kv-qv__option-sel" id="kv-qv-sel-{{ option.position }}">: {{ option.selected_value }}</span>
+            {%- endunless -%}
+          </span>
+
+          {%- if option.name == 'Color' or option.name == 'Colour' -%}
+            {%- comment -%} Color swatches {%- endcomment -%}
+            <div class="kv-qv__swatches">
+              {%- assign kv_cmap = 'black|#1a1a18,white|#ffffff,ivory|#f5f0e8,ivory white|#f5f0e8,ecru|#e8e0ce,camel|#c4a882,sand|#d4c4a8,stone|#f5f3ef,slate|#6b7888,grey|#9a9a9a,gray|#9a9a9a,charcoal|#4a4a4a,navy|#1a2744,forest|#3d5c3e,forest green|#3d5c3e,sage|#6b7c6e,olive|#707840,burgundy|#7a2040,clay|#c4a882,blush|#e8c4b8,cream|#f5eed8,midnight|#1a1a2e,brown|#8b5e35,oat|#d8cebe,chalk|#f0ede8,cobalt|#1a3a6e,rust|#b84a2a' | split: ',' -%}
+              {%- for value in option.values -%}
+                {%- assign sw_img = '' -%}
+                {%- for variant in product.variants -%}
+                  {%- if variant.option1 == value or variant.option2 == value -%}
+                    {%- if variant.image != blank -%}
+                      {%- assign sw_img = variant.image | image_url: width: 800 -%}
+                    {%- elsif product.featured_image != blank -%}
+                      {%- assign sw_img = product.featured_image | image_url: width: 800 -%}
+                    {%- endif -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- assign sw_hex = value | downcase -%}
+                {%- for centry in kv_cmap -%}
+                  {%- assign cparts = centry | split: '|' -%}
+                  {%- if cparts[0] == sw_hex -%}
+                    {%- assign sw_hex = cparts[1] -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                <button
+                  type="button"
+                  class="kv-swatch{% if value == option.selected_value %} is-active{% endif %}"
+                  aria-label="{{ value }}"
+                  title="{{ value }}"
+                  style="background:{{ sw_hex }};"
+                  data-option="{{ option.position }}"
+                  data-value="{{ value | escape }}"
+                  data-img="{{ sw_img }}"
+                ></button>
+              {%- endfor -%}
+            </div>
+
+          {%- else -%}
+            {%- comment -%} Size / other option buttons {%- endcomment -%}
+            <div class="kv-sizes">
+              {%- for value in option.values -%}
+                {%- assign val_variant = product.variants | where: 'option1', value | first -%}
+                {%- if option.position == 2 -%}
+                  {%- assign val_variant = product.variants | where: 'option2', value | first -%}
+                {%- elsif option.position == 3 -%}
+                  {%- assign val_variant = product.variants | where: 'option3', value | first -%}
+                {%- endif -%}
+                <button
+                  type="button"
+                  class="kv-size{% if value == option.selected_value %} is-active{% endif %}{% if val_variant.available == false %} is-sold{% endif %}"
+                  data-option="{{ option.position }}"
+                  data-value="{{ value | escape }}"
+                  {% if val_variant.available == false %}disabled{% endif %}
+                >{{ value }}</button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+      {%- endfor -%}
+
+      <div class="kv-qv__actions">
+        {%- if product.available -%}
+          <button type="submit" class="kv-btn kv-btn--lg" style="width:100%;justify-content:center;" data-add-to-cart>
+            Add to cart
+          </button>
+        {%- else -%}
+          <button type="button" class="kv-btn kv-btn--lg" style="width:100%;justify-content:center;opacity:.5;" disabled>
+            Sold out
+          </button>
+        {%- endif -%}
+      </div>
+
+    {%- endform -%}
+
+    <a href="{{ product.url }}" class="kv-qv__pdp-link">View full details &#8594;</a>
+
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Quick View" }
+{% endschema %}

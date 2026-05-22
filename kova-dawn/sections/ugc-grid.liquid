@@ -1,0 +1,113 @@
+<section class="kv-section" style="padding-bottom:96px;">
+  <div class="kv-container">
+    <header class="kv-section-head">
+      <div class="kv-section-head__title">
+        {%- if section.settings.label != blank -%}
+          <span class="t-micro" style="color:var(--color-clay);">{{ section.settings.label }}</span>
+        {%- endif -%}
+        <h2 class="t-h2">{{ section.settings.handle }}</h2>
+      </div>
+      {%- if section.settings.cta_label != blank and section.settings.cta_url != blank -%}
+        <a class="kv-btn kv-btn--ghost" href="{{ section.settings.cta_url }}">
+          {{ section.settings.cta_label }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </a>
+      {%- endif -%}
+    </header>
+  </div>
+
+  <div class="kv-ugc">
+    {%- for block in section.blocks -%}
+      <div class="kv-ugc__cell" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <img
+            src="{{ block.settings.image | image_url: width: 400 }}"
+            alt="{{ block.settings.image.alt | escape | default: '@kova.studio' }}"
+            width="400"
+            height="400"
+            loading="lazy"
+          >
+        {%- else -%}
+          <div class="kv-ph">@kova</div>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      {%- assign demo_ugc = "1490481651871-ab68de25d43d,1525507119028-ed4c629a60a3,1496747611176-843222e1e57c,1539109136881-3be0616acf4b,1485231183945-fffde7cc051e,1551803091-e20673f15770" | split: "," -%}
+      {%- for photo_id in demo_ugc -%}
+        <div class="kv-ugc__cell">
+          <img
+            src="https://images.unsplash.com/photo-{{ photo_id | strip }}?auto=format&fit=crop&w=600&q=80"
+            alt="@kova.studio"
+            width="600"
+            height="600"
+            loading="lazy"
+          >
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "UGC Grid",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Worn in the world"
+    },
+    {
+      "type": "text",
+      "id": "handle",
+      "label": "Instagram handle",
+      "default": "@kova.studio"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Follow"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UGC Grid",
+      "settings": {
+        "label": "Worn in the world",
+        "handle": "@kova.studio",
+        "cta_label": "Follow"
+      },
+      "blocks": [
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}

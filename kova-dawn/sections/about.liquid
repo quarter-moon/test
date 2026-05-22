@@ -1,0 +1,789 @@
+<style>
+/* ─── About Page — VELD ─── */
+
+/* ── Hero ── */
+.kv-about-hero {
+  position: relative;
+  height: 70vh;
+  min-height: 480px;
+  overflow: hidden;
+  background: var(--color-ink);
+}
+.kv-about-hero__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.72;
+}
+.kv-about-hero__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(20,18,16,0.18) 0%, rgba(20,18,16,0.55) 100%);
+}
+.kv-about-hero__content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--color-white);
+  gap: 20px;
+  padding: 0 24px;
+}
+.kv-about-hero__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+}
+.kv-about-hero__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(42px, 6vw, 80px);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: var(--color-white);
+  max-width: 820px;
+}
+@media (max-width: 767px) {
+  .kv-about-hero { height: 62vh; min-height: 420px; }
+}
+
+/* ── Brand story (2-col 50/50) ── */
+.kv-about-story {
+  padding: 112px 0;
+}
+@media (max-width: 767px) { .kv-about-story { padding: 72px 0; } }
+.kv-about-story__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 1023px) {
+  .kv-about-story__grid { gap: 48px; }
+}
+@media (max-width: 767px) {
+  .kv-about-story__grid { grid-template-columns: 1fr; gap: 40px; }
+}
+.kv-about-story__img-wrap {
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background: var(--color-mist);
+  position: relative;
+}
+.kv-about-story__img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 800ms ease;
+}
+.kv-about-story__img-wrap:hover img { transform: scale(1.03); }
+
+.kv-about-story__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 480px;
+}
+.kv-about-story__label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-clay);
+  font-family: var(--font-body);
+}
+.kv-about-story__headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(30px, 3.2vw, 40px);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+}
+.kv-about-story__body {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.kv-about-story__body p { margin: 0; }
+
+/* ── Values strip (3-col, stone bg) ── */
+.kv-about-values {
+  background: var(--color-stone);
+  padding: 112px 0;
+  border-top: 1px solid var(--color-mist);
+  border-bottom: 1px solid var(--color-mist);
+}
+@media (max-width: 767px) { .kv-about-values { padding: 72px 0; } }
+.kv-about-values__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+@media (max-width: 1023px) { .kv-about-values__grid { gap: 36px; } }
+@media (max-width: 767px) {
+  .kv-about-values__grid {
+    grid-template-columns: 1fr;
+    gap: 56px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+}
+.kv-about-value {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.kv-about-value__icon {
+  width: 48px; height: 48px;
+  color: var(--color-clay);
+  flex-shrink: 0;
+}
+.kv-about-value__heading {
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--color-clay);
+  margin: 0;
+}
+.kv-about-value__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.2;
+  margin: 0;
+}
+.kv-about-value__text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #666;
+  margin: 0;
+}
+
+/* ── Quote block ── */
+.kv-about-quote {
+  background: var(--color-ink);
+  padding: 120px 0;
+  text-align: center;
+}
+@media (max-width: 767px) { .kv-about-quote { padding: 80px 0; } }
+.kv-about-quote__inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.kv-about-quote__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(32px, 4.5vw, 56px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  position: relative;
+}
+.kv-about-quote__text::before {
+  content: '\201C';
+  position: absolute;
+  left: -0.3em;
+  top: -0.1em;
+  font-size: 1.4em;
+  color: var(--color-clay);
+  line-height: 1;
+  font-style: normal;
+}
+.kv-about-quote__attribution {
+  margin-top: 40px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-clay);
+  font-weight: 500;
+}
+
+/* ── Image grid (3-col squares) ── */
+.kv-about-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--color-mist);
+}
+@media (max-width: 767px) {
+  .kv-about-grid { grid-template-columns: 1fr; }
+}
+.kv-about-grid__cell {
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background: var(--color-mist);
+}
+.kv-about-grid__cell img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 700ms ease;
+}
+.kv-about-grid__cell:hover img { transform: scale(1.05); }
+
+/* ── Email CTA ── */
+.kv-about-email {
+  background: var(--color-ink);
+  color: var(--color-white);
+  padding: 96px 0;
+  text-align: center;
+}
+.kv-about-email__label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-clay);
+  margin-bottom: 16px;
+  display: block;
+}
+.kv-about-email__headline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  margin: 0 0 12px;
+}
+.kv-about-email__sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto 32px;
+}
+.kv-about-email__form {
+  display: flex;
+  gap: 0;
+  max-width: 440px;
+  margin: 0 auto;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.kv-about-email__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  padding: 14px 4px;
+  font-size: 14px;
+  font-family: var(--font-body);
+}
+.kv-about-email__input::placeholder { color: rgba(255,255,255,0.45); }
+.kv-about-email__input:focus { outline: none; }
+.kv-about-email__submit {
+  background: transparent;
+  border: none;
+  color: var(--color-white);
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: transform 200ms ease;
+  gap: 8px;
+}
+.kv-about-email__submit:hover { transform: translateX(2px); }
+.kv-about-email__meta {
+  margin-top: 24px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+</style>
+
+{%- comment -%}
+  VELD About Page — Single section with block-based customization.
+  Blocks: hero, story, values, quote, image_grid, email_cta
+{%- endcomment -%}
+
+{%- for block in section.blocks -%}
+
+  {%- case block.type -%}
+
+  {%- comment -%} ════════════════════════
+    BLOCK: hero
+  ════════════════════════ {%- endcomment -%}
+  {%- when 'hero' -%}
+    <section class="kv-about-hero" {{ block.shopify_attributes }}>
+      {%- if block.settings.hero_image != blank -%}
+        <img
+          class="kv-about-hero__img"
+          src="{{ block.settings.hero_image | image_url: width: 1800 }}"
+          alt="{{ block.settings.hero_image.alt | escape | default: 'VELD — We believe in less, done better.' }}"
+          width="1800"
+          height="1000"
+          loading="eager"
+        >
+      {%- else -%}
+        <img
+          class="kv-about-hero__img"
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1800&q=85"
+          alt="VELD — We believe in less, done better."
+          width="1800"
+          height="1000"
+          loading="eager"
+        >
+      {%- endif -%}
+      <div class="kv-about-hero__overlay" aria-hidden="true"></div>
+      <div class="kv-about-hero__content kv-container">
+        <span class="kv-about-hero__label">{{ block.settings.label | default: 'VELD' }}</span>
+        <h1 class="kv-about-hero__headline">{{ block.settings.headline | default: 'We believe in less, done better.' }}</h1>
+      </div>
+    </section>
+
+  {%- comment -%} ════════════════════════
+    BLOCK: story
+  ════════════════════════ {%- endcomment -%}
+  {%- when 'story' -%}
+    <section class="kv-about-story" {{ block.shopify_attributes }}>
+      <div class="kv-container">
+        <div class="kv-about-story__grid">
+
+          <div class="kv-about-story__img-wrap">
+            {%- if block.settings.story_image != blank -%}
+              <img
+                src="{{ block.settings.story_image | image_url: width: 900 }}"
+                alt="{{ block.settings.story_image.alt | escape | default: 'VELD brand story' }}"
+                width="900"
+                height="1125"
+                loading="lazy"
+              >
+            {%- else -%}
+              <img
+                src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=900&q=85"
+                alt="VELD brand story — editorial portrait"
+                width="900"
+                height="1125"
+                loading="lazy"
+              >
+            {%- endif -%}
+          </div>
+
+          <div class="kv-about-story__copy">
+            <span class="kv-about-story__label">{{ block.settings.story_label | default: 'Our Story' }}</span>
+            <h2 class="kv-about-story__headline">{{ block.settings.story_headline | default: 'Founded on a single belief.' }}</h2>
+            <div class="kv-about-story__body">
+              {%- if block.settings.story_body != blank -%}
+                {{ block.settings.story_body }}
+              {%- else -%}
+                <p>VELD was founded in Copenhagen in 2019 by a group of designers who believed the fashion industry had lost its way. Not through malice, but through momentum — the relentless forward motion of seasons, collections and newness for its own sake.</p>
+                <p>We design outside the calendar. No seasons, no trend reports, no drops. Only pieces we believe you will reach for again and again — pieces worth keeping for a decade, then passing on. We work exclusively with European ateliers in Portugal, Italy and Scotland, where the craft of making clothes well has been practised for generations.</p>
+                <p>Every VELD piece is made in small batches, using natural fibres we trace to their source. We take our time, because the things worth having usually require it.</p>
+              {%- endif -%}
+            </div>
+            <div>
+              <a
+                class="kv-btn kv-btn--out"
+                href="{{ block.settings.cta_url | default: routes.collections_url }}"
+              >{{ block.settings.cta_text | default: 'Shop the collection' }}</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  {%- comment -%} ════════════════════════
+    BLOCK: values
+  ════════════════════════ {%- endcomment -%}
+  {%- when 'values' -%}
+    <section class="kv-about-values" {{ block.shopify_attributes }} aria-label="Our values">
+      <div class="kv-container">
+        <div class="kv-about-values__grid">
+
+          {%- comment -%} Value 1: Craft {%- endcomment -%}
+          <div class="kv-about-value">
+            <svg class="kv-about-value__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M24 6C14.06 6 6 14.06 6 24s8.06 18 18 18 18-8.06 18-18S33.94 6 24 6z"/>
+              <path d="M24 14v10l6 6"/>
+              <path d="M16 10l-3-4M32 10l3-4M10 16l-4-3M38 16l4-3"/>
+            </svg>
+            <p class="kv-about-value__heading">{{ block.settings.value1_label | default: 'Craft' }}</p>
+            <h3 class="kv-about-value__title">{{ block.settings.value1_title | default: 'Handcrafted in Europe' }}</h3>
+            <p class="kv-about-value__text">{{ block.settings.value1_text | default: 'Every piece is made in small batches by skilled artisans across Portugal, Italy and Scotland. We visit our makers, we know their names, and we choose them for their care as much as their craft.' }}</p>
+          </div>
+
+          {%- comment -%} Value 2: Longevity {%- endcomment -%}
+          <div class="kv-about-value">
+            <svg class="kv-about-value__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M24 8v32M8 24h32"/>
+              <circle cx="24" cy="24" r="10"/>
+              <path d="M17 17l14 14M31 17L17 31"/>
+            </svg>
+            <p class="kv-about-value__heading">{{ block.settings.value2_label | default: 'Longevity' }}</p>
+            <h3 class="kv-about-value__title">{{ block.settings.value2_title | default: 'Designed to outlast trends' }}</h3>
+            <p class="kv-about-value__text">{{ block.settings.value2_text | default: 'We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy VELD, you are opting out of the cycle, not into a new one.' }}</p>
+          </div>
+
+          {%- comment -%} Value 3: Responsibility {%- endcomment -%}
+          <div class="kv-about-value">
+            <svg class="kv-about-value__icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M24 6s-16 8-16 20a16 16 0 0 0 32 0C40 14 24 6 24 6z"/>
+              <path d="M24 20v8M20 24h8"/>
+            </svg>
+            <p class="kv-about-value__heading">{{ block.settings.value3_label | default: 'Responsibility' }}</p>
+            <h3 class="kv-about-value__title">{{ block.settings.value3_title | default: 'Responsible materials' }}</h3>
+            <p class="kv-about-value__text">{{ block.settings.value3_text | default: 'Natural fibres only. We trace every material to its source and work only with GOTS- and OEKO-TEX-certified suppliers. Our dyeing processes are low-impact and waterway-safe.' }}</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  {%- comment -%} ════════════════════════
+    BLOCK: quote
+  ════════════════════════ {%- endcomment -%}
+  {%- when 'quote' -%}
+    <section class="kv-about-quote" {{ block.shopify_attributes }}>
+      <div class="kv-about-quote__inner">
+        <blockquote>
+          <p class="kv-about-quote__text">{{ block.settings.quote_text | default: 'The best garment is the one you reach for again and again.' }}</p>
+          <footer class="kv-about-quote__attribution">{{ block.settings.quote_attribution | default: '— VELD, est. 2019' }}</footer>
+        </blockquote>
+      </div>
+    </section>
+
+  {%- comment -%} ════════════════════════
+    BLOCK: image_grid
+  ════════════════════════ {%- endcomment -%}
+  {%- when 'image_grid' -%}
+    <section class="kv-about-grid" {{ block.shopify_attributes }} aria-label="Process and team">
+
+      {%- comment -%} Image 1 {%- endcomment -%}
+      <div class="kv-about-grid__cell">
+        {%- if block.settings.grid_image_1 != blank -%}
+          <img
+            src="{{ block.settings.grid_image_1 | image_url: width: 700 }}"
+            alt="{{ block.settings.grid_image_1.alt | escape | default: 'VELD atelier' }}"
+            width="700" height="700"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            src="https://images.unsplash.com/photo-1558171813-0c75e01e5bec?auto=format&fit=crop&w=600&q=85"
+            alt="VELD atelier — artisan at work"
+            width="600" height="600"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Image 2 {%- endcomment -%}
+      <div class="kv-about-grid__cell">
+        {%- if block.settings.grid_image_2 != blank -%}
+          <img
+            src="{{ block.settings.grid_image_2 | image_url: width: 700 }}"
+            alt="{{ block.settings.grid_image_2.alt | escape | default: 'VELD materials' }}"
+            width="700" height="700"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=85"
+            alt="VELD — material sourcing and fabric detail"
+            width="600" height="600"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Image 3 {%- endcomment -%}
+      <div class="kv-about-grid__cell">
+        {%- if block.settings.grid_image_3 != blank -%}
+          <img
+            src="{{ block.settings.grid_image_3 | image_url: width: 700 }}"
+            alt="{{ block.settings.grid_image_3.alt | escape | default: 'VELD team' }}"
+            width="700" height="700"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=85"
+            alt="VELD — the people behind the process"
+            width="600" height="600"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+    </section>
+
+  {%- comment -%} ════════════════════════
+    BLOCK: email_cta
+  ════════════════════════ {%- endcomment -%}
+  {%- when 'email_cta' -%}
+    <section class="kv-about-email" {{ block.shopify_attributes }}>
+      <div class="kv-container">
+        <span class="kv-about-email__label">{{ block.settings.email_label | default: 'Stay connected' }}</span>
+        <h2 class="kv-about-email__headline">{{ block.settings.email_headline | default: 'Hear from us, rarely but meaningfully.' }}</h2>
+        <p class="kv-about-email__sub">{{ block.settings.email_subtext | default: 'We write about craft, materials and the pieces we are working on. No promotions. Unsubscribe any time.' }}</p>
+        <form class="kv-about-email__form" action="/contact#contact_form" method="post" accept-charset="UTF-8">
+          <input type="hidden" name="form_type" value="customer">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label for="kv-about-email-input" class="visually-hidden">Email address</label>
+          <input
+            class="kv-about-email__input"
+            type="email"
+            id="kv-about-email-input"
+            name="contact[email]"
+            placeholder="{{ block.settings.email_placeholder | default: 'Your email address' }}"
+            required
+            autocomplete="email"
+          >
+          <button class="kv-about-email__submit" type="submit" aria-label="Subscribe">
+            {{ block.settings.email_btn | default: 'Subscribe' }}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </form>
+        <p class="kv-about-email__meta">No spam. Unsubscribe at any time.</p>
+      </div>
+    </section>
+
+  {%- endcase -%}
+{%- endfor -%}
+
+{% schema %}
+{
+  "name": "About Page",
+  "blocks": [
+    {
+      "type": "hero",
+      "name": "Hero",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "hero_image",
+          "label": "Hero image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label text",
+          "default": "VELD"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "We believe in less, done better."
+        }
+      ]
+    },
+    {
+      "type": "story",
+      "name": "Brand Story",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "story_image",
+          "label": "Portrait image"
+        },
+        {
+          "type": "text",
+          "id": "story_label",
+          "label": "Label",
+          "default": "Our Story"
+        },
+        {
+          "type": "text",
+          "id": "story_headline",
+          "label": "Headline",
+          "default": "Founded on a single belief."
+        },
+        {
+          "type": "richtext",
+          "id": "story_body",
+          "label": "Body copy"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA button text",
+          "default": "Shop the collection"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "CTA button URL"
+        }
+      ]
+    },
+    {
+      "type": "values",
+      "name": "Values Strip",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value1_label",
+          "label": "Value 1 — label",
+          "default": "Craft"
+        },
+        {
+          "type": "text",
+          "id": "value1_title",
+          "label": "Value 1 — title",
+          "default": "Handcrafted in Europe"
+        },
+        {
+          "type": "textarea",
+          "id": "value1_text",
+          "label": "Value 1 — description",
+          "default": "Every piece is made in small batches by skilled artisans across Portugal, Italy and Scotland. We visit our makers, we know their names, and we choose them for their care as much as their craft."
+        },
+        {
+          "type": "text",
+          "id": "value2_label",
+          "label": "Value 2 — label",
+          "default": "Longevity"
+        },
+        {
+          "type": "text",
+          "id": "value2_title",
+          "label": "Value 2 — title",
+          "default": "Designed to outlast trends"
+        },
+        {
+          "type": "textarea",
+          "id": "value2_text",
+          "label": "Value 2 — description",
+          "default": "We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy VELD, you are opting out of the cycle, not into a new one."
+        },
+        {
+          "type": "text",
+          "id": "value3_label",
+          "label": "Value 3 — label",
+          "default": "Responsibility"
+        },
+        {
+          "type": "text",
+          "id": "value3_title",
+          "label": "Value 3 — title",
+          "default": "Responsible materials"
+        },
+        {
+          "type": "textarea",
+          "id": "value3_text",
+          "label": "Value 3 — description",
+          "default": "Natural fibres only. We trace every material to its source and work only with GOTS- and OEKO-TEX-certified suppliers. Our dyeing processes are low-impact and waterway-safe."
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Quote Block",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote_text",
+          "label": "Quote",
+          "default": "The best garment is the one you reach for again and again."
+        },
+        {
+          "type": "text",
+          "id": "quote_attribution",
+          "label": "Attribution",
+          "default": "— VELD, est. 2019"
+        }
+      ]
+    },
+    {
+      "type": "image_grid",
+      "name": "Process Image Grid",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "grid_image_1",
+          "label": "Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "grid_image_2",
+          "label": "Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "grid_image_3",
+          "label": "Image 3"
+        }
+      ]
+    },
+    {
+      "type": "email_cta",
+      "name": "Email Sign-up",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "email_label",
+          "label": "Label",
+          "default": "Stay connected"
+        },
+        {
+          "type": "text",
+          "id": "email_headline",
+          "label": "Headline",
+          "default": "Hear from us, rarely but meaningfully."
+        },
+        {
+          "type": "textarea",
+          "id": "email_subtext",
+          "label": "Subtext",
+          "default": "We write about craft, materials and the pieces we are working on. No promotions. Unsubscribe any time."
+        },
+        {
+          "type": "text",
+          "id": "email_placeholder",
+          "label": "Input placeholder",
+          "default": "Your email address"
+        },
+        {
+          "type": "text",
+          "id": "email_btn",
+          "label": "Button text",
+          "default": "Subscribe"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Page",
+      "blocks": [
+        { "type": "hero" },
+        { "type": "story" },
+        { "type": "values" },
+        { "type": "quote" },
+        { "type": "image_grid" },
+        { "type": "email_cta" }
+      ]
+    }
+  ]
+}
+{% endschema %}

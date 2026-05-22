@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 16,
+        "demo_title": "Clothing",
+        "demo_description": "A wardrobe of considered essentials. Each piece is designed to work across your whole wardrobe, through every season.",
+        "demo_image": "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1600&q=85"
+      }
+    }
+  },
+  "order": ["main"]
+}

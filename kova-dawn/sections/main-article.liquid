@@ -1,0 +1,315 @@
+<style>
+  /* ─── Article hero ──────────────────────── */
+  .kv-article-hero {
+    position: relative;
+    height: 55vh;
+    min-height: 420px;
+    overflow: hidden;
+    background: var(--color-ink);
+  }
+  .kv-article-hero__img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .kv-article-hero__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,26,24,0.72) 0%, rgba(26,26,24,0.30) 50%, rgba(26,26,24,0.18) 100%);
+    z-index: 1;
+  }
+  .kv-article-hero__content {
+    position: absolute; inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    text-align: center;
+    padding: 0 24px 56px;
+    gap: 14px;
+  }
+  .kv-article-hero__tag { color: var(--color-clay); }
+  .kv-article-hero__title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--color-white);
+    margin: 0;
+    max-width: 820px;
+  }
+  .kv-article-hero__meta { color: rgba(255,255,255,0.70); }
+
+  /* ─── Article body ──────────────────────── */
+  .kv-article-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  /* ─── Prose styles ──────────────────────── */
+  .kv-prose p {
+    margin: 0 0 1.5em;
+    line-height: 1.85;
+    font-size: 17px;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+  .kv-prose h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 2em 0 0.5em;
+    color: var(--color-ink);
+    letter-spacing: -0.01em;
+  }
+  .kv-prose h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.25;
+    margin: 1.75em 0 0.5em;
+    color: var(--color-ink);
+  }
+  .kv-prose img {
+    width: 100%;
+    height: auto;
+    margin: 2em 0;
+    display: block;
+  }
+  .kv-prose blockquote {
+    border-left: 3px solid var(--color-clay);
+    padding-left: 24px;
+    font-style: italic;
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.45;
+    margin: 2em 0;
+    color: var(--color-ink);
+    opacity: 0.85;
+  }
+  .kv-prose ul, .kv-prose ol {
+    margin: 0 0 1.5em;
+    padding-left: 1.5em;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--color-ink);
+  }
+  .kv-prose a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .kv-prose a:hover { opacity: 0.65; }
+  .kv-prose hr {
+    border: none;
+    border-top: 1px solid var(--color-mist);
+    margin: 3em 0;
+  }
+
+  /* ─── Tags row ──────────────────────────── */
+  .kv-article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 32px 0;
+    border-top: 1px solid var(--color-mist);
+  }
+  .kv-article-tag-pill {
+    display: inline-block;
+    padding: 7px 14px;
+    border: 1px solid var(--color-clay);
+    color: var(--color-clay);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .kv-article-tag-pill:hover {
+    background: var(--color-clay);
+    color: var(--color-white);
+  }
+
+  /* ─── Author card ───────────────────────── */
+  .kv-author-card {
+    background: var(--color-stone);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .kv-author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: var(--color-ink);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+  .kv-author-info { display: flex; flex-direction: column; gap: 3px; }
+  .kv-author-name { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: var(--color-ink); }
+  .kv-author-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-clay); }
+
+  /* ─── Back link ─────────────────────────── */
+  .kv-article-back {
+    text-align: center;
+    margin-top: 48px;
+    padding-bottom: 16px;
+  }
+  .kv-article-back a {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 150ms ease;
+  }
+  .kv-article-back a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+
+  /* ─── Related articles ──────────────────── */
+  .kv-related {
+    background: var(--color-stone);
+    padding: 80px 0 96px;
+    border-top: 1px solid var(--color-mist);
+  }
+  @media (max-width: 767px) { .kv-related { padding: 56px 0 72px; } }
+  .kv-related__head { margin-bottom: 48px; }
+  .kv-related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 1023px) { .kv-related__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 599px)  { .kv-related__grid { grid-template-columns: 1fr; } }
+</style>
+
+{%- comment -%} ── Article hero ──────────────────────────────── {%- endcomment -%}
+<div class="kv-article-hero">
+  {%- if article.image -%}
+    {{ article.image | image_url: width: 1400 | image_tag: class: 'kv-article-hero__img', loading: 'eager', alt: article.title }}
+    <div class="kv-article-hero__overlay"></div>
+  {%- endif -%}
+  <div class="kv-article-hero__content">
+    {%- if article.tags.size > 0 -%}
+      <span class="t-micro kv-article-hero__tag">{{ article.tags.first }}</span>
+    {%- endif -%}
+    <h1 class="kv-article-hero__title">{{ article.title }}</h1>
+    <span class="t-micro kv-article-hero__meta">
+      {{ article.author }} &middot; {{ article.published_at | date: "%B %d, %Y" }}
+    </span>
+  </div>
+</div>
+
+{%- comment -%} ── Article body ──────────────────────────────── {%- endcomment -%}
+<div class="kv-article-body">
+  <div class="kv-prose">
+    {{ article.content }}
+  </div>
+
+  {%- comment -%} Tags row {%- endcomment -%}
+  {%- if article.tags.size > 0 -%}
+    <div class="kv-article-tags">
+      {%- for tag in article.tags -%}
+        <a class="kv-article-tag-pill" href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Author card {%- endcomment -%}
+  {%- if article.author != blank -%}
+    {%- assign initials = article.author | split: ' ' -%}
+    {%- assign author_initials = '' -%}
+    {%- for name_part in initials limit: 2 -%}
+      {%- assign author_initials = author_initials | append: name_part | slice: 0 -%}
+    {%- endfor -%}
+    <div class="kv-author-card">
+      <div class="kv-author-avatar" aria-hidden="true">{{ author_initials | upcase }}</div>
+      <div class="kv-author-info">
+        <span class="kv-author-name">{{ article.author }}</span>
+        <span class="kv-author-label">VELD Journal</span>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Back link {%- endcomment -%}
+  <div class="kv-article-back">
+    <a href="{{ blog.url }}">&larr; Back to Journal</a>
+  </div>
+</div>
+
+{%- comment -%} ── Related articles ──────────────────────────── {%- endcomment -%}
+{%- assign related_count = 0 -%}
+{%- for related in blog.articles limit: 4 -%}
+  {%- unless related.id == article.id -%}
+    {%- assign related_count = related_count | plus: 1 -%}
+  {%- endunless -%}
+{%- endfor -%}
+
+{%- if related_count > 0 -%}
+  <section class="kv-related">
+    <div class="kv-container">
+      <div class="kv-related__head">
+        <h2 class="t-h3" style="font-family:var(--font-display);font-weight:400;margin:0;">You might also enjoy</h2>
+      </div>
+      <div class="kv-related__grid">
+        {%- assign shown = 0 -%}
+        {%- for related in blog.articles limit: 4 -%}
+          {%- unless related.id == article.id -%}
+            {%- if shown < 3 -%}
+              <article class="kv-article-card">
+                <a class="kv-article-card__img-wrap" href="{{ related.url }}" aria-label="{{ related.title | escape }}">
+                  {%- if related.image -%}
+                    {{ related.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: related.title }}
+                  {%- else -%}
+                    <div class="kv-article-card__ph">{{ related.title }}</div>
+                  {%- endif -%}
+                </a>
+                <div class="kv-article-card__body">
+                  <span class="t-micro kv-article-card__tag">
+                    {%- if related.tags.size > 0 -%}{{ related.tags.first }}{%- else -%}Journal{%- endif -%}
+                  </span>
+                  <a class="kv-article-card__title" href="{{ related.url }}">
+                    <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">{{ related.title }}</h3>
+                  </a>
+                  <p class="t-body kv-article-card__excerpt">{{ related.excerpt | strip_html | truncate: 100 }}</p>
+                  <a class="t-small kv-article-card__more" href="{{ related.url }}">Read more &rarr;</a>
+                </div>
+              </article>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Article",
+  "tag": "section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Article"
+    }
+  ]
+}
+{% endschema %}

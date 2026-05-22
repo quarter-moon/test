@@ -1,0 +1,91 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "VELD",
+    "theme_version": "1.0.0",
+    "theme_author": "VELD",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Ink (primary)",
+        "default": "#1A1A1A"
+      },
+      {
+        "type": "color",
+        "id": "color_stone",
+        "label": "Stone (background)",
+        "default": "#F5F4F2"
+      },
+      {
+        "type": "color",
+        "id": "color_mist",
+        "label": "Mist (borders)",
+        "default": "#E8E6E2"
+      },
+      {
+        "type": "color",
+        "id": "color_clay",
+        "label": "Clay (accent)",
+        "default": "#C4A882"
+      },
+      {
+        "type": "color",
+        "id": "color_sage",
+        "label": "Sage (eco accent)",
+        "default": "#8A9E8C"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "heading_font",
+        "label": "Heading font",
+        "options": [
+          { "value": "cormorant", "label": "Cormorant Garamond (recommended)" },
+          { "value": "garamond", "label": "Garamond" },
+          { "value": "georgia", "label": "Georgia" }
+        ],
+        "default": "cormorant"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram_link",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest_link",
+        "label": "Pinterest"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok_link",
+        "label": "TikTok"
+      }
+    ]
+  }
+]

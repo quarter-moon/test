@@ -1,0 +1,74 @@
+<section class="kv-section">
+  <div class="kv-container">
+    <div class="kv-breadcrumb" style="margin-bottom:32px;">
+      <a href="{{ routes.root_url }}">Home</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      <span>Cart</span>
+    </div>
+
+    <div class="t-h1" style="margin-bottom:48px;">Your cart</div>
+
+    {%- if cart.item_count == 0 -%}
+      <div class="kv-cart-empty" style="margin:0 auto;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.3;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <div class="t-h3" style="margin-top:16px;">Your cart is empty</div>
+        <p class="t-body" style="color:#777;max-width:320px;text-align:center;margin-top:8px;">Begin with something quietly considered.</p>
+        <a class="kv-btn" href="/collections/new-in" style="margin-top:24px;">Shop new arrivals</a>
+      </div>
+    {%- else -%}
+      <div style="display:grid;grid-template-columns:1fr 360px;gap:64px;align-items:start;">
+        <div>
+          {%- for item in cart.items -%}
+            <div class="kv-line" style="grid-template-columns:96px 1fr auto;">
+              <div class="kv-line__img" style="width:96px;">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | escape }}" width="96" height="128" loading="lazy">
+                {%- else -%}
+                  <div class="kv-ph">VELD</div>
+                {%- endif -%}
+              </div>
+              <div class="kv-line__meta">
+                <a class="kv-line__name" href="{{ item.url }}">{{ item.product.title }}</a>
+                <div class="kv-line__variant">
+                  {%- unless item.product.has_only_default_variant -%}{{ item.variant.title }}{%- endunless -%}
+                </div>
+                <div class="kv-line__qty">
+                  <button data-qty-change="-1" data-key="{{ item.key }}" aria-label="Decrease">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+                  </button>
+                  <span class="qtynum" data-qty-input="{{ item.key }}">{{ item.quantity }}</span>
+                  <button data-qty-change="1" data-key="{{ item.key }}" aria-label="Increase">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="kv-line__right">
+                <span>{{ item.final_line_price | money }}</span>
+                <button class="kv-line__remove" data-remove-item="{{ item.key }}">Remove</button>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div style="background:var(--color-white);padding:32px;position:sticky;top:calc(var(--nav-h)+32px);">
+          <div class="t-h4" style="margin-bottom:24px;">Order summary</div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:12px;">
+            <span class="t-body" style="color:#777;">Subtotal</span>
+            <span class="t-body" style="font-weight:500;">{{ cart.total_price | money }}</span>
+          </div>
+          <div class="kv-divider"></div>
+          <div class="t-small" style="color:#777;margin:12px 0 24px;">Shipping & taxes calculated at checkout.</div>
+          <a href="{{ routes.checkout }}" class="kv-btn kv-btn--full kv-btn--lg">Checkout — {{ cart.total_price | money }}</a>
+          <a class="kv-btn kv-btn--ghost kv-btn--full" href="/collections/all" style="margin-top:12px;text-align:center;">Continue shopping</a>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}

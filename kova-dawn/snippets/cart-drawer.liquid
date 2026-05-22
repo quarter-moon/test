@@ -1,0 +1,90 @@
+<aside class="kv-drawer" id="kv-cart-drawer" role="dialog" aria-label="Shopping cart">
+  <header class="kv-drawer__head">
+    <div class="t-h4">Your cart
+      <span style="opacity:0.5;font-weight:400;">({{ cart.item_count }})</span>
+    </div>
+    <button id="kv-cart-close" aria-label="Close cart" style="background:none;border:none;cursor:pointer;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+  </header>
+
+  <div class="kv-drawer__body">
+    {%- if cart.item_count == 0 -%}
+      <div class="kv-cart-empty">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <div class="t-h3" style="margin-top:8px;">Your cart is empty</div>
+        <p class="t-body" style="color:#777;max-width:260px;text-align:center;">
+          Begin with something quietly considered. Free shipping on orders over $150.
+        </p>
+        <button class="kv-btn kv-btn--out" style="margin-top:16px;" id="kv-cart-continue">Continue shopping</button>
+      </div>
+    {%- else -%}
+      {%- for item in cart.items -%}
+        <div class="kv-line">
+          <div class="kv-line__img">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.image.alt | escape }}" width="80" height="107" loading="lazy">
+            {%- else -%}
+              <div class="kv-ph">VELD</div>
+            {%- endif -%}
+          </div>
+          <div class="kv-line__meta">
+            <div class="kv-line__name">{{ item.product.title }}</div>
+            <div class="kv-line__variant">
+              {%- unless item.product.has_only_default_variant -%}
+                {{ item.variant.title }}
+              {%- endunless -%}
+            </div>
+            <div class="kv-line__qty">
+              <button data-qty-change="-1" data-key="{{ item.key }}" aria-label="Decrease quantity">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+              </button>
+              <span class="qtynum" data-qty-input="{{ item.key }}">{{ item.quantity }}</span>
+              <button data-qty-change="1" data-key="{{ item.key }}" aria-label="Increase quantity">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="kv-line__right">
+            <span>{{ item.final_line_price | money }}</span>
+            <button class="kv-line__remove" data-remove-item="{{ item.key }}">Remove</button>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if cart.item_count > 0 -%}
+    <footer class="kv-drawer__foot">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span class="t-body" style="color:#777;">Subtotal</span>
+        <span class="t-body-lg" style="font-weight:500;">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="t-small" style="color:#777;margin-bottom:20px;">Shipping & taxes calculated at checkout.</div>
+      <a href="{{ routes.checkout }}" class="kv-btn kv-btn--full kv-btn--lg">Checkout — {{ cart.total_price | money }}</a>
+      <button class="kv-btn kv-btn--ghost kv-btn--full" style="margin-top:12px;" id="kv-cart-continue-2">Continue shopping</button>
+      <div class="kv-drawer-trust">
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+          Free over $150
+        </span>
+        <span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 14.85-6.85L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-14.85 6.85L3 16"/><path d="M3 21v-5h5"/></svg>
+          Free returns
+        </span>
+      </div>
+    </footer>
+  {%- endif -%}
+</aside>
+
+<script>
+  // Close cart when Continue Shopping is clicked
+  ['kv-cart-continue','kv-cart-continue-2'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.addEventListener('click', function(){
+      document.getElementById('kv-cart-drawer').classList.remove('is-open');
+      document.getElementById('kv-cart-overlay').classList.add('hidden');
+      document.body.classList.remove('kv-lock');
+    });
+  });
+</script>

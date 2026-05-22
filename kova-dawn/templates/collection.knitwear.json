@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "products_per_page": 16,
+        "demo_title": "Knitwear",
+        "demo_description": "Handcrafted in Scotland and Portugal. Our knitwear collection uses only fine merino, cashmere, and lambswool — sourced from certified, traceable farms.",
+        "demo_image": "https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=1600&q=85"
+      }
+    }
+  },
+  "order": ["main"]
+}

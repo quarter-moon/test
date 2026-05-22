@@ -1,0 +1,449 @@
+<style>
+  /* ─── Blog hero ─────────────────────────── */
+  .kv-blog-hero {
+    position: relative;
+    height: 50vh;
+    min-height: 380px;
+    background: var(--color-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+  }
+  .kv-blog-hero__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
+    max-width: 720px;
+  }
+  .kv-blog-hero__label { color: var(--color-clay); }
+  .kv-blog-hero__title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    margin: 0;
+  }
+  .kv-blog-hero__sub {
+    color: rgba(255,255,255,0.80);
+    max-width: 520px;
+    margin: 4px 0 0;
+  }
+
+  /* ─── Category tabs ─────────────────────── */
+  .kv-blog-tabs {
+    background: var(--color-stone);
+    border-bottom: 1px solid var(--color-mist);
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 40;
+  }
+  .kv-blog-tabs__inner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0;
+  }
+  .kv-blog-tabs__inner::-webkit-scrollbar { display: none; }
+  .kv-blog-tab {
+    display: inline-block;
+    padding: 14px 20px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: border-color 150ms ease, opacity 150ms ease;
+    opacity: 0.6;
+  }
+  .kv-blog-tab:hover { opacity: 1; }
+  .kv-blog-tab.is-active {
+    border-bottom-color: var(--color-ink);
+    opacity: 1;
+  }
+
+  /* ─── Featured hero card ─────────────────── */
+  .kv-blog-featured {
+    position: relative;
+    height: clamp(360px, 40vw, 480px);
+    overflow: hidden;
+    background: var(--color-ink);
+    display: block;
+    text-decoration: none;
+    color: var(--color-white);
+    margin: 0;
+  }
+  .kv-blog-featured__img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 700ms ease;
+  }
+  .kv-blog-featured:hover .kv-blog-featured__img { transform: scale(1.03); }
+  .kv-blog-featured__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,26,24,0.80) 0%, rgba(26,26,24,0.20) 55%, transparent 100%);
+    z-index: 1;
+  }
+  .kv-blog-featured__content {
+    position: absolute;
+    z-index: 2;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    padding: 0 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 760px;
+  }
+  @media (max-width: 1023px) { .kv-blog-featured__content { padding: 0 40px; } }
+  @media (max-width: 767px) { .kv-blog-featured__content { padding: 0 20px; bottom: 28px; } }
+  .kv-blog-featured__tag { color: var(--color-clay); }
+  .kv-blog-featured__title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(28px, 3.5vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-white);
+    margin: 0;
+  }
+  .kv-blog-featured__cta {
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    background: transparent;
+    color: var(--color-white);
+    border: 1px solid rgba(255,255,255,0.7);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    width: max-content;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+  .kv-blog-featured:hover .kv-blog-featured__cta {
+    background: rgba(255,255,255,0.12);
+    border-color: var(--color-white);
+  }
+
+  /* ─── Article grid ─────────────────────── */
+  .kv-blog-main { background: var(--color-white); padding: 80px 0 96px; }
+  @media (max-width: 767px) { .kv-blog-main { padding: 56px 0 72px; } }
+
+  .kv-blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 32px;
+  }
+  @media (max-width: 1023px) { .kv-blog-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 599px)  { .kv-blog-grid { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* Reuse kv-article-card from blog-preview but on white bg */
+  .kv-blog-main .kv-article-card__title { color: var(--color-ink); }
+
+  /* ─── Pagination ─────────────────────────── */
+  .kv-blog-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+  }
+  .kv-blog-pagination a,
+  .kv-blog-pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--color-mist);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-ink);
+    text-decoration: none;
+    transition: background 150ms ease, border-color 150ms ease;
+  }
+  .kv-blog-pagination a:hover { background: var(--color-stone); border-color: var(--color-ink); }
+  .kv-blog-pagination span.current {
+    background: var(--color-ink);
+    color: var(--color-white);
+    border-color: var(--color-ink);
+  }
+
+  /* ─── Section heading row for grid ──────── */
+  .kv-blog-grid-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+</style>
+
+{%- comment -%} ── Hero ─────────────────────────────────────── {%- endcomment -%}
+<div class="kv-blog-hero">
+  <div class="kv-blog-hero__content">
+    <span class="t-micro kv-blog-hero__label">Journal</span>
+    <h1 class="kv-blog-hero__title">{{ blog.title | default: "Journal" }}</h1>
+    {%- if section.settings.subtext != blank -%}
+      <p class="t-body kv-blog-hero__sub">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- comment -%} ── Category tabs ────────────────────────────── {%- endcomment -%}
+<nav class="kv-blog-tabs" aria-label="Blog categories">
+  <div class="kv-container">
+    <div class="kv-blog-tabs__inner">
+      <a class="kv-blog-tab{% unless current_tags %} is-active{% endunless %}" href="{{ blog.url }}">All</a>
+      <a class="kv-blog-tab{% if current_tags contains 'craft' %} is-active{% endif %}" href="{{ blog.url }}/tagged/craft">Craft</a>
+      <a class="kv-blog-tab{% if current_tags contains 'materials' %} is-active{% endif %}" href="{{ blog.url }}/tagged/materials">Materials</a>
+      <a class="kv-blog-tab{% if current_tags contains 'behind-the-seams' %} is-active{% endif %}" href="{{ blog.url }}/tagged/behind-the-seams">Behind the Seams</a>
+      <a class="kv-blog-tab{% if current_tags contains 'notes' %} is-active{% endif %}" href="{{ blog.url }}/tagged/notes">Notes</a>
+    </div>
+  </div>
+</nav>
+
+{%- comment -%} ── Content ──────────────────────────────────── {%- endcomment -%}
+{%- if blog.articles.size > 0 -%}
+
+  {%- comment -%} Featured hero article (first) {%- endcomment -%}
+  {%- assign featured = blog.articles.first -%}
+  <a class="kv-blog-featured" href="{{ featured.url }}" aria-label="{{ featured.title | escape }}">
+    {%- if featured.image -%}
+      {{ featured.image | image_url: width: 1400 | image_tag: class: 'kv-blog-featured__img', loading: 'eager', alt: featured.title }}
+    {%- else -%}
+      <div style="position:absolute;inset:0;background:var(--color-ink);"></div>
+    {%- endif -%}
+    <div class="kv-blog-featured__overlay"></div>
+    <div class="kv-blog-featured__content">
+      <span class="t-micro kv-blog-featured__tag">
+        {%- if featured.tags.size > 0 -%}{{ featured.tags.first }}{%- else -%}Journal{%- endif -%}
+      </span>
+      <h2 class="kv-blog-featured__title">{{ featured.title }}</h2>
+      <span class="kv-blog-featured__cta">Read the story &rarr;</span>
+    </div>
+  </a>
+
+  {%- comment -%} Article grid (articles 2 onwards) {%- endcomment -%}
+  <div class="kv-blog-main">
+    <div class="kv-container">
+      {%- paginate blog.articles by 9 -%}
+        <div class="kv-blog-grid-head">
+          <h2 class="t-h3" style="font-family:var(--font-display);font-weight:400;margin:0;">All stories</h2>
+          {%- if current_tags -%}
+            <a class="t-small" href="{{ blog.url }}" style="letter-spacing:0.08em;text-decoration:underline;text-underline-offset:4px;opacity:0.6;">Clear filter</a>
+          {%- endif -%}
+        </div>
+        <div class="kv-blog-grid">
+          {%- for article in blog.articles -%}
+            {%- unless article.id == blog.articles.first.id and paginate.current_page == 1 -%}
+              <article class="kv-article-card">
+                <a class="kv-article-card__img-wrap" href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+                  {%- if article.image -%}
+                    {{ article.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: article.title }}
+                  {%- else -%}
+                    <div class="kv-article-card__ph">{{ article.title }}</div>
+                  {%- endif -%}
+                </a>
+                <div class="kv-article-card__body">
+                  <span class="t-micro kv-article-card__tag">
+                    {%- if article.tags.size > 0 -%}{{ article.tags.first }}{%- else -%}Journal{%- endif -%}
+                  </span>
+                  <a class="kv-article-card__title" href="{{ article.url }}">
+                    <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">{{ article.title }}</h3>
+                  </a>
+                  <p class="t-body kv-article-card__excerpt">{{ article.excerpt | strip_html | truncate: 110 }}</p>
+                  <a class="t-small kv-article-card__more" href="{{ article.url }}">Read more &rarr;</a>
+                </div>
+              </article>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} Pagination {%- endcomment -%}
+        {%- if paginate.pages > 1 -%}
+          <nav class="kv-blog-pagination" aria-label="Pagination">
+            {%- if paginate.previous -%}
+              <a href="{{ paginate.previous.url }}">&larr;</a>
+            {%- endif -%}
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}">{{ part.title }}</a>
+              {%- else -%}
+                <span class="current">{{ part.title }}</span>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if paginate.next -%}
+              <a href="{{ paginate.next.url }}">&rarr;</a>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+
+      {%- endpaginate -%}
+    </div>
+  </div>
+
+{%- else -%}
+
+  {%- comment -%} ── Demo fallback when no real articles exist ── {%- endcomment -%}
+
+  {%- comment -%} Demo featured hero {%- endcomment -%}
+  <div class="kv-blog-featured" style="display:block;text-decoration:none;color:var(--color-white);">
+    <img
+      class="kv-blog-featured__img"
+      src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1400&q=85"
+      alt="The loom that never stopped running"
+      loading="eager" width="1400" height="700">
+    <div class="kv-blog-featured__overlay"></div>
+    <div class="kv-blog-featured__content">
+      <span class="t-micro kv-blog-featured__tag">Craft</span>
+      <h2 class="kv-blog-featured__title">The loom that never stopped running</h2>
+      <span class="kv-blog-featured__cta">Read the story &rarr;</span>
+    </div>
+  </div>
+
+  {%- comment -%} Demo article grid {%- endcomment -%}
+  <div class="kv-blog-main">
+    <div class="kv-container">
+      <div class="kv-blog-grid-head">
+        <h2 class="t-h3" style="font-family:var(--font-display);font-weight:400;margin:0;">All stories</h2>
+      </div>
+      <div class="kv-blog-grid">
+
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="Why we only use GOTS-certified cotton">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=700&q=85" alt="Why we only use GOTS-certified cotton" loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Materials</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">Why we only use GOTS-certified cotton</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">The certification process takes three years. We think it is worth every day of it. Here is what it actually means for your wardrobe.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="A week in the Porto atelier">
+            <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=700&q=85" alt="A week in the Porto atelier" loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Behind the Seams</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">A week in the Porto atelier</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">Four days with the hands that make our shirts. We documented every step &mdash; from the first pattern cut to the final press.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="The case against fast fashion math">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=700&q=85" alt="The case against fast fashion math" loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Notes</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">The case against fast fashion math</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">Cost-per-wear is the only metric that matters. We lay out the honest arithmetic of buying considered versus buying cheap.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="What makes a seam last ten years">
+            <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=700&q=85" alt="What makes a seam last ten years" loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Craft</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">What makes a seam last ten years</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">Thread count, stitch density, seam allowance &mdash; we break down the construction details that determine whether a garment is built to last.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="Merino vs cashmere: an honest comparison">
+            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?auto=format&fit=crop&w=700&q=85" alt="Merino vs cashmere: an honest comparison" loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Materials</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">Merino vs cashmere: an honest comparison</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">Both are exceptional. But they are not interchangeable. We explain when each fibre earns its place in a considered wardrobe.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+        <article class="kv-article-card">
+          <a class="kv-article-card__img-wrap" href="#" aria-label="The dye house in Prato">
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=700&q=85" alt="The dye house in Prato" loading="lazy" width="700" height="467">
+          </a>
+          <div class="kv-article-card__body">
+            <span class="t-micro kv-article-card__tag">Behind the Seams</span>
+            <a class="kv-article-card__title" href="#">
+              <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(20px,2vw,26px);line-height:1.2;margin:0;">The dye house in Prato</h3>
+            </a>
+            <p class="t-body kv-article-card__excerpt">Colour is the first thing you see and the last thing most brands control. We visited the Prato facility where our palette begins.</p>
+            <a class="t-small kv-article-card__more" href="#">Read more &rarr;</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Blog",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Hero subtext",
+      "default": "Long reads on craft, materials, and the people behind the pieces."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog",
+      "settings": {
+        "subtext": "Long reads on craft, materials, and the people behind the pieces."
+      }
+    }
+  ]
+}
+{% endschema %}

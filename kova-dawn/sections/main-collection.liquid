@@ -1,0 +1,873 @@
+<style>
+/* ─── Prestige Allure-style Collection Page ─── */
+
+/* Hero banner */
+.kv-col-hero {
+  position: relative;
+  height: clamp(320px, 40vw, 480px);
+  overflow: hidden;
+  background: var(--color-ink);
+}
+.kv-col-hero__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.kv-col-hero__overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20,18,16,0.72) 0%,
+    rgba(20,18,16,0.35) 40%,
+    rgba(20,18,16,0.08) 75%,
+    transparent 100%
+  );
+}
+.kv-col-hero__content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 0 80px 40px;
+  color: var(--color-white);
+}
+.kv-col-hero__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+  margin: 6px 0 10px;
+}
+.kv-col-hero__desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.82);
+  max-width: 540px;
+}
+@media (max-width: 1023px) {
+  .kv-col-hero__content { padding: 0 40px 36px; }
+}
+@media (max-width: 767px) {
+  .kv-col-hero { height: clamp(260px, 56vw, 380px); }
+  .kv-col-hero__content { padding: 0 20px 28px; }
+  .kv-col-hero__title { font-size: clamp(28px, 7vw, 40px); }
+}
+
+/* Breadcrumb bar */
+.kv-col-breadcrumb {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-mist);
+}
+
+/* Refined filter + sort toolbar */
+.kv-col-toolbar {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 50;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-mist);
+  padding: 0;
+}
+.kv-col-toolbar__inner {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.kv-col-toolbar__filters {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.kv-col-toolbar__filters::-webkit-scrollbar { display: none; }
+
+.kv-col-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 20px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--color-mist);
+  cursor: pointer;
+  color: var(--color-ink);
+  white-space: nowrap;
+  transition: background 150ms ease;
+  font-family: var(--font-body);
+}
+.kv-col-filter-btn:hover { background: var(--color-stone); }
+.kv-col-filter-btn.is-on { background: var(--color-ink); color: var(--color-white); }
+.kv-col-filter-btn svg { flex-shrink: 0; }
+
+.kv-col-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-left: 1px solid var(--color-mist);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.kv-col-sort select {
+  border: none;
+  background: transparent;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-weight: 600;
+  padding: 4px 0;
+  cursor: pointer;
+  color: var(--color-ink);
+  appearance: none;
+  -webkit-appearance: none;
+}
+.kv-col-sort select:focus { outline: none; }
+
+/* Active filters row + count */
+.kv-col-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  flex-wrap: wrap;
+}
+.kv-col-count { font-size: 12px; color: #777; }
+.kv-col-active-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.kv-col-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--color-ink);
+  color: var(--color-white);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-body);
+}
+.kv-col-pill:hover { background: #444; }
+.kv-col-pill__x { font-size: 14px; line-height: 1; margin-left: 2px; }
+
+/* Filter panel (slide-down) */
+.kv-col-filter-panel {
+  position: fixed;
+  top: calc(var(--nav-h) + 53px);
+  left: 0; right: 0;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-mist);
+  z-index: 49;
+  padding: 32px 0;
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.kv-col-filter-panel.is-open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+.kv-col-filter-panel__inner { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.kv-col-filter-group { display: flex; flex-direction: column; gap: 14px; }
+.kv-col-filter-group__label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #777;
+}
+.kv-col-filter-group__options { display: flex; flex-wrap: wrap; gap: 8px; }
+.kv-col-filter-option {
+  border: 1px solid var(--color-mist);
+  background: var(--color-white);
+  padding: 7px 14px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 500;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+  color: var(--color-ink);
+  border-radius: 0;
+}
+.kv-col-filter-option:hover { border-color: var(--color-ink); }
+.kv-col-filter-option.is-on { background: var(--color-ink); color: var(--color-white); border-color: var(--color-ink); }
+
+/* Prestige Allure product cards — white background */
+.kv-col-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+@media (max-width: 1199px) { .kv-col-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 767px) { .kv-col-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.kv-col-card {
+  position: relative;
+  background: var(--color-white);
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.kv-col-card__img-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  background: var(--color-mist);
+  overflow: hidden;
+}
+.kv-col-card__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 600ms ease, opacity 350ms ease;
+  display: block;
+}
+.kv-col-card__img--alt { opacity: 0; }
+.kv-col-card:hover .kv-col-card__img--main { opacity: 0; }
+.kv-col-card:hover .kv-col-card__img--alt { opacity: 1; }
+.kv-col-card:hover .kv-col-card__img { transform: scale(1.04); }
+
+/* Badges */
+.kv-col-card__badge {
+  position: absolute;
+  top: 12px; left: 12px;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--color-ink);
+  color: var(--color-white);
+  z-index: 2;
+  font-family: var(--font-body);
+}
+.kv-col-card__badge--sale { background: var(--color-clay); }
+.kv-col-card__badge--sold { background: var(--color-mist); color: var(--color-ink); }
+
+/* Wishlist */
+.kv-col-card__wishlist {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(6px);
+  border-radius: 999px;
+  z-index: 2;
+  border: none; cursor: pointer;
+  transition: background 200ms ease, opacity 200ms ease, transform 200ms ease;
+  opacity: 0;
+  transform: translateY(-4px);
+  color: var(--color-ink);
+}
+.kv-col-card:hover .kv-col-card__wishlist { opacity: 1; transform: translateY(0); }
+.kv-col-card__wishlist:hover { background: var(--color-white); }
+
+/* Quick shop — slides up from bottom */
+.kv-col-card__qs {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 48px;
+  background: rgba(26,26,26,0.92);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-white);
+  transform: translateY(100%);
+  transition: transform 260ms cubic-bezier(0.4,0,0.2,1);
+  z-index: 2;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  gap: 8px;
+}
+.kv-col-card:hover .kv-col-card__qs { transform: translateY(0); }
+.kv-col-card__qs:hover { background: rgba(26,26,26,1); }
+.kv-col-card__qs svg { flex-shrink: 0; }
+
+/* Card info */
+.kv-col-card__info {
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.kv-col-card__vendor {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-clay);
+}
+.kv-col-card__name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.kv-col-card__name:hover { text-decoration: underline; text-underline-offset: 3px; }
+.kv-col-card__price {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 2px;
+}
+.kv-col-card__price--was { text-decoration: line-through; color: #999; font-weight: 400; }
+.kv-col-card__price--sale { color: var(--color-error); }
+.kv-col-card__swatches { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+
+/* Load more */
+.kv-col-load-more {
+  text-align: center;
+  padding: 64px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.kv-col-load-more__progress {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #777;
+}
+.kv-col-load-more__bar {
+  width: 200px;
+  height: 1px;
+  background: var(--color-mist);
+  position: relative;
+  overflow: hidden;
+}
+.kv-col-load-more__fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: var(--color-ink);
+  transition: width 400ms ease;
+}
+
+/* No results */
+.kv-col-empty {
+  text-align: center;
+  padding: 96px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+</style>
+
+{%- assign collection_title = collection.title | default: section.settings.demo_title | default: section.settings.fallback_title | default: 'All Pieces' -%}
+
+{%- comment -%} ════════════ HERO ════════════ {%- endcomment -%}
+<div class="kv-col-hero">
+  {%- if collection.image -%}
+    <img
+      class="kv-col-hero__img"
+      src="{{ collection.image | image_url: width: 1600 }}"
+      alt="{{ collection.image.alt | escape | default: collection_title }}"
+      width="1600"
+      height="640"
+      loading="eager"
+    >
+  {%- elsif section.settings.hero_image -%}
+    <img
+      class="kv-col-hero__img"
+      src="{{ section.settings.hero_image | image_url: width: 1600 }}"
+      alt="{{ collection_title }}"
+      width="1600"
+      height="640"
+      loading="eager"
+    >
+  {%- elsif section.settings.demo_image != blank -%}
+    <img
+      class="kv-col-hero__img"
+      src="{{ section.settings.demo_image }}"
+      alt="{{ collection_title }}"
+      width="1600"
+      height="640"
+      loading="eager"
+    >
+  {%- else -%}
+    <img
+      class="kv-col-hero__img"
+      src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=85"
+      alt="{{ collection_title }}"
+      width="1600"
+      height="640"
+      loading="eager"
+    >
+  {%- endif -%}
+  <div class="kv-col-hero__overlay" aria-hidden="true"></div>
+  <div class="kv-col-hero__content">
+    <span class="t-micro" style="color:rgba(255,255,255,0.65);">Collection</span>
+    <h1 class="kv-col-hero__title">{{ collection_title }}</h1>
+    {%- if collection.description != blank -%}
+      <p class="kv-col-hero__desc">{{ collection.description | strip_html | truncate: 200 }}</p>
+    {%- elsif section.settings.demo_description != blank -%}
+      <p class="kv-col-hero__desc">{{ section.settings.demo_description }}</p>
+    {%- elsif section.settings.collection_desc != blank -%}
+      <p class="kv-col-hero__desc">{{ section.settings.collection_desc }}</p>
+    {%- else -%}
+      <p class="kv-col-hero__desc">Designed without compromise. Each piece in this edit is made from traceable natural materials in small batches — intended not for the season, but for the decade.</p>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- comment -%} ════════════ BREADCRUMB ════════════ {%- endcomment -%}
+<div class="kv-col-breadcrumb">
+  <div class="kv-container">
+    <nav class="kv-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      <a href="{{ routes.collections_url }}">Collections</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      <span aria-current="page">{{ collection_title }}</span>
+    </nav>
+  </div>
+</div>
+
+{%- comment -%} ════════════ FILTER + SORT TOOLBAR ════════════ {%- endcomment -%}
+<div class="kv-col-toolbar" id="kv-col-toolbar" role="toolbar" aria-label="Filter and sort products">
+  <div class="kv-container" style="padding-top:0;padding-bottom:0;">
+    <div class="kv-col-toolbar__inner">
+      <div class="kv-col-toolbar__filters">
+
+        {%- comment -%} Filter toggle button {%- endcomment -%}
+        <button class="kv-col-filter-btn" id="kv-filter-toggle" aria-expanded="false" aria-controls="kv-filter-panel">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="12" y1="18" x2="12" y2="18"/>
+          </svg>
+          Filter
+        </button>
+
+        {%- comment -%} Quick size filters {%- endcomment -%}
+        {%- assign size_filter_values = "XS,S,M,L,XL" | split: "," -%}
+        {%- for s in size_filter_values -%}
+          <button
+            class="kv-col-filter-btn"
+            data-filter="{{ s }}"
+            data-filter-type="size"
+            aria-pressed="false"
+          >{{ s }}</button>
+        {%- endfor -%}
+
+      </div>
+
+      <div class="kv-col-sort">
+        <span style="color:#999;font-weight:400;">Sort</span>
+        <form method="get" style="display:inline;">
+          <select name="sort_by" onchange="this.form.submit()" aria-label="Sort products">
+            <option value="manual"{% if collection.sort_by == 'manual' %} selected{% endif %}>Featured</option>
+            <option value="price-ascending"{% if collection.sort_by == 'price-ascending' %} selected{% endif %}>Price · Low</option>
+            <option value="price-descending"{% if collection.sort_by == 'price-descending' %} selected{% endif %}>Price · High</option>
+            <option value="title-ascending"{% if collection.sort_by == 'title-ascending' %} selected{% endif %}>A → Z</option>
+            <option value="created-descending"{% if collection.sort_by == 'created-descending' %} selected{% endif %}>Newest</option>
+            <option value="best-selling"{% if collection.sort_by == 'best-selling' %} selected{% endif %}>Best selling</option>
+          </select>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ════════════ EXPANDED FILTER PANEL ════════════ {%- endcomment -%}
+<div class="kv-col-filter-panel" id="kv-filter-panel" aria-hidden="true">
+  <div class="kv-container">
+    <div class="kv-col-filter-panel__inner">
+      <div class="kv-col-filter-group">
+        <span class="kv-col-filter-group__label">Size</span>
+        <div class="kv-col-filter-group__options">
+          {%- assign sizes = "XS,S,M,L,XL,XXL" | split: "," -%}
+          {%- for s in sizes -%}
+            <button class="kv-col-filter-option" data-filter="{{ s }}" data-filter-type="size" aria-pressed="false">{{ s }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="kv-col-filter-group">
+        <span class="kv-col-filter-group__label">Color</span>
+        <div class="kv-col-filter-group__options">
+          {%- assign colors = "Ivory,Stone,Camel,Ink,Clay,Sage,Blush,Black" | split: "," -%}
+          {%- for c in colors -%}
+            <button class="kv-col-filter-option" data-filter="{{ c }}" data-filter-type="color" aria-pressed="false">{{ c }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="kv-col-filter-group">
+        <span class="kv-col-filter-group__label">Price</span>
+        <div class="kv-col-filter-group__options">
+          {%- assign prices = "Under $150,$150–$300,$300–$500,Over $500" | split: "," -%}
+          {%- for p in prices -%}
+            <button class="kv-col-filter-option" data-filter="{{ p }}" data-filter-type="price" aria-pressed="false">{{ p }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="kv-col-filter-group">
+        <span class="kv-col-filter-group__label">Material</span>
+        <div class="kv-col-filter-group__options">
+          {%- assign materials = "Wool,Linen,Cotton,Cashmere,Silk" | split: "," -%}
+          {%- for m in materials -%}
+            <button class="kv-col-filter-option" data-filter="{{ m }}" data-filter-type="material" aria-pressed="false">{{ m }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ════════════ META ROW (count + active pills) ════════════ {%- endcomment -%}
+<div class="kv-container">
+  <div class="kv-col-meta">
+    <span class="kv-col-count" id="kv-product-count">
+      {{ collection.products_count }} {{ collection.products_count | pluralize: 'piece', 'pieces' }}
+    </span>
+    <div class="kv-col-active-pills" id="kv-active-pills" role="list" aria-label="Active filters">
+      {%- comment -%} Active filter pills are injected by JS {%- endcomment -%}
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ════════════ PRODUCT GRID ════════════ {%- endcomment -%}
+<section aria-label="Products">
+  <div class="kv-container" style="padding-bottom:0;">
+    {%- paginate collection.products by section.settings.products_per_page -%}
+
+      {%- if collection.products.size == 0 -%}
+        <div class="kv-col-empty">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="color:var(--color-mist);" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <p class="t-h3" style="color:#777;margin:0;">No pieces found in this edit.</p>
+          <p class="t-body" style="color:#999;margin:0;">Try adjusting your filters or explore another collection.</p>
+          <a class="kv-btn kv-btn--out" href="{{ routes.root_url }}">Back to home</a>
+        </div>
+
+      {%- else -%}
+        <div class="kv-col-grid" id="kv-col-grid">
+          {%- for product in collection.products -%}
+            {%- assign prod_on_sale = false -%}
+            {%- if product.compare_at_price > product.price -%}
+              {%- assign prod_on_sale = true -%}
+            {%- endif -%}
+            {%- assign prod_img1 = product.featured_image -%}
+            {%- assign prod_img2 = product.images[1] -%}
+            {%- assign color_option = product.options_with_values | where: "name", "Color" | first -%}
+
+            <article class="kv-col-card">
+              <div class="kv-col-card__img-wrap">
+
+                {%- comment -%} Badge {%- endcomment -%}
+                {%- if product.available == false -%}
+                  <span class="kv-col-card__badge kv-col-card__badge--sold">Sold Out</span>
+                {%- elsif prod_on_sale -%}
+                  <span class="kv-col-card__badge kv-col-card__badge--sale">Sale</span>
+                {%- elsif product.tags contains 'new' or product.tags contains 'New' -%}
+                  <span class="kv-col-card__badge">New</span>
+                {%- endif -%}
+
+                {%- comment -%} Wishlist {%- endcomment -%}
+                <button class="kv-col-card__wishlist" data-wishlist aria-label="Save {{ product.title | escape }} to wishlist">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+
+                {%- comment -%} Images {%- endcomment -%}
+                {%- if prod_img1 -%}
+                  <img
+                    class="kv-col-card__img kv-col-card__img--main"
+                    src="{{ prod_img1 | image_url: width: 600 }}"
+                    alt="{{ prod_img1.alt | escape | default: product.title }}"
+                    width="600" height="800"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  <div class="kv-col-card__img kv-col-card__img--main kv-ph">{{ product.vendor }}</div>
+                {%- endif -%}
+
+                {%- if prod_img2 -%}
+                  <img
+                    class="kv-col-card__img kv-col-card__img--alt"
+                    src="{{ prod_img2 | image_url: width: 600 }}"
+                    alt="{{ prod_img2.alt | escape | default: product.title }}"
+                    width="600" height="800"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+
+                {%- comment -%} Quick shop — "Quick shop" not "Quick View" {%- endcomment -%}
+                <button
+                  class="kv-col-card__qs"
+                  data-quick-view="{{ product.handle }}"
+                  data-product-url="{{ product.url }}"
+                  aria-label="Quick shop {{ product.title | escape }}"
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+                  </svg>
+                  Quick shop
+                </button>
+
+              </div>
+
+              <div class="kv-col-card__info">
+                <span class="kv-col-card__vendor">{{ product.vendor }}</span>
+                <a class="kv-col-card__name" href="{{ product.url }}">{{ product.title }}</a>
+                <div class="kv-col-card__price">
+                  {%- if prod_on_sale -%}
+                    <span class="kv-col-card__price--was">{{ product.compare_at_price | money }}</span>
+                    <span class="kv-col-card__price--sale">{{ product.price | money }}</span>
+                  {%- else -%}
+                    <span>{{ product.price | money }}</span>
+                  {%- endif -%}
+                </div>
+                {%- if color_option -%}
+                  <div class="kv-col-card__swatches">
+                    {%- comment -%} Color name → CSS hex map for known VELD palette {%- endcomment -%}
+                    {%- assign kv_cmap = 'black|#1a1a18,white|#ffffff,ivory|#f5f0e8,ivory white|#f5f0e8,ecru|#e8e0ce,camel|#c4a882,sand|#d4c4a8,stone|#f5f3ef,slate|#6b7888,grey|#9a9a9a,gray|#9a9a9a,charcoal|#4a4a4a,navy|#1a2744,forest|#3d5c3e,forest green|#3d5c3e,sage|#6b7c6e,olive|#707840,burgundy|#7a2040,clay|#c4a882,blush|#e8c4b8,cream|#f5eed8,midnight|#1a1a2e,brown|#8b5e35,oat|#d8cebe,chalk|#f0ede8,cobalt|#1a3a6e,rust|#b84a2a' | split: ',' -%}
+                    {%- for value in color_option.values limit: 5 -%}
+                      {%- assign sw_img = '' -%}
+                      {%- for variant in product.variants -%}
+                        {%- if variant.option1 == value or variant.option2 == value -%}
+                          {%- if variant.image != blank -%}
+                            {%- assign sw_img = variant.image | image_url: width: 600 -%}
+                          {%- elsif product.featured_image != blank -%}
+                            {%- assign sw_img = product.featured_image | image_url: width: 600 -%}
+                          {%- endif -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- assign sw_hex = value | downcase -%}
+                      {%- for centry in kv_cmap -%}
+                        {%- assign cparts = centry | split: '|' -%}
+                        {%- if cparts[0] == sw_hex -%}
+                          {%- assign sw_hex = cparts[1] -%}
+                          {%- break -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                      <button
+                        class="kv-swatch{% if forloop.first %} is-active{% endif %}"
+                        style="background:{{ sw_hex }};"
+                        aria-label="{{ value }}"
+                        title="{{ value }}"
+                        data-color="{{ value }}"
+                        data-img="{{ sw_img }}"
+                      ></button>
+                    {%- endfor -%}
+                    {%- if color_option.values.size > 5 -%}
+                      <span class="t-micro" style="color:#999;align-self:center;">+{{ color_option.values.size | minus: 5 }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+
+        {%- comment -%} ════════════ LOAD MORE ════════════ {%- endcomment -%}
+        {%- if paginate.pages > 1 -%}
+          <div class="kv-col-load-more">
+            {%- assign shown = paginate.current_page | times: section.settings.products_per_page -%}
+            {%- assign shown_capped = shown | at_most: collection.products_count -%}
+            <span class="kv-col-load-more__progress">
+              Showing {{ shown_capped }} of {{ collection.products_count }} pieces
+            </span>
+            <div class="kv-col-load-more__bar" aria-hidden="true">
+              {%- assign fill_pct = shown_capped | times: 100 | divided_by: collection.products_count -%}
+              <div class="kv-col-load-more__fill" style="width:{{ fill_pct }}%;"></div>
+            </div>
+            {%- if paginate.next -%}
+              <a class="kv-btn kv-btn--out kv-btn--lg" href="{{ paginate.next.url }}" id="kv-load-more-btn">
+                Load more
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+<script>
+(function () {
+  // ─── Filter toggle panel ──────────────────────────────────────────
+  var filterToggle = document.getElementById('kv-filter-toggle');
+  var filterPanel = document.getElementById('kv-filter-panel');
+
+  if (filterToggle && filterPanel) {
+    filterToggle.addEventListener('click', function () {
+      var isOpen = filterPanel.classList.toggle('is-open');
+      filterToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      filterPanel.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      filterToggle.classList.toggle('is-on', isOpen);
+    });
+
+    // Close on click outside
+    document.addEventListener('click', function (e) {
+      if (!filterPanel.contains(e.target) && !filterToggle.contains(e.target)) {
+        filterPanel.classList.remove('is-open');
+        filterToggle.setAttribute('aria-expanded', 'false');
+        filterPanel.setAttribute('aria-hidden', 'true');
+        filterToggle.classList.remove('is-on');
+      }
+    });
+  }
+
+  // ─── Filter option toggling + active pills ────────────────────────
+  var activeFilters = {};
+  var pillsContainer = document.getElementById('kv-active-pills');
+
+  function updatePills() {
+    if (!pillsContainer) return;
+    pillsContainer.innerHTML = '';
+    Object.entries(activeFilters).forEach(function (entry) {
+      var type = entry[0];
+      var values = entry[1];
+      values.forEach(function (val) {
+        var pill = document.createElement('button');
+        pill.className = 'kv-col-pill';
+        pill.setAttribute('role', 'listitem');
+        pill.setAttribute('aria-label', 'Remove filter: ' + val);
+        pill.innerHTML = val + ' <span class="kv-col-pill__x" aria-hidden="true">×</span>';
+        pill.addEventListener('click', function () {
+          removeFilter(type, val);
+        });
+        pillsContainer.appendChild(pill);
+      });
+    });
+  }
+
+  function removeFilter(type, val) {
+    if (activeFilters[type]) {
+      activeFilters[type] = activeFilters[type].filter(function (v) { return v !== val; });
+      if (activeFilters[type].length === 0) delete activeFilters[type];
+    }
+    // Deselect option buttons
+    document.querySelectorAll('[data-filter="' + val + '"][data-filter-type="' + type + '"]').forEach(function (btn) {
+      btn.classList.remove('is-on');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+    updatePills();
+  }
+
+  document.querySelectorAll('[data-filter]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var val = this.getAttribute('data-filter');
+      var type = this.getAttribute('data-filter-type');
+      var isOn = this.classList.toggle('is-on');
+      this.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+
+      // Sync matching buttons across toolbar and panel
+      document.querySelectorAll('[data-filter="' + val + '"][data-filter-type="' + type + '"]').forEach(function (b) {
+        b.classList.toggle('is-on', isOn);
+        b.setAttribute('aria-pressed', isOn ? 'true' : 'false');
+      });
+
+      if (!activeFilters[type]) activeFilters[type] = [];
+      if (isOn) {
+        if (!activeFilters[type].includes(val)) activeFilters[type].push(val);
+      } else {
+        activeFilters[type] = activeFilters[type].filter(function (v) { return v !== val; });
+        if (activeFilters[type].length === 0) delete activeFilters[type];
+      }
+      updatePills();
+    });
+  });
+
+  // ─── Wishlist toggles ─────────────────────────────────────────────
+  document.querySelectorAll('.kv-col-card__wishlist[data-wishlist]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.classList.toggle('is-on');
+      var svg = this.querySelector('svg');
+      if (svg) svg.setAttribute('fill', this.classList.contains('is-on') ? 'var(--color-clay)' : 'none');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero fallback image (if no collection image)"
+    },
+    {
+      "type": "text",
+      "id": "fallback_title",
+      "label": "Fallback collection title",
+      "default": "All Pieces"
+    },
+    {
+      "type": "textarea",
+      "id": "collection_desc",
+      "label": "Fallback collection description",
+      "default": "Designed without compromise. Each piece in this edit is made from traceable natural materials in small batches — intended not for the season, but for the decade."
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16,
+      "label": "Products per page"
+    },
+    {
+      "type": "header",
+      "content": "Demo content (used when no collection is assigned)"
+    },
+    {
+      "type": "text",
+      "id": "demo_title",
+      "label": "Demo collection title",
+      "default": "Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "demo_description",
+      "label": "Demo collection description",
+      "default": "A curated selection of VELD essentials."
+    },
+    {
+      "type": "text",
+      "id": "demo_image",
+      "label": "Demo hero image URL (Unsplash)",
+      "default": "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1600&q=85"
+    }
+  ]
+}
+{% endschema %}

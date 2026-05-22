@@ -1,0 +1,96 @@
+<style>
+  .kv-404 {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 24px;
+    background: var(--color-stone);
+  }
+  .kv-404__code {
+    font-family: var(--font-heading);
+    font-size: clamp(80px, 15vw, 160px);
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-mist);
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+  .kv-404__title {
+    font-family: var(--font-heading);
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 400;
+    color: var(--color-ink);
+    margin: 0 0 16px;
+  }
+  .kv-404__body {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-ink);
+    opacity: 0.6;
+    max-width: 420px;
+    margin: 0 auto 40px;
+  }
+  .kv-404__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  .kv-404__divider {
+    width: 40px;
+    height: 1px;
+    background: var(--color-clay);
+    margin: 24px auto;
+  }
+  .kv-404__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+    margin-top: 32px;
+  }
+  .kv-404__links a {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    opacity: 0.55;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .kv-404__links a:hover { opacity: 1; }
+</style>
+
+<div class="kv-404">
+  <div class="kv-404__code" aria-hidden="true">404</div>
+  <h1 class="kv-404__title">Page not found</h1>
+  <div class="kv-404__divider"></div>
+  <p class="kv-404__body">
+    The page you're looking for may have been moved, renamed, or no longer exists.
+    Try navigating from the collections below.
+  </p>
+  <div class="kv-404__actions">
+    <a href="{{ routes.root_url }}" class="kv-btn">Back to home</a>
+    <a href="/collections/new-in" class="kv-btn kv-btn--out">New arrivals</a>
+  </div>
+  <div class="kv-404__links">
+    <a href="/collections/clothing">Clothing</a>
+    <a href="/collections/knitwear">Knitwear</a>
+    <a href="/collections/dresses">Dresses</a>
+    <a href="/collections/accessories">Accessories</a>
+    <a href="/pages/contact">Contact</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 page",
+  "settings": [],
+  "presets": [{ "name": "404 page" }]
+}
+{% endschema %}

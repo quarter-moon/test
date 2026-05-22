@@ -1,0 +1,86 @@
+{%- if section.settings.show_announcement -%}
+  {%- assign messages = section.settings.announcement_text | split: '|' -%}
+  <div class="kv-ann" id="kv-ann">
+    <span class="kv-ann__msg" id="kv-ann-msg"
+      data-messages="{{ messages | json | escape }}">
+      {{ messages[0] | strip }}
+    </span>
+    <button class="kv-ann__close" id="kv-ann-close" aria-label="Dismiss announcement">&#x2715;</button>
+  </div>
+{%- endif -%}
+
+<header class="kv-nav" id="kv-nav">
+  <div class="kv-container kv-nav__inner">
+
+    {%- comment -%} Left: nav links (desktop) / hamburger (mobile) {%- endcomment -%}
+    <button class="kv-nav__hamburger kv-nav__icon" id="kv-hamburger" aria-label="Open menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+    </button>
+
+    <nav class="kv-nav__links" aria-label="Main navigation">
+      {%- for link in section.settings.menu.links -%}
+        <a
+          class="kv-nav__link{% if link.url == request.path %} is-active{% endif %}"
+          href="{{ link.url }}"
+        >{{ link.title }}</a>
+      {%- else -%}
+        <a class="kv-nav__link" href="/collections/new-in">New In</a>
+        <a class="kv-nav__link" href="/collections/clothing">Clothing</a>
+        <a class="kv-nav__link" href="/collections/knitwear">Knitwear</a>
+        <a class="kv-nav__link" href="/collections/accessories">Accessories</a>
+        <a class="kv-nav__link" href="/collections/sale">Sale</a>
+      {%- endfor -%}
+    </nav>
+
+    {%- comment -%} Center: Logo {%- endcomment -%}
+    <a class="kv-logo" href="{{ routes.root_url }}">{{ shop.name | upcase }}</a>
+
+    {%- comment -%} Right: icons (desktop) {%- endcomment -%}
+    <div class="kv-nav__icons">
+      <button class="kv-nav__icon" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <a class="kv-nav__icon" href="{{ routes.account_url }}" aria-label="Account">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <button class="kv-nav__icon" data-cart-toggle aria-label="Open cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="kv-cart-count" data-cart-count style="{% if cart.item_count == 0 %}display:none{% endif %}">{{ cart.item_count }}</span>
+      </button>
+    </div>
+
+    {%- comment -%} Mobile cart icon {%- endcomment -%}
+    <button class="kv-nav__icon kv-nav__mobile-cart" data-cart-toggle aria-label="Open cart">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="kv-cart-count" data-cart-count style="{% if cart.item_count == 0 %}display:none{% endif %}">{{ cart.item_count }}</span>
+    </button>
+
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement messages (separate with |)",
+      "default": "Complimentary shipping on orders over $150 · Free returns|The Resort 26 collection has arrived|Now shipping to the EU and UK"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}
