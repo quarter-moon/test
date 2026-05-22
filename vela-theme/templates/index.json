@@ -10,6 +10,17 @@
         "cta_secondary_label": "Explore the Edit"
       }
     },
+    "category-strip": {
+      "type": "category-strip",
+      "blocks": {
+        "cat-1": { "type": "category", "settings": { "label": "New In" } },
+        "cat-2": { "type": "category", "settings": { "label": "Dresses" } },
+        "cat-3": { "type": "category", "settings": { "label": "Knitwear" } },
+        "cat-4": { "type": "category", "settings": { "label": "Outerwear" } },
+        "cat-5": { "type": "category", "settings": { "label": "Tailoring" } }
+      },
+      "block_order": ["cat-1", "cat-2", "cat-3", "cat-4", "cat-5"]
+    },
     "featured-collections": {
       "type": "featured-collections",
       "blocks": {
@@ -83,6 +94,7 @@
   },
   "order": [
     "hero",
+    "category-strip",
     "featured-collections",
     "new-arrivals",
     "editorial-1",

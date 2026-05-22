@@ -1,0 +1,81 @@
+<!-- Category Strip — horizontal scroll, matches JSX VCategoryStrip -->
+<section class="category-strip">
+  <div class="category-strip-scroll">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'category' -%}
+        {%- assign coll = collections[block.settings.collection] -%}
+        <a href="{{ coll.url | default: block.settings.custom_url | default: routes.collections_url }}" class="category-strip-item" {{ block.shopify_attributes }}>
+          <div class="category-strip-item-image">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | image_url: width: 200 }}"
+                alt="{{ block.settings.image.alt | escape | default: block.settings.label }}"
+                width="100"
+                height="130"
+                loading="lazy"
+              >
+            {%- elsif coll.featured_image -%}
+              <img
+                src="{{ coll.featured_image | image_url: width: 200 }}"
+                alt="{{ coll.featured_image.alt | escape | default: coll.title }}"
+                width="100"
+                height="130"
+                loading="lazy"
+              >
+            {%- else -%}
+              <div style="width:100%;height:100%;background:var(--pebble);"></div>
+            {%- endif -%}
+          </div>
+          <div class="category-strip-item-name">{{ block.settings.label | default: coll.title }}</div>
+          <div class="category-strip-item-cta">Shop →</div>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category Strip",
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Override image"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Override label"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom URL (if no collection)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Strip",
+      "blocks": [
+        { "type": "category", "settings": { "label": "New In" } },
+        { "type": "category", "settings": { "label": "Dresses" } },
+        { "type": "category", "settings": { "label": "Knitwear" } },
+        { "type": "category", "settings": { "label": "Outerwear" } },
+        { "type": "category", "settings": { "label": "Tailoring" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

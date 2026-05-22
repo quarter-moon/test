@@ -138,6 +138,17 @@
       </div>
     {%- endform -%}
 
+    <!-- Shipping box (matches JSX shipping section) -->
+    <div class="product-shipping-box">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--clay)" stroke-width="0.8">
+        <path d="M3 7h11v8H3zM14 9h4l2 3v3h-6z"/><circle cx="7" cy="16" r="1.5"/><circle cx="17" cy="16" r="1.5"/>
+      </svg>
+      <div>
+        <div class="product-shipping-title">Complimentary delivery · arrives in 3–5 days</div>
+        <div class="product-shipping-body">Wrapped in our recycled tissue. Free returns within 30 days.</div>
+      </div>
+    </div>
+
     <!-- Guarantees -->
     <div class="product-guarantees">
       <div class="guarantee-item">
@@ -201,6 +212,19 @@
     </div>
   </div>
 </div>
+
+<!-- Sticky bottom CTA (mobile) — matches JSX sticky bar -->
+{%- if product.available -%}
+  <div class="product-sticky-cta" id="product-sticky-cta" aria-label="Quick add to bag">
+    <div class="product-sticky-cta-info">
+      <div class="product-sticky-cta-variant" id="sticky-variant-label">
+        {{ product.selected_or_first_available_variant.title | replace: 'Default Title', '' }}
+      </div>
+      <div class="product-sticky-cta-price">{{ product.price | money }}</div>
+    </div>
+    <button class="product-sticky-add" id="sticky-add-btn" aria-label="Add to bag">Add to Bag</button>
+  </div>
+{%- endif -%}
 
 <!-- Related Products -->
 {%- if section.settings.show_related -%}
