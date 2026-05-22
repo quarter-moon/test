@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }} — {{ shop.name }}</title>
+  {{ content_for_header }}
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; color: #111; background: #fff; }
+    header { background: #111; color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    header a { color: #fff; text-decoration: none; font-weight: 600; font-size: 18px; }
+    nav a { color: #ccc; text-decoration: none; margin-left: 20px; font-size: 14px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    footer { background: #f4f4f4; text-align: center; padding: 24px; font-size: 13px; color: #666; margin-top: 80px; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="{{ routes.root_url }}">{{ shop.name }}</a>
+    <nav>
+      <a href="/collections/all">Shop All</a>
+      <a href="{{ routes.cart_url }}">Cart ({{ cart.item_count }})</a>
+    </nav>
+  </header>
+  <main>{{ content_for_layout }}</main>
+  <footer>© {{ 'now' | date: '%Y' }} {{ shop.name }}</footer>
+</body>
+</html>
