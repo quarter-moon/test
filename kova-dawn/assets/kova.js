@@ -131,6 +131,141 @@
     el.classList.add('hidden');
   }
 
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function fmtMoney(cents) {
+    return '$' + (cents / 100).toFixed(2).replace(/\.00$/, '');
+  }
+  function resizeImg(src, size) {
+    if (!src) return '';
+    return src.replace(/(\.(jpg|jpeg|gif|png|webp))(\?.*)?$/i, '_' + size + 'x$1$3');
+  }
+
+  const QV_COLOR_MAP = {black:'#1a1a18',white:'#ffffff',ivory:'#f5f0e8','ivory white':'#f5f0e8',ecru:'#e8e0ce',camel:'#c4a882',sand:'#d4c4a8',stone:'#f5f3ef',slate:'#6b7888',grey:'#9a9a9a',gray:'#9a9a9a',charcoal:'#4a4a4a',navy:'#1a2744',forest:'#3d5c3e','forest green':'#3d5c3e',sage:'#6b7c6e',olive:'#707840',burgundy:'#7a2040',clay:'#c4a882',blush:'#e8c4b8',cream:'#f5eed8',midnight:'#1a1a2e',brown:'#8b5e35',oat:'#d8cebe',chalk:'#f0ede8',cobalt:'#1a3a6e',rust:'#b84a2a'};
+
+  function buildQvHTML(p) {
+    const v0 = p.variants[0];
+    const img0src = p.images[0] ? resizeImg(p.images[0].src, 800) : '';
+    const imgHTML = img0src
+      ? '<img id="kv-qv-main-img" src="' + escHtml(img0src) + '" alt="' + escHtml(p.title) + '" width="800" height="1067" loading="eager">'
+      : '<div class="kv-ph" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">' + escHtml(p.vendor) + '</div>';
+
+    let optionsHTML = '';
+    p.options.forEach((opt, i) => {
+      const pos = i + 1;
+      const isColor = /^colou?r$/i.test(opt.name);
+      let btns = '';
+      opt.values.forEach((val, vi) => {
+        const isFirst = vi === 0;
+        if (isColor) {
+          const hex = QV_COLOR_MAP[val.toLowerCase()] || '#ccc';
+          const cv = p.variants.find(v => v['option' + pos] === val);
+          const cvImg = cv && cv.image_id ? p.images.find(im => im.id === cv.image_id) : null;
+          const cvSrc = cvImg ? resizeImg(cvImg.src, 800) : img0src;
+          btns += '<button type="button" class="kv-swatch' + (isFirst?' is-active':'') + '" '
+            + 'aria-label="' + escHtml(val) + '" title="' + escHtml(val) + '" '
+            + 'style="background:' + hex + ';" '
+            + 'data-option="' + pos + '" data-value="' + escHtml(val) + '" data-img="' + escHtml(cvSrc) + '">'
+            + '</button>';
+        } else {
+          const bv = p.variants.find(v => v['option' + pos] === val);
+          const avail = bv ? bv.available : true;
+          btns += '<button type="button" class="kv-size' + (isFirst?' is-active':'') + (avail?'':' is-sold') + '" '
+            + 'data-option="' + pos + '" data-value="' + escHtml(val) + '"'
+            + (avail?'':' disabled') + '>' + escHtml(val) + '</button>';
+        }
+      });
+      optionsHTML += '<div class="kv-qv__option">'
+        + '<span class="kv-qv__option-label">' + escHtml(opt.name)
+        + (isColor ? '' : '<span class="kv-qv__option-sel" id="kv-qv-sel-' + pos + '">: ' + escHtml(opt.values[0]) + '</span>')
+        + '</span>'
+        + (isColor ? '<div class="kv-qv__swatches">' + btns + '</div>' : '<div class="kv-sizes">' + btns + '</div>')
+        + '</div>';
+    });
+
+    let priceHTML;
+    if (v0.compare_at_price && v0.compare_at_price > v0.price) {
+      priceHTML = '<s class="kv-qv__price--was">' + fmtMoney(v0.compare_at_price) + '</s>'
+        + '<span class="kv-qv__price--sale">' + fmtMoney(v0.price) + '</span>';
+    } else {
+      priceHTML = '<span>' + fmtMoney(v0.price) + '</span>';
+    }
+    const atcBtn = p.available
+      ? '<button type="submit" class="kv-btn kv-btn--lg" style="width:100%;justify-content:center;" data-add-to-cart>Add to cart</button>'
+      : '<button type="button" class="kv-btn kv-btn--lg" style="width:100%;justify-content:center;opacity:.5;" disabled>Sold out</button>';
+
+    return '<div class="kv-qv">'
+      + '<div class="kv-qv__img">' + imgHTML + '</div>'
+      + '<div class="kv-qv__form">'
+      + (p.vendor ? '<span class="kv-qv__vendor">' + escHtml(p.vendor) + '</span>' : '')
+      + '<h2 class="kv-qv__title">' + escHtml(p.title) + '</h2>'
+      + '<div class="kv-qv__price" id="kv-qv-price">' + priceHTML + '</div>'
+      + '<form id="kv-qv-form"><input type="hidden" name="id" value="' + v0.id + '">'
+      + optionsHTML
+      + '<div class="kv-qv__actions">' + atcBtn + '</div>'
+      + '</form>'
+      + '<a href="/products/' + escHtml(p.handle) + '" class="kv-qv__pdp-link">View full details &rarr;</a>'
+      + '</div></div>';
+  }
+
+  function initQvInteractions(product) {
+    if (!quickModal) return;
+    const form = quickModal.querySelector('#kv-qv-form');
+    if (!form) return;
+    const variants = product.variants;
+    const selected = {};
+
+    quickModal.querySelectorAll('[data-option][data-value]').forEach(btn => {
+      if (btn.classList.contains('is-active')) selected[btn.getAttribute('data-option')] = btn.getAttribute('data-value');
+    });
+
+    function findVariant() {
+      return variants.find(v => Object.keys(selected).every(pos => v['option' + pos] === selected[pos]));
+    }
+    function applyVariant(v) {
+      if (!v) return;
+      const inp = form.querySelector('[name="id"]');
+      if (inp) inp.value = v.id;
+      const btn = form.querySelector('[data-add-to-cart]');
+      if (btn) { btn.disabled = !v.available; btn.textContent = v.available ? 'Add to cart' : 'Sold out'; }
+      const priceEl = quickModal.querySelector('#kv-qv-price');
+      if (priceEl) {
+        priceEl.innerHTML = (v.compare_at_price && v.compare_at_price > v.price)
+          ? '<s class="kv-qv__price--was">' + fmtMoney(v.compare_at_price) + '</s><span class="kv-qv__price--sale">' + fmtMoney(v.price) + '</span>'
+          : '<span>' + fmtMoney(v.price) + '</span>';
+      }
+    }
+
+    quickModal.querySelectorAll('[data-option][data-value]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pos = btn.getAttribute('data-option');
+        selected[pos] = btn.getAttribute('data-value');
+        quickModal.querySelectorAll('[data-option="' + pos + '"]').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        const lbl = quickModal.querySelector('#kv-qv-sel-' + pos);
+        if (lbl) lbl.textContent = ': ' + btn.getAttribute('data-value');
+        if (btn.classList.contains('kv-swatch') && btn.dataset.img) {
+          const img = quickModal.querySelector('#kv-qv-main-img');
+          if (img) img.src = btn.dataset.img;
+        }
+        applyVariant(findVariant());
+      });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const addBtn = form.querySelector('[data-add-to-cart]');
+      if (addBtn) { addBtn.disabled = true; addBtn.textContent = 'Adding…'; }
+      fetch('/cart/add.js', { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) })
+        .then(r => r.json())
+        .then(() => { closeQuickView(); openCart(); updateCartCount(); })
+        .catch(() => { if (addBtn) { addBtn.disabled = false; addBtn.textContent = 'Add to cart'; } });
+    });
+
+    applyVariant(findVariant());
+  }
+
   function openQuickView(productHandle) {
     if (!quickModal) return;
     const body = quickModal.querySelector('.kv-modal__body');
@@ -139,17 +274,16 @@
     showModal(quickOverlay);
     document.body.classList.add('kv-lock');
 
-    fetch('/products/' + productHandle + '?section_id=quick-view')
-      .then(r => r.ok ? r.text() : Promise.reject(r.status))
-      .then(html => {
-        if (body) body.innerHTML = html;
-        initQuickViewForms();
+    fetch('/products/' + productHandle + '.json')
+      .then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(data => {
+        if (body) body.innerHTML = buildQvHTML(data.product);
+        initQvInteractions(data.product);
       })
       .catch(() => {
         if (body) body.innerHTML = '<div style="padding:40px;text-align:center;">'
           + 'Could not load product. '
-          + '<a href="/products/' + productHandle + '" style="text-decoration:underline;">View on page &#8594;</a>'
-          + '</div>';
+          + '<a href="/products/' + productHandle + '" style="text-decoration:underline;">View on page &rarr;</a></div>';
       });
   }
 
@@ -164,111 +298,8 @@
 
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-quick-view]');
-    if (btn) {
-      e.preventDefault();
-      e.stopPropagation();
-      openQuickView(btn.dataset.quickView);
-    }
+    if (btn) { e.preventDefault(); e.stopPropagation(); openQuickView(btn.dataset.quickView); }
   });
-
-  function fmtMoney(cents) {
-    const dollars = (cents / 100).toFixed(2);
-    return '$' + dollars.replace(/\.00$/, '');
-  }
-
-  function initQuickViewForms() {
-    if (!quickModal) return;
-    const form = quickModal.querySelector('#kv-qv-form');
-    if (!form) return;
-    const variants = window.kvQvVariants || [];
-    const selected = {};
-
-    // Seed selected from active buttons
-    quickModal.querySelectorAll('[data-option][data-value]').forEach(btn => {
-      if (btn.classList.contains('is-active')) {
-        selected[btn.getAttribute('data-option')] = btn.getAttribute('data-value');
-      }
-    });
-
-    function findVariant() {
-      return variants.find(v => {
-        return Object.keys(selected).every(pos => {
-          return v['option' + pos] === selected[pos];
-        });
-      });
-    }
-
-    function applyVariant(v) {
-      if (!v) return;
-      const idInput = form.querySelector('[name="id"]');
-      if (idInput) idInput.value = v.id;
-      const addBtn = form.querySelector('[data-add-to-cart]');
-      if (addBtn) {
-        addBtn.disabled = !v.available;
-        addBtn.textContent = v.available ? 'Add to cart' : 'Sold out';
-      }
-      // Update price
-      const priceEl = quickModal.querySelector('#kv-qv-price');
-      if (priceEl) {
-        if (v.compare_at_price && v.compare_at_price > v.price) {
-          priceEl.innerHTML = '<s class="kv-qv__price--was">' + fmtMoney(v.compare_at_price) + '</s>'
-            + '<span class="kv-qv__price--sale">' + fmtMoney(v.price) + '</span>';
-        } else {
-          priceEl.innerHTML = '<span>' + fmtMoney(v.price) + '</span>';
-        }
-      }
-    }
-
-    // Option button clicks
-    quickModal.querySelectorAll('[data-option][data-value]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const pos = btn.getAttribute('data-option');
-        const val = btn.getAttribute('data-value');
-        selected[pos] = val;
-
-        // Sync siblings
-        quickModal.querySelectorAll('[data-option="' + pos + '"]').forEach(b => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
-
-        // Update option label display
-        const selLabel = quickModal.querySelector('#kv-qv-sel-' + pos);
-        if (selLabel) selLabel.textContent = ': ' + val;
-
-        // Swap image for color swatches
-        if (btn.classList.contains('kv-swatch') && btn.dataset.img) {
-          const imgEl = quickModal.querySelector('#kv-qv-main-img');
-          if (imgEl) imgEl.src = btn.dataset.img;
-        }
-
-        applyVariant(findVariant());
-      });
-    });
-
-    // ATC submit
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const addBtn = form.querySelector('[data-add-to-cart]');
-      const origText = addBtn ? addBtn.textContent : '';
-      if (addBtn) { addBtn.disabled = true; addBtn.textContent = 'Adding…'; }
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: new FormData(form)
-      })
-        .then(r => r.json())
-        .then(() => {
-          closeQuickView();
-          openCart();
-          updateCartCount();
-        })
-        .catch(() => {
-          if (addBtn) { addBtn.disabled = false; addBtn.textContent = origText; }
-        });
-    });
-
-    // Set initial variant
-    applyVariant(findVariant());
-  }
 
   // ── Add to cart (PDP) ─────────────────────────────────────────
   const pdpForm = document.getElementById('kv-pdp-form');
