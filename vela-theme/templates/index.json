@@ -58,6 +58,27 @@
         "cta_label": "Shop All",
         "background": "var(--pebble)"
       }
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "item-1": { "type": "item", "settings": { "text": "Free shipping on orders over $150" } },
+        "item-2": { "type": "item", "settings": { "text": "New arrivals every Thursday" } },
+        "item-3": { "type": "item", "settings": { "text": "Easy 30-day returns" } },
+        "item-4": { "type": "item", "settings": { "text": "Sustainably crafted" } }
+      },
+      "block_order": ["item-1", "item-2", "item-3", "item-4"]
+    },
+    "editorial-2": {
+      "type": "editorial-banner",
+      "settings": {
+        "eyebrow": "Behind the Brand",
+        "headline": "Dressed with <em>Intention</em>",
+        "body": "Every piece at VELA begins as a question: how does it feel? How does it last? What does it say?",
+        "cta_label": "Our Story",
+        "cta_url": "/pages/about",
+        "reversed": true
+      }
     }
   },
   "order": [
@@ -65,6 +86,8 @@
     "featured-collections",
     "new-arrivals",
     "editorial-1",
-    "bestsellers"
+    "bestsellers",
+    "marquee",
+    "editorial-2"
   ]
 }

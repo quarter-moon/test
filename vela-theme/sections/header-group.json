@@ -1,13 +1,22 @@
 {
   "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": {
+        "show_bar": true,
+        "text": "Free shipping on orders over $150 — New Arrivals Now In",
+        "link": "/collections/new-in",
+        "link_text": "Shop Now"
+      }
+    },
     "header": {
       "type": "header",
       "settings": {
-        "announcement_text": "Free shipping on orders over $150 — New Arrivals Now In",
         "menu": "main-menu",
-        "transparent": false
+        "transparent_on_home": false,
+        "show_theme_toggle": false
       }
     }
   },
-  "order": ["header"]
+  "order": ["announcement", "header"]
 }

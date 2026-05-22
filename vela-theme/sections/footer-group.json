@@ -1,37 +1,26 @@
 {
   "sections": {
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "title": "Stay in the Edit",
+        "subtitle": "New arrivals, editorials, and members-only offers.",
+        "placeholder": "Your email address",
+        "button_label": "Subscribe"
+      }
+    },
     "footer": {
       "type": "footer",
-      "blocks": {
-        "shop": {
-          "type": "link_list",
-          "settings": {
-            "title": "Shop",
-            "menu": "shop"
-          }
-        },
-        "help": {
-          "type": "link_list",
-          "settings": {
-            "title": "Help",
-            "menu": "help"
-          }
-        },
-        "brand": {
-          "type": "link_list",
-          "settings": {
-            "title": "Brand",
-            "menu": "brand"
-          }
-        }
-      },
-      "block_order": ["shop", "help", "brand"],
       "settings": {
-        "show_newsletter": true,
-        "newsletter_title": "Stay in the Edit",
-        "newsletter_subtitle": "New arrivals, editorials, and members-only offers."
+        "footer_title_1": "Shop",
+        "footer_menu_1": "footer-shop",
+        "footer_title_2": "Help",
+        "footer_menu_2": "footer-help",
+        "footer_title_3": "Brand",
+        "footer_menu_3": "footer-brand",
+        "legal_menu": "footer-legal"
       }
     }
   },
-  "order": ["footer"]
+  "order": ["newsletter", "footer"]
 }

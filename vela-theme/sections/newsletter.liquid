@@ -1,0 +1,67 @@
+<div class="newsletter-section">
+  <div class="container">
+    <h2 class="newsletter-title fade-up">
+      {{ section.settings.title | default: 'Stay in the Edit' }}
+    </h2>
+    <p class="newsletter-subtitle fade-up">
+      {{ section.settings.subtitle | default: 'New arrivals, editorials, and members-only offers.' }}
+    </p>
+    {%- form 'customer', id: 'newsletter-form', class: 'newsletter-form fade-up' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <input
+        type="email"
+        name="contact[email]"
+        class="newsletter-input"
+        placeholder="{{ section.settings.placeholder | default: 'Your email address' }}"
+        required
+        aria-label="Email address"
+        autocomplete="email"
+      >
+      <button type="submit" class="btn btn-primary">
+        {{ section.settings.button_label | default: 'Subscribe' }}
+      </button>
+    {%- endform -%}
+    {%- if form.posted_successfully? -%}
+      <p style="font-size:12px; color:var(--clay); margin-top:16px; letter-spacing:0.1em;">
+        Thank you — you're on the list.
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Stay in the Edit"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "New arrivals, editorials, and members-only offers."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}
