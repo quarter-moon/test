@@ -527,7 +527,7 @@
 
       <div class="kv-divider" style="margin:4px 0;"></div>
 
-      <form id="kv-pdp-s-form" action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+      {%- form 'product', product, id: 'kv-pdp-form', class: 'kv-pdp-s__form' -%}
         <input type="hidden" name="id" id="kv-variant-id" value="{{ current_variant.id }}">
 
         {%- comment -%} Color swatches {%- endcomment -%}
@@ -616,7 +616,7 @@
           </button>
         </div>
 
-      </form>
+      {%- endform -%}
 
       {%- comment -%} Wishlist {%- endcomment -%}
       <button class="kv-pdp-s__wishlist" data-wishlist aria-label="Save to wishlist">
