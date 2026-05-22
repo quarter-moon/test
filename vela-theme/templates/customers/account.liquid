@@ -1,0 +1,49 @@
+{% layout 'theme' %}
+
+<div class="container section">
+  <div style="max-width:760px; margin:0 auto;">
+    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:48px; padding-bottom:24px; border-bottom:1px solid var(--pebble);">
+      <h1 style="font-family:var(--font-heading); font-size:36px; font-weight:300;">{{ 'customer.account.title' | t }}</h1>
+      <a href="{{ routes.account_logout_url }}" style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ash); text-decoration:underline;">{{ 'customer.account.sign_out' | t }}</a>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr; gap:48px;">
+      <!-- Order History -->
+      <div>
+        <p class="label-caps" style="margin-bottom:24px;">{{ 'customer.account.orders' | t }}</p>
+        {%- if customer.orders.size > 0 -%}
+          {%- for order in customer.orders -%}
+            <a href="{{ order.customer_url }}" style="display:grid; grid-template-columns:1fr auto; align-items:center; padding:16px 0; border-bottom:1px solid var(--pebble); text-decoration:none;">
+              <div>
+                <p style="font-family:var(--font-heading); font-size:17px; font-weight:300; color:var(--ink); margin-bottom:4px;">Order {{ order.name }}</p>
+                <p style="font-size:11px; color:var(--ash);">{{ order.created_at | date: '%B %-d, %Y' }} · {{ order.line_items.size }} item{{ order.line_items.size | pluralize: '', 's' }}</p>
+              </div>
+              <div style="text-align:right;">
+                <p style="font-family:var(--font-heading); font-size:17px; font-weight:300; color:var(--ink);">{{ order.total_price | money }}</p>
+                <p style="font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--clay);">{{ order.financial_status }}</p>
+              </div>
+            </a>
+          {%- endfor -%}
+        {%- else -%}
+          <p style="font-family:var(--font-heading); font-style:italic; font-size:18px; font-weight:300; color:var(--ash);">No orders yet.</p>
+          <a href="{{ routes.collections_url }}" class="btn btn-primary" style="margin-top:24px;">Start Shopping</a>
+        {%- endif -%}
+      </div>
+
+      <!-- Account Details -->
+      <div>
+        <p class="label-caps" style="margin-bottom:24px;">{{ 'customer.account.details' | t }}</p>
+        <p style="font-family:var(--font-heading); font-size:20px; font-weight:300; margin-bottom:4px;">{{ customer.name }}</p>
+        <p style="font-size:13px; color:var(--ash); margin-bottom:16px;">{{ customer.email }}</p>
+        {%- if customer.default_address -%}
+          <p style="font-size:13px; color:rgba(26,26,26,0.7); line-height:1.7;">
+            {{ customer.default_address.address1 }}<br>
+            {%- if customer.default_address.address2 != blank -%}{{ customer.default_address.address2 }}<br>{%- endif -%}
+            {{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}<br>
+            {{ customer.default_address.country }}
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>

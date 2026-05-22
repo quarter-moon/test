@@ -1,0 +1,70 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "New Collection — Spring 2025",
+        "headline": "VELA",
+        "tagline": "Dressed with intention.",
+        "cta_primary_label": "Shop the Collection",
+        "cta_secondary_label": "Explore the Edit"
+      }
+    },
+    "featured-collections": {
+      "type": "featured-collections",
+      "blocks": {
+        "block-1": { "type": "collection", "settings": { "title": "Dresses" } },
+        "block-2": { "type": "collection", "settings": { "title": "Outerwear" } },
+        "block-3": { "type": "collection", "settings": { "title": "Knitwear" } },
+        "block-4": { "type": "collection", "settings": { "title": "Accessories" } }
+      },
+      "block_order": ["block-1", "block-2", "block-3", "block-4"],
+      "settings": {
+        "eyebrow": "Shop by Category",
+        "heading": "The Edit"
+      }
+    },
+    "new-arrivals": {
+      "type": "featured-products",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "eyebrow": "New Arrivals",
+        "heading": "Just Arrived",
+        "subheading": "Effortless pieces for the modern woman.",
+        "product_limit": 4,
+        "cta_label": "View All New Arrivals",
+        "background": "var(--stone)"
+      }
+    },
+    "editorial-1": {
+      "type": "editorial-banner",
+      "settings": {
+        "eyebrow": "The Story",
+        "headline": "Effortless Dressing for <em>Every Season</em>",
+        "body": "Thoughtfully sourced fabrics. Enduring silhouettes. Pieces that move with you from morning through evening.",
+        "cta_label": "Explore the Collection",
+        "reversed": false
+      }
+    },
+    "bestsellers": {
+      "type": "featured-products",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "eyebrow": "Most Loved",
+        "heading": "Bestsellers",
+        "product_limit": 4,
+        "cta_label": "Shop All",
+        "background": "var(--pebble)"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured-collections",
+    "new-arrivals",
+    "editorial-1",
+    "bestsellers"
+  ]
+}

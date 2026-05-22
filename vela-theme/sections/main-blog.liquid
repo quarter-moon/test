@@ -1,0 +1,98 @@
+<!-- Blog Header -->
+<div class="blog-header">
+  <p class="label-caps fade-up" style="color: var(--clay); margin-bottom: 12px;">{{ section.settings.eyebrow | default: 'Journal' }}</p>
+  <h1 class="blog-header-title fade-up">{{ blog.title | default: 'The Edit' }}</h1>
+  {%- if section.settings.subtitle != blank -%}
+    <p class="blog-header-sub fade-up">{{ section.settings.subtitle }}</p>
+  {%- endif -%}
+</div>
+
+<!-- Article List -->
+<div class="blog-list container">
+  {%- for article in blog.articles -%}
+    <article class="blog-article fade-up" itemscope itemtype="https://schema.org/Article">
+      {%- if article.image -%}
+        <a href="{{ article.url }}" class="blog-article-image" aria-hidden="true" tabindex="-1">
+          <img
+            src="{{ article.image | image_url: width: 560 }}"
+            srcset="
+              {{ article.image | image_url: width: 320 }} 320w,
+              {{ article.image | image_url: width: 560 }} 560w,
+              {{ article.image | image_url: width: 840 }} 840w
+            "
+            sizes="(min-width: 768px) 280px, 100vw"
+            alt="{{ article.image.alt | escape | default: article.title }}"
+            width="{{ article.image.width }}"
+            height="{{ article.image.height }}"
+            loading="lazy"
+            itemprop="image"
+          >
+        </a>
+      {%- endif -%}
+
+      <div class="blog-article-body">
+        <p class="blog-article-meta">
+          {%- if article.tags.first -%}{{ article.tags.first }} &nbsp;·&nbsp; {%- endif -%}
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" itemprop="datePublished">
+            {{ article.published_at | date: '%B %-d, %Y' }}
+          </time>
+        </p>
+
+        <h2 class="blog-article-title" itemprop="headline">
+          <a href="{{ article.url }}">{{ article.title }}</a>
+        </h2>
+
+        {%- if article.excerpt != blank -%}
+          <p class="blog-article-excerpt" itemprop="description">{{ article.excerpt | strip_html | truncate: 140 }}</p>
+        {%- endif -%}
+
+        <a href="{{ article.url }}" class="blog-article-link" aria-label="Read {{ article.title }}">
+          {{ 'blogs.general.read_more' | t }}
+        </a>
+      </div>
+    </article>
+  {%- else -%}
+    <p style="padding: 80px 0; text-align:center; color: var(--ash); font-family: var(--font-heading); font-style: italic; font-size: 20px;">
+      No articles yet — check back soon.
+    </p>
+  {%- endfor -%}
+
+  <!-- Pagination -->
+  {%- if paginate.pages > 1 -%}
+    <nav class="pagination" aria-label="Blog pagination">
+      {%- if paginate.previous -%}
+        <a href="{{ paginate.previous.url }}" class="pagination-link">←</a>
+      {%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
+        {%- else -%}
+          <span class="pagination-link active">{{ part.title }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}
+        <a href="{{ paginate.next.url }}" class="pagination-link">→</a>
+      {%- endif -%}
+    </nav>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Main Blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Journal"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Style notes, stories, and the VELA world."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,62 @@
+{% layout 'theme' %}
+
+<div class="container section">
+  <div style="max-width: 680px; margin: 0 auto;">
+    <h1 style="font-family: var(--font-heading); font-size: clamp(28px, 6vw, 48px); font-weight: 300; margin-bottom: 40px;">{{ 'cart.general.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+        {%- for item in cart.items -%}
+          <div class="cart-item" style="display:grid; grid-template-columns:100px 1fr; gap:20px; padding:24px 0; border-bottom:1px solid var(--pebble);">
+            <a href="{{ item.url }}">
+              {%- if item.image -%}
+                <img
+                  src="{{ item.image | image_url: width: 200 }}"
+                  alt="{{ item.image.alt | escape }}"
+                  style="aspect-ratio:3/4; object-fit:cover;"
+                  loading="lazy"
+                >
+              {%- endif -%}
+            </a>
+            <div>
+              <a href="{{ item.url }}" style="font-family:var(--font-heading); font-size:18px; font-weight:300; color:var(--ink); display:block; margin-bottom:4px;">{{ item.product.title }}</a>
+              {%- unless item.variant.title == 'Default Title' -%}
+                <p style="font-size:12px; color:var(--ash); margin-bottom:8px;">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <p style="font-size:13px; color:var(--ash); margin-bottom:12px;">{{ item.final_price | money }}</p>
+              <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                <label style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ash);">Qty</label>
+                <input
+                  type="number"
+                  name="updates[]"
+                  id="updates_{{ item.key }}"
+                  value="{{ item.quantity }}"
+                  min="0"
+                  style="width:48px; border:1px solid var(--pebble); padding:6px; text-align:center; font-size:13px; outline:none;"
+                >
+              </div>
+              <a href="{{ item.url_to_remove }}" style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ash); text-decoration:underline;">{{ 'cart.general.remove' | t }}</a>
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <div style="padding:32px 0; border-top:1px solid var(--pebble); margin-top:8px;">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;">
+            <span style="font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:var(--ash);">{{ 'cart.general.subtotal' | t }}</span>
+            <span style="font-family:var(--font-heading); font-size:28px; font-weight:300;">{{ cart.total_price | money }}</span>
+          </div>
+          <p style="font-size:10px; color:var(--ash); margin-bottom:24px;">Taxes included. Shipping calculated at checkout.</p>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button type="submit" name="checkout" class="btn btn-primary btn-full">{{ 'cart.general.checkout' | t }}</button>
+            <button type="submit" class="btn btn-outline btn-full">{{ 'cart.general.update' | t }}</button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div style="text-align:center; padding:80px 0;">
+        <p style="font-family:var(--font-heading); font-style:italic; font-size:24px; font-weight:300; color:var(--ash); margin-bottom:24px;">{{ 'cart.general.empty' | t }}</p>
+        <a href="{{ routes.collections_url }}" class="btn btn-primary">{{ 'cart.general.continue_browsing' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

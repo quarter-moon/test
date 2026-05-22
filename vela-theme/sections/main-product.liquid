@@ -1,0 +1,253 @@
+<div class="product-page" itemscope itemtype="https://schema.org/Product">
+  <!-- Gallery -->
+  <div class="product-gallery">
+    <div class="product-gallery-main" id="product-gallery-main">
+      {%- if product.featured_media -%}
+        <img
+          id="gallery-main-img"
+          src="{{ product.featured_media | image_url: width: 1000 }}"
+          srcset="
+            {{ product.featured_media | image_url: width: 600 }} 600w,
+            {{ product.featured_media | image_url: width: 1000 }} 1000w,
+            {{ product.featured_media | image_url: width: 1400 }} 1400w
+          "
+          sizes="(min-width: 768px) 50vw, 100vw"
+          alt="{{ product.featured_media.alt | escape | default: product.title }}"
+          itemprop="image"
+          loading="eager"
+          fetchpriority="high"
+        >
+      {%- else -%}
+        <div style="width:100%; height:100%; background: var(--pebble); display:flex; align-items:center; justify-content:center;">
+          <span style="color:var(--ash); font-size:13px;">No image</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if product.media.size > 1 -%}
+      <div class="product-gallery-thumbs" role="list">
+        {%- for media in product.media limit: 8 -%}
+          <button
+            class="product-gallery-thumb {% if forloop.first %}active{% endif %}"
+            data-src="{{ media | image_url: width: 1000 }}"
+            data-srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 1000 }} 1000w"
+            aria-label="View image {{ forloop.index }}"
+            role="listitem"
+          >
+            <img
+              src="{{ media | image_url: width: 120 }}"
+              alt="{{ media.alt | escape | default: product.title }}"
+              width="64"
+              height="85"
+              loading="lazy"
+            >
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info">
+    <!-- Breadcrumb -->
+    <nav class="product-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span class="product-breadcrumb-sep">·</span>
+      {%- if product.collections.first -%}
+        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+        <span class="product-breadcrumb-sep">·</span>
+      {%- endif -%}
+      <span>{{ product.title }}</span>
+    </nav>
+
+    {%- if product.collections.first -%}
+      <p class="product-collection-tag">{{ product.collections.first.title }}</p>
+    {%- endif -%}
+
+    <h1 class="product-title" itemprop="name">{{ product.title }}</h1>
+
+    <!-- Price -->
+    <div class="product-price-row">
+      {%- if product.compare_at_price > product.price -%}
+        <span class="product-price product-price-sale" itemprop="price">{{ product.price | money }}</span>
+        <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
+      {%- else -%}
+        <span class="product-price" itemprop="price">{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    <!-- Variant Form -->
+    {%- form 'product', product, data-product-form: '', id: 'product-form' -%}
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+      <div class="product-options">
+        {%- for option in product.options_with_values -%}
+          <div class="product-option">
+            <div class="product-option-label">
+              <span>{{ option.name }}</span>
+              <span class="product-option-selected">{{ option.selected_value }}</span>
+              {%- if option.name downcase == 'size' -%}
+                <a href="/pages/size-guide" class="size-guide-link" target="_blank">Size Guide</a>
+              {%- endif -%}
+            </div>
+
+            {%- if option.name downcase == 'color' or option.name downcase == 'colour' -%}
+              <div class="color-swatches">
+                {%- for value in option.values -%}
+                  <button
+                    type="button"
+                    class="color-swatch-btn {% if option.selected_value == value %}active{% endif %}"
+                    data-value="{{ value }}"
+                    title="{{ value }}"
+                    style="background: {{ value | downcase | replace: ' ', '' }};"
+                    aria-label="{{ value }}"
+                    aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+                  ></button>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <div class="variant-btns" role="group" aria-label="{{ option.name }}">
+                {%- for value in option.values -%}
+                  <button
+                    type="button"
+                    class="variant-btn {% if option.selected_value == value %}active{% endif %}"
+                    data-value="{{ value }}"
+                    aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+                  >{{ value }}</button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Add to Cart -->
+      <div class="product-add-form">
+        {%- if product.available -%}
+          <button type="submit" class="product-add-btn" aria-label="Add {{ product.title }} to bag">
+            Add to Bag
+          </button>
+        {%- else -%}
+          <button type="button" class="product-add-btn" disabled>
+            Sold Out
+          </button>
+        {%- endif -%}
+        <a href="{{ routes.cart_url }}" style="display:block; text-align:center; font-size:10px; letter-spacing:0.15em; color:var(--ash); text-transform:uppercase; padding: 10px 0; text-decoration:underline;">
+          or view bag
+        </a>
+      </div>
+    {%- endform -%}
+
+    <!-- Guarantees -->
+    <div class="product-guarantees">
+      <div class="guarantee-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m5 12 5 5L20 7"/></svg>
+        Free shipping over $150
+      </div>
+      <div class="guarantee-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Easy 30-day returns
+      </div>
+      <div class="guarantee-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Sustainably made
+      </div>
+    </div>
+
+    <!-- Accordion Details -->
+    <div class="product-accordion">
+      {%- if product.description != blank -%}
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false">
+            Description
+            <span class="accordion-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="accordion-content" itemprop="description">
+            {{ product.description }}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          Size & Fit
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="accordion-content">
+          {{ section.settings.size_fit_text | default: 'Model is 5\'9" and wears a size S. Relaxed fit, true to size. See our <a href="/pages/size-guide" style="text-decoration:underline;">size guide</a> for measurements.' }}
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          Fabric & Care
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="accordion-content">
+          {%- assign fabric_meta = product.metafields.custom.fabric_care -%}
+          {{ fabric_meta | default: section.settings.fabric_care_text | default: 'Dry clean or hand wash cold. Do not tumble dry. Iron on low heat. See label for full care instructions.' }}
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-trigger" aria-expanded="false">
+          Shipping & Returns
+          <span class="accordion-icon" aria-hidden="true">+</span>
+        </button>
+        <div class="accordion-content">
+          {{ section.settings.shipping_text | default: 'Free standard shipping on orders over $150. Express available at checkout. Returns accepted within 30 days of delivery in original condition.' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Related Products -->
+{%- if section.settings.show_related -%}
+  {%- if product.collections.first -%}
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <p class="label-caps fade-up">You May Also Like</p>
+          <div class="section-rule fade-up"></div>
+        </div>
+        <div class="collection-grid">
+          {%- for related in product.collections.first.products limit: 4 -%}
+            {%- unless related.id == product.id -%}
+              {% render 'product-card', product: related %}
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Main Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_related",
+      "label": "Show related products",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "size_fit_text",
+      "label": "Size & Fit text"
+    },
+    {
+      "type": "richtext",
+      "id": "fabric_care_text",
+      "label": "Fabric & Care default text"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_text",
+      "label": "Shipping & Returns text"
+    }
+  ]
+}
+{% endschema %}

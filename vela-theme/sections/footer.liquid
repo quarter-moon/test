@@ -1,0 +1,144 @@
+<!-- Marquee Bar -->
+<div class="marquee-bar" aria-hidden="true">
+  <div class="marquee-track">
+    {%- for i in (1..6) -%}
+      <span>Free Shipping Over $150</span>
+      <span>Easy 30-Day Returns</span>
+      <span>Sustainably Made</span>
+      <span>New Arrivals Weekly</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+<!-- Newsletter -->
+{%- if section.settings.show_newsletter -%}
+<div class="newsletter-section">
+  <h2 class="newsletter-title fade-up">{{ section.settings.newsletter_title | default: 'Stay in the Edit' }}</h2>
+  <p class="newsletter-subtitle fade-up">{{ section.settings.newsletter_subtitle | default: 'New arrivals, editorials, and members-only offers.' }}</p>
+  {% form 'customer', class: 'newsletter-form fade-up' %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <input
+      class="newsletter-input"
+      type="email"
+      name="contact[email]"
+      placeholder="Your email address"
+      required
+      aria-label="{{ 'general.newsletter.label' | t }}"
+    >
+    <button type="submit" class="btn btn-primary">{{ 'general.newsletter.submit' | t }}</button>
+    {%- if form.posted_successfully? -%}
+      <p style="color: var(--clay); font-size: 13px; margin-top: 12px; text-align:center;">Thank you for subscribing.</p>
+    {%- endif -%}
+  {% endform %}
+</div>
+{%- endif -%}
+
+<!-- Footer -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div>
+        <div class="footer-brand-logo">VELA</div>
+        <p class="footer-brand-tagline">Dressed with intention.</p>
+        <div class="footer-social">
+          {%- if settings.social_instagram != blank -%}
+            <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+          {%- endif -%}
+          {%- if settings.social_pinterest != blank -%}
+            <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest">Pinterest</a>
+          {%- endif -%}
+          {%- if settings.social_tiktok != blank -%}
+            <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="TikTok">TikTok</a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <!-- Nav columns -->
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'link_list' -%}
+          <div>
+            <p class="footer-col-title">{{ block.settings.title }}</p>
+            <ul class="footer-links">
+              {%- for link in linklists[block.settings.menu].links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        <span>© {{ 'now' | date: '%Y' }} VELA Studio</span>
+        <a href="{{ pages['privacy-policy'].url | default: '/policies/privacy-policy' }}">Privacy Policy</a>
+        <a href="{{ pages['terms-of-service'].url | default: '/policies/terms-of-service' }}">Terms</a>
+        <a href="{{ pages['refund-policy'].url | default: '/policies/refund-policy' }}">Returns</a>
+        <a href="{{ shop.secure_url }}/pages/contact">Contact</a>
+      </div>
+      <div class="footer-payment" aria-label="Payment methods">
+        {% for type in shop.enabled_payment_types %}
+          {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "Navigation column",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Newsletter heading",
+      "default": "Stay in the Edit"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_subtitle",
+      "label": "Newsletter subtext",
+      "default": "New arrivals, editorials, and members-only offers."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer",
+      "blocks": [
+        { "type": "link_list" },
+        { "type": "link_list" },
+        { "type": "link_list" }
+      ]
+    }
+  ]
+}
+{% endschema %}

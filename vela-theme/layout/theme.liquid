@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="{{ request.locale.iso_code }}" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>
+    {%- if page_title == shop.name -%}
+      {{ shop.name }} — Dressed with Intention
+    {%- else -%}
+      {{ page_title }} — {{ shop.name }}
+    {%- endif -%}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% else %}
+    <meta name="description" content="Premium minimalist fashion for the modern woman. Free shipping on orders over $150.">
+  {% endif %}
+
+  <!-- OG / Social -->
+  <meta property="og:site_name" content="{{ shop.name }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:title" content="{% if page_title == shop.name %}{{ shop.name }} — Dressed with Intention{% else %}{{ page_title }} — {{ shop.name }}{% endif %}">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="{{ page_description | default: 'Premium minimalist fashion. Effortless pieces for the modern woman.' | escape }}">
+  {%- if settings.og_image -%}
+    <meta property="og:image" content="{{ settings.og_image | image_url: width: 1200 }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+  {%- endif -%}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title | escape }}">
+
+  <!-- Favicon -->
+  {%- if settings.favicon -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
+    <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180 }}">
+  {%- endif -%}
+
+  {{ content_for_header }}
+
+  <!-- Preconnect fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Theme CSS -->
+  {{ 'vela.css' | asset_url | stylesheet_tag }}
+</head>
+
+<body>
+  <a class="visually-hidden" href="#main-content">{{ 'accessibility.skip_to_content' | t }}</a>
+
+  <!-- Search Bar (overlay) -->
+  <div class="search-bar" role="search" aria-label="Site search">
+    <form action="{{ routes.search_url }}" method="get">
+      <input type="hidden" name="type" value="product">
+      <input
+        class="search-input"
+        type="text"
+        name="q"
+        placeholder="{{ 'general.search.placeholder' | t }}"
+        autocomplete="off"
+        aria-label="{{ 'general.search.search' | t }}"
+      >
+    </form>
+    <button class="search-close" aria-label="{{ 'accessibility.close_menu' | t }}">✕</button>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-drawer" aria-label="{{ 'cart.general.title' | t }}" role="dialog">
+    <div class="cart-drawer-header">
+      <span class="cart-drawer-title">{{ 'cart.general.title' | t }}</span>
+      <button class="cart-drawer-close" aria-label="{{ 'accessibility.close_cart' | t }}">✕</button>
+    </div>
+    <div class="cart-drawer-items" id="cart-drawer-items">
+      {%- if cart.item_count > 0 -%}
+        {%- for item in cart.items -%}
+          <div class="cart-item" data-key="{{ item.key }}">
+            <a href="{{ item.url }}" class="cart-item-image">
+              {%- if item.image -%}
+                <img
+                  src="{{ item.image | image_url: width: 180 }}"
+                  alt="{{ item.image.alt | escape }}"
+                  width="90"
+                  height="120"
+                  loading="lazy"
+                >
+              {%- endif -%}
+            </a>
+            <div class="cart-item-info">
+              <a href="{{ item.url }}" class="cart-item-name">{{ item.product.title }}</a>
+              {%- unless item.variant.title == 'Default Title' -%}
+                <p class="cart-item-variant">{{ item.variant.title }}</p>
+              {%- endunless -%}
+              <div class="cart-item-qty">
+                <button class="qty-btn" data-action="minus" aria-label="Decrease quantity">−</button>
+                <span class="qty-num">{{ item.quantity }}</span>
+                <button class="qty-btn" data-action="plus" aria-label="Increase quantity">+</button>
+              </div>
+              <span class="cart-item-price">{{ item.final_line_price | money }}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div style="text-align:center; padding: 40px 20px;">
+          <p style="font-family: var(--font-heading); font-size: 20px; font-weight: 300; color: var(--ash); margin-bottom: 16px;">{{ 'cart.general.empty' | t }}</p>
+          <a href="{{ routes.collections_url }}" class="btn btn-outline">{{ 'cart.general.continue_browsing' | t }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if cart.item_count > 0 -%}
+      <div class="cart-drawer-footer">
+        <div class="cart-subtotal">
+          <span class="cart-subtotal-label">{{ 'cart.general.subtotal' | t }}</span>
+          <span class="cart-subtotal-price">{{ cart.total_price | money }}</span>
+        </div>
+        <p class="cart-shipping-note">Free shipping on orders over $150</p>
+        <a href="{{ routes.cart_url }}" class="btn btn-dark btn-full" style="margin-bottom: 8px;">View Bag ({{ cart.item_count }})</a>
+        <form action="{{ routes.cart_url }}/checkout" method="post">
+          <button type="submit" class="btn btn-primary btn-full">{{ 'cart.general.checkout' | t }}</button>
+        </form>
+      </div>
+    {%- endif -%}
+  </aside>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" aria-label="Mobile navigation" role="navigation">
+    <div class="mobile-nav-header">
+      <a href="{{ routes.root_url }}" class="header-logo">VELA</a>
+      <button class="mobile-nav-close" aria-label="{{ 'accessibility.close_menu' | t }}">✕</button>
+    </div>
+    <div class="mobile-nav-links">
+      {%- for link in linklists.main-menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </div>
+    <div class="mobile-nav-footer">
+      <div class="social-links">
+        {%- if settings.social_instagram != blank -%}
+          <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>
+        {%- endif -%}
+        {%- if settings.social_pinterest != blank -%}
+          <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">Pinterest</a>
+        {%- endif -%}
+        {%- if settings.social_tiktok != blank -%}
+          <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </nav>
+
+  {% sections 'header-group' %}
+
+  <main id="main-content" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {{ 'vela.js' | asset_url | script_tag }}
+</body>
+</html>

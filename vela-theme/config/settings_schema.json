@@ -1,0 +1,119 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "VELA Studio",
+    "theme_version": "1.0.0",
+    "theme_author": "VELA Studio",
+    "theme_documentation_url": "https://vela-studio.com",
+    "theme_support_url": "https://vela-studio.com"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_ink",
+        "label": "Ink (Primary Dark)",
+        "default": "#1A1A1A"
+      },
+      {
+        "type": "color",
+        "id": "color_stone",
+        "label": "Stone (Primary Light)",
+        "default": "#F5F4F2"
+      },
+      {
+        "type": "color",
+        "id": "color_clay",
+        "label": "Clay (Accent)",
+        "default": "#C4A882"
+      },
+      {
+        "type": "color",
+        "id": "color_pebble",
+        "label": "Pebble (Mid-tone)",
+        "default": "#E8E6E2"
+      },
+      {
+        "type": "color",
+        "id": "color_ash",
+        "label": "Ash (Muted Text)",
+        "default": "#888780"
+      },
+      {
+        "type": "color",
+        "id": "color_promo",
+        "label": "Promo Red",
+        "default": "#D94F3D"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "cormorant_garamond_n3"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "dm_sans_n3"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest",
+        "label": "Pinterest URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Drawer" },
+          { "value": "page", "label": "Page" }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_note",
+        "label": "Enable cart note",
+        "default": false
+      }
+    ]
+  }
+]

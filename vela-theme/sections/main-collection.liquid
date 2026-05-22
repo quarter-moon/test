@@ -1,0 +1,107 @@
+<!-- Collection Header -->
+<div class="collection-header">
+  <p class="collection-header-eyebrow fade-up">{{ section.settings.eyebrow | default: 'VELA Studio' }}</p>
+  <h1 class="collection-header-title fade-up">{{ collection.title }}</h1>
+  {%- if collection.description != blank -%}
+    <p class="collection-header-desc fade-up">{{ collection.description }}</p>
+  {%- endif -%}
+</div>
+
+<!-- Toolbar -->
+<div class="collection-toolbar">
+  <span class="collection-count">
+    {{ collection.products_count }}
+    {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
+  </span>
+  <div class="collection-filter-sort">
+    <button class="filter-sort-btn" aria-label="Filter products">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/>
+      </svg>
+      Filter
+    </button>
+    <span style="color:var(--pebble);">|</span>
+    <button class="filter-sort-btn" aria-label="Sort products">
+      Sort
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Product Grid -->
+<div class="collection-products">
+  <div class="collection-grid collection-grid--mixed">
+    {%- for product in collection.products -%}
+      {%- assign feature_interval = section.settings.feature_interval | default: 5 -%}
+      {%- if forloop.index0 == feature_interval -%}
+        <div class="collection-feature-tile fade-up">
+          <div class="collection-feature-tile-inner">
+            <p class="collection-feature-label">{{ section.settings.feature_label | default: 'The Edit' }}</p>
+            <p class="collection-feature-text">{{ section.settings.feature_quote | default: 'Pieces that move with the rhythm of your life.' }}</p>
+          </div>
+        </div>
+      {%- endif -%}
+      {% render 'product-card', product: product %}
+    {%- else -%}
+      <p style="grid-column: 1/-1; padding: 40px 0; text-align:center; color: var(--ash); font-size:13px;">
+        No products in this collection yet.
+      </p>
+    {%- endfor -%}
+  </div>
+
+  <!-- Pagination -->
+  {%- if paginate.pages > 1 -%}
+    <nav class="pagination" aria-label="Pagination">
+      {%- if paginate.previous -%}
+        <a href="{{ paginate.previous.url }}" class="pagination-link" aria-label="Previous page">←</a>
+      {%- endif -%}
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
+        {%- else -%}
+          <span class="pagination-link active" aria-current="page">{{ part.title }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if paginate.next -%}
+        <a href="{{ paginate.next.url }}" class="pagination-link" aria-label="Next page">→</a>
+      {%- endif -%}
+    </nav>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Main Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "VELA Studio"
+    },
+    {
+      "type": "range",
+      "id": "feature_interval",
+      "min": 4,
+      "max": 10,
+      "step": 1,
+      "label": "Feature tile position (product index)",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "feature_label",
+      "label": "Feature tile label",
+      "default": "The Edit"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_quote",
+      "label": "Feature tile quote",
+      "default": "Pieces that move with the rhythm of your life."
+    }
+  ]
+}
+{% endschema %}

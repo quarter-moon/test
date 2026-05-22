@@ -1,0 +1,37 @@
+{
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": {
+          "type": "link_list",
+          "settings": {
+            "title": "Shop",
+            "menu": "shop"
+          }
+        },
+        "help": {
+          "type": "link_list",
+          "settings": {
+            "title": "Help",
+            "menu": "help"
+          }
+        },
+        "brand": {
+          "type": "link_list",
+          "settings": {
+            "title": "Brand",
+            "menu": "brand"
+          }
+        }
+      },
+      "block_order": ["shop", "help", "brand"],
+      "settings": {
+        "show_newsletter": true,
+        "newsletter_title": "Stay in the Edit",
+        "newsletter_subtitle": "New arrivals, editorials, and members-only offers."
+      }
+    }
+  },
+  "order": ["footer"]
+}

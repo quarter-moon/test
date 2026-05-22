@@ -1,0 +1,133 @@
+<div class="hero">
+  <!-- Corner marks -->
+  <div class="hero-corner hero-corner--tl" aria-hidden="true"></div>
+  <div class="hero-corner hero-corner--tr" aria-hidden="true"></div>
+  <div class="hero-corner hero-corner--bl" aria-hidden="true"></div>
+  <div class="hero-corner hero-corner--br" aria-hidden="true"></div>
+
+  <!-- Background media -->
+  <div class="hero-media">
+    {%- if section.settings.video != blank -%}
+      <video
+        src="{{ section.settings.video }}"
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-hidden="true"
+      ></video>
+    {%- elsif section.settings.image != blank -%}
+      <img
+        src="{{ section.settings.image | image_url: width: 1800 }}"
+        srcset="
+          {{ section.settings.image | image_url: width: 750 }} 750w,
+          {{ section.settings.image | image_url: width: 1100 }} 1100w,
+          {{ section.settings.image | image_url: width: 1800 }} 1800w
+        "
+        sizes="100vw"
+        alt="{{ section.settings.image.alt | escape | default: section.settings.headline }}"
+        width="{{ section.settings.image.width }}"
+        height="{{ section.settings.image.height }}"
+        loading="eager"
+        fetchpriority="high"
+      >
+    {%- else -%}
+      <div style="background: linear-gradient(135deg, #1A1A1A 0%, #2A2928 100%); width:100%; height:100%;"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero-content container">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="hero-eyebrow fade-up">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+
+    <h1 class="hero-title fade-up">
+      {{- section.settings.headline | default: 'VELA' -}}
+    </h1>
+
+    {%- if section.settings.tagline != blank -%}
+      <div class="hero-rule fade-up" aria-hidden="true"></div>
+      <p class="hero-tagline fade-up">{{ section.settings.tagline }}</p>
+    {%- endif -%}
+
+    <div class="hero-actions fade-up">
+      {%- if section.settings.cta_primary_label != blank -%}
+        <a href="{{ section.settings.cta_primary_url | default: routes.collections_url }}" class="btn btn-primary">
+          {{ section.settings.cta_primary_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        <a href="{{ section.settings.cta_secondary_url | default: routes.collections_url }}" class="btn btn-outline-light">
+          {{ section.settings.cta_secondary_label }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "video_url",
+      "id": "video",
+      "label": "Background video URL",
+      "accept": ["youtube", "vimeo"],
+      "info": "Overrides image if set"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "New Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "VELA"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Dressed with intention."
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_label",
+      "label": "Primary button label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary button URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_label",
+      "label": "Secondary button label",
+      "default": "Explore the Edit"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary button URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}
