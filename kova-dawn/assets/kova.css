@@ -651,6 +651,9 @@ body.kv-lock { overflow: hidden; }
 .kv-drawer-trust { display: flex; gap: 18px; margin-top: 24px; justify-content: center; color: #777; }
 .kv-drawer-trust span { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
 
+/* utility */
+.hidden { display: none !important; }
+
 /* ───────────────────────────────────────────
    QUICK VIEW MODAL
 ─────────────────────────────────────────── */
@@ -658,33 +661,104 @@ body.kv-lock { overflow: hidden; }
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) scale(0.98);
-  width: 860px; max-width: calc(100vw - 32px);
-  max-height: calc(100vh - 64px);
+  width: 900px; max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 48px);
   background: var(--color-white);
   z-index: 201;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  opacity: 0;
-  animation: kv-modal-in 250ms ease-out forwards;
   overflow: hidden;
+  opacity: 0;
+  animation: kv-modal-in 240ms cubic-bezier(0.16,1,0.3,1) forwards;
 }
 @keyframes kv-modal-in { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
-@media (max-width: 767px) { .kv-modal { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } }
-.kv-modal__img { background: var(--color-mist); aspect-ratio: 3/4; }
-.kv-modal__img img { width: 100%; height: 100%; object-fit: cover; }
-.kv-modal__body { padding: 40px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+@media (max-width: 767px) { .kv-modal { max-height: 92vh; overflow-y: auto; } }
+.kv-modal__body { height: 100%; }
 .kv-modal__close {
-  position: absolute; top: 16px; right: 16px;
+  position: absolute; top: 14px; right: 14px;
   width: 32px; height: 32px;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.85);
   border-radius: 999px;
-  backdrop-filter: blur(4px);
-  z-index: 5;
+  backdrop-filter: blur(6px);
+  z-index: 10;
   border: none;
   cursor: pointer;
+  transition: background 150ms ease;
 }
 .kv-modal__close:hover { background: var(--color-white); }
+
+/* ───────────────────────────────────────────
+   QUICK VIEW SECTION
+─────────────────────────────────────────── */
+.kv-qv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+  min-height: 520px;
+}
+@media (max-width: 767px) {
+  .kv-qv { grid-template-columns: 1fr; min-height: auto; }
+}
+.kv-qv__img {
+  background: var(--color-mist);
+  overflow: hidden;
+  min-height: 420px;
+}
+.kv-qv__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.kv-qv__form {
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  max-height: calc(100vh - 48px);
+}
+@media (max-width: 767px) { .kv-qv__form { padding: 28px 20px; max-height: none; } }
+.kv-qv__vendor {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-clay);
+}
+.kv-qv__title {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 28px;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.kv-qv__price {
+  font-size: 17px;
+  font-weight: 500;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.kv-qv__price--was { text-decoration: line-through; color: #999; font-weight: 400; }
+.kv-qv__price--sale { color: var(--color-error, #b84a2a); }
+.kv-qv__option { display: flex; flex-direction: column; gap: 10px; }
+.kv-qv__option-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #777;
+}
+.kv-qv__option-sel { font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--color-ink); }
+.kv-qv__swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+.kv-qv__actions { margin-top: 4px; }
+.kv-qv__pdp-link {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.kv-qv__pdp-link:hover { color: var(--color-clay); }
 
 /* ───────────────────────────────────────────
    SIZE SELECTOR
