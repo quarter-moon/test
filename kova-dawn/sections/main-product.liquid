@@ -1,207 +1,852 @@
+<style>
+/* --- Satoshi-style PDP: vertical thumb strip + large main image --- */
+.kv-pdp-s {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 64px;
+  padding-top: 40px;
+  padding-bottom: 80px;
+  align-items: start;
+}
+@media (max-width: 1023px) {
+  .kv-pdp-s { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* Gallery: thumb strip left + main image right */
+.kv-pdp-s__gallery {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+@media (max-width: 1023px) {
+  .kv-pdp-s__gallery {
+    position: static;
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Vertical thumbnail strip */
+.kv-pdp-s__thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+@media (max-width: 1023px) {
+  .kv-pdp-s__thumbs { display: none; }
+}
+
+.kv-pdp-s__thumb {
+  width: 80px;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--color-mist);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: border-color 200ms ease, opacity 200ms ease;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.kv-pdp-s__thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.kv-pdp-s__thumb:hover { opacity: 0.9; }
+.kv-pdp-s__thumb.is-active {
+  border-color: var(--color-ink);
+  opacity: 1;
+}
+
+/* Main image */
+.kv-pdp-s__main {
+  aspect-ratio: 3/4;
+  background: var(--color-mist);
+  overflow: hidden;
+  position: relative;
+}
+.kv-pdp-s__main img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 250ms ease;
+}
+
+/* Mobile carousel */
+.kv-pdp-s__carousel {
+  display: none;
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--color-mist);
+  touch-action: pan-y;
+}
+.kv-pdp-s__carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 350ms ease;
+}
+.kv-pdp-s__carousel-slide {
+  flex: 0 0 100%;
+  height: 100%;
+}
+.kv-pdp-s__carousel-slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.kv-pdp-s__dots {
+  position: absolute;
+  bottom: 16px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.kv-pdp-s__dot {
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 200ms ease, transform 200ms ease;
+}
+.kv-pdp-s__dot.is-active {
+  background: var(--color-white);
+  transform: scale(1.3);
+}
+@media (max-width: 1023px) {
+  .kv-pdp-s__carousel { display: block; }
+}
+
+/* Product info column */
+.kv-pdp-s__info {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+@media (max-width: 1023px) {
+  .kv-pdp-s__info { position: static; }
+}
+
+/* Rating row */
+.kv-pdp-s__rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kv-pdp-s__stars { color: var(--color-clay); font-size: 14px; letter-spacing: 1px; }
+.kv-pdp-s__rating-text {
+  font-size: 12px;
+  color: var(--color-clay);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Price row */
+.kv-pdp-s__price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.kv-pdp-s__price--current { font-family: var(--font-body); font-size: 22px; font-weight: 500; }
+.kv-pdp-s__price--was { font-size: 16px; text-decoration: line-through; color: #999; font-weight: 400; }
+.kv-pdp-s__price--sale { color: var(--color-error); }
+.kv-pdp-s__price--badge {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--color-error);
+  color: var(--color-white);
+  padding: 4px 8px;
+  font-weight: 500;
+}
+
+/* Short description */
+.kv-pdp-s__short-desc { font-size: 14px; line-height: 1.75; color: #555; margin: 0; }
+
+/* Tabs */
+.kv-pdp-s__tabs { border-top: 1px solid var(--color-mist); padding-top: 4px; }
+.kv-pdp-s__tab-nav {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--color-mist);
+  margin-bottom: 0;
+}
+.kv-pdp-s__tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 12px 20px 12px 0;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #999;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+  margin-bottom: -1px;
+}
+.kv-pdp-s__tab-btn:hover { color: var(--color-ink); }
+.kv-pdp-s__tab-btn.is-active { color: var(--color-ink); border-bottom-color: var(--color-ink); }
+.kv-pdp-s__tab-panel { display: none; padding: 20px 0 4px; font-size: 14px; line-height: 1.75; color: #444; }
+.kv-pdp-s__tab-panel.is-active { display: block; }
+.kv-pdp-s__tab-panel p { margin: 0 0 12px; }
+.kv-pdp-s__tab-panel p:last-child { margin-bottom: 0; }
+.kv-pdp-s__tab-panel ul { margin: 0 0 12px; padding-left: 18px; }
+.kv-pdp-s__tab-panel li { margin-bottom: 6px; }
+
+/* Swatch selector */
+.kv-pdp-s__option-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.kv-pdp-s__option-label span { color: #777; text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 13px; }
+.kv-pdp-s__swatches { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+.kv-pdp-s__swatch {
+  width: 28px; height: 28px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-mist);
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  position: relative;
+  background: var(--color-mist);
+}
+.kv-pdp-s__swatch:hover { transform: scale(1.1); }
+.kv-pdp-s__swatch.is-active {
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 3.5px var(--color-ink);
+}
+
+/* Size selector */
+.kv-pdp-s__sizes-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.kv-pdp-s__size-guide {
+  font-size: 12px;
+  color: #777;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+.kv-pdp-s__size-guide:hover { color: var(--color-ink); }
+
+/* Qty stepper */
+.kv-pdp-s__qty-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+.kv-pdp-s__qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-mist);
+  height: 52px;
+}
+.kv-pdp-s__qty-btn {
+  width: 44px; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 300;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--color-ink);
+  line-height: 1;
+  transition: background 150ms ease;
+}
+.kv-pdp-s__qty-btn:hover { background: var(--color-stone); }
+.kv-pdp-s__qty-num {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background: none;
+  width: 100%;
+  padding: 0;
+}
+.kv-pdp-s__qty-num::-webkit-outer-spin-button,
+.kv-pdp-s__qty-num::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+/* Wishlist */
+.kv-pdp-s__wishlist {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 0;
+  color: #555;
+  font-family: var(--font-body);
+  align-self: center;
+  font-weight: 500;
+  transition: color 150ms ease;
+}
+.kv-pdp-s__wishlist:hover { color: var(--color-ink); }
+.kv-pdp-s__wishlist svg { transition: fill 150ms ease; }
+.kv-pdp-s__wishlist.is-on svg { fill: var(--color-clay); stroke: var(--color-clay); }
+
+/* Trust bar */
+.kv-pdp-s__trust {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid var(--color-mist);
+  border-bottom: 1px solid var(--color-mist);
+  padding: 20px 0;
+}
+.kv-pdp-s__trust-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #555;
+  text-align: center;
+  padding: 0 8px;
+  border-right: 1px solid var(--color-mist);
+}
+.kv-pdp-s__trust-item:last-child { border-right: none; }
+.kv-pdp-s__trust-icon {
+  color: var(--color-clay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* You may also like */
+.kv-pdp-s__recs { padding: 80px 0 96px; border-top: 1px solid var(--color-mist); }
+</style>
+
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign on_sale = false -%}
 {%- if product.compare_at_price > product.price -%}
   {%- assign on_sale = true -%}
 {%- endif -%}
 
-<div class="kv-container" style="padding-top:40px;padding-bottom:80px;">
-
-  <nav style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:32px;opacity:0.55;">
-    <a href="{{ routes.root_url }}" style="color:var(--color-ink);text-decoration:none;">Home</a>
-    &nbsp;/&nbsp;
+<div class="kv-container">
+  {%- comment -%} Breadcrumb {%- endcomment -%}
+  <nav class="kv-breadcrumb" style="padding-top:28px;" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
     {%- if product.collections.first -%}
-      <a href="{{ product.collections.first.url }}" style="color:var(--color-ink);text-decoration:none;">{{ product.collections.first.title }}</a>
-      &nbsp;/&nbsp;
+      <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
     {%- endif -%}
-    {{ product.title }}
+    <span aria-current="page">{{ product.title }}</span>
   </nav>
 
-  <div style="display:grid;grid-template-columns:55fr 45fr;gap:64px;align-items:start;">
+  <div class="kv-pdp-s">
 
-    {%- comment -%} Images {%- endcomment -%}
-    <div>
-      {%- if product.featured_image -%}
-        <img
-          id="kv-pdp-main-img"
-          src="{{ product.featured_image | image_url: width: 900 }}"
-          alt="{{ product.featured_image.alt | escape | default: product.title }}"
-          width="900"
-          height="1200"
-          loading="eager"
-          style="width:100%;display:block;aspect-ratio:3/4;object-fit:cover;background:var(--color-mist);"
-        >
-      {%- else -%}
-        <div style="aspect-ratio:3/4;background:var(--color-mist);display:flex;align-items:center;justify-content:center;">{{ product.vendor }}</div>
-      {%- endif -%}
+    {%- comment -%}
+      ----
+      LEFT - Image Gallery
+      ----
+    {%- endcomment -%}
+    <div class="kv-pdp-s__gallery" id="kv-gallery">
 
-      {%- if product.images.size > 1 -%}
-        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
-          {%- for image in product.images limit: 6 -%}
-            <button
-              type="button"
-              onclick="document.getElementById('kv-pdp-main-img').src='{{ image | image_url: width: 900 }}';"
-              style="width:80px;aspect-ratio:3/4;overflow:hidden;border:1px solid var(--color-mist);background:none;padding:0;cursor:pointer;"
+      {%- comment -%} Vertical thumbnail strip (desktop only) {%- endcomment -%}
+      <div class="kv-pdp-s__thumbs" role="list" aria-label="Product images">
+        {%- for image in product.images limit: 6 -%}
+          <button
+            class="kv-pdp-s__thumb{% if forloop.first %} is-active{% endif %}"
+            role="listitem"
+            data-index="{{ forloop.index0 }}"
+            aria-label="View image {{ forloop.index }}"
+          >
+            <img
+              src="{{ image | image_url: width: 160 }}"
+              alt="{{ image.alt | escape | default: product.title }}"
+              width="80"
+              height="107"
+              loading="lazy"
             >
-              <img src="{{ image | image_url: width: 160 }}" alt="{{ image.alt | escape }}" width="80" height="107" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
-            </button>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
-    </div>
-
-    {%- comment -%} Info {%- endcomment -%}
-    <div style="display:flex;flex-direction:column;gap:20px;position:sticky;top:calc(var(--nav-h,80px) + 24px);">
-
-      <span class="t-micro" style="color:var(--color-clay);">{{ product.vendor }}</span>
-      <h1 class="t-h1" style="margin:0;">{{ product.title }}</h1>
-
-      <div style="display:flex;align-items:baseline;gap:12px;font-size:20px;font-weight:500;">
-        {%- if on_sale -%}
-          <span style="color:#b84a4a;">{{ current_variant.price | money }}</span>
-          <span style="font-size:15px;text-decoration:line-through;opacity:0.45;">{{ current_variant.compare_at_price | money }}</span>
+          </button>
         {%- else -%}
-          <span>{{ current_variant.price | money }}</span>
+          <div class="kv-pdp-s__thumb is-active">
+            <div class="kv-ph">{{ product.vendor }}</div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Large main image (desktop) {%- endcomment -%}
+      <div class="kv-pdp-s__main" id="kv-main-img-wrap">
+        {%- if product.featured_image -%}
+          <img
+            id="kv-main-img"
+            src="{{ product.featured_image | image_url: width: 1000 }}"
+            alt="{{ product.featured_image.alt | escape | default: product.title }}"
+            width="1000"
+            height="1333"
+            loading="eager"
+          >
+        {%- else -%}
+          <div class="kv-ph">{{ product.title }}</div>
         {%- endif -%}
       </div>
 
-      {%- if product.description != blank -%}
-        <div style="font-size:14px;line-height:1.75;color:#555;">{{ product.description }}</div>
-      {%- endif -%}
-
-      {%- form 'product', product, id: 'kv-pdp-form' -%}
-        <input type="hidden" name="id" id="kv-variant-id" value="{{ current_variant.id }}">
-
-        {%- comment -%} Options {%- endcomment -%}
-        {%- unless product.has_only_default_variant -%}
-          {%- for option in product.options_with_values -%}
-            <div style="margin-bottom:16px;">
-              <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;margin-bottom:10px;">
-                {{ option.name }}
-              </div>
-              {%- if option.name == 'Color' or option.name == 'Colour' -%}
-                <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                  {%- for value in option.values -%}
-                    <button
-                      type="button"
-                      class="kv-opt-color{% if forloop.first %} is-sel{% endif %}"
-                      data-opt="{{ option.position }}"
-                      data-val="{{ value | escape }}"
-                      title="{{ value }}"
-                      aria-label="{{ value }}"
-                      style="width:28px;height:28px;border-radius:50%;background:{{ value | downcase }};border:2px solid {% if forloop.first %}var(--color-ink){% else %}transparent{% endif %};cursor:pointer;outline:2px solid var(--color-mist);outline-offset:1px;"
-                    ></button>
-                  {%- endfor -%}
-                </div>
-              {%- else -%}
-                <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                  {%- for value in option.values -%}
-                    <button
-                      type="button"
-                      class="kv-opt-btn{% if forloop.first %} is-sel{% endif %}"
-                      data-opt="{{ option.position }}"
-                      data-val="{{ value | escape }}"
-                      style="min-width:44px;height:44px;padding:0 12px;border:1px solid {% if forloop.first %}var(--color-ink){% else %}var(--color-mist){% endif %};font-family:var(--font-body);font-size:13px;cursor:pointer;background:{% if forloop.first %}var(--color-ink){% else %}var(--color-white){% endif %};color:{% if forloop.first %}var(--color-white){% else %}var(--color-ink){% endif %};"
-                    >{{ value }}</button>
-                  {%- endfor -%}
-                </div>
-              {%- endif -%}
+      {%- comment -%} Mobile swipe carousel {%- endcomment -%}
+      <div class="kv-pdp-s__carousel" id="kv-carousel" aria-label="Product images">
+        <div class="kv-pdp-s__carousel-track" id="kv-carousel-track">
+          {%- for image in product.images limit: 6 -%}
+            <div class="kv-pdp-s__carousel-slide">
+              <img
+                src="{{ image | image_url: width: 800 }}"
+                alt="{{ image.alt | escape | default: product.title }}"
+                width="800"
+                height="1067"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+              >
+            </div>
+          {%- else -%}
+            <div class="kv-pdp-s__carousel-slide">
+              <div class="kv-ph">{{ product.title }}</div>
             </div>
           {%- endfor -%}
-        {%- endunless -%}
+        </div>
+        {%- if product.images.size > 1 -%}
+          <div class="kv-pdp-s__dots" role="tablist" aria-label="Image slides">
+            {%- for image in product.images limit: 6 -%}
+              <button
+                class="kv-pdp-s__dot{% if forloop.first %} is-active{% endif %}"
+                role="tab"
+                data-index="{{ forloop.index0 }}"
+                aria-label="Go to image {{ forloop.index }}"
+                aria-selected="{{ forloop.first }}"
+              ></button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
 
-        <button
-          type="submit"
-          name="add"
-          id="kv-atc"
-          class="kv-btn kv-btn--full kv-btn--lg"
-          {%- unless current_variant.available %} disabled{%- endunless -%}
-        >
-          {%- if current_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
-        </button>
+    </div>
+
+    {%- comment -%}
+      ----
+      RIGHT - Product info
+      ----
+    {%- endcomment -%}
+    <div class="kv-pdp-s__info">
+
+      {%- comment -%} Vendor {%- endcomment -%}
+      <span class="t-micro" style="color:var(--color-clay);">{{ product.vendor }}</span>
+
+      {%- comment -%} Title {%- endcomment -%}
+      <h1 class="t-h1" style="margin:0;">{{ product.title }}</h1>
+
+      {%- comment -%} Star rating placeholder {%- endcomment -%}
+      <div class="kv-pdp-s__rating">
+        <span class="kv-pdp-s__stars" aria-label="4.8 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <a class="kv-pdp-s__rating-text" href="#kv-tab-description" aria-label="Read 124 reviews">4.8 &middot; 124 reviews</a>
+      </div>
+
+      {%- comment -%} Price {%- endcomment -%}
+      <div class="kv-pdp-s__price" id="kv-price">
+        {%- if on_sale -%}
+          <span class="kv-pdp-s__price--current kv-pdp-s__price--sale">{{ current_variant.price | money }}</span>
+          <span class="kv-pdp-s__price--was">{{ current_variant.compare_at_price | money }}</span>
+          {%- assign saving = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price -%}
+          <span class="kv-pdp-s__price--badge">&minus;{{ saving }}%</span>
+        {%- else -%}
+          <span class="kv-pdp-s__price--current">{{ current_variant.price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Short description {%- endcomment -%}
+      {%- if product.metafields.custom.short_description != blank -%}
+        <p class="kv-pdp-s__short-desc">{{ product.metafields.custom.short_description }}</p>
+      {%- else -%}
+        <p class="kv-pdp-s__short-desc">Designed for a lifetime of wear. Each piece is handcrafted in small batches using natural fibres sourced from certified European mills &mdash; made to be reached for again and again.</p>
+      {%- endif -%}
+
+      {%- comment -%} Tabs: Description | Materials & Care | Shipping {%- endcomment -%}
+      <div class="kv-pdp-s__tabs">
+        <nav class="kv-pdp-s__tab-nav" role="tablist" aria-label="Product details">
+          <button class="kv-pdp-s__tab-btn is-active" role="tab" aria-selected="true" aria-controls="kv-tab-description" id="kv-tab-btn-description">Description</button>
+          <button class="kv-pdp-s__tab-btn" role="tab" aria-selected="false" aria-controls="kv-tab-materials" id="kv-tab-btn-materials" style="margin-left:24px;">Materials &amp; Care</button>
+          <button class="kv-pdp-s__tab-btn" role="tab" aria-selected="false" aria-controls="kv-tab-shipping" id="kv-tab-btn-shipping" style="margin-left:24px;">Shipping</button>
+        </nav>
+
+        <div class="kv-pdp-s__tab-panel is-active" role="tabpanel" id="kv-tab-description" aria-labelledby="kv-tab-btn-description">
+          {%- if product.description != blank -%}
+            {{ product.description }}
+          {%- else -%}
+            <p>Considered design, deliberate construction. This piece was conceived without reference to any trend calendar &mdash; only to the question of whether it would still feel essential in ten years. We believe it will.</p>
+            <p>Cut from premium natural fibres and finished by hand in our partner atelier in Braga, Portugal. Every seam is double-stitched, every edge taped, every detail held to the standard of something you might one day pass on.</p>
+          {%- endif -%}
+        </div>
+
+        <div class="kv-pdp-s__tab-panel" role="tabpanel" id="kv-tab-materials" aria-labelledby="kv-tab-btn-materials">
+          {%- if product.metafields.custom.materials != blank -%}
+            {{ product.metafields.custom.materials }}
+          {%- else -%}
+            <ul>
+              <li>100% traceable natural fibres &mdash; certified to GOTS or OEKO-TEX Standard 100</li>
+              <li>Produced in a certified facility in Portugal with fair working conditions</li>
+              <li>Hand wash cold or dry clean only</li>
+              <li>Do not tumble dry &mdash; lay flat to dry away from direct sunlight</li>
+              <li>Cool iron on reverse if needed; do not iron prints or embellishments</li>
+            </ul>
+            <p>We use no virgin synthetics. Our dyeing processes are waterway-safe and certified low-impact.</p>
+          {%- endif -%}
+        </div>
+
+        <div class="kv-pdp-s__tab-panel" role="tabpanel" id="kv-tab-shipping" aria-labelledby="kv-tab-btn-shipping">
+          <ul>
+            <li><strong>Free standard shipping</strong> on all orders over {{ section.settings.free_shipping_threshold | default: '$150' }}</li>
+            <li>Standard delivery: 3&ndash;5 business days (EU &amp; UK), 5&ndash;10 business days (Rest of World)</li>
+            <li>Express options available at checkout</li>
+          </ul>
+          <p><strong>Free returns within 30 days.</strong> Pieces must be unworn with original tags attached. Initiate a return from your order confirmation email or contact us at returns@kova.com.</p>
+          <p>We ship in 100% recycled, plastic-free packaging.</p>
+        </div>
+      </div>
+
+      <div class="kv-divider" style="margin:4px 0;"></div>
+
+      {%- form 'product', product, id: 'kv-pdp-form', class: 'kv-pdp-s__form' -%}
+        <input type="hidden" name="id" id="kv-variant-id" value="{{ current_variant.id }}">
+
+        {%- comment -%} Color swatches {%- endcomment -%}
+        {%- assign color_option = product.options_with_values | where: "name", "Color" | first -%}
+        {%- if color_option -%}
+          <div style="margin-bottom:20px;">
+            <div class="kv-pdp-s__option-label">
+              Color
+              <span id="kv-selected-color-label">{{ color_option.selected_value | default: color_option.values.first }}</span>
+            </div>
+            <div class="kv-pdp-s__swatches">
+              {%- for value in color_option.values -%}
+                <button
+                  type="button"
+                  class="kv-pdp-s__swatch{% if forloop.first %} is-active{% endif %}"
+                  style="background:{{ value | downcase }};"
+                  aria-label="{{ value }}"
+                  title="{{ value }}"
+                  data-color="{{ value }}"
+                  onclick="
+                    document.querySelectorAll('.kv-pdp-s__swatch').forEach(s=>s.classList.remove('is-active'));
+                    this.classList.add('is-active');
+                    document.getElementById('kv-selected-color-label').textContent='{{ value }}';
+                  "
+                ></button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Size selector {%- endcomment -%}
+        {%- assign size_option = product.options_with_values | where: "name", "Size" | first -%}
+        {%- unless size_option -%}
+          {%- assign size_option = product.options_with_values | where: "name", "size" | first -%}
+        {%- endunless -%}
+        {%- if size_option -%}
+          <div style="margin-bottom:20px;">
+            <div class="kv-pdp-s__sizes-row">
+              <span class="kv-pdp-s__option-label">Size</span>
+              <button type="button" class="kv-pdp-s__size-guide" onclick="document.getElementById('kv-size-guide').style.display='block';">Size guide</button>
+            </div>
+            <div class="kv-sizes" id="kv-sizes">
+              {%- for variant in product.variants -%}
+                {%- assign size_val = variant.options[size_option.position | minus: 1] -%}
+                <button
+                  type="button"
+                  class="kv-size{% unless variant.available %} {% endunless %}"
+                  {% unless variant.available %}disabled{% endunless %}
+                  data-variant-id="{{ variant.id }}"
+                  data-size="{{ size_val }}"
+                  aria-label="Size {{ size_val }}{% unless variant.available %} &mdash; unavailable{% endunless %}"
+                >{{ size_val }}</button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Qty + Add to cart {%- endcomment -%}
+        <div class="kv-pdp-s__qty-row" style="margin-bottom:12px;">
+          <div class="kv-pdp-s__qty">
+            <button type="button" class="kv-pdp-s__qty-btn" id="kv-qty-minus" aria-label="Decrease quantity">&minus;</button>
+            <input
+              class="kv-pdp-s__qty-num"
+              type="number"
+              name="quantity"
+              id="kv-qty-input"
+              value="1"
+              min="1"
+              max="10"
+              aria-label="Quantity"
+            >
+            <button type="button" class="kv-pdp-s__qty-btn" id="kv-qty-plus" aria-label="Increase quantity">+</button>
+          </div>
+          <button
+            type="submit"
+            class="kv-btn kv-btn--full kv-btn--lg"
+            id="kv-atc-btn"
+            data-add-to-cart
+            {%- unless current_variant.available -%}disabled{%- endunless -%}
+          >
+            {%- if current_variant.available -%}
+              Add to Cart
+            {%- else -%}
+              Sold Out
+            {%- endif -%}
+          </button>
+        </div>
 
       {%- endform -%}
 
-      <div style="display:flex;gap:0;border-top:1px solid var(--color-mist);border-bottom:1px solid var(--color-mist);padding:20px 0;">
-        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#555;text-align:center;border-right:1px solid var(--color-mist);padding:0 8px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+      {%- comment -%} Wishlist {%- endcomment -%}
+      <button class="kv-pdp-s__wishlist" data-wishlist aria-label="Save to wishlist">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        Save to Wishlist
+      </button>
+
+      {%- comment -%} Trust bar {%- endcomment -%}
+      <div class="kv-pdp-s__trust" role="list" aria-label="Guarantees">
+        <div class="kv-pdp-s__trust-item" role="listitem">
+          <span class="kv-pdp-s__trust-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/>
+            </svg>
+          </span>
           Free Shipping
         </div>
-        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#555;text-align:center;border-right:1px solid var(--color-mist);padding:0 8px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 14.85-6.85L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-14.85 6.85L3 16"/><path d="M3 21v-5h5"/></svg>
+        <div class="kv-pdp-s__trust-item" role="listitem">
+          <span class="kv-pdp-s__trust-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 0 1 14.85-6.85L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-14.85 6.85L3 16"/><path d="M3 21v-5h5"/>
+            </svg>
+          </span>
           Free Returns
         </div>
-        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#555;text-align:center;padding:0 8px;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div class="kv-pdp-s__trust-item" role="listitem">
+          <span class="kv-pdp-s__trust-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </span>
           Secure Checkout
         </div>
       </div>
 
     </div>
+    {%- comment -%} End info column {%- endcomment -%}
 
   </div>
+  {%- comment -%} End .kv-pdp-s {%- endcomment -%}
 
 </div>
 
+{%- comment -%} Size guide modal (simple inline, hidden by default) {%- endcomment -%}
+<div id="kv-size-guide" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(20,18,16,0.55);backdrop-filter:blur(4px);" onclick="if(event.target===this)this.style.display='none';">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--color-white);padding:48px;max-width:480px;width:calc(100vw - 40px);max-height:80vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h3 class="t-h3">Size Guide</h3>
+      <button onclick="document.getElementById('kv-size-guide').style.display='none';" style="background:none;border:none;cursor:pointer;font-size:24px;line-height:1;color:var(--color-ink);" aria-label="Close">&times;</button>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;line-height:1.6;">
+      <thead><tr style="border-bottom:1px solid var(--color-mist);">
+        <th style="text-align:left;padding:8px 0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;">Size</th>
+        <th style="text-align:center;padding:8px 0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;">UK</th>
+        <th style="text-align:center;padding:8px 0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;">EU</th>
+        <th style="text-align:center;padding:8px 0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;">Bust</th>
+        <th style="text-align:center;padding:8px 0;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;">Waist</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--color-mist);"><td style="padding:10px 0;">XS</td><td style="text-align:center;">6</td><td style="text-align:center;">34</td><td style="text-align:center;">80cm</td><td style="text-align:center;">60cm</td></tr>
+        <tr style="border-bottom:1px solid var(--color-mist);"><td style="padding:10px 0;">S</td><td style="text-align:center;">8</td><td style="text-align:center;">36</td><td style="text-align:center;">84cm</td><td style="text-align:center;">64cm</td></tr>
+        <tr style="border-bottom:1px solid var(--color-mist);"><td style="padding:10px 0;">M</td><td style="text-align:center;">10&ndash;12</td><td style="text-align:center;">38&ndash;40</td><td style="text-align:center;">90cm</td><td style="text-align:center;">70cm</td></tr>
+        <tr style="border-bottom:1px solid var(--color-mist);"><td style="padding:10px 0;">L</td><td style="text-align:center;">14</td><td style="text-align:center;">42</td><td style="text-align:center;">96cm</td><td style="text-align:center;">76cm</td></tr>
+        <tr><td style="padding:10px 0;">XL</td><td style="text-align:center;">16</td><td style="text-align:center;">44</td><td style="text-align:center;">102cm</td><td style="text-align:center;">82cm</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:#777;margin-top:20px;">All measurements are body measurements in centimetres. If you are between sizes, we recommend sizing up for a relaxed drape or down for a closer fit. Need help? Email <a href="mailto:fit@kova.com" style="color:var(--color-ink);text-decoration:underline;">fit@kova.com</a>.</p>
+  </div>
+</div>
+
+{%- comment -%} ----
+  You May Also Like
+---- {%- endcomment -%}
+{%- if section.settings.show_recommendations -%}
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    <section class="kv-pdp-s__recs" aria-label="You may also like">
+      <div class="kv-container">
+        <header class="kv-section-head">
+          <div class="kv-section-head__title">
+            <span class="t-micro" style="color:var(--color-clay);">Curated for you</span>
+            <h2 class="t-h2">{{ section.settings.recommendations_heading }}</h2>
+          </div>
+        </header>
+        <div class="kv-grid">
+          {%- for rec in recommendations.products limit: 4 -%}
+            {%- render 'product-card', product: rec -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+{%- endif -%}
+
 <script>
-(function(){
-  var variants = {{ product.variants | json }};
-  var selected = {};
+(function () {
+  // --- Vertical thumb strip ----
+  var thumbs = document.querySelectorAll('.kv-pdp-s__thumb');
+  var mainImg = document.getElementById('kv-main-img');
+  var allImages = [
+    {%- for image in product.images limit: 6 -%}
+      { src: '{{ image | image_url: width: 1000 }}', alt: '{{ image.alt | escape | default: product.title }}' }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ];
 
-  {%- for option in product.options_with_values -%}
-    selected[{{ option.position }}] = {{ option.selected_value | json }};
-  {%- endfor -%}
-
-  function findVariant() {
-    return variants.find(function(v) {
-      return v.options.every(function(o, i) {
-        return o === selected[i + 1];
-      });
-    });
-  }
-
-  function updateVariant() {
-    var v = findVariant();
-    if (!v) return;
-    var idInput = document.getElementById('kv-variant-id');
-    var atcBtn = document.getElementById('kv-atc');
-    if (idInput) idInput.value = v.id;
-    if (atcBtn) {
-      atcBtn.disabled = !v.available;
-      atcBtn.textContent = v.available ? 'Add to Cart' : 'Sold Out';
-    }
-    if (v.featured_image) {
-      var img = document.getElementById('kv-pdp-main-img');
-      if (img) img.src = v.featured_image.src;
-    }
-  }
-
-  document.querySelectorAll('.kv-opt-btn, .kv-opt-color').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var pos = parseInt(this.dataset.opt);
-      var val = this.dataset.val;
-      selected[pos] = val;
-
-      var group = document.querySelectorAll('[data-opt="' + pos + '"]');
-      group.forEach(function(b) {
-        var isSel = b.dataset.val === val;
-        b.classList.toggle('is-sel', isSel);
-        if (b.classList.contains('kv-opt-btn')) {
-          b.style.background = isSel ? 'var(--color-ink)' : 'var(--color-white)';
-          b.style.color = isSel ? 'var(--color-white)' : 'var(--color-ink)';
-          b.style.borderColor = isSel ? 'var(--color-ink)' : 'var(--color-mist)';
-        } else {
-          b.style.borderColor = isSel ? 'var(--color-ink)' : 'transparent';
-        }
-      });
-      updateVariant();
+  thumbs.forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      var idx = parseInt(this.getAttribute('data-index'), 10);
+      thumbs.forEach(function (t) { t.classList.remove('is-active'); });
+      this.classList.add('is-active');
+      if (mainImg && allImages[idx]) {
+        mainImg.style.opacity = '0';
+        setTimeout(function () {
+          mainImg.src = allImages[idx].src;
+          mainImg.alt = allImages[idx].alt;
+          mainImg.style.opacity = '1';
+        }, 150);
+      }
     });
   });
+
+  // --- Mobile carousel ----
+  var carousel = document.getElementById('kv-carousel');
+  var track = document.getElementById('kv-carousel-track');
+  var dots = document.querySelectorAll('.kv-pdp-s__dot');
+  var currentSlide = 0;
+  var totalSlides = allImages.length || 1;
+
+  function goToSlide(n) {
+    currentSlide = Math.max(0, Math.min(n, totalSlides - 1));
+    if (track) track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+    dots.forEach(function (d, i) {
+      d.classList.toggle('is-active', i === currentSlide);
+      d.setAttribute('aria-selected', i === currentSlide ? 'true' : 'false');
+    });
+  }
+
+  dots.forEach(function (dot) {
+    dot.addEventListener('click', function () {
+      goToSlide(parseInt(this.getAttribute('data-index'), 10));
+    });
+  });
+
+  // Touch swipe
+  if (carousel) {
+    var startX = 0;
+    carousel.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+    carousel.addEventListener('touchend', function (e) {
+      var diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) goToSlide(currentSlide + (diff > 0 ? 1 : -1));
+    }, { passive: true });
+  }
+
+  // --- Size variant selection ----
+  var sizeButtons = document.querySelectorAll('#kv-sizes .kv-size');
+  var variantInput = document.getElementById('kv-variant-id');
+  var atcBtn = document.getElementById('kv-atc-btn');
+
+  sizeButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (this.disabled) return;
+      sizeButtons.forEach(function (b) { b.classList.remove('is-active'); });
+      this.classList.add('is-active');
+      var vid = this.getAttribute('data-variant-id');
+      if (variantInput) variantInput.value = vid;
+      if (atcBtn) { atcBtn.disabled = false; atcBtn.textContent = 'Add to Cart'; }
+    });
+  });
+
+  // --- Quantity stepper ----
+  var qtyInput = document.getElementById('kv-qty-input');
+  document.getElementById('kv-qty-minus') && document.getElementById('kv-qty-minus').addEventListener('click', function () {
+    if (qtyInput && parseInt(qtyInput.value) > 1) qtyInput.value = parseInt(qtyInput.value) - 1;
+  });
+  document.getElementById('kv-qty-plus') && document.getElementById('kv-qty-plus').addEventListener('click', function () {
+    if (qtyInput && parseInt(qtyInput.value) < 10) qtyInput.value = parseInt(qtyInput.value) + 1;
+  });
+
+  // --- Product tabs ----
+  var tabBtns = document.querySelectorAll('.kv-pdp-s__tab-btn');
+  var tabPanels = document.querySelectorAll('.kv-pdp-s__tab-panel');
+
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = this.getAttribute('aria-controls');
+      tabBtns.forEach(function (b) { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+      tabPanels.forEach(function (p) { p.classList.remove('is-active'); });
+      this.classList.add('is-active');
+      this.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(target);
+      if (panel) panel.classList.add('is-active');
+    });
+  });
+
+  // --- Wishlist toggle ----
+  var wishlistBtn = document.querySelector('.kv-pdp-s__wishlist[data-wishlist]');
+  if (wishlistBtn) {
+    wishlistBtn.addEventListener('click', function () {
+      this.classList.toggle('is-on');
+      var isOn = this.classList.contains('is-on');
+      this.querySelector('svg').setAttribute('fill', isOn ? 'currentColor' : 'none');
+      this.childNodes[this.childNodes.length - 1].textContent = isOn ? ' Saved' : ' Save to Wishlist';
+    });
+  }
 })();
 </script>
 
 {% schema %}
 {
   "name": "Product Detail",
-  "settings": []
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_recommendations",
+      "label": "Show recommendations",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "recommendations_heading",
+      "label": "Recommendations heading",
+      "default": "Quietly complementary"
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_threshold",
+      "label": "Free shipping threshold (display only)",
+      "default": "$150"
+    }
+  ]
 }
 {% endschema %}
