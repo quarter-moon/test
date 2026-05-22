@@ -1,5 +1,5 @@
 <style>
-/* ─── About Page — KOVA ─── */
+/* ─── About Page — VELD ─── */
 
 /* ── Hero ── */
 .kv-about-hero {
@@ -311,7 +311,7 @@
 </style>
 
 {%- comment -%}
-  KOVA About Page — Single section with block-based customization.
+  VELD About Page — Single section with block-based customization.
   Blocks: hero, story, values, quote, image_grid, email_cta
 {%- endcomment -%}
 
@@ -328,7 +328,7 @@
         <img
           class="kv-about-hero__img"
           src="{{ block.settings.hero_image | image_url: width: 1800 }}"
-          alt="{{ block.settings.hero_image.alt | escape | default: 'KOVA — We believe in less, done better.' }}"
+          alt="{{ block.settings.hero_image.alt | escape | default: 'VELD — We believe in less, done better.' }}"
           width="1800"
           height="1000"
           loading="eager"
@@ -337,7 +337,7 @@
         <img
           class="kv-about-hero__img"
           src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1800&q=85"
-          alt="KOVA — We believe in less, done better."
+          alt="VELD — We believe in less, done better."
           width="1800"
           height="1000"
           loading="eager"
@@ -345,7 +345,7 @@
       {%- endif -%}
       <div class="kv-about-hero__overlay" aria-hidden="true"></div>
       <div class="kv-about-hero__content kv-container">
-        <span class="kv-about-hero__label">{{ block.settings.label | default: 'KOVA' }}</span>
+        <span class="kv-about-hero__label">{{ block.settings.label | default: 'VELD' }}</span>
         <h1 class="kv-about-hero__headline">{{ block.settings.headline | default: 'We believe in less, done better.' }}</h1>
       </div>
     </section>
@@ -362,7 +362,7 @@
             {%- if block.settings.story_image != blank -%}
               <img
                 src="{{ block.settings.story_image | image_url: width: 900 }}"
-                alt="{{ block.settings.story_image.alt | escape | default: 'KOVA brand story' }}"
+                alt="{{ block.settings.story_image.alt | escape | default: 'VELD brand story' }}"
                 width="900"
                 height="1125"
                 loading="lazy"
@@ -370,7 +370,7 @@
             {%- else -%}
               <img
                 src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=900&q=85"
-                alt="KOVA brand story — editorial portrait"
+                alt="VELD brand story — editorial portrait"
                 width="900"
                 height="1125"
                 loading="lazy"
@@ -385,9 +385,9 @@
               {%- if block.settings.story_body != blank -%}
                 {{ block.settings.story_body }}
               {%- else -%}
-                <p>KOVA was founded in Copenhagen in 2019 by a group of designers who believed the fashion industry had lost its way. Not through malice, but through momentum — the relentless forward motion of seasons, collections and newness for its own sake.</p>
+                <p>VELD was founded in Copenhagen in 2019 by a group of designers who believed the fashion industry had lost its way. Not through malice, but through momentum — the relentless forward motion of seasons, collections and newness for its own sake.</p>
                 <p>We design outside the calendar. No seasons, no trend reports, no drops. Only pieces we believe you will reach for again and again — pieces worth keeping for a decade, then passing on. We work exclusively with European ateliers in Portugal, Italy and Scotland, where the craft of making clothes well has been practised for generations.</p>
-                <p>Every KOVA piece is made in small batches, using natural fibres we trace to their source. We take our time, because the things worth having usually require it.</p>
+                <p>Every VELD piece is made in small batches, using natural fibres we trace to their source. We take our time, because the things worth having usually require it.</p>
               {%- endif -%}
             </div>
             <div>
@@ -431,7 +431,7 @@
             </svg>
             <p class="kv-about-value__heading">{{ block.settings.value2_label | default: 'Longevity' }}</p>
             <h3 class="kv-about-value__title">{{ block.settings.value2_title | default: 'Designed to outlast trends' }}</h3>
-            <p class="kv-about-value__text">{{ block.settings.value2_text | default: 'We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy KOVA, you are opting out of the cycle, not into a new one.' }}</p>
+            <p class="kv-about-value__text">{{ block.settings.value2_text | default: 'We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy VELD, you are opting out of the cycle, not into a new one.' }}</p>
           </div>
 
           {%- comment -%} Value 3: Responsibility {%- endcomment -%}
@@ -457,7 +457,7 @@
       <div class="kv-about-quote__inner">
         <blockquote>
           <p class="kv-about-quote__text">{{ block.settings.quote_text | default: 'The best garment is the one you reach for again and again.' }}</p>
-          <footer class="kv-about-quote__attribution">{{ block.settings.quote_attribution | default: '— KOVA, est. 2019' }}</footer>
+          <footer class="kv-about-quote__attribution">{{ block.settings.quote_attribution | default: '— VELD, est. 2019' }}</footer>
         </blockquote>
       </div>
     </section>
@@ -473,14 +473,14 @@
         {%- if block.settings.grid_image_1 != blank -%}
           <img
             src="{{ block.settings.grid_image_1 | image_url: width: 700 }}"
-            alt="{{ block.settings.grid_image_1.alt | escape | default: 'KOVA atelier' }}"
+            alt="{{ block.settings.grid_image_1.alt | escape | default: 'VELD atelier' }}"
             width="700" height="700"
             loading="lazy"
           >
         {%- else -%}
           <img
             src="https://images.unsplash.com/photo-1558171813-0c75e01e5bec?auto=format&fit=crop&w=600&q=85"
-            alt="KOVA atelier — artisan at work"
+            alt="VELD atelier — artisan at work"
             width="600" height="600"
             loading="lazy"
           >
@@ -492,14 +492,14 @@
         {%- if block.settings.grid_image_2 != blank -%}
           <img
             src="{{ block.settings.grid_image_2 | image_url: width: 700 }}"
-            alt="{{ block.settings.grid_image_2.alt | escape | default: 'KOVA materials' }}"
+            alt="{{ block.settings.grid_image_2.alt | escape | default: 'VELD materials' }}"
             width="700" height="700"
             loading="lazy"
           >
         {%- else -%}
           <img
             src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=85"
-            alt="KOVA — material sourcing and fabric detail"
+            alt="VELD — material sourcing and fabric detail"
             width="600" height="600"
             loading="lazy"
           >
@@ -511,14 +511,14 @@
         {%- if block.settings.grid_image_3 != blank -%}
           <img
             src="{{ block.settings.grid_image_3 | image_url: width: 700 }}"
-            alt="{{ block.settings.grid_image_3.alt | escape | default: 'KOVA team' }}"
+            alt="{{ block.settings.grid_image_3.alt | escape | default: 'VELD team' }}"
             width="700" height="700"
             loading="lazy"
           >
         {%- else -%}
           <img
             src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=85"
-            alt="KOVA — the people behind the process"
+            alt="VELD — the people behind the process"
             width="600" height="600"
             loading="lazy"
           >
@@ -582,7 +582,7 @@
           "type": "text",
           "id": "label",
           "label": "Label text",
-          "default": "KOVA"
+          "default": "VELD"
         },
         {
           "type": "text",
@@ -671,7 +671,7 @@
           "type": "textarea",
           "id": "value2_text",
           "label": "Value 2 — description",
-          "default": "We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy KOVA, you are opting out of the cycle, not into a new one."
+          "default": "We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy VELD, you are opting out of the cycle, not into a new one."
         },
         {
           "type": "text",
@@ -708,7 +708,7 @@
           "type": "text",
           "id": "quote_attribution",
           "label": "Attribution",
-          "default": "— KOVA, est. 2019"
+          "default": "— VELD, est. 2019"
         }
       ]
     },

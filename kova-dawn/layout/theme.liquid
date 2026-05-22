@@ -28,7 +28,7 @@
 
   {{ content_for_header }}
 
-  {{ 'kova.css' | asset_url | stylesheet_tag }}
+  {{ 'veld.css' | asset_url | stylesheet_tag }}
 </head>
 
 <body class="template-{{ template.name }}">
@@ -70,6 +70,6 @@
 
   {%- sections 'footer-group' -%}
 
-  <script src="{{ 'kova.js' | asset_url }}" defer></script>
+  <script src="{{ 'veld.js' | asset_url }}" defer></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
         "hero": {
           "type": "hero",
           "settings": {
-            "label": "KOVA",
+            "label": "VELD",
             "headline": "We believe in less, done better."
           }
         },
@@ -27,7 +27,7 @@
             "value1_text": "Every piece is made in small batches by skilled artisans across Portugal, Italy and Scotland. We visit our makers, we know their names, and we choose them for their care as much as their craft.",
             "value2_label": "Longevity",
             "value2_title": "Designed to outlast trends",
-            "value2_text": "We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy KOVA, you are opting out of the cycle, not into a new one.",
+            "value2_text": "We design outside the calendar. No seasons, no drops — only pieces worth keeping for a decade. When you buy VELD, you are opting out of the cycle, not into a new one.",
             "value3_label": "Responsibility",
             "value3_title": "Responsible materials",
             "value3_text": "Natural fibres only. We trace every material to its source and work only with GOTS- and OEKO-TEX-certified suppliers. Our dyeing processes are low-impact and waterway-safe."
@@ -37,7 +37,7 @@
           "type": "quote",
           "settings": {
             "quote_text": "The best garment is the one you reach for again and again.",
-            "quote_attribution": "— KOVA, est. 2019"
+            "quote_attribution": "— VELD, est. 2019"
           }
         },
         "image_grid": {

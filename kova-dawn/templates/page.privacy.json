@@ -4,7 +4,7 @@
       "type": "main-policy",
       "blocks": {
         "h1": { "type": "heading", "settings": { "text": "1. Who We Are" } },
-        "t1": { "type": "text", "settings": { "content": "<p>KOVA ApS (\"we\", \"our\", \"us\") is the data controller for personal data collected via kova-studio.com. Company number: CVR 40123456. Contact: privacy@kova-studio.com.</p>" } },
+        "t1": { "type": "text", "settings": { "content": "<p>VELD Studio (\"we\", \"our\", \"us\") is the data controller for personal data collected via veld-studio.com. Company number: CVR 40123456. Contact: privacy@veld-studio.com.</p>" } },
         "h2": { "type": "heading", "settings": { "text": "2. Data We Collect" } },
         "t2": { "type": "text", "settings": { "content": "<p>We collect: name, email address, shipping/billing address, payment information (processed by Stripe — we never store card details), order history, and browsing data via cookies (with your consent).</p>" } },
         "h3": { "type": "heading", "settings": { "text": "3. How We Use Your Data" } },
@@ -12,14 +12,14 @@
         "h4": { "type": "heading", "settings": { "text": "4. Cookies" } },
         "t4": { "type": "text", "settings": { "content": "<p>We use essential cookies (for cart and session), analytical cookies (Google Analytics, anonymised), and marketing cookies (with your consent only). You can manage your preferences at any time via the cookie banner.</p>" } },
         "h5": { "type": "heading", "settings": { "text": "5. Your Rights (GDPR)" } },
-        "t5": { "type": "text", "settings": { "content": "<p>Under GDPR you have the right to: access your personal data; correct inaccurate data; request deletion; withdraw consent; data portability; lodge a complaint with Datatilsynet (the Danish DPA).</p><p>To exercise any right, email privacy@kova-studio.com. We will respond within 30 days.</p>" } },
+        "t5": { "type": "text", "settings": { "content": "<p>Under GDPR you have the right to: access your personal data; correct inaccurate data; request deletion; withdraw consent; data portability; lodge a complaint with Datatilsynet (the Danish DPA).</p><p>To exercise any right, email privacy@veld-studio.com. We will respond within 30 days.</p>" } },
         "h6": { "type": "heading", "settings": { "text": "6. Data Retention" } },
         "t6": { "type": "text", "settings": { "content": "<p>Order data is retained for 5 years (Danish accounting law). Marketing data is retained until you unsubscribe or request deletion. Anonymised analytics data may be retained indefinitely.</p><p>Last updated: January 2026.</p>" } }
       },
       "block_order": ["h1","t1","h2","t2","h3","t3","h4","t4","h5","t5","h6","t6"],
       "settings": {
         "page_title": "Privacy Policy",
-        "intro_text": "KOVA is committed to protecting your privacy. This policy explains how we collect, use, and protect your personal data in compliance with GDPR."
+        "intro_text": "VELD is committed to protecting your privacy. This policy explains how we collect, use, and protect your personal data in compliance with GDPR."
       }
     }
   },

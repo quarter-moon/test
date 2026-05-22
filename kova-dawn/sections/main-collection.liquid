@@ -651,7 +651,7 @@
                 </div>
                 {%- if color_option -%}
                   <div class="kv-col-card__swatches">
-                    {%- comment -%} Color name → CSS hex map for known KOVA palette {%- endcomment -%}
+                    {%- comment -%} Color name → CSS hex map for known VELD palette {%- endcomment -%}
                     {%- assign kv_cmap = 'black|#1a1a18,white|#ffffff,ivory|#f5f0e8,ivory white|#f5f0e8,ecru|#e8e0ce,camel|#c4a882,sand|#d4c4a8,stone|#f5f3ef,slate|#6b7888,grey|#9a9a9a,gray|#9a9a9a,charcoal|#4a4a4a,navy|#1a2744,forest|#3d5c3e,forest green|#3d5c3e,sage|#6b7c6e,olive|#707840,burgundy|#7a2040,clay|#c4a882,blush|#e8c4b8,cream|#f5eed8,midnight|#1a1a2e,brown|#8b5e35,oat|#d8cebe,chalk|#f0ede8,cobalt|#1a3a6e,rust|#b84a2a' | split: ',' -%}
                     {%- for value in color_option.values limit: 5 -%}
                       {%- assign sw_img = '' -%}
@@ -860,7 +860,7 @@
       "type": "textarea",
       "id": "demo_description",
       "label": "Demo collection description",
-      "default": "A curated selection of KOVA essentials."
+      "default": "A curated selection of VELD essentials."
     },
     {
       "type": "text",
