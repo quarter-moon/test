@@ -80,8 +80,6 @@
     {%- if color_option -%}
       <div class="kv-card__swatches">
         {%- for value in color_option.values limit: 5 -%}
-          {%- assign swatch_file = value | handleize | append: '.png' -%}
-          {%- assign swatch_image = swatch_file | file_img_url: '24x24' -%}
           {%- assign swatch_color = value | downcase -%}
           <button
             class="kv-swatch{% if forloop.first %} is-active{% endif %}"

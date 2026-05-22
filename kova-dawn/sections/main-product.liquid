@@ -418,7 +418,7 @@
                 alt="{{ image.alt | escape | default: product.title }}"
                 width="800"
                 height="1067"
-                loading="{{ forloop.first | iif: 'eager', 'lazy' }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
               >
             </div>
           {%- else -%}
