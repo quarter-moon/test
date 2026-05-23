@@ -559,6 +559,9 @@ h4 { font-size: clamp(18px, 3vw, 24px); }
   text-align: center;
   transform: translateY(100%);
   transition: transform var(--transition);
+  border: none;
+  cursor: pointer;
+  width: 100%;
 }
 
 .product-card:hover .product-card-quick-add { transform: translateY(0); }

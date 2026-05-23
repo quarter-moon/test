@@ -39,7 +39,13 @@
     {%- endif -%}
 
     {%- if product.available -%}
-      <div class="product-card-quick-add" aria-hidden="true">Quick Add</div>
+      <button
+        type="button"
+        class="product-card-quick-add"
+        data-quick-add="{{ product.selected_or_first_available_variant.id }}"
+        aria-label="Quick add {{ product.title }} to bag"
+        onclick="event.preventDefault(); velaQuickAdd(this)"
+      >Quick Add</button>
     {%- endif -%}
   </div>
 

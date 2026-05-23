@@ -296,3 +296,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ── Quick Add ─────────────────────────────────────────
+async function velaQuickAdd(btn) {
+  const variantId = btn.dataset.quickAdd;
+  if (!variantId) return;
+
+  const prev = btn.textContent;
+  btn.textContent = '...';
+  btn.disabled = true;
+
+  try {
+    await CartAPI.addItem(variantId);
+    const cart = await CartAPI.getCart();
+    CartAPI.updateCartCount(cart.item_count);
+
+    btn.textContent = '✓';
+    setTimeout(() => {
+      btn.textContent = prev;
+      btn.disabled = false;
+    }, 1400);
+
+    document.querySelector('.cart-drawer')?.classList.add('is-open');
+    document.querySelector('.cart-overlay')?.classList.add('is-open');
+  } catch {
+    btn.textContent = prev;
+    btn.disabled = false;
+  }
+}
