@@ -2605,6 +2605,7 @@ h4 { font-size: clamp(18px, 3vw, 24px); }
 @media (min-width: 1024px) {
   .site-footer { padding: 96px 56px 36px; }
   .footer-accordion { display: none; }
+  .footer-mobile-only { display: none; }
   .footer-desktop-grid {
     display: grid !important;
     grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
