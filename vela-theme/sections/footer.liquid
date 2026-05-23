@@ -132,7 +132,7 @@
 {% schema %}
 {
   "name": "Footer",
-  "limit": 1,
+  "class": "section-footer",
   "settings": [
     {
       "type": "header",
@@ -148,7 +148,7 @@
       "type": "link_list",
       "id": "footer_menu_1",
       "label": "Column 1 menu",
-      "default": "footer"
+      "default": "footer-shop"
     },
     {
       "type": "text",
@@ -159,29 +159,32 @@
     {
       "type": "link_list",
       "id": "footer_menu_2",
-      "label": "Column 2 menu"
+      "label": "Column 2 menu",
+      "default": "footer-studio"
     },
     {
       "type": "text",
       "id": "footer_title_3",
       "label": "Column 3 title",
-      "default": "Care"
+      "default": "Help"
     },
     {
       "type": "link_list",
       "id": "footer_menu_3",
-      "label": "Column 3 menu"
+      "label": "Column 3 menu",
+      "default": "footer-help"
     },
     {
       "type": "text",
       "id": "footer_title_4",
       "label": "Column 4 title",
-      "default": "Account"
+      "default": "Legal"
     },
     {
       "type": "link_list",
       "id": "footer_menu_4",
-      "label": "Column 4 menu"
+      "label": "Column 4 menu",
+      "default": "footer-legal"
     },
     {
       "type": "header",
@@ -191,17 +194,14 @@
       "type": "link_list",
       "id": "legal_menu",
       "label": "Legal links menu",
-      "default": "legal"
+      "default": "footer-legal"
     },
     {
       "type": "text",
       "id": "tagline",
       "label": "Footer tagline",
-      "default": "Designed with intention · Made considerately"
+      "default": "Designed in Copenhagen · Made considerately in Italy & Portugal"
     }
-  ],
-  "enabled_on": {
-    "groups": ["footer"]
-  }
+  ]
 }
 {% endschema %}
