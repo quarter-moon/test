@@ -7,6 +7,12 @@
     "color_ash": "#888780",
     "color_promo": "#D94F3D",
     "cart_type": "drawer",
-    "cart_note": false
+    "cart_note": false,
+    "social_instagram_link": "https://www.instagram.com/velastudio",
+    "social_pinterest_link": "https://www.pinterest.com/velastudio",
+    "social_tiktok_link": "https://www.tiktok.com/@velastudio",
+    "social_twitter_link": "",
+    "social_facebook_link": "",
+    "social_youtube_link": ""
   }
 }

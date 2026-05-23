@@ -40,7 +40,7 @@
           <div class="journal-card-author">{{ article.author }} · {{ article.published_at | date: '%b %-d' }}</div>
         </a>
       {%- endfor -%}
-    {%- else -%}
+    {%- elsif section.blocks.size > 0 -%}
       {%- for block in section.blocks -%}
         {%- if block.type == 'article' -%}
           <div class="journal-card fade-up" {{ block.shopify_attributes }}>
@@ -56,6 +56,30 @@
             <div class="journal-card-author">{{ block.settings.author }} · {{ block.settings.date }}</div>
           </div>
         {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      {%- comment -%}Demo placeholder articles — shown when no blog or blocks configured{%- endcomment -%}
+      {%- assign demo_articles = "The Edit|5 min|On buying nothing for sixty days, and what changed.|Mae Lindqvist|Apr 02|1558769132-cb1aea458c5e,Travel|5 min|Milan, on the last Sunday of January.|Studio Team|Mar 18|1496747611176-843222e1e57c,Fabric|5 min|A morning in the mill with the Bianchi family, Como.|Ida Söderberg|Feb 28|1490481651871-ab68de25d43d" | split: "," -%}
+      {%- for entry in demo_articles -%}
+        {%- assign parts = entry | split: "|" -%}
+        <div class="journal-card fade-up">
+          <div class="journal-card-image">
+            <img
+              src="https://images.unsplash.com/photo-{{ parts[5] }}?w=800&q=80&auto=format&fit=crop"
+              srcset="
+                https://images.unsplash.com/photo-{{ parts[5] }}?w=400&q=80&auto=format&fit=crop 400w,
+                https://images.unsplash.com/photo-{{ parts[5] }}?w=800&q=80&auto=format&fit=crop 800w
+              "
+              sizes="(min-width: 768px) 33vw, 100vw"
+              alt="{{ parts[2] }}"
+              loading="lazy"
+              style="width:100%;height:100%;object-fit:cover;"
+            >
+          </div>
+          <div class="journal-card-meta">{{ parts[0] }} · {{ parts[1] }}</div>
+          <div class="journal-card-title">{{ parts[2] }}</div>
+          <div class="journal-card-author">{{ parts[3] }} · {{ parts[4] }}</div>
+        </div>
       {%- endfor -%}
     {%- endif -%}
   </div>
