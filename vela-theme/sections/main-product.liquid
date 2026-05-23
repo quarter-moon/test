@@ -82,16 +82,17 @@
 
       <div class="product-options">
         {%- for option in product.options_with_values -%}
+          {%- assign option_name_lower = option.name | downcase -%}
           <div class="product-option">
             <div class="product-option-label">
               <span>{{ option.name }}</span>
               <span class="product-option-selected">{{ option.selected_value }}</span>
-              {%- if option.name downcase == 'size' -%}
+              {%- if option_name_lower == 'size' -%}
                 <a href="/pages/size-guide" class="size-guide-link" target="_blank">Size Guide</a>
               {%- endif -%}
             </div>
 
-            {%- if option.name downcase == 'color' or option.name downcase == 'colour' -%}
+            {%- if option_name_lower == 'color' or option_name_lower == 'colour' -%}
               <div class="color-swatches">
                 {%- for value in option.values -%}
                   <button

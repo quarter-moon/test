@@ -34,7 +34,7 @@
 
     {%- if product.compare_at_price > product.price -%}
       <span class="product-card-badge product-card-badge--sale">Sale</span>
-    {%- elsif product.created_at > 'now' | date: '%s' | minus: 2592000 | date: '%FT%T' -%}
+    {%- elsif product.tags contains 'new-in' or product.tags contains 'New' -%}
       <span class="product-card-badge product-card-badge--new">New</span>
     {%- endif -%}
 
@@ -54,7 +54,10 @@
       {%- endif -%}
     </div>
 
-    {%- assign color_option = product.options_with_values | where: "name", "Color" | first -%}
+    {%- assign color_option = product.options_with_values | where: "name", "Colour" | first -%}
+    {%- if color_option == nil -%}
+      {%- assign color_option = product.options_with_values | where: "name", "Color" | first -%}
+    {%- endif -%}
     {%- unless color_option == nil -%}
       <div class="product-card-swatches" aria-label="Available colors">
         {%- for value in color_option.values limit: 4 -%}
