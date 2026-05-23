@@ -3,7 +3,7 @@
   "name": "Footer",
   "sections": {
     "footer": {
-      "type": "footer",
+      "type": "site-footer",
       "settings": {
         "footer_title_1": "Shop",
         "footer_menu_1": "footer-shop",
