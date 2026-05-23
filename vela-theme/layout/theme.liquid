@@ -127,32 +127,6 @@
     {%- endif -%}
   </aside>
 
-  <!-- Mobile Nav -->
-  <nav class="mobile-nav" aria-label="Mobile navigation" role="navigation">
-    <div class="mobile-nav-header">
-      <a href="{{ routes.root_url }}" class="header-logo">VELA</a>
-      <button class="mobile-nav-close" aria-label="{{ 'accessibility.close_menu' | t }}">✕</button>
-    </div>
-    <div class="mobile-nav-links">
-      {%- for link in linklists.main-menu.links -%}
-        <a href="{{ link.url }}">{{ link.title }}</a>
-      {%- endfor -%}
-    </div>
-    <div class="mobile-nav-footer">
-      <div class="social-links">
-        {%- if settings.social_instagram != blank -%}
-          <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>
-        {%- endif -%}
-        {%- if settings.social_pinterest != blank -%}
-          <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">Pinterest</a>
-        {%- endif -%}
-        {%- if settings.social_tiktok != blank -%}
-          <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>
-        {%- endif -%}
-      </div>
-    </div>
-  </nav>
-
   {% sections 'header-group' %}
 
   <main id="main-content" role="main" tabindex="-1">

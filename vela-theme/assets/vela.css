@@ -2359,13 +2359,13 @@ h4 { font-size: clamp(18px, 3vw, 24px); }
     text-align: left;
     font-size: 11px;
   }
-  .announcement-bar > span { display: none; }
-  .announcement-bar-locale { opacity: 0.6; text-transform: none; letter-spacing: 0.18em; font-size: 11px; color: rgba(245,244,242,0.6); }
+  .announcement-bar > span:first-child { display: none; }
+  .announcement-bar-locale { display: block; opacity: 0.6; text-transform: none; letter-spacing: 0.18em; font-size: 11px; color: rgba(245,244,242,0.6); }
   .announcement-bar-promo { display: flex; align-items: center; gap: 22px; justify-content: center; }
   .announcement-bar-promo span { opacity: 0.85; letter-spacing: 0.24em; }
   .announcement-bar-promo .sep { opacity: 0.3; }
   .announcement-bar-promo .accent { color: var(--clay); }
-  .announcement-bar-contact { text-align: right; opacity: 0.6; letter-spacing: 0.1em; font-size: 11px; color: rgba(245,244,242,0.6); }
+  .announcement-bar-contact { display: block; text-align: right; opacity: 0.6; letter-spacing: 0.1em; font-size: 11px; color: rgba(245,244,242,0.6); }
 }
 
 /* ── Header Desktop 2-row ───────────────────────────── */
