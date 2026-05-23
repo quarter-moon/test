@@ -1,6 +1,62 @@
-<!-- Footer — ink bg, details accordion mobile, matches JSX VFooter -->
+<!-- Footer — mobile accordion + desktop 5-col grid -->
 <footer class="site-footer" role="contentinfo">
-  <!-- Brand wordmark -->
+
+  <!-- Desktop 5-col grid (hidden mobile) -->
+  <div class="footer-desktop-grid">
+    <!-- Brand col -->
+    <div>
+      <div class="footer-brand-logo">VELA</div>
+      <div style="font-size:10px; letter-spacing:0.4em; text-transform:uppercase; color:var(--clay); margin-bottom:28px;">Studio</div>
+      <p class="footer-brand-quote">"Restraint, not refusal. A wardrobe of twelve, for the woman who has already decided."</p>
+      <div class="footer-social-icons">
+        {%- if settings.social_instagram != blank -%}
+          <a href="{{ settings.social_instagram }}" class="footer-social-icon" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".8" fill="currentColor"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if settings.social_pinterest != blank -%}
+          <a href="{{ settings.social_pinterest }}" class="footer-social-icon" target="_blank" rel="noopener" aria-label="Pinterest">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10.5 21 13 12m-1.2-.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if settings.social_tiktok != blank -%}
+          <a href="{{ settings.social_tiktok }}" class="footer-social-icon" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 2.5 2.5 4.5 5 5"/></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+    <!-- Link columns -->
+    {%- for i in (1..4) -%}
+      {%- assign menu_setting = 'footer_menu_' | append: i -%}
+      {%- assign title_setting = 'footer_title_' | append: i -%}
+      {%- assign default_titles = 'Shop,Studio,Care,Account' | split: ',' -%}
+      {%- assign default_title = default_titles[forloop.index0] -%}
+      {%- if section.settings[menu_setting] != blank -%}
+        <div>
+          <div class="footer-desktop-col-title">{{ section.settings[title_setting] | default: default_title }}</div>
+          <div class="footer-desktop-links">
+            {%- for link in linklists[section.settings[menu_setting]].links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <!-- Desktop bottom row -->
+  <div class="footer-bottom-desktop" style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,244,242,0.4);">
+    <div>&copy; {{ 'now' | date: '%Y' }} VELA Studio · All rights reserved</div>
+    <div class="footer-bottom-legal-desktop">
+      {%- for link in linklists[section.settings.legal_menu].links -%}
+        <span onclick="window.location='{{ link.url }}'">{{ link.title }}</span>
+      {%- endfor -%}
+    </div>
+    <div style="letter-spacing:0.1em;text-transform:none;">{{ section.settings.tagline | default: 'Designed in Copenhagen · Made considerately in Italy & Portugal' }}</div>
+  </div>
+
+  <!-- Mobile: brand wordmark -->
   <div style="text-align:center; margin-bottom: 6px;">
     <div class="footer-brand-logo">VELA</div>
     <div style="font-size:9px; letter-spacing:0.32em; text-transform:uppercase; color:var(--clay);">Studio</div>
@@ -115,6 +171,17 @@
       "type": "link_list",
       "id": "footer_menu_3",
       "label": "Column 3 menu"
+    },
+    {
+      "type": "text",
+      "id": "footer_title_4",
+      "label": "Column 4 title",
+      "default": "Account"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_4",
+      "label": "Column 4 menu"
     },
     {
       "type": "header",

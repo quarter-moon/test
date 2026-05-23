@@ -38,6 +38,12 @@
 
   <div class="hero-overlay" aria-hidden="true"></div>
 
+  <!-- Desktop badge (Resort 26 · Vol. 06) -->
+  <div class="hero-badge" aria-hidden="true">{{ section.settings.eyebrow | default: 'New Collection' }} · Vol. 06</div>
+
+  <!-- Desktop scroll indicator -->
+  <div class="hero-scroll" aria-hidden="true">Scroll —</div>
+
   <div class="hero-content container">
     {%- if section.settings.eyebrow != blank -%}
       <p class="hero-eyebrow fade-up">{{ section.settings.eyebrow }}</p>

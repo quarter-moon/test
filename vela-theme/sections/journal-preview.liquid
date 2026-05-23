@@ -1,0 +1,94 @@
+<!-- Journal Preview — dark ink section, 3 articles, matches VDeskHome journal preview -->
+{%- assign preview_blog = blogs[section.settings.blog] -%}
+<section class="journal-preview">
+  <div class="journal-preview-header fade-up">
+    <div>
+      <div class="journal-preview-eyebrow">{{ section.settings.eyebrow | default: 'The Journal' }}</div>
+      <h2 class="journal-preview-title">
+        {{ section.settings.title | default: 'What we are thinking about' }}
+        {%- if section.settings.title_em != blank -%}
+          <em> {{ section.settings.title_em }}</em>
+        {%- endif -%}
+      </h2>
+    </div>
+    {%- if section.settings.cta_label != blank -%}
+      <div class="journal-preview-cta">
+        <a href="{{ section.settings.cta_url | default: preview_blog.url | default: '/blogs/journal' }}">{{ section.settings.cta_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="journal-preview-grid">
+    {%- if preview_blog != blank -%}
+      {%- for article in preview_blog.articles limit: 3 -%}
+        <a href="{{ article.url }}" class="journal-card fade-up" style="text-decoration:none;">
+          <div class="journal-card-image">
+            {%- if article.image -%}
+              <img
+                src="{{ article.image | image_url: width: 800 }}"
+                srcset="{{ article.image | image_url: width: 400 }} 400w, {{ article.image | image_url: width: 800 }} 800w"
+                sizes="(min-width: 768px) 33vw, 100vw"
+                alt="{{ article.image.alt | escape | default: article.title }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              <div style="background: rgba(245,244,242,0.08); width:100%; height:100%; min-height:200px;"></div>
+            {%- endif -%}
+          </div>
+          <div class="journal-card-meta">{{ article.tags.first | default: 'Journal' }} · {{ section.settings.read_time | default: '5 min' }}</div>
+          <div class="journal-card-title">{{ article.title }}</div>
+          <div class="journal-card-author">{{ article.author }} · {{ article.published_at | date: '%b %-d' }}</div>
+        </a>
+      {%- endfor -%}
+    {%- else -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'article' -%}
+          <div class="journal-card fade-up" {{ block.shopify_attributes }}>
+            <div class="journal-card-image">
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title }}" loading="lazy">
+              {%- else -%}
+                <div style="background:rgba(245,244,242,0.08); width:100%; min-height:200px;"></div>
+              {%- endif -%}
+            </div>
+            <div class="journal-card-meta">{{ block.settings.category | default: 'Journal' }} · {{ section.settings.read_time | default: '5 min' }}</div>
+            <div class="journal-card-title">{{ block.settings.title }}</div>
+            <div class="journal-card-author">{{ block.settings.author }} · {{ block.settings.date }}</div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Journal Preview",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Journal" },
+    { "type": "text", "id": "title", "label": "Title", "default": "What we are thinking about" },
+    { "type": "text", "id": "title_em", "label": "Title italic suffix", "default": "this season." },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Visit the journal →" },
+    { "type": "url", "id": "cta_url", "label": "CTA link" },
+    { "type": "blog", "id": "blog", "label": "Blog (auto-populates articles)" },
+    { "type": "text", "id": "read_time", "label": "Default read time", "default": "5 min" }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Manual article",
+      "limit": 3,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "category", "label": "Category tag", "default": "Essay" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "author", "label": "Author" },
+        { "type": "text", "id": "date", "label": "Date (e.g. May 02)" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Journal Preview" }
+  ]
+}
+{% endschema %}

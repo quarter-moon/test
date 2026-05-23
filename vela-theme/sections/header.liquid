@@ -1,118 +1,199 @@
+<!-- Announcement bar -->
 <div class="announcement-bar" role="status">
-  {%- if section.settings.announcement_text != blank -%}
-    <span>{{ section.settings.announcement_text }}</span>
-  {%- else -%}
-    <span>Free shipping on orders over $150 &nbsp;·&nbsp; <a href="{{ section.settings.announcement_link | default: routes.collections_url }}">Shop Now</a></span>
-  {%- endif -%}
+  <!-- Mobile: single message -->
+  <span>Free shipping on orders over $150 &nbsp;·&nbsp; <a href="{{ section.settings.announcement_link | default: routes.collections_url }}">{{ section.settings.announcement_cta | default: 'Shop Now' }}</a></span>
+  <!-- Desktop: 3-col (injected via CSS grid) -->
+  <span class="announcement-bar-locale">EN · USD · Ships worldwide</span>
+  <div class="announcement-bar-promo">
+    <span>Complimentary shipping over $150</span>
+    <span class="sep">·</span>
+    <span class="accent">{{ section.settings.announcement_text | default: 'Resort 26 — New In' }}</span>
+    <span class="sep">·</span>
+    <span>Free returns within 30 days</span>
+  </div>
+  <span class="announcement-bar-contact">{{ section.settings.phone | default: 'Studio +44 207 945 0001' }}</span>
 </div>
 
-<header class="site-header{% if section.settings.transparent %} header--transparent{% endif %}" role="banner">
-  <div class="header-inner">
-    <!-- Mobile menu toggle -->
-    <button
-      class="menu-toggle"
-      aria-label="{{ 'accessibility.open_menu' | t }}"
-      aria-expanded="false"
-      aria-controls="mobile-nav"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
+<header class="site-header{% if section.settings.transparent %} header--transparent{% endif %}" role="banner" id="site-header">
+
+  <!-- Desktop utility row (hidden on mobile via CSS) -->
+  <div class="header-utility-row header-inner">
+    <div class="header-utility-left">
+      <button class="header-search-btn header-icon" data-search-open aria-label="{{ 'general.search.search' | t }}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>
+        Search
+      </button>
+      <span class="header-locale">UK · GBP</span>
+    </div>
+
+    <!-- Mobile: hamburger (left) -->
+    <button class="menu-toggle" aria-label="{{ 'accessibility.open_menu' | t }}" aria-expanded="false" aria-controls="mobile-nav">
+      <span></span><span></span><span></span>
     </button>
 
-    <!-- Logo -->
+    <!-- Logo (center) -->
     <a href="{{ routes.root_url }}" class="header-logo" aria-label="{{ shop.name }} home">
       {%- if section.settings.logo_image -%}
-        <img
-          src="{{ section.settings.logo_image | image_url: width: 200 }}"
-          alt="{{ shop.name }}"
-          width="{{ section.settings.logo_width }}"
-          height="auto"
-          loading="eager"
-        >
+        <img src="{{ section.settings.logo_image | image_url: width: 200 }}" alt="{{ shop.name }}" width="{{ section.settings.logo_width }}" height="auto" loading="eager">
       {%- else -%}
         VELA
       {%- endif -%}
     </a>
 
-    <!-- Desktop Navigation -->
-    <nav class="header-nav" aria-label="Main navigation">
-      {%- for link in linklists[section.settings.menu].links -%}
-        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>
-          {{ link.title }}
-        </a>
-      {%- endfor -%}
-    </nav>
-
-    <!-- Actions -->
-    <div class="header-actions">
-      <button class="header-icon" data-search-open aria-label="{{ 'general.search.search' | t }}">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-        </svg>
+    <!-- Right actions -->
+    <div class="header-utility-right header-actions">
+      <button class="header-account-btn header-icon" aria-label="Account">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="btn-label">Account</span>
       </button>
-
-      <a href="{{ routes.account_url }}" class="header-icon" aria-label="Account">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-        </svg>
-      </a>
-
+      <button class="header-wishlist-btn header-icon" aria-label="Wishlist">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z"/></svg>
+        <span class="btn-label">Wishlist</span>
+      </button>
+      <!-- Mobile search -->
+      <button class="header-search-mobile header-icon" data-search-open aria-label="{{ 'general.search.search' | t }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
+      <!-- Bag -->
       <button class="header-icon" data-cart-open aria-label="{{ 'accessibility.open_cart' | t }}" style="position:relative">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+        <span class="header-bag-label">Bag</span>
         {%- if cart.item_count > 0 -%}
           <span class="cart-count">{{ cart.item_count }}</span>
         {%- endif -%}
       </button>
     </div>
   </div>
+
+  <!-- Desktop nav row -->
+  <div class="header-nav-row">
+    <nav class="header-nav-primary header-nav" aria-label="Primary navigation">
+      {%- for link in linklists[section.settings.menu].links -%}
+        {%- if link.title == 'Shop All' or link.title == 'Shop' -%}
+          <div class="header-nav-item header-nav-item--mega" data-mega="shop" style="display:flex;align-items:center;gap:2px;cursor:pointer;">
+            <a href="{{ link.url }}" class="header-nav-item" style="border:none;padding:0;" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+            <span class="header-nav-chevron">▾</span>
+          </div>
+        {%- elsif link.title == 'Sale' -%}
+          <a href="{{ link.url }}" class="header-nav-item header-nav-item--sale" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+        {%- else -%}
+          <a href="{{ link.url }}" class="header-nav-item" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+    <nav class="header-nav-secondary" aria-label="Secondary navigation">
+      {%- for link in linklists[section.settings.secondary_menu].links -%}
+        <a href="{{ link.url }}" class="header-nav-item" {% if link.active %}aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+  </div>
+
+  <!-- Mega menu — Shop All -->
+  <div class="header-mega" id="header-mega-shop">
+    <div class="header-mega-inner">
+      <div>
+        <div class="header-mega-label">By Category</div>
+        {%- assign cat_links = 'New Arrivals,Dresses,Knitwear,Tailoring,Outerwear,Tops,Trousers & Skirts,Sets' | split: ',' -%}
+        {%- for cat in cat_links -%}
+          <a href="{{ routes.collections_url }}/{{ cat | downcase | replace: ' & ', '-' | replace: ' ', '-' }}" class="header-mega-link">{{ cat }}</a>
+        {%- endfor -%}
+      </div>
+      <div>
+        <div class="header-mega-label">By Fabric</div>
+        {%- assign fabric_links = 'Italian Linen,Belgian Linen,Washed Silk,Merino Cashmere,Brushed Wool,Cotton Poplin' | split: ',' -%}
+        {%- for fab in fabric_links -%}
+          <a href="{{ routes.collections_url }}/{{ fab | downcase | replace: ' ', '-' }}" class="header-mega-link">{{ fab }}</a>
+        {%- endfor -%}
+      </div>
+      <div>
+        <div class="header-mega-label">By Mood</div>
+        {%- assign mood_links = 'Tailored,Relaxed,Layering,Evening,Travel,For The Daily' | split: ',' -%}
+        {%- for mood in mood_links -%}
+          <a href="{{ routes.collections_url }}/{{ mood | downcase | replace: ' ', '-' }}" class="header-mega-link">{{ mood }}</a>
+        {%- endfor -%}
+      </div>
+      <div class="header-mega-featured">
+        <a href="{{ section.settings.mega_link_1 | default: routes.collections_url }}" class="header-mega-feature-card">
+          <div class="header-mega-feature-img">
+            {%- if section.settings.mega_image_1 != blank -%}
+              <img src="{{ section.settings.mega_image_1 | image_url: width: 400 }}" alt="{{ section.settings.mega_label_1 | default: 'Featured' }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="header-mega-feature-label">{{ section.settings.mega_label_1 | default: 'Featured' }}</div>
+          <div class="header-mega-feature-title">{{ section.settings.mega_title_1 | default: 'Resort 26 — The Edit →' }}</div>
+        </a>
+        <a href="{{ section.settings.mega_link_2 | default: routes.collections_url }}" class="header-mega-feature-card">
+          <div class="header-mega-feature-img">
+            {%- if section.settings.mega_image_2 != blank -%}
+              <img src="{{ section.settings.mega_image_2 | image_url: width: 400 }}" alt="{{ section.settings.mega_label_2 | default: 'Just In' }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="header-mega-feature-label">{{ section.settings.mega_label_2 | default: 'Just In' }}</div>
+          <div class="header-mega-feature-title">{{ section.settings.mega_title_2 | default: 'The Brera Trouser →' }}</div>
+        </a>
+      </div>
+    </div>
+  </div>
 </header>
+
+<!-- Mobile Nav Drawer -->
+<nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" role="navigation">
+  <div class="mobile-nav-header">
+    <div style="font-family:var(--font-heading);font-size:22px;font-weight:300;letter-spacing:0.32em;color:var(--stone);">VELA</div>
+    <button class="mobile-nav-close" aria-label="{{ 'accessibility.close_menu' | t }}">✕</button>
+  </div>
+  <div class="mobile-nav-links">
+    {%- for link in linklists[section.settings.menu].links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+  </div>
+  <div class="mobile-nav-footer">
+    <div class="social-links">
+      {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+      {%- if settings.social_pinterest != blank -%}<a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">Pinterest</a>{%- endif -%}
+      {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
+    </div>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var megaTrigger = document.querySelector('[data-mega="shop"]');
+  var megaPanel = document.getElementById('header-mega-shop');
+  if (!megaTrigger || !megaPanel) return;
+  var timer;
+  function openMega() { clearTimeout(timer); megaPanel.classList.add('is-open'); }
+  function closeMega() { timer = setTimeout(function() { megaPanel.classList.remove('is-open'); }, 120); }
+  megaTrigger.addEventListener('mouseenter', openMega);
+  megaTrigger.addEventListener('mouseleave', closeMega);
+  megaPanel.addEventListener('mouseenter', openMega);
+  megaPanel.addEventListener('mouseleave', closeMega);
+})();
+</script>
 
 {% schema %}
 {
   "name": "Header",
   "class": "section-header",
   "settings": [
-    {
-      "type": "text",
-      "id": "announcement_text",
-      "label": "Announcement text",
-      "default": "Free shipping on orders over $150 — Shop New Arrivals"
-    },
-    {
-      "type": "url",
-      "id": "announcement_link",
-      "label": "Announcement link"
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Navigation menu",
-      "default": "main-menu"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo_image",
-      "label": "Logo image (optional)"
-    },
-    {
-      "type": "range",
-      "id": "logo_width",
-      "min": 80,
-      "max": 280,
-      "step": 10,
-      "unit": "px",
-      "label": "Logo width",
-      "default": 140
-    },
-    {
-      "type": "checkbox",
-      "id": "transparent",
-      "label": "Transparent header on homepage",
-      "default": false
-    }
+    { "type": "text", "id": "announcement_text", "label": "Announcement (desktop promo)", "default": "Resort 26 — New In" },
+    { "type": "text", "id": "announcement_cta", "label": "Announcement CTA (mobile)", "default": "Shop Now" },
+    { "type": "url", "id": "announcement_link", "label": "Announcement link" },
+    { "type": "text", "id": "phone", "label": "Studio phone (desktop right)", "default": "Studio +44 207 945 0001" },
+    { "type": "link_list", "id": "menu", "label": "Primary navigation", "default": "main-menu" },
+    { "type": "link_list", "id": "secondary_menu", "label": "Secondary navigation (desktop right)", "default": "footer" },
+    { "type": "image_picker", "id": "logo_image", "label": "Logo image (optional)" },
+    { "type": "range", "id": "logo_width", "min": 80, "max": 280, "step": 10, "unit": "px", "label": "Logo width", "default": 140 },
+    { "type": "checkbox", "id": "transparent", "label": "Transparent header on hero", "default": false },
+    { "type": "header", "content": "Mega Menu Featured Cards" },
+    { "type": "image_picker", "id": "mega_image_1", "label": "Featured card 1 image" },
+    { "type": "text", "id": "mega_label_1", "label": "Featured card 1 label", "default": "Featured" },
+    { "type": "text", "id": "mega_title_1", "label": "Featured card 1 title", "default": "Resort 26 — The Edit →" },
+    { "type": "url", "id": "mega_link_1", "label": "Featured card 1 link" },
+    { "type": "image_picker", "id": "mega_image_2", "label": "Featured card 2 image" },
+    { "type": "text", "id": "mega_label_2", "label": "Featured card 2 label", "default": "Just In" },
+    { "type": "text", "id": "mega_title_2", "label": "Featured card 2 title", "default": "The Brera Trouser →" },
+    { "type": "url", "id": "mega_link_2", "label": "Featured card 2 link" }
   ]
 }
 {% endschema %}

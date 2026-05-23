@@ -1,0 +1,44 @@
+<!-- Provenance Strip — 4 credentials, matches VDeskProvenance -->
+<section class="provenance-section">
+  <div class="provenance-grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'item' -%}
+        <div class="provenance-item fade-up" {{ block.shopify_attributes }}>
+          <div class="provenance-symbol">{{ block.settings.symbol }}</div>
+          <div class="provenance-text">
+            <div class="provenance-label-top">{{ block.settings.label_1 }}</div>
+            <div class="provenance-label-bottom">{{ block.settings.label_2 }}</div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Provenance Strip",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Credential",
+      "settings": [
+        { "type": "text", "id": "symbol", "label": "Symbol / abbreviation", "default": "IT" },
+        { "type": "text", "id": "label_1", "label": "Line 1", "default": "Tailored" },
+        { "type": "text", "id": "label_2", "label": "Line 2", "default": "in Italy" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Provenance Strip",
+      "blocks": [
+        { "type": "item", "settings": { "symbol": "IT", "label_1": "Tailored", "label_2": "in Italy" } },
+        { "type": "item", "settings": { "symbol": "PT", "label_1": "Knit", "label_2": "in Portugal" } },
+        { "type": "item", "settings": { "symbol": "—", "label_1": "Small batch", "label_2": "only" } },
+        { "type": "item", "settings": { "symbol": "☉", "label_1": "Carbon", "label_2": "considered" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
