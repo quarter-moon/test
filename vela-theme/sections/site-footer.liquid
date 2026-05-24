@@ -27,21 +27,51 @@
       </div>
     </div>
     <!-- Link columns -->
-    {%- for i in (1..4) -%}
-      {%- assign menu_setting = 'footer_menu_' | append: i -%}
-      {%- assign title_setting = 'footer_title_' | append: i -%}
-      {%- assign default_titles = 'Shop,Studio,Care,Account' | split: ',' -%}
-      {%- assign default_title = default_titles[forloop.index0] -%}
-      {%- if section.settings[menu_setting] != blank -%}
-        <div>
-          <div class="footer-desktop-col-title">{{ section.settings[title_setting] | default: default_title }}</div>
-          <div class="footer-desktop-links">
-            {%- for link in linklists[section.settings[menu_setting]].links -%}
+    {%- assign footer_col_data = 'Shop|footer_menu_1|footer_title_1,Studio|footer_menu_2|footer_title_2,Care|footer_menu_3|footer_title_3,Account|footer_menu_4|footer_title_4' | split: ',' -%}
+    {%- for col in footer_col_data -%}
+      {%- assign col_parts = col | split: '|' -%}
+      {%- assign col_default_title = col_parts[0] -%}
+      {%- assign col_menu_id = col_parts[1] -%}
+      {%- assign col_title_id = col_parts[2] -%}
+      {%- assign col_menu_handle = section.settings[col_menu_id] -%}
+      {%- assign col_links = linklists[col_menu_handle].links -%}
+      <div>
+        <div class="footer-desktop-col-title">{{ section.settings[col_title_id] | default: col_default_title }}</div>
+        <div class="footer-desktop-links">
+          {%- if col_links.size > 0 -%}
+            {%- for link in col_links -%}
               <a href="{{ link.url }}">{{ link.title }}</a>
             {%- endfor -%}
-          </div>
+          {%- elsif col_default_title == 'Shop' -%}
+            <a href="/collections/new-in">New In</a>
+            <a href="/collections/dresses">Dresses</a>
+            <a href="/collections/knitwear">Knitwear</a>
+            <a href="/collections/outerwear">Outerwear</a>
+            <a href="/collections/tailoring">Tailoring</a>
+            <a href="/collections/sale">Sale</a>
+          {%- elsif col_default_title == 'Studio' -%}
+            <a href="/pages/our-story">Our Story</a>
+            <a href="/pages/the-atelier">The Atelier</a>
+            <a href="/pages/sustainability">Sustainability</a>
+            <a href="/blogs/journal">Journal</a>
+            <a href="/pages/press">Press</a>
+            <a href="/pages/stockists">Stockists</a>
+          {%- elsif col_default_title == 'Care' -%}
+            <a href="/pages/contact">Contact</a>
+            <a href="/pages/shipping">Shipping</a>
+            <a href="/pages/returns">Returns &amp; Exchanges</a>
+            <a href="/pages/size-guide">Size Guide</a>
+            <a href="/pages/garment-care">Garment Care</a>
+            <a href="/pages/faq">FAQ</a>
+          {%- elsif col_default_title == 'Account' -%}
+            <a href="/account/login">Sign In</a>
+            <a href="/account">Track an Order</a>
+            <a href="/pages/wishlist">Wishlist</a>
+            <a href="/products/gift-card">Gift Cards</a>
+            <a href="/pages/loyalty">The List (Loyalty)</a>
+          {%- endif -%}
         </div>
-      {%- endif -%}
+      </div>
     {%- endfor -%}
   </div>
 
