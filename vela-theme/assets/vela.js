@@ -324,3 +324,217 @@ async function velaQuickAdd(btn) {
     btn.disabled = false;
   }
 }
+
+// ── Product Page (pd-*) ───────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  pdPage.init();
+});
+
+const pdPage = {
+  qty: 1,
+  selectedOptions: {},
+
+  init() {
+    if (!document.querySelector('.pd-wrap')) return;
+    this.thumbRail();
+    this.zoomLightbox();
+    this.optionSelectors();
+    this.quantityStepper();
+    this.addToCart();
+    this.wishlist();
+  },
+
+  // Thumbnail rail sync
+  thumbRail() {
+    const thumbs = document.querySelectorAll('.pd-thumb');
+    const gridImgs = document.querySelectorAll('.pd-grid-img, .pd-panoramic-img');
+    if (!thumbs.length) return;
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => {
+        thumbs.forEach(t => t.classList.remove('is-active'));
+        thumb.classList.add('is-active');
+
+        // Scroll to corresponding image
+        const target = gridImgs[i];
+        if (target) {
+          target.closest('.pd-grid-cell, .pd-panoramic')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      });
+    });
+  },
+
+  // Zoom lightbox
+  zoomLightbox() {
+    const overlay = document.getElementById('pd-zoom');
+    const zoomImg = document.getElementById('pd-zoom-img');
+    const closeBtn = document.getElementById('pd-zoom-close');
+    if (!overlay) return;
+
+    const openZoom = (src) => {
+      zoomImg.src = src;
+      overlay.classList.add('is-open');
+      overlay.removeAttribute('aria-hidden');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeZoom = () => {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      setTimeout(() => { zoomImg.src = ''; }, 300);
+    };
+
+    document.querySelectorAll('[data-zoom]').forEach(img => {
+      img.addEventListener('click', () => openZoom(img.dataset.zoom));
+    });
+
+    closeBtn?.addEventListener('click', closeZoom);
+    zoomImg?.addEventListener('click', closeZoom);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeZoom(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeZoom(); });
+  },
+
+  // Colour/size/option selectors
+  optionSelectors() {
+    const variantIdInput = document.getElementById('pd-variant-id');
+    const addBtn = document.getElementById('pd-add-btn');
+    const addLabel = document.getElementById('pd-add-label');
+    if (!variantIdInput) return;
+
+    // Get all variants from the page (Shopify embeds JSON)
+    let variants = [];
+    const variantJson = document.querySelector('[data-product-variants]');
+    if (variantJson) {
+      try { variants = JSON.parse(variantJson.textContent); } catch {}
+    }
+
+    document.querySelectorAll('.pd-swatch, .pd-size').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('is-oos')) return;
+
+        const optionPos = parseInt(btn.dataset.pdOption);
+        const val = btn.dataset.value;
+
+        // Update button states within same option group
+        const siblings = document.querySelectorAll(`[data-pd-option="${optionPos}"]`);
+        siblings.forEach(s => {
+          s.classList.remove('is-active');
+          s.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        // Update label for colour swatches
+        const colourLabel = document.getElementById('pd-colour-label');
+        if (btn.classList.contains('pd-swatch') && colourLabel) {
+          colourLabel.textContent = val;
+        }
+
+        // Try to find matching variant
+        if (variants.length) {
+          this.updateVariant(variants, variantIdInput, addBtn, addLabel);
+        }
+      });
+    });
+  },
+
+  updateVariant(variants, variantInput, addBtn, addLabel) {
+    const activeOptions = [];
+    for (let pos = 1; pos <= 3; pos++) {
+      const active = document.querySelector(`[data-pd-option="${pos}"].is-active`);
+      if (active) activeOptions.push(active.dataset.value);
+    }
+
+    const match = variants.find(v => {
+      return activeOptions.every((opt, i) => v['option' + (i + 1)] === opt);
+    });
+
+    if (match && variantInput) {
+      variantInput.value = match.id;
+      if (addBtn && addLabel) {
+        if (match.available) {
+          addBtn.disabled = false;
+          addBtn.classList.remove('pd-add-btn--oos');
+          addLabel.textContent = 'Add to Bag';
+        } else {
+          addBtn.disabled = true;
+          addBtn.classList.add('pd-add-btn--oos');
+          addLabel.textContent = 'Sold Out';
+        }
+      }
+    }
+  },
+
+  // Quantity stepper
+  quantityStepper() {
+    const minusBtn = document.querySelector('.pd-qty-btn[data-action="minus"]');
+    const plusBtn = document.querySelector('.pd-qty-btn[data-action="plus"]');
+    const display = document.getElementById('pd-qty-display');
+    const input = document.getElementById('pd-qty-input');
+    if (!display) return;
+
+    const update = (n) => {
+      this.qty = Math.max(1, Math.min(10, n));
+      display.textContent = this.qty;
+      if (input) input.value = this.qty;
+    };
+
+    minusBtn?.addEventListener('click', () => update(this.qty - 1));
+    plusBtn?.addEventListener('click', () => update(this.qty + 1));
+  },
+
+  // Add to cart (new pd-* form)
+  addToCart() {
+    const form = document.getElementById('product-form');
+    const addBtn = document.getElementById('pd-add-btn');
+    const addLabel = document.getElementById('pd-add-label');
+    if (!form || !addBtn) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const variantId = document.getElementById('pd-variant-id')?.value;
+      if (!variantId) return;
+
+      addBtn.disabled = true;
+      if (addLabel) addLabel.textContent = 'Adding...';
+
+      try {
+        await CartAPI.addItem(variantId, this.qty);
+        const cart = await CartAPI.getCart();
+        CartAPI.updateCartCount(cart.item_count);
+
+        if (addLabel) addLabel.textContent = 'Added ✓';
+        setTimeout(() => {
+          if (addLabel) addLabel.textContent = 'Add to Bag';
+          addBtn.disabled = false;
+        }, 2000);
+
+        document.querySelector('.cart-drawer')?.classList.add('is-open');
+        document.querySelector('.cart-overlay')?.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      } catch {
+        if (addLabel) addLabel.textContent = 'Error — Retry';
+        addBtn.disabled = false;
+        setTimeout(() => {
+          if (addLabel) addLabel.textContent = 'Add to Bag';
+        }, 2000);
+      }
+    });
+  },
+
+  // Wishlist toggle
+  wishlist() {
+    const btn = document.querySelector('.pd-wish-btn');
+    if (!btn) return;
+    const productId = btn.dataset.productId;
+    const key = `vela_wish_${productId}`;
+    if (localStorage.getItem(key)) btn.classList.add('is-wished');
+
+    btn.addEventListener('click', () => {
+      const wished = btn.classList.toggle('is-wished');
+      if (wished) localStorage.setItem(key, '1');
+      else localStorage.removeItem(key);
+    });
+  }
+};

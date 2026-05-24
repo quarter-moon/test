@@ -1,248 +1,430 @@
-<div class="product-page" itemscope itemtype="https://schema.org/Product">
-  <!-- Gallery -->
-  <div class="product-gallery">
-    <div class="product-gallery-main" id="product-gallery-main">
-      {%- if product.featured_media -%}
-        <img
-          id="gallery-main-img"
-          src="{{ product.featured_media | image_url: width: 1000 }}"
-          srcset="
-            {{ product.featured_media | image_url: width: 600 }} 600w,
-            {{ product.featured_media | image_url: width: 1000 }} 1000w,
-            {{ product.featured_media | image_url: width: 1400 }} 1400w
-          "
-          sizes="(min-width: 768px) 50vw, 100vw"
-          alt="{{ product.featured_media.alt | escape | default: product.title }}"
-          itemprop="image"
-          loading="eager"
-          fetchpriority="high"
-        >
-      {%- else -%}
-        <div style="width:100%; height:100%; background: var(--pebble); display:flex; align-items:center; justify-content:center;">
-          <span style="color:var(--ash); font-size:13px;">No image</span>
-        </div>
-      {%- endif -%}
-    </div>
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_media = product.media -%}
 
-    {%- if product.media.size > 1 -%}
-      <div class="product-gallery-thumbs" role="list">
-        {%- for media in product.media limit: 8 -%}
-          <button
-            class="product-gallery-thumb {% if forloop.first %}active{% endif %}"
-            data-src="{{ media | image_url: width: 1000 }}"
-            data-srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 1000 }} 1000w"
-            aria-label="View image {{ forloop.index }}"
-            role="listitem"
-          >
-            <img
-              src="{{ media | image_url: width: 120 }}"
-              alt="{{ media.alt | escape | default: product.title }}"
-              width="64"
-              height="85"
-              loading="lazy"
-            >
-          </button>
-        {%- endfor -%}
-      </div>
-    {%- endif -%}
+<script type="application/json" data-product-variants>
+  {{ product.variants | json }}
+</script>
+
+<!-- ── Product Page ─────────────────────────────────── -->
+<div class="pd-wrap" itemscope itemtype="https://schema.org/Product">
+
+  <!-- Thumbnail Rail (desktop only) -->
+  <div class="pd-thumb-rail" aria-label="Product images" role="list">
+    {%- for media in product_media limit: 8 -%}
+      <button
+        class="pd-thumb {% if forloop.first %}is-active{% endif %}"
+        data-pd-thumb="{{ forloop.index0 }}"
+        aria-label="View image {{ forloop.index }}"
+        role="listitem"
+        type="button"
+      >
+        <img
+          src="{{ media | image_url: width: 120 }}"
+          alt="{{ media.alt | escape | default: product.title }}"
+          loading="lazy"
+          width="64"
+          height="85"
+        >
+      </button>
+    {%- endfor -%}
   </div>
 
-  <!-- Product Info -->
-  <div class="product-info">
-    <!-- Breadcrumb -->
-    <nav class="product-breadcrumb" aria-label="Breadcrumb">
-      <a href="{{ routes.root_url }}">Home</a>
-      <span class="product-breadcrumb-sep">·</span>
-      {%- if product.collections.first -%}
-        <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a>
-        <span class="product-breadcrumb-sep">·</span>
-      {%- endif -%}
-      <span>{{ product.title }}</span>
-    </nav>
+  <!-- Gallery -->
+  <div class="pd-gallery">
 
-    {%- if product.collections.first -%}
-      <p class="product-collection-tag">{{ product.collections.first.title }}</p>
+    <!-- 2×2 Grid -->
+    <div class="pd-grid-2x2" id="pd-gallery-main">
+      {%- for media in product_media limit: 4 -%}
+        {%- if forloop.first -%}
+          <div class="pd-grid-cell pd-grid-cell--first" data-pd-idx="0">
+            <img
+              class="pd-grid-img"
+              src="{{ media | image_url: width: 900 }}"
+              srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 900 }} 900w, {{ media | image_url: width: 1200 }} 1200w"
+              sizes="(min-width: 1280px) 40vw, (min-width: 768px) 50vw, 100vw"
+              alt="{{ media.alt | escape | default: product.title }}"
+              itemprop="image"
+              loading="eager"
+              fetchpriority="high"
+              data-zoom="{{ media | image_url: width: 1800 }}"
+            >
+            <div class="pd-badge">New · Resort 26</div>
+            <div class="pd-img-counter">1/{{ product_media.size }}</div>
+          </div>
+        {%- else -%}
+          <div class="pd-grid-cell" data-pd-idx="{{ forloop.index0 }}">
+            <img
+              class="pd-grid-img"
+              src="{{ media | image_url: width: 900 }}"
+              srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 900 }} 900w"
+              sizes="(min-width: 1280px) 20vw, (min-width: 768px) 25vw, 50vw"
+              alt="{{ media.alt | escape | default: product.title }}"
+              loading="lazy"
+              data-zoom="{{ media | image_url: width: 1800 }}"
+            >
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="pd-grid-cell pd-grid-cell--first" style="background:var(--pebble);display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:var(--font-heading);font-size:32px;color:var(--ash);">VELA</span>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Panoramic image (5th image or repeat of 1st) -->
+    {%- assign panoramic_media = product_media[4] | default: product_media[0] -%}
+    {%- if panoramic_media -%}
+      <div class="pd-panoramic" data-pd-idx="4">
+        <img
+          class="pd-panoramic-img"
+          src="{{ panoramic_media | image_url: width: 1600 }}"
+          srcset="{{ panoramic_media | image_url: width: 900 }} 900w, {{ panoramic_media | image_url: width: 1600 }} 1600w"
+          sizes="(min-width: 1280px) 60vw, 100vw"
+          alt="{{ panoramic_media.alt | escape | default: product.title }}"
+          loading="lazy"
+          data-zoom="{{ panoramic_media | image_url: width: 2400 }}"
+        >
+      </div>
     {%- endif -%}
 
-    <h1 class="product-title" itemprop="name">{{ product.title }}</h1>
+  </div>
 
-    <!-- Price -->
-    <div class="product-price-row">
-      {%- if product.compare_at_price > product.price -%}
-        <span class="product-price product-price-sale" itemprop="price">{{ product.price | money }}</span>
-        <span class="product-price-compare">{{ product.compare_at_price | money }}</span>
+  <!-- Info Panel -->
+  <div class="pd-info" id="pd-info">
+
+    <!-- Eyebrow -->
+    <div class="pd-eyebrow">
+      {%- if product.collections.first -%}
+        {{ product.collections.first.title }}
       {%- else -%}
-        <span class="product-price" itemprop="price">{{ product.price | money }}</span>
+        New Arrival
       {%- endif -%}
     </div>
+
+    <!-- Title -->
+    <h1 class="pd-title" itemprop="name">{{ product.title }}</h1>
+
+    <!-- Sub-descriptor -->
+    {%- assign sub_descriptor = product.metafields.custom.sub_descriptor | default: section.settings.sub_descriptor -%}
+    <div class="pd-sub">{{ sub_descriptor | default: 'Relaxed tailored silhouette · Fluid drape · Year-round weight' }}</div>
+
+    <!-- Price + Stars -->
+    <div class="pd-price-row">
+      <div class="pd-price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="pd-price-sale" itemprop="price" content="{{ current_variant.price | money_without_currency }}">{{ current_variant.price | money }}</span>
+          <span class="pd-price-was">{{ current_variant.compare_at_price | money }}</span>
+        {%- else -%}
+          <span itemprop="price" content="{{ current_variant.price | money_without_currency }}">{{ current_variant.price | money }}</span>
+        {%- endif -%}
+        <meta itemprop="priceCurrency" content="{{ cart.currency.iso_code }}">
+      </div>
+      <div class="pd-stars" aria-label="4.8 out of 5 stars, 124 reviews">
+        <span class="pd-stars-icon" aria-hidden="true">
+          {%- for i in (1..5) -%}<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{%- endfor -%}
+        </span>
+        <span class="pd-stars-label">4.8 · 124 reviews</span>
+      </div>
+    </div>
+
+    <!-- Pull Quote -->
+    <blockquote class="pd-pull-quote">
+      {{ section.settings.pull_quote | default: '"The trouser I reach for. Every. Single. Time."' }}
+    </blockquote>
 
     <!-- Variant Form -->
-    {%- form 'product', product, data-product-form: '', id: 'product-form' -%}
-      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    {%- form 'product', product, id: 'product-form', data-product-form: '' -%}
+      <input type="hidden" name="id" id="pd-variant-id" value="{{ current_variant.id }}">
 
-      <div class="product-options">
-        {%- for option in product.options_with_values -%}
-          {%- assign option_name_lower = option.name | downcase -%}
-          <div class="product-option">
-            <div class="product-option-label">
-              <span>{{ option.name }}</span>
-              <span class="product-option-selected">{{ option.selected_value }}</span>
-              {%- if option_name_lower == 'size' -%}
-                <a href="/pages/size-guide" class="size-guide-link" target="_blank">Size Guide</a>
-              {%- endif -%}
-            </div>
+      {%- for option in product.options_with_values -%}
+        {%- assign option_name_lower = option.name | downcase -%}
 
-            {%- if option_name_lower == 'color' or option_name_lower == 'colour' -%}
-              <div class="color-swatches">
-                {%- for value in option.values -%}
-                  <button
-                    type="button"
-                    class="color-swatch-btn {% if option.selected_value == value %}active{% endif %}"
-                    data-value="{{ value }}"
-                    title="{{ value }}"
-                    style="background: {{ value | downcase | replace: ' ', '' }};"
-                    aria-label="{{ value }}"
-                    aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
-                  ></button>
-                {%- endfor -%}
-              </div>
-            {%- else -%}
-              <div class="variant-btns" role="group" aria-label="{{ option.name }}">
-                {%- for value in option.values -%}
-                  <button
-                    type="button"
-                    class="variant-btn {% if option.selected_value == value %}active{% endif %}"
-                    data-value="{{ value }}"
-                    aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
-                  >{{ value }}</button>
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
+        {%- if option_name_lower == 'color' or option_name_lower == 'colour' -%}
+          <!-- Colour Swatches -->
+          <div class="pd-section-label">
+            <span>{{ option.name }}</span>
+            <span class="pd-selected-val" id="pd-colour-label">{{ option.selected_value }}</span>
           </div>
-        {%- endfor -%}
-      </div>
+          <div class="pd-swatches" role="group" aria-label="{{ option.name }}">
+            {%- for value in option.values -%}
+              {%- assign swatch_color = value | downcase | replace: ' ', '' | replace: '/', '' -%}
+              <button
+                type="button"
+                class="pd-swatch {% if option.selected_value == value %}is-active{% endif %}"
+                data-pd-option="{{ option.position }}"
+                data-value="{{ value }}"
+                aria-label="{{ value }}"
+                aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+                title="{{ value }}"
+              >
+                <span class="pd-swatch-inner" style="background:{{ swatch_color }};"></span>
+              </button>
+            {%- endfor -%}
+          </div>
 
-      <!-- Add to Cart -->
-      <div class="product-add-form">
-        {%- if product.available -%}
-          <button type="submit" class="product-add-btn" aria-label="Add {{ product.title }} to bag">
-            Add to Bag
+        {%- elsif option_name_lower == 'size' -%}
+          <!-- Size Grid -->
+          <div class="pd-section-label">
+            <span>{{ option.name }}</span>
+            <a href="/pages/size-guide" class="pd-size-guide" target="_blank">Size Guide</a>
+          </div>
+          <div class="pd-sizes" role="group" aria-label="{{ option.name }}">
+            {%- for value in option.values -%}
+              {%- assign variant_available = false -%}
+              {%- for variant in product.variants -%}
+                {%- if variant.option1 == value or variant.option2 == value or variant.option3 == value -%}
+                  {%- if variant.available -%}{%- assign variant_available = true -%}{%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <button
+                type="button"
+                class="pd-size {% if option.selected_value == value %}is-active{% endif %} {% unless variant_available %}is-oos{% endunless %}"
+                data-pd-option="{{ option.position }}"
+                data-value="{{ value }}"
+                aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+                {% unless variant_available %}aria-disabled="true"{% endunless %}
+              >{{ value }}</button>
+            {%- endfor -%}
+          </div>
+
+        {%- else -%}
+          <!-- Other option -->
+          <div class="pd-section-label">
+            <span>{{ option.name }}</span>
+            <span class="pd-selected-val">{{ option.selected_value }}</span>
+          </div>
+          <div class="pd-sizes" role="group" aria-label="{{ option.name }}">
+            {%- for value in option.values -%}
+              <button
+                type="button"
+                class="pd-size {% if option.selected_value == value %}is-active{% endif %}"
+                data-pd-option="{{ option.position }}"
+                data-value="{{ value }}"
+                aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+              >{{ value }}</button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      <!-- Quantity + Add to Bag -->
+      <div class="pd-qty-row">
+        <div class="pd-qty-stepper">
+          <button type="button" class="pd-qty-btn" data-action="minus" aria-label="Decrease quantity">−</button>
+          <span class="pd-qty-num" id="pd-qty-display">1</span>
+          <button type="button" class="pd-qty-btn" data-action="plus" aria-label="Increase quantity">+</button>
+        </div>
+        <input type="hidden" name="quantity" id="pd-qty-input" value="1">
+
+        {%- if current_variant.available -%}
+          <button type="submit" class="pd-add-btn" id="pd-add-btn">
+            <span id="pd-add-label">Add to Bag</span>
           </button>
         {%- else -%}
-          <button type="button" class="product-add-btn" disabled>
-            Sold Out
-          </button>
+          <button type="button" class="pd-add-btn pd-add-btn--oos" disabled>Sold Out</button>
         {%- endif -%}
-        <a href="{{ routes.cart_url }}" style="display:block; text-align:center; font-size:10px; letter-spacing:0.15em; color:var(--ash); text-transform:uppercase; padding: 10px 0; text-decoration:underline;">
-          or view bag
-        </a>
+
+        <button type="button" class="pd-wish-btn" aria-label="Add to wishlist" data-product-id="{{ product.id }}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
       </div>
+
+      <!-- Shop Pay -->
+      <div class="pd-shop-pay">
+        <button type="button" class="pd-shop-pay-btn" onclick="this.closest('form').querySelector('[name=id]').value; document.getElementById('product-form').submit();">
+          <svg viewBox="0 0 80 20" width="80" height="20" aria-hidden="true" fill="currentColor"><path d="M5.93 6.9c0-.94.68-1.56 1.65-1.56.8 0 1.4.4 1.62 1.08l1.27-.38C10.1 4.88 9.08 4.1 7.58 4.1c-1.75 0-3.02 1.08-3.02 2.8 0 3.44 4.47 2.46 4.47 4.68 0 .98-.72 1.64-1.76 1.64-.98 0-1.73-.52-2-1.42l-1.3.44c.4 1.4 1.6 2.22 3.3 2.22 1.84 0 3.14-1.12 3.14-2.88C10.41 8.1 5.93 9.2 5.93 6.9zm8.04 1.3c-1.62 0-2.74 1.16-2.74 2.86 0 1.68 1.12 2.84 2.74 2.84.9 0 1.66-.4 2.1-1.06v.9h1.33V8.35h-1.33v.9c-.44-.66-1.2-1.06-2.1-1.06zm.26 1.2c.93 0 1.62.72 1.62 1.66 0 .94-.7 1.66-1.62 1.66-.93 0-1.64-.72-1.64-1.66 0-.94.7-1.66 1.64-1.66zm5.24-1.06h-1.34v5.4h1.34v-2.7c0-1.02.52-1.62 1.38-1.62.78 0 1.22.52 1.22 1.44v2.88h1.34V11.1c0-1.6-.9-2.66-2.3-2.66-.68 0-1.26.3-1.64.8v-.6zm7.94-.14c-1.62 0-2.74 1.16-2.74 2.86 0 1.68 1.12 2.84 2.74 2.84.9 0 1.66-.4 2.1-1.06v.9H30.6V8.35h-1.33v.9c-.44-.66-1.2-1.06-2.1-1.06l-.02-.01zm.26 1.2c.93 0 1.62.72 1.62 1.66 0 .94-.7 1.66-1.62 1.66-.93 0-1.64-.72-1.64-1.66 0-.94.7-1.66 1.64-1.66zm10.35-1.06h-1.36l-1.5 3.86-1.52-3.86H32.3l2.24 5.26-.8 1.98h1.34l2.94-7.24zm2.92-.14c-1.66 0-2.8 1.14-2.8 2.84 0 1.74 1.14 2.86 2.96 2.86 1.02 0 1.9-.44 2.4-1.2l-.96-.7c-.3.46-.82.74-1.42.74-.86 0-1.5-.5-1.64-1.3h4.2c.02-.16.04-.3.04-.44 0-1.7-1.06-2.8-2.78-2.8zm-1.44 2.26c.16-.74.72-1.14 1.44-1.14.72 0 1.28.42 1.4 1.14h-2.84zm7.3-2.26c-1.64 0-2.76 1.16-2.76 2.84 0 1.72 1.1 2.86 2.76 2.86.96 0 1.74-.44 2.18-1.14v.98h1.32v-7.6h-1.32v3.14c-.44-.68-1.2-1.08-2.18-1.08zm.28 1.2c.94 0 1.62.72 1.62 1.66 0 .94-.68 1.66-1.62 1.66-.94 0-1.64-.72-1.64-1.66 0-.94.7-1.66 1.64-1.66z"/></svg>
+          <span>Buy with Shop Pay</span>
+        </button>
+      </div>
+
     {%- endform -%}
 
-    <!-- Shipping box (matches JSX shipping section) -->
-    <div class="product-shipping-box">
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--clay)" stroke-width="0.8">
-        <path d="M3 7h11v8H3zM14 9h4l2 3v3h-6z"/><circle cx="7" cy="16" r="1.5"/><circle cx="17" cy="16" r="1.5"/>
+    <!-- Shipping Box -->
+    <div class="pd-ship-box">
+      <svg class="pd-ship-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--clay)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v3"/>
+        <rect x="9" y="11" width="14" height="10" rx="2"/>
+        <circle cx="12" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
       </svg>
       <div>
-        <div class="product-shipping-title">Complimentary delivery · arrives in 3–5 days</div>
-        <div class="product-shipping-body">Wrapped in our recycled tissue. Free returns within 30 days.</div>
+        <div class="pd-ship-title">Complimentary delivery · arrives in 3–5 days</div>
+        <div class="pd-ship-body">Wrapped in recycled tissue. Free returns within 30 days.</div>
       </div>
     </div>
 
-    <!-- Guarantees -->
-    <div class="product-guarantees">
-      <div class="guarantee-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m5 12 5 5L20 7"/></svg>
-        Free shipping over $150
-      </div>
-      <div class="guarantee-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-        Easy 30-day returns
-      </div>
-      <div class="guarantee-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Sustainably made
-      </div>
-    </div>
+    <!-- Accordions -->
+    <div class="pd-accordions">
 
-    <!-- Accordion Details -->
-    <div class="product-accordion">
-      {%- if product.description != blank -%}
-        <div class="accordion-item">
-          <button class="accordion-trigger" aria-expanded="false">
-            Description
-            <span class="accordion-icon" aria-hidden="true">+</span>
-          </button>
-          <div class="accordion-content" itemprop="description">
+      <details class="pd-accordion" open>
+        <summary class="pd-accordion-trigger">
+          Details
+          <span class="pd-accordion-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="pd-accordion-body">
+          {%- if product.description != blank -%}
             {{ product.description }}
-          </div>
+          {%- else -%}
+            <p>Wide-leg silhouette with a high rise and fluid drape. Invisible side zip. Fully lined. Dry clean recommended.</p>
+          {%- endif -%}
         </div>
-      {%- endif -%}
+      </details>
 
-      <div class="accordion-item">
-        <button class="accordion-trigger" aria-expanded="false">
-          Size & Fit
-          <span class="accordion-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="accordion-content">
-          {{ section.settings.size_fit_text | default: "Model is 5'9 and wears a size S. Relaxed fit, true to size. See our size guide for measurements." }}
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <button class="accordion-trigger" aria-expanded="false">
-          Fabric & Care
-          <span class="accordion-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="accordion-content">
+      <details class="pd-accordion">
+        <summary class="pd-accordion-trigger">
+          Fabric &amp; Care
+          <span class="pd-accordion-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="pd-accordion-body">
           {%- assign fabric_meta = product.metafields.custom.fabric_care -%}
-          {{ fabric_meta | default: section.settings.fabric_care_text | default: 'Dry clean or hand wash cold. Do not tumble dry. Iron on low heat. See label for full care instructions.' }}
+          {{ fabric_meta | default: section.settings.fabric_care_text | default: '100% wool crepe. Dry clean only. Do not tumble dry. Iron on low. See label.' }}
         </div>
-      </div>
+      </details>
 
-      <div class="accordion-item">
-        <button class="accordion-trigger" aria-expanded="false">
-          Shipping & Returns
-          <span class="accordion-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="accordion-content">
-          {{ section.settings.shipping_text | default: 'Free standard shipping on orders over $150. Express available at checkout. Returns accepted within 30 days of delivery in original condition.' }}
+      <details class="pd-accordion">
+        <summary class="pd-accordion-trigger">
+          Provenance
+          <span class="pd-accordion-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="pd-accordion-body">
+          {{ section.settings.provenance_text | default: 'Designed in Copenhagen. Made in a family-run atelier in Porto, Portugal. Fifty-two hands touch each garment before it reaches you.' }}
         </div>
-      </div>
+      </details>
+
+      <details class="pd-accordion">
+        <summary class="pd-accordion-trigger">
+          Shipping &amp; Returns
+          <span class="pd-accordion-icon" aria-hidden="true"></span>
+        </summary>
+        <div class="pd-accordion-body">
+          {{ section.settings.shipping_text | default: 'Free standard shipping on orders over $150. Express available at checkout. Returns accepted within 30 days of delivery in original unworn condition.' }}
+        </div>
+      </details>
+
     </div>
-  </div>
+
+  </div><!-- /pd-info -->
+</div><!-- /pd-wrap -->
+
+<!-- Zoom Lightbox -->
+<div class="pd-zoom-overlay" id="pd-zoom" role="dialog" aria-label="Image zoom" aria-hidden="true">
+  <button class="pd-zoom-close" aria-label="Close zoom" id="pd-zoom-close">✕</button>
+  <img class="pd-zoom-img" id="pd-zoom-img" src="" alt="">
 </div>
 
-<!-- Sticky bottom CTA (mobile) — matches JSX sticky bar -->
-{%- if product.available -%}
-  <div class="product-sticky-cta" id="product-sticky-cta" aria-label="Quick add to bag">
-    <div class="product-sticky-cta-info">
-      <div class="product-sticky-cta-variant" id="sticky-variant-label">
-        {{ product.selected_or_first_available_variant.title | replace: 'Default Title', '' }}
-      </div>
-      <div class="product-sticky-cta-price">{{ product.price | money }}</div>
+<!-- ── Story Strip ──────────────────────────────────── -->
+<section class="pd-story-strip">
+  <div class="pd-story-inner">
+    <div class="pd-story-img">
+      {%- if section.settings.story_image -%}
+        <img
+          src="{{ section.settings.story_image | image_url: width: 900 }}"
+          srcset="{{ section.settings.story_image | image_url: width: 600 }} 600w, {{ section.settings.story_image | image_url: width: 900 }} 900w"
+          sizes="(min-width: 1024px) 45vw, 100vw"
+          alt="{{ section.settings.story_image.alt | default: 'Atelier' | escape }}"
+          loading="lazy"
+        >
+      {%- else -%}
+        <div class="pd-story-img-placeholder">
+          <span>Atelier</span>
+        </div>
+      {%- endif -%}
     </div>
-    <button class="product-sticky-add" id="sticky-add-btn" aria-label="Add to bag">Add to Bag</button>
+    <div class="pd-story-text">
+      <div class="pd-story-eyebrow">The Making</div>
+      <h2 class="pd-story-heading">{{ section.settings.story_heading | default: 'One trouser, fifty-two days.' }}</h2>
+      <p class="pd-story-body">{{ section.settings.story_body | default: 'Each pair of Vela trousers passes through eleven pairs of hands before it reaches yours. Cut in Porto, finished by eye, pressed three times. We count the hours so you never have to think about them.' }}</p>
+      <div class="pd-story-stats">
+        <div class="pd-stat">
+          <span class="pd-stat-num">52</span>
+          <span class="pd-stat-label">days to make</span>
+        </div>
+        <div class="pd-stat">
+          <span class="pd-stat-num">11</span>
+          <span class="pd-stat-label">hands involved</span>
+        </div>
+        <div class="pd-stat">
+          <span class="pd-stat-num">40</span>
+          <span class="pd-stat-label">pieces per run</span>
+        </div>
+        <div class="pd-stat">
+          <span class="pd-stat-num">2</span>
+          <span class="pd-stat-label">wash cycles tested</span>
+        </div>
+      </div>
+    </div>
   </div>
-{%- endif -%}
+</section>
 
-<!-- Related Products -->
-{%- if section.settings.show_related -%}
+<!-- ── Reviews ──────────────────────────────────────── -->
+<section class="pd-reviews">
+  <div class="pd-reviews-inner">
+
+    <!-- Score sidebar -->
+    <div class="pd-reviews-sidebar">
+      <div class="pd-reviews-score">4.8</div>
+      <div class="pd-reviews-stars" aria-label="4.8 out of 5">
+        {%- for i in (1..5) -%}
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {%- endfor -%}
+      </div>
+      <div class="pd-reviews-count">124 reviews</div>
+      <div class="pd-reviews-bars">
+        <div class="pd-bar-row"><span>5</span><div class="pd-bar"><div style="width:76%"></div></div><span>94</span></div>
+        <div class="pd-bar-row"><span>4</span><div class="pd-bar"><div style="width:16%"></div></div><span>20</span></div>
+        <div class="pd-bar-row"><span>3</span><div class="pd-bar"><div style="width:5%"></div></div><span>6</span></div>
+        <div class="pd-bar-row"><span>2</span><div class="pd-bar"><div style="width:2%"></div></div><span>3</span></div>
+        <div class="pd-bar-row"><span>1</span><div class="pd-bar"><div style="width:1%"></div></div><span>1</span></div>
+      </div>
+    </div>
+
+    <!-- Review cards -->
+    <div class="pd-reviews-cards">
+      <div class="pd-review-card">
+        <div class="pd-review-stars" aria-label="5 stars">
+          {%- for i in (1..5) -%}<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{%- endfor -%}
+        </div>
+        <p class="pd-review-body">"I have worn this trouser to three continents. It packs flat, creases drop out by morning, and it photographs as beautifully as it feels. Worth every pound."</p>
+        <div class="pd-review-meta">Sofia T. · London · <time>March 2025</time></div>
+      </div>
+      <div class="pd-review-card">
+        <div class="pd-review-stars" aria-label="5 stars">
+          {%- for i in (1..5) -%}<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{%- endfor -%}
+        </div>
+        <p class="pd-review-body">"The colour in real life is even more nuanced than the photography. And the weight of the fabric is exactly right — substantial enough to drape, light enough to breathe."</p>
+        <div class="pd-review-meta">Margaux R. · Paris · <time>January 2025</time></div>
+      </div>
+      <div class="pd-review-card">
+        <div class="pd-review-stars" aria-label="4 stars">
+          {%- for i in (1..4) -%}<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{%- endfor -%}
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="pd-review-body">"Sized up one as suggested and it's perfect. The cut is very forgiving and elegant at the same time. Takes me from studio to dinner without a second thought."</p>
+        <div class="pd-review-meta">Nadia H. · Copenhagen · <time>February 2025</time></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Pairs With ───────────────────────────────────── -->
+{%- if section.settings.show_pairs -%}
   {%- if product.collections.first -%}
-    <section class="section">
-      <div class="container">
-        <div class="section-header">
-          <p class="label-caps fade-up">You May Also Like</p>
-          <div class="section-rule fade-up"></div>
-        </div>
-        <div class="collection-grid">
-          {%- for related in product.collections.first.products limit: 4 -%}
-            {%- unless related.id == product.id -%}
+    <section class="pd-pairs-section">
+      <div class="pd-pairs-header">
+        <div class="pd-pairs-eyebrow">Pairs With</div>
+        <h2 class="pd-pairs-title">Complete the Look</h2>
+      </div>
+      <div class="pd-pairs-grid" id="pd-pairs-grid">
+        {%- assign pairs_collection = product.collections.first -%}
+        {%- assign pairs_count = 0 -%}
+        {%- for related in pairs_collection.products limit: 8 -%}
+          {%- unless related.id == product.id -%}
+            {%- if pairs_count < 4 -%}
               {% render 'product-card', product: related %}
-            {%- endunless -%}
-          {%- endfor -%}
-        </div>
+              {%- assign pairs_count = pairs_count | plus: 1 -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
       </div>
     </section>
   {%- endif -%}
@@ -253,25 +435,65 @@
   "name": "Main Product",
   "settings": [
     {
-      "type": "checkbox",
-      "id": "show_related",
-      "label": "Show related products",
-      "default": true
+      "type": "text",
+      "id": "sub_descriptor",
+      "label": "Sub-descriptor line",
+      "placeholder": "Relaxed tailored silhouette · Fluid drape"
     },
     {
-      "type": "richtext",
-      "id": "size_fit_text",
-      "label": "Size & Fit text"
+      "type": "text",
+      "id": "pull_quote",
+      "label": "Pull quote",
+      "default": "\"The trouser I reach for. Every. Single. Time.\""
+    },
+    {
+      "type": "header",
+      "content": "Accordions"
     },
     {
       "type": "richtext",
       "id": "fabric_care_text",
-      "label": "Fabric & Care default text"
+      "label": "Fabric & Care text"
+    },
+    {
+      "type": "richtext",
+      "id": "provenance_text",
+      "label": "Provenance text"
     },
     {
       "type": "richtext",
       "id": "shipping_text",
       "label": "Shipping & Returns text"
+    },
+    {
+      "type": "header",
+      "content": "Story Strip"
+    },
+    {
+      "type": "image_picker",
+      "id": "story_image",
+      "label": "Story image"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Story heading",
+      "default": "One trouser, fifty-two days."
+    },
+    {
+      "type": "textarea",
+      "id": "story_body",
+      "label": "Story body"
+    },
+    {
+      "type": "header",
+      "content": "Related Products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pairs",
+      "label": "Show Pairs With section",
+      "default": true
     }
   ]
 }
