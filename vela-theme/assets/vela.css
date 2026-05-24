@@ -2707,7 +2707,7 @@ h4 { font-size: clamp(18px, 3vw, 24px); }
   .pd-wrap {
     grid-template-columns: 64px 1fr 480px;
     grid-template-rows: auto;
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - var(--header-height-desktop));
   }
 }
 
@@ -2723,8 +2723,8 @@ h4 { font-size: clamp(18px, 3vw, 24px); }
     gap: 6px;
     padding: 24px 0 24px 16px;
     position: sticky;
-    top: 80px;
-    height: calc(100vh - 80px);
+    top: var(--header-height-desktop);
+    height: calc(100vh - var(--header-height-desktop));
     overflow-y: auto;
     scrollbar-width: none;
     grid-column: 1;
@@ -2790,6 +2790,7 @@ h4 { font-size: clamp(18px, 3vw, 24px); }
 
 @media (max-width: 599px) {
   .pd-grid-cell:not(.pd-grid-cell--first) { display: none; }
+  .pd-grid-cell--first { aspect-ratio: 3/4; }
 }
 
 .pd-grid-img {
@@ -2859,8 +2860,8 @@ h4 { font-size: clamp(18px, 3vw, 24px); }
     grid-column: 3;
     padding: 56px 56px 80px 24px;
     position: sticky;
-    top: 80px;
-    height: calc(100vh - 80px);
+    top: var(--header-height-desktop);
+    height: calc(100vh - var(--header-height-desktop));
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--pebble) transparent;
@@ -3525,4 +3526,60 @@ details[open] .pd-accordion-icon::after { transform: translate(-50%, -50%) rotat
 /* ── Mobile Sticky CTA ───────────────────────────────── */
 @media (min-width: 1024px) {
   .product-sticky-cta { display: none; }
+}
+
+/* ── Mobile Swipe Gallery ────────────────────────────── */
+.pd-mobile-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  position: relative;
+}
+
+.pd-mobile-track::-webkit-scrollbar { display: none; }
+
+.pd-mobile-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+}
+
+.pd-mobile-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pd-mobile-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.pd-mobile-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(245,244,242,0.4);
+  transition: background 0.2s;
+}
+
+.pd-mobile-dot.is-active { background: var(--stone); }
+
+@media (min-width: 600px) {
+  .pd-mobile-track { display: none; }
+  .pd-grid-2x2 { display: grid; }
+}
+
+@media (max-width: 599px) {
+  .pd-grid-2x2 { display: none; }
+  .pd-panoramic { display: none; }
 }

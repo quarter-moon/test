@@ -337,11 +337,33 @@ const pdPage = {
   init() {
     if (!document.querySelector('.pd-wrap')) return;
     this.thumbRail();
+    this.mobileSwipe();
     this.zoomLightbox();
     this.optionSelectors();
     this.quantityStepper();
     this.addToCart();
     this.wishlist();
+  },
+
+  // Mobile scroll-snap dot indicator
+  mobileSwipe() {
+    const track = document.getElementById('pd-mobile-track');
+    const dots = document.querySelectorAll('.pd-mobile-dot');
+    if (!track || !dots.length) return;
+
+    const slides = track.querySelectorAll('.pd-mobile-slide');
+    track.addEventListener('scroll', () => {
+      const idx = Math.round(track.scrollLeft / track.offsetWidth);
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+    }, { passive: true });
+
+    dots.forEach((dot, i) => {
+      dot.style.pointerEvents = 'all';
+      dot.style.cursor = 'pointer';
+      dot.addEventListener('click', () => {
+        slides[i]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      });
+    });
   },
 
   // Thumbnail rail sync

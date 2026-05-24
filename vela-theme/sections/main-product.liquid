@@ -1,6 +1,9 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign product_media = product.media -%}
 
+{%- comment -%}Colour name → hex map for swatch rendering{%- endcomment -%}
+{%- assign swatch_map = 'bone:#F0EEE9,ecru:#EDE8DE,ivory:#F8F5EE,stone:#F5F4F2,pearl:#F2EFEB,shell:#EAE5DC,oatmeal:#DDD8CE,ash:#888780,clay:#C4A882,camel:#C19A6B,tan:#D2B48C,ink:#1A1A1A,black:#1A1A1A,white:#FAFAF7,cream:#FAF7F0,sand:#E8DDD0,chalk:#F5F3EE,blush:#E8C4B8,rose:#D4998A,nude:#DDB89A,dove:#DDDBD8,grey:#B0AEA9,charcoal:#4A4A48,navy:#1C2B4A,midnight:#1A1A2E,forest:#2C3D2F,sage:#8A9E80,moss:#6B7C5E,olive:#7A7347,cocoa:#6B4F3A,espresso:#3D2417,cognac:#A0522D,rust:#9B4C2E,terracotta:#C4603A,amber:#C8903A,gold:#C4A245,champagne:#F0DFA0' | split: ',' -%}
+
 <script type="application/json" data-product-variants>
   {{ product.variants | json }}
 </script>
@@ -32,7 +35,31 @@
   <!-- Gallery -->
   <div class="pd-gallery">
 
-    <!-- 2×2 Grid -->
+    <!-- Mobile swipe track (hidden on desktop) -->
+    <div class="pd-mobile-track" id="pd-mobile-track" aria-label="Product images">
+      {%- for media in product_media limit: 6 -%}
+        <div class="pd-mobile-slide" {% if forloop.first %}itemprop="image"{% endif %}>
+          <img
+            src="{{ media | image_url: width: 900 }}"
+            srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 900 }} 900w"
+            sizes="100vw"
+            alt="{{ media.alt | escape | default: product.title }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
+          >
+          {%- if forloop.first -%}
+            <div class="pd-badge">New · Resort 26</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+      <div class="pd-mobile-dots" aria-hidden="true">
+        {%- for media in product_media limit: 6 -%}
+          <span class="pd-mobile-dot {% if forloop.first %}is-active{% endif %}" data-idx="{{ forloop.index0 }}"></span>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- Desktop 2×2 Grid (hidden on mobile) -->
     <div class="pd-grid-2x2" id="pd-gallery-main">
       {%- for media in product_media limit: 4 -%}
         {%- if forloop.first -%}
@@ -71,7 +98,7 @@
       {%- endfor -%}
     </div>
 
-    <!-- Panoramic image (5th image or repeat of 1st) -->
+    <!-- Panoramic image (5th image or repeat of 1st) — desktop only -->
     {%- assign panoramic_media = product_media[4] | default: product_media[0] -%}
     {%- if panoramic_media -%}
       <div class="pd-panoramic" data-pd-idx="4">
@@ -147,7 +174,14 @@
           </div>
           <div class="pd-swatches" role="group" aria-label="{{ option.name }}">
             {%- for value in option.values -%}
-              {%- assign swatch_color = value | downcase | replace: ' ', '' | replace: '/', '' -%}
+              {%- assign swatch_key = value | downcase | replace: ' ', '' -%}
+              {%- assign swatch_hex = '#E8E6E2' -%}
+              {%- for entry in swatch_map -%}
+                {%- assign entry_parts = entry | split: ':' -%}
+                {%- if entry_parts[0] == swatch_key -%}
+                  {%- assign swatch_hex = entry_parts[1] -%}
+                {%- endif -%}
+              {%- endfor -%}
               <button
                 type="button"
                 class="pd-swatch {% if option.selected_value == value %}is-active{% endif %}"
@@ -157,7 +191,7 @@
                 aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
                 title="{{ value }}"
               >
-                <span class="pd-swatch-inner" style="background:{{ swatch_color }};"></span>
+                <span class="pd-swatch-inner" style="background:{{ swatch_hex }};"></span>
               </button>
             {%- endfor -%}
           </div>
