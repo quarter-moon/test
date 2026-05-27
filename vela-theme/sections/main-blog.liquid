@@ -6,10 +6,7 @@
   <h1 class="blog-header-title fade-up">
     The <em>{{ blog.title | default: 'Journal' }}</em>
   </h1>
-  {%- assign rule_html -%}
-    <div style="width:50px; height:1px; background:var(--clay); margin:14px auto; opacity:0.7;"></div>
-  {%- endassign -%}
-  {{ rule_html }}
+  <div style="width:50px; height:1px; background:var(--clay); margin:14px auto; opacity:0.7;"></div>
   {%- if section.settings.subtitle != blank -%}
     <p class="blog-header-sub fade-up">{{ section.settings.subtitle }}</p>
   {%- endif -%}
