@@ -1,7 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "page-size-guide",
+      "type": "vela-size-guide",
       "blocks": {
         "faq-1": {
           "type": "faq",

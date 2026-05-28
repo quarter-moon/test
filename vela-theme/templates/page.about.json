@@ -1,7 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "page-about",
+      "type": "vela-about",
       "blocks": {
         "tenet-1": {
           "type": "tenet",
