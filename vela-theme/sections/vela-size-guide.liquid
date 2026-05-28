@@ -352,28 +352,14 @@
         <h2 class="sg-section-heading">{{ section.settings.faq_heading | default: "Eight things you've <em>asked.</em>" }}</h2>
       </div>
       <div class="sg-faq-list">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'faq' -%}
-            <details class="sg-faq-item" {{ block.shopify_attributes }}>
-              <summary class="sg-faq-summary">
-                <span class="sg-faq-num">0{{ forloop.index }}</span>
-                <span class="sg-faq-q">{{ block.settings.question }}</span>
-                <span class="sg-faq-icon" aria-hidden="true"></span>
-              </summary>
-              <div class="sg-faq-answer">{{ block.settings.answer }}</div>
-            </details>
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if section.blocks == empty -%}
-          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">01</span><span class="sg-faq-q">I'm between two sizes — which do I take?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>For tailoring and trousers, size down — the cut is generous and tailors better. For knitwear, size up for the intended look. When in doubt, email us with your measurements and we will advise.</p></div></details>
-          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">02</span><span class="sg-faq-q">Will the linen shrink after the first wash?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Linen relaxes slightly with washing — typically 3–5% on the first cold wash. We account for this in our patterns. Follow the care label: cool water, line dry.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">01</span><span class="sg-faq-q">I&#8217;m between two sizes &#8212; which do I take?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>For tailoring and trousers, size down &#8212; the cut is generous and tailors better. For knitwear, size up for the intended look. When in doubt, email us with your measurements and we will advise.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">02</span><span class="sg-faq-q">Will the linen shrink after the first wash?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Linen relaxes slightly with washing &#8212; typically 3&#8211;5% on the first cold wash. We account for this in our patterns. Follow the care label: cool water, line dry.</p></div></details>
           <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">03</span><span class="sg-faq-q">Do you offer alterations?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Yes. Waist adjustments on trousers are free in-studio. Hem shortening is charged at cost. Email studio@vela.com to arrange.</p></div></details>
-          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">04</span><span class="sg-faq-q">Are returns possible if it doesn't fit?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Yes — within 30 days of delivery in original condition. We send a prepaid label. See our <a href="/pages/returns">Returns page</a> for full details.</p></div></details>
-          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">05</span><span class="sg-faq-q">How does VELA sizing compare to other houses?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>We size to the body, not the rack. Our measurements are generous relative to most contemporary labels — customers who wear a 10 elsewhere typically find a VELA 8 fits well. When in doubt, measure.</p></div></details>
-          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">06</span><span class="sg-faq-q">Do you make sizes beyond 3XL?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Our standard range runs to 3XL (UK 16). Made-to-measure is available for sizes outside the range — email us to discuss.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">04</span><span class="sg-faq-q">Are returns possible if it does not fit?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Yes &#8212; within 30 days of delivery in original condition. We send a prepaid label. See our <a href="/pages/returns">Returns page</a> for full details.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">05</span><span class="sg-faq-q">How does VELA sizing compare to other houses?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>We size to the body, not the rack. Our measurements are generous relative to most contemporary labels &#8212; customers who wear a 10 elsewhere typically find a VELA 8 fits well. When in doubt, measure.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">06</span><span class="sg-faq-q">Do you make sizes beyond 3XL?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Our standard range runs to 3XL (UK 16). Made-to-measure is available for sizes outside the range &#8212; email us to discuss.</p></div></details>
           <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">07</span><span class="sg-faq-q">Can I be measured in-store?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Yes. We offer fitting appointments at our Copenhagen studio. We measure, photograph each fit, and keep a size card on file for future seasons. Book below.</p></div></details>
-          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">08</span><span class="sg-faq-q">What if the size still isn't right?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>We will sort it. Email studio@vela.com with photos and your measurements. We have yet to encounter a fit problem we could not resolve.</p></div></details>
-        {%- endif -%}
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">08</span><span class="sg-faq-q">What if the size still is not right?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>We will sort it. Email studio@vela.com with photos and your measurements. We have yet to encounter a fit problem we could not resolve.</p></div></details>
       </div>
     </div>
   </div>
@@ -467,15 +453,5 @@
       "label": "Book a fitting URL"
     }
   ],
-  "blocks": [
-    {
-      "type": "faq",
-      "name": "FAQ Item",
-      "settings": [
-        { "type": "text", "id": "question", "label": "Question", "default": "Your question here" },
-        { "type": "richtext", "id": "answer", "label": "Answer" }
-      ]
-    }
-  ]
 }
 {% endschema %}
