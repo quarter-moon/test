@@ -2,83 +2,94 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "settings": {
-        "eyebrow": "New Collection — Resort 26",
-        "headline": "Dressed with intention.",
-        "tagline": "A wardrobe of twelve, photographed over three days, in a room with nothing in it.",
-        "cta_primary_label": "Shop Resort 26",
-        "cta_primary_url": "/collections/new-in",
-        "cta_secondary_label": "Watch the film · 1:48",
-        "cta_secondary_url": "#"
-      }
+      "settings": {}
     },
     "marquee": {
       "type": "marquee",
       "blocks": {
-        "item-1": { "type": "item", "settings": { "text": "Worn in Stockholm, Paris, Mexico City." } },
-        "item-2": { "type": "item", "settings": { "text": "Twelve pieces. One palette." } },
-        "item-3": { "type": "item", "settings": { "text": "Tailored in Como, knit in Porto." } },
-        "item-4": { "type": "item", "settings": { "text": "The wardrobe of someone who plans nothing." } }
+        "item-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {}
+        }
       },
-      "block_order": ["item-1", "item-2", "item-3", "item-4"]
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3",
+        "item-4"
+      ],
+      "settings": {}
     },
     "category-strip": {
       "type": "category-strip",
-      "settings": {
-        "eyebrow": "Browse",
-        "heading": "The Categories",
-        "subheading": "A small selection, made well."
-      },
+      "settings": {},
       "blocks": {
-        "cat-1": { "type": "category", "settings": { "label": "New In", "sub": "Resort 26" } },
-        "cat-2": { "type": "category", "settings": { "label": "Dresses", "sub": "08 pieces" } },
-        "cat-3": { "type": "category", "settings": { "label": "Knitwear", "sub": "12 pieces" } },
-        "cat-4": { "type": "category", "settings": { "label": "Tailoring", "sub": "06 pieces" } },
-        "cat-5": { "type": "category", "settings": { "label": "Outerwear", "sub": "04 pieces" } }
+        "cat-1": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-2": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-3": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-4": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-5": {
+          "type": "category",
+          "settings": {}
+        }
       },
-      "block_order": ["cat-1", "cat-2", "cat-3", "cat-4", "cat-5"]
+      "block_order": [
+        "cat-1",
+        "cat-2",
+        "cat-3",
+        "cat-4",
+        "cat-5"
+      ]
     },
     "new-arrivals": {
       "type": "featured-products",
       "blocks": {},
       "block_order": [],
       "settings": {
-        "eyebrow": "Resort 26 · The Edit",
-        "heading": "The first ten pieces.",
-        "subheading": "Slow staples, drawn from the wardrobe of someone who plans nothing.",
         "product_limit": 8,
-        "cta_label": "Shop all Resort 26 →",
         "background": "var(--stone)"
       }
     },
     "editorial-1": {
       "type": "editorial-banner",
       "settings": {
-        "eyebrow": "A note from the studio",
-        "headline": "The discipline of fewer things, <em>chosen well.</em>",
-        "body": "Each collection is built around twelve pieces. We design them slowly, make them in small runs, in Portugal and Italy, with mills we visit by hand. Nothing is reordered without reason.",
-        "cta_label": "Our story",
         "reversed": false
       }
     },
     "lookbook": {
       "type": "lookbook",
-      "settings": {
-        "eyebrow": "Look 04 · Worn With Nothing",
-        "title": "An almost-uniform.",
-        "caption": "The Brera Trouser · The Linen Camisole · The Field Coat — photographed in May, in one quiet room.",
-        "cta_label": "View the full lookbook →"
-      }
+      "settings": {}
     },
     "bestsellers": {
       "type": "featured-products",
       "blocks": {},
       "block_order": [],
       "settings": {
-        "eyebrow": "Most Loved",
-        "heading": "Bestsellers",
         "product_limit": 4,
-        "cta_label": "Shop All",
         "background": "var(--pebble)"
       }
     },
@@ -86,43 +97,43 @@
       "type": "journal-preview",
       "blocks": {},
       "block_order": [],
-      "settings": {
-        "eyebrow": "The Journal",
-        "title": "What we are thinking about",
-        "title_em": "this season.",
-        "cta_label": "Visit the journal →",
-        "cta_url": "/blogs/journal",
-        "read_time": "5 min"
-      }
+      "settings": {}
     },
     "provenance": {
       "type": "provenance",
       "blocks": {
-        "p-1": { "type": "item", "settings": { "symbol": "IT", "label_1": "Tailored", "label_2": "in Italy" } },
-        "p-2": { "type": "item", "settings": { "symbol": "PT", "label_1": "Knit", "label_2": "in Portugal" } },
-        "p-3": { "type": "item", "settings": { "symbol": "—", "label_1": "Small batch", "label_2": "only" } },
-        "p-4": { "type": "item", "settings": { "symbol": "☉", "label_1": "Carbon", "label_2": "considered" } }
+        "p-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "p-2": {
+          "type": "item",
+          "settings": {}
+        },
+        "p-3": {
+          "type": "item",
+          "settings": {}
+        },
+        "p-4": {
+          "type": "item",
+          "settings": {}
+        }
       },
-      "block_order": ["p-1", "p-2", "p-3", "p-4"]
+      "block_order": [
+        "p-1",
+        "p-2",
+        "p-3",
+        "p-4"
+      ],
+      "settings": {}
     },
     "atelier-quote": {
       "type": "atelier-quote",
-      "settings": {
-        "eyebrow": "Atelier",
-        "quote": "Restraint, not refusal. We design for the woman who has already decided.",
-        "name": "Mae Lindqvist",
-        "role": "Founder & Creative Director"
-      }
+      "settings": {}
     },
     "newsletter": {
       "type": "newsletter",
-      "settings": {
-        "eyebrow": "The Studio Letter",
-        "title": "Considered, never crowded.",
-        "subtitle": "A monthly note from the studio — on new arrivals, editorial stories, and the small rituals of dressing well.",
-        "placeholder": "Email address",
-        "button_label": "Subscribe →"
-      }
+      "settings": {}
     }
   },
   "order": [

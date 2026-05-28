@@ -1,15 +1,6 @@
 {
   "current": {
-    "color_ink": "#1A1A1A",
-    "color_stone": "#F5F4F2",
-    "color_clay": "#C4A882",
-    "color_pebble": "#E8E6E2",
-    "color_ash": "#888780",
-    "color_promo": "#D94F3D",
     "cart_type": "drawer",
-    "cart_note": false,
-    "social_instagram": "https://www.instagram.com/velastudio",
-    "social_pinterest": "https://www.pinterest.com/velastudio",
-    "social_tiktok": "https://www.tiktok.com/@velastudio"
+    "cart_note": false
   }
 }

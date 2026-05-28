@@ -5,18 +5,15 @@
     "footer": {
       "type": "site-footer",
       "settings": {
-        "footer_title_1": "Shop",
         "footer_menu_1": "footer-shop",
-        "footer_title_2": "Studio",
         "footer_menu_2": "footer-studio",
-        "footer_title_3": "Help",
         "footer_menu_3": "footer-help",
-        "footer_title_4": "Legal",
         "footer_menu_4": "footer-legal",
-        "legal_menu": "footer-legal",
-        "tagline": "Designed in Copenhagen · Made considerately in Italy & Portugal"
+        "legal_menu": "footer-legal"
       }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }

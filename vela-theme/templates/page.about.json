@@ -5,50 +5,41 @@
       "blocks": {
         "tenet-1": {
           "type": "tenet",
-          "settings": {
-            "title": "Small editions, never <em>collections</em>",
-            "body": "Forty to sixty pieces per style. Not one more. When they are gone, they are gone."
-          }
+          "settings": {}
         },
         "tenet-2": {
           "type": "tenet",
-          "settings": {
-            "title": "Natural fibres, named <em>mills</em>",
-            "body": "Linen from Como (since 1894), wool from the Scottish Borders, cotton from Porto. We visit before we commission."
-          }
+          "settings": {}
         },
         "tenet-3": {
           "type": "tenet",
-          "settings": {
-            "title": "Cut to the body, not the <em>warehouse</em>",
-            "body": "Every pattern is hand-adjusted. We do not produce to stock. No surplus. No landfill."
-          }
+          "settings": {}
         },
         "tenet-4": {
           "type": "tenet",
-          "settings": {
-            "title": "Mended free, <em>forever</em>",
-            "body": "Any VELA garment, repaired at cost for as long as we exist. No exceptions. No expiry date."
-          }
+          "settings": {}
         },
         "tenet-5": {
           "type": "tenet",
-          "settings": {
-            "title": "One price, all <em>year</em>",
-            "body": "We do not hold sales or markdowns. Our prices are set to be final prices, for customers who plan ahead."
-          }
+          "settings": {}
         },
         "tenet-6": {
           "type": "tenet",
-          "settings": {
-            "title": "Quiet, <em>on purpose</em>",
-            "body": "No paid advertising. No collaborations for visibility. A bi-weekly letter, and the clothes."
-          }
+          "settings": {}
         }
       },
-      "block_order": ["tenet-1", "tenet-2", "tenet-3", "tenet-4", "tenet-5", "tenet-6"],
+      "block_order": [
+        "tenet-1",
+        "tenet-2",
+        "tenet-3",
+        "tenet-4",
+        "tenet-5",
+        "tenet-6"
+      ],
       "settings": {}
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
