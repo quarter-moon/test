@@ -1,0 +1,152 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "marquee": {
+      "type": "marquee",
+      "blocks": {
+        "item-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3",
+        "item-4"
+      ],
+      "settings": {}
+    },
+    "category-strip": {
+      "type": "category-strip",
+      "settings": {},
+      "blocks": {
+        "cat-1": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-2": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-3": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-4": {
+          "type": "category",
+          "settings": {}
+        },
+        "cat-5": {
+          "type": "category",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "cat-1",
+        "cat-2",
+        "cat-3",
+        "cat-4",
+        "cat-5"
+      ]
+    },
+    "new-arrivals": {
+      "type": "featured-products",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "product_limit": 8,
+        "background": "var(--stone)"
+      }
+    },
+    "editorial-1": {
+      "type": "editorial-banner",
+      "settings": {
+        "reversed": false
+      }
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "settings": {}
+    },
+    "bestsellers": {
+      "type": "featured-products",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "product_limit": 4,
+        "background": "var(--pebble)"
+      }
+    },
+    "journal-preview": {
+      "type": "journal-preview",
+      "blocks": {},
+      "block_order": [],
+      "settings": {}
+    },
+    "provenance": {
+      "type": "provenance",
+      "blocks": {
+        "p-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "p-2": {
+          "type": "item",
+          "settings": {}
+        },
+        "p-3": {
+          "type": "item",
+          "settings": {}
+        },
+        "p-4": {
+          "type": "item",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "p-1",
+        "p-2",
+        "p-3",
+        "p-4"
+      ],
+      "settings": {}
+    },
+    "atelier-quote": {
+      "type": "atelier-quote",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "marquee",
+    "category-strip",
+    "new-arrivals",
+    "editorial-1",
+    "lookbook",
+    "bestsellers",
+    "journal-preview",
+    "provenance",
+    "atelier-quote",
+    "newsletter"
+  ]
+}

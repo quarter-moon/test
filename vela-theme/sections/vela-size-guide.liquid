@@ -1,0 +1,619 @@
+<!-- ══════════════════════════════════════════════════
+     VELA — Size Guide page (sg-*)
+     ══════════════════════════════════════════════════ -->
+
+<!-- ── Sticky Tab + Unit Bar ──────────────────────── -->
+<div class="sg-tab-bar" id="sg-tab-bar">
+  <div class="sg-container sg-tab-bar-inner">
+    <nav class="sg-tabs" role="tablist" aria-label="Category">
+      <button class="sg-tab is-active" data-tab="women" role="tab" aria-selected="true">Women</button>
+      <button class="sg-tab" data-tab="men" role="tab" aria-selected="false">Men</button>
+      <button class="sg-tab" data-tab="knitwear" role="tab" aria-selected="false">Knitwear</button>
+      <button class="sg-tab" data-tab="shoes" role="tab" aria-selected="false">Shoes</button>
+    </nav>
+    <div class="sg-unit-toggle" role="group" aria-label="Units">
+      <button class="sg-unit-btn is-active" data-unit="in" aria-pressed="true">In</button>
+      <button class="sg-unit-btn" data-unit="cm" aria-pressed="false">Cm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Intro ───────────────────────────────────────── -->
+<section class="sg-intro">
+  <div class="sg-container">
+    <div class="sg-intro-grid">
+      <div class="sg-intro-copy">
+        <nav class="sg-breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span aria-hidden="true">—</span>
+          <a href="/pages/faq">Help</a>
+          <span aria-hidden="true">—</span>
+          <strong>Size Guide</strong>
+        </nav>
+        <h1 class="sg-intro-heading">{{ section.settings.intro_heading | default: 'The right cut, <em>kept</em> for many years.' }}</h1>
+        <p class="sg-intro-lede">{{ section.settings.intro_lede | default: "Our patterns are drafted to the body, not the warehouse. Use the measurements below as a starting point — and if you're between sizes, size down for closer, up for considered." }}</p>
+      </div>
+      <nav class="sg-quick-links" aria-label="Jump to section">
+        <a class="sg-quick-link" href="#sg-measure">
+          <span>How to measure</span><span class="sg-quick-link-sub">Three minutes</span>
+        </a>
+        <a class="sg-quick-link" href="#sg-table">
+          <span>Size table</span><span class="sg-quick-link-sub">Womenswear</span>
+        </a>
+        <a class="sg-quick-link" href="#sg-fit">
+          <span>Fit philosophy</span><span class="sg-quick-link-sub">The way we cut</span>
+        </a>
+        <a class="sg-quick-link" href="#sg-faq">
+          <span>Questions</span><span class="sg-quick-link-sub">Eight, answered</span>
+        </a>
+        <a class="sg-quick-link" href="#sg-appointment">
+          <span>Try it on</span><span class="sg-quick-link-sub">By appointment</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- ── How to Measure ─────────────────────────────── -->
+<section class="sg-measure" id="sg-measure">
+  <div class="sg-container">
+    <div class="sg-measure-head">
+      <div class="sg-eyebrow">How to Measure</div>
+      <div>
+        <h2 class="sg-section-heading">{{ section.settings.measure_heading | default: 'A tape, a friend, and <em>three minutes.</em>' }}</h2>
+        <p class="sg-measure-intro">{{ section.settings.measure_intro | default: 'Measurements are taken over light clothing, with the tape held snug but not pulled tight. Stand naturally — knees soft, weight even.' }}</p>
+      </div>
+    </div>
+    <div class="sg-measure-grid">
+      <!-- SVG body figure -->
+      <figure class="sg-figure-card" aria-hidden="true">
+        <svg viewBox="0 0 320 480" fill="none" stroke="#1A1A1A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Head -->
+          <ellipse cx="160" cy="52" rx="26" ry="32" stroke="#1A1A1A"/>
+          <!-- Neck -->
+          <line x1="148" y1="82" x2="143" y2="100"/>
+          <line x1="172" y1="82" x2="177" y2="100"/>
+          <!-- Shoulders -->
+          <path d="M143 100 Q100 108 86 124"/>
+          <path d="M177 100 Q220 108 234 124"/>
+          <!-- Arms -->
+          <path d="M86 124 Q78 160 80 196 Q82 220 85 240"/>
+          <path d="M234 124 Q242 160 240 196 Q238 220 235 240"/>
+          <!-- Torso sides -->
+          <path d="M86 124 Q82 148 84 168 Q86 188 90 200"/>
+          <path d="M234 124 Q238 148 236 168 Q234 188 230 200"/>
+          <!-- Waist -->
+          <path d="M90 200 Q120 210 160 212 Q200 210 230 200"/>
+          <!-- Hip flare -->
+          <path d="M90 200 Q82 228 80 252"/>
+          <path d="M230 200 Q238 228 240 252"/>
+          <path d="M80 252 Q84 260 90 264"/>
+          <path d="M240 252 Q236 260 230 264"/>
+          <!-- Crotch -->
+          <path d="M90 264 Q120 278 160 282 Q200 278 230 264"/>
+          <!-- Legs -->
+          <path d="M90 264 Q86 300 84 340 Q82 380 84 420"/>
+          <path d="M230 264 Q234 300 236 340 Q238 380 236 420"/>
+          <path d="M160 282 Q155 320 154 360 Q152 390 154 420"/>
+          <path d="M160 282 Q165 320 166 360 Q168 390 166 420"/>
+          <!-- Feet -->
+          <path d="M84 420 Q80 430 78 436 Q90 440 100 436"/>
+          <path d="M236 420 Q240 430 242 436 Q230 440 220 436"/>
+          <path d="M154 420 Q150 432 148 438 Q160 442 172 438 Q170 432 166 420"/>
+
+          <!-- Measurement A: Bust -->
+          <line x1="52" y1="148" x2="268" y2="148" stroke="#B89372" stroke-dasharray="4 3" opacity="0.6"/>
+          <circle cx="52" cy="148" r="3" fill="#B89372" stroke="none"/>
+          <circle cx="268" cy="148" r="3" fill="#B89372" stroke="none"/>
+          <text x="36" y="152" font-family="DM Sans, sans-serif" font-size="9" fill="#B89372" font-weight="500" text-anchor="middle">A</text>
+
+          <!-- Measurement B: Waist -->
+          <line x1="62" y1="202" x2="258" y2="202" stroke="#B89372" stroke-dasharray="4 3" opacity="0.6"/>
+          <circle cx="62" cy="202" r="3" fill="#B89372" stroke="none"/>
+          <circle cx="258" cy="202" r="3" fill="#B89372" stroke="none"/>
+          <text x="46" y="206" font-family="DM Sans, sans-serif" font-size="9" fill="#B89372" font-weight="500" text-anchor="middle">B</text>
+
+          <!-- Measurement C: Hip -->
+          <line x1="52" y1="248" x2="268" y2="248" stroke="#B89372" stroke-dasharray="4 3" opacity="0.6"/>
+          <circle cx="52" cy="248" r="3" fill="#B89372" stroke="none"/>
+          <circle cx="268" cy="248" r="3" fill="#B89372" stroke="none"/>
+          <text x="36" y="252" font-family="DM Sans, sans-serif" font-size="9" fill="#B89372" font-weight="500" text-anchor="middle">C</text>
+
+          <!-- Measurement D: Inseam -->
+          <line x1="268" y1="282" x2="268" y2="420" stroke="#B89372" stroke-dasharray="4 3" opacity="0.6"/>
+          <circle cx="268" cy="282" r="3" fill="#B89372" stroke="none"/>
+          <circle cx="268" cy="420" r="3" fill="#B89372" stroke="none"/>
+          <text x="284" y="354" font-family="DM Sans, sans-serif" font-size="9" fill="#B89372" font-weight="500" text-anchor="middle">D</text>
+        </svg>
+      </figure>
+
+      <!-- Steps -->
+      <div class="sg-steps">
+        <div class="sg-step">
+          <div class="sg-step-num">A</div>
+          <div>
+            <h3 class="sg-step-title">Across the <em>bust</em></h3>
+            <p class="sg-step-body">{{ section.settings.step_a | default: 'Measure around the fullest part of your chest, keeping the tape parallel to the floor. Arms relaxed at your sides.' }}</p>
+          </div>
+        </div>
+        <div class="sg-step">
+          <div class="sg-step-num">B</div>
+          <div>
+            <h3 class="sg-step-title">The natural <em>waist</em></h3>
+            <p class="sg-step-body">{{ section.settings.step_b | default: 'Find the narrowest point of your torso — usually an inch above the navel. Measure there, not at the hip bone.' }}</p>
+          </div>
+        </div>
+        <div class="sg-step">
+          <div class="sg-step-num">C</div>
+          <div>
+            <h3 class="sg-step-title">Around the <em>hip</em></h3>
+            <p class="sg-step-body">{{ section.settings.step_c | default: 'Stand with feet together. Measure around the widest part of your hips and seat, about 8 inches below the waist.' }}</p>
+          </div>
+        </div>
+        <div class="sg-step">
+          <div class="sg-step-num">D</div>
+          <div>
+            <h3 class="sg-step-title">The <em>inseam</em></h3>
+            <p class="sg-step-body">{{ section.settings.step_d | default: 'From the crotch seam to the ankle bone, along the inner leg. Measure a pair of trousers that fit well, or ask a friend.' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Size Table ─────────────────────────────────── -->
+<section class="sg-table-section" id="sg-table">
+  <div class="sg-container">
+    <div class="sg-table-header">
+      <div class="sg-eyebrow">Size Table</div>
+      <p class="sg-table-note">{{ section.settings.table_note | default: 'VELA sizes run true. The row marked › is what most customers of that build choose — but every body is its own.' }}</p>
+    </div>
+
+    <!-- Women -->
+    <div class="sg-table-wrap" data-panel="women">
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Bust</th>
+            <th>Waist</th>
+            <th>Hip</th>
+            <th>Shoulder</th>
+            <th>Sleeve</th>
+            <th>UK / EU</th>
+          </tr>
+        </thead>
+        <tbody data-unit-body="in">
+          <tr><td class="sg-size-cell">XS <span>00</span></td><td>32"</td><td>24"</td><td>34"</td><td>14.5"</td><td>23"</td><td>4 / 32</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">S <span>02</span></td><td>33.5"</td><td>25.5"</td><td>35.5"</td><td>15"</td><td>23.25"</td><td>6 / 34</td></tr>
+          <tr><td class="sg-size-cell">M <span>04</span></td><td>35"</td><td>27"</td><td>37"</td><td>15.5"</td><td>23.5"</td><td>8 / 36</td></tr>
+          <tr><td class="sg-size-cell">L <span>06</span></td><td>36.5"</td><td>28.5"</td><td>38.5"</td><td>16"</td><td>23.75"</td><td>10 / 38</td></tr>
+          <tr><td class="sg-size-cell">XL <span>08</span></td><td>38.5"</td><td>30.5"</td><td>40.5"</td><td>16.5"</td><td>24"</td><td>12 / 40</td></tr>
+          <tr><td class="sg-size-cell">XXL <span>10</span></td><td>41"</td><td>33"</td><td>43"</td><td>17"</td><td>24.25"</td><td>14 / 42</td></tr>
+          <tr><td class="sg-size-cell">3XL <span>12</span></td><td>43.5"</td><td>35.5"</td><td>45.5"</td><td>17.5"</td><td>24.5"</td><td>16 / 44</td></tr>
+        </tbody>
+        <tbody data-unit-body="cm" hidden>
+          <tr><td class="sg-size-cell">XS <span>00</span></td><td>81 cm</td><td>61 cm</td><td>86 cm</td><td>37 cm</td><td>58.5 cm</td><td>4 / 32</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">S <span>02</span></td><td>85 cm</td><td>65 cm</td><td>90 cm</td><td>38 cm</td><td>59 cm</td><td>6 / 34</td></tr>
+          <tr><td class="sg-size-cell">M <span>04</span></td><td>89 cm</td><td>68.5 cm</td><td>94 cm</td><td>39.5 cm</td><td>59.5 cm</td><td>8 / 36</td></tr>
+          <tr><td class="sg-size-cell">L <span>06</span></td><td>93 cm</td><td>72.5 cm</td><td>98 cm</td><td>40.5 cm</td><td>60.5 cm</td><td>10 / 38</td></tr>
+          <tr><td class="sg-size-cell">XL <span>08</span></td><td>98 cm</td><td>77.5 cm</td><td>103 cm</td><td>42 cm</td><td>61 cm</td><td>12 / 40</td></tr>
+          <tr><td class="sg-size-cell">XXL <span>10</span></td><td>104 cm</td><td>84 cm</td><td>109 cm</td><td>43 cm</td><td>61.5 cm</td><td>14 / 42</td></tr>
+          <tr><td class="sg-size-cell">3XL <span>12</span></td><td>110.5 cm</td><td>90 cm</td><td>115.5 cm</td><td>44.5 cm</td><td>62 cm</td><td>16 / 44</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Men -->
+    <div class="sg-table-wrap" data-panel="men" hidden>
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Chest</th>
+            <th>Waist</th>
+            <th>Hip</th>
+            <th>Shoulder</th>
+            <th>Sleeve</th>
+            <th>EU / UK</th>
+          </tr>
+        </thead>
+        <tbody data-unit-body="in">
+          <tr><td class="sg-size-cell">XS</td><td>34"</td><td>28"</td><td>34"</td><td>16.5"</td><td>31.5"</td><td>44 / 34</td></tr>
+          <tr><td class="sg-size-cell">S</td><td>36"</td><td>30"</td><td>36"</td><td>17"</td><td>32"</td><td>46 / 36</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">M</td><td>38"</td><td>32"</td><td>38"</td><td>17.5"</td><td>32.5"</td><td>48 / 38</td></tr>
+          <tr><td class="sg-size-cell">L</td><td>40"</td><td>34"</td><td>40"</td><td>18"</td><td>33"</td><td>50 / 40</td></tr>
+          <tr><td class="sg-size-cell">XL</td><td>42"</td><td>36"</td><td>42"</td><td>18.5"</td><td>33.5"</td><td>52 / 42</td></tr>
+          <tr><td class="sg-size-cell">XXL</td><td>44"</td><td>38"</td><td>44"</td><td>19"</td><td>34"</td><td>54 / 44</td></tr>
+        </tbody>
+        <tbody data-unit-body="cm" hidden>
+          <tr><td class="sg-size-cell">XS</td><td>86 cm</td><td>71 cm</td><td>86 cm</td><td>42 cm</td><td>80 cm</td><td>44 / 34</td></tr>
+          <tr><td class="sg-size-cell">S</td><td>91 cm</td><td>76 cm</td><td>91 cm</td><td>43 cm</td><td>81.5 cm</td><td>46 / 36</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">M</td><td>97 cm</td><td>81 cm</td><td>97 cm</td><td>44.5 cm</td><td>82.5 cm</td><td>48 / 38</td></tr>
+          <tr><td class="sg-size-cell">L</td><td>102 cm</td><td>86 cm</td><td>102 cm</td><td>45.5 cm</td><td>84 cm</td><td>50 / 40</td></tr>
+          <tr><td class="sg-size-cell">XL</td><td>107 cm</td><td>91 cm</td><td>107 cm</td><td>47 cm</td><td>85 cm</td><td>52 / 42</td></tr>
+          <tr><td class="sg-size-cell">XXL</td><td>112 cm</td><td>97 cm</td><td>112 cm</td><td>48 cm</td><td>86.5 cm</td><td>54 / 44</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Knitwear -->
+    <div class="sg-table-wrap" data-panel="knitwear" hidden>
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Chest</th>
+            <th>Length</th>
+            <th>Sleeve</th>
+            <th>Build</th>
+            <th>UK / EU</th>
+          </tr>
+        </thead>
+        <tbody data-unit-body="in">
+          <tr><td class="sg-size-cell">XS</td><td>34"</td><td>24"</td><td>23"</td><td>Held</td><td>6–8 / 34–36</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">S</td><td>36"</td><td>25"</td><td>23.5"</td><td>Held</td><td>8–10 / 36–38</td></tr>
+          <tr><td class="sg-size-cell">M</td><td>38"</td><td>25.5"</td><td>24"</td><td>Held / Long</td><td>10–12 / 38–40</td></tr>
+          <tr><td class="sg-size-cell">L</td><td>40"</td><td>26"</td><td>24.5"</td><td>Long</td><td>12–14 / 40–42</td></tr>
+          <tr><td class="sg-size-cell">XL</td><td>43"</td><td>27"</td><td>25"</td><td>Long</td><td>14–16 / 42–44</td></tr>
+        </tbody>
+        <tbody data-unit-body="cm" hidden>
+          <tr><td class="sg-size-cell">XS</td><td>86 cm</td><td>61 cm</td><td>58.5 cm</td><td>Held</td><td>6–8 / 34–36</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">S</td><td>91 cm</td><td>63.5 cm</td><td>59.5 cm</td><td>Held</td><td>8–10 / 36–38</td></tr>
+          <tr><td class="sg-size-cell">M</td><td>97 cm</td><td>65 cm</td><td>61 cm</td><td>Held / Long</td><td>10–12 / 38–40</td></tr>
+          <tr><td class="sg-size-cell">L</td><td>102 cm</td><td>66 cm</td><td>62 cm</td><td>Long</td><td>12–14 / 40–42</td></tr>
+          <tr><td class="sg-size-cell">XL</td><td>109 cm</td><td>68.5 cm</td><td>63.5 cm</td><td>Long</td><td>14–16 / 42–44</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Shoes -->
+    <div class="sg-table-wrap" data-panel="shoes" hidden>
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>UK</th>
+            <th>EU</th>
+            <th>US</th>
+            <th>Foot Length (in)</th>
+            <th>Foot Length (cm)</th>
+          </tr>
+        </thead>
+        <tbody data-unit-body="in">
+          <tr><td class="sg-size-cell">3</td><td>36</td><td>5.5</td><td>8.75"</td><td>22.2 cm</td></tr>
+          <tr><td class="sg-size-cell">4</td><td>37</td><td>6.5</td><td>9.125"</td><td>23.2 cm</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">5</td><td>38</td><td>7.5</td><td>9.5"</td><td>24.1 cm</td></tr>
+          <tr><td class="sg-size-cell">6</td><td>39</td><td>8.5</td><td>9.875"</td><td>25.1 cm</td></tr>
+          <tr><td class="sg-size-cell">7</td><td>40</td><td>9.5</td><td>10.25"</td><td>26 cm</td></tr>
+          <tr><td class="sg-size-cell">8</td><td>41</td><td>10.5</td><td>10.625"</td><td>27 cm</td></tr>
+          <tr><td class="sg-size-cell">9</td><td>42</td><td>11.5</td><td>11"</td><td>27.9 cm</td></tr>
+        </tbody>
+        <tbody data-unit-body="cm" hidden>
+          <tr><td class="sg-size-cell">3</td><td>36</td><td>5.5</td><td>22.2 cm</td><td>22.2 cm</td></tr>
+          <tr><td class="sg-size-cell">4</td><td>37</td><td>6.5</td><td>23.2 cm</td><td>23.2 cm</td></tr>
+          <tr class="sg-recommended"><td class="sg-size-cell">5</td><td>38</td><td>7.5</td><td>24.1 cm</td><td>24.1 cm</td></tr>
+          <tr><td class="sg-size-cell">6</td><td>39</td><td>8.5</td><td>25.1 cm</td><td>25.1 cm</td></tr>
+          <tr><td class="sg-size-cell">7</td><td>40</td><td>9.5</td><td>26 cm</td><td>26 cm</td></tr>
+          <tr><td class="sg-size-cell">8</td><td>41</td><td>10.5</td><td>27 cm</td><td>27 cm</td></tr>
+          <tr><td class="sg-size-cell">9</td><td>42</td><td>11.5</td><td>27.9 cm</td><td>27.9 cm</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Fit Philosophy ──────────────────────────────── -->
+<section class="sg-fit" id="sg-fit">
+  <div class="sg-fit-copy">
+    <div class="sg-container">
+      <div class="sg-eyebrow sg-eyebrow--light">Fit Philosophy</div>
+      <h2 class="sg-section-heading sg-section-heading--light">{{ section.settings.fit_heading | default: 'We cut to the body, <em>not the rack.</em>' }}</h2>
+      <dl class="sg-fit-pairs">
+        <div class="sg-fit-pair">
+          <dt>Tailoring</dt>
+          <dd>{{ section.settings.fit_tailoring | default: 'Take your natural size. Linen jackets soften with wear and ease half a size within a season.' }}</dd>
+        </div>
+        <div class="sg-fit-pair">
+          <dt>Linen</dt>
+          <dd>{{ section.settings.fit_linen | default: 'Size down for closer, up for considered. The cloth relaxes; the cut does not.' }}</dd>
+        </div>
+        <div class="sg-fit-pair">
+          <dt>Knitwear</dt>
+          <dd>{{ section.settings.fit_knitwear | default: 'Two builds: Held (close) and Long (relaxed). Held runs true; Long is meant oversized.' }}</dd>
+        </div>
+        <div class="sg-fit-pair">
+          <dt>Trousers</dt>
+          <dd>{{ section.settings.fit_trousers | default: 'The waist is true; the rise is generous. We can take in the waist for free, in-studio.' }}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+  <div class="sg-fit-media">
+    {%- if section.settings.fit_image -%}
+      <img
+        src="{{ section.settings.fit_image | image_url: width: 900 }}"
+        alt="{{ section.settings.fit_image.alt | default: 'Fit' | escape }}"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div class="sg-fit-media-placeholder"></div>
+    {%- endif -%}
+  </div>
+</section>
+
+<!-- ── FAQ ────────────────────────────────────────── -->
+<section class="sg-faq" id="sg-faq">
+  <div class="sg-container">
+    <div class="sg-faq-head">
+      <div>
+        <div class="sg-eyebrow">Questions</div>
+        <h2 class="sg-section-heading">{{ section.settings.faq_heading | default: "Eight things you've <em>asked.</em>" }}</h2>
+      </div>
+      <div class="sg-faq-list">
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">01</span><span class="sg-faq-q">I&#8217;m between two sizes &#8212; which do I take?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>For tailoring and trousers, size down &#8212; the cut is generous and tailors better. For knitwear, size up for the intended look. When in doubt, email us with your measurements and we will advise.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">02</span><span class="sg-faq-q">Will the linen shrink after the first wash?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Linen relaxes slightly with washing &#8212; typically 3&#8211;5% on the first cold wash. We account for this in our patterns. Follow the care label: cool water, line dry.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">03</span><span class="sg-faq-q">Do you offer alterations?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Yes. Waist adjustments on trousers are free in-studio. Hem shortening is charged at cost. Email studio@vela.com to arrange.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">04</span><span class="sg-faq-q">Are returns possible if it does not fit?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Yes &#8212; within 30 days of delivery in original condition. We send a prepaid label. See our <a href="/pages/returns">Returns page</a> for full details.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">05</span><span class="sg-faq-q">How does VELA sizing compare to other houses?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>We size to the body, not the rack. Our measurements are generous relative to most contemporary labels &#8212; customers who wear a 10 elsewhere typically find a VELA 8 fits well. When in doubt, measure.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">06</span><span class="sg-faq-q">Do you make sizes beyond 3XL?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Our standard range runs to 3XL (UK 16). Made-to-measure is available for sizes outside the range &#8212; email us to discuss.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">07</span><span class="sg-faq-q">Can I be measured in-store?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>Yes. We offer fitting appointments at our Copenhagen studio. We measure, photograph each fit, and keep a size card on file for future seasons. Book below.</p></div></details>
+          <details class="sg-faq-item"><summary class="sg-faq-summary"><span class="sg-faq-num">08</span><span class="sg-faq-q">What if the size still is not right?</span><span class="sg-faq-icon" aria-hidden="true"></span></summary><div class="sg-faq-answer"><p>We will sort it. Email studio@vela.com with photos and your measurements. We have yet to encounter a fit problem we could not resolve.</p></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Appointment CTA ─────────────────────────────── -->
+<section class="sg-appointment" id="sg-appointment">
+  <div class="sg-container">
+    <div class="sg-appt-card">
+      <div class="sg-appt-copy">
+        <div class="sg-eyebrow">Try It On</div>
+        <h2 class="sg-section-heading">{{ section.settings.appt_heading | default: 'Or, come to the <em>studio.</em>' }}</h2>
+        <p class="sg-appt-body">{{ section.settings.appt_body | default: 'Forty minutes, by appointment. We measure, photograph each fit, and post you a size card — kept on file for next season.' }}</p>
+        <div class="sg-appt-actions">
+          <a href="{{ section.settings.appt_primary_url | default: '/pages/contact' }}" class="sg-appt-btn sg-appt-btn--solid">
+            {{ section.settings.appt_primary_label | default: 'Book a Fitting →' }}
+          </a>
+          <a href="mailto:studio@vela.com" class="sg-appt-btn">
+            {{ section.settings.appt_secondary_label | default: 'Write to the Studio' }}
+          </a>
+        </div>
+      </div>
+      <div class="sg-appt-meta">
+        <div class="sg-appt-row">
+          <span class="sg-appt-key">Address</span>
+          <span class="sg-appt-val">{{ section.settings.appt_address | default: 'Vesterbrogade 14, Copenhagen' }}</span>
+        </div>
+        <div class="sg-appt-row">
+          <span class="sg-appt-key">Hours</span>
+          <span class="sg-appt-val">{{ section.settings.appt_hours | default: 'Wed–Sat · by appointment' }}</span>
+        </div>
+        <div class="sg-appt-row">
+          <span class="sg-appt-key">Service</span>
+          <span class="sg-appt-val">{{ section.settings.appt_service | default: 'Fittings · Mending · Made-to-measure' }}</span>
+        </div>
+        <div class="sg-appt-row">
+          <span class="sg-appt-key">Fee</span>
+          <span class="sg-appt-val">{{ section.settings.appt_fee | default: 'None.' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  // Unit toggle
+  var unitBtns = document.querySelectorAll('.sg-unit-btn');
+  unitBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var unit = btn.dataset.unit;
+      unitBtns.forEach(function(b) {
+        b.classList.toggle('is-active', b.dataset.unit === unit);
+        b.setAttribute('aria-pressed', b.dataset.unit === unit ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-unit-body]').forEach(function(tbody) {
+        tbody.hidden = tbody.dataset.unitBody !== unit;
+      });
+    });
+  });
+
+  // Category tabs
+  var tabs = document.querySelectorAll('.sg-tab');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var panel = tab.dataset.tab;
+      tabs.forEach(function(t) {
+        t.classList.toggle('is-active', t.dataset.tab === panel);
+        t.setAttribute('aria-selected', t.dataset.tab === panel ? 'true' : 'false');
+      });
+      document.querySelectorAll('[data-panel]').forEach(function(el) {
+        el.hidden = el.dataset.panel !== panel;
+      });
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Size Guide",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Intro"
+    },
+    {
+      "type": "text",
+      "id": "intro_heading",
+      "label": "Heading",
+      "default": "The right cut, kept for many years."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_lede",
+      "label": "Lede",
+      "default": "Our patterns are drafted to the body, not the warehouse. Use the measurements below as a starting point — and if between sizes, size down for closer, up for considered."
+    },
+    {
+      "type": "header",
+      "content": "How to Measure"
+    },
+    {
+      "type": "text",
+      "id": "measure_heading",
+      "label": "Heading",
+      "default": "A tape, a friend, and three minutes."
+    },
+    {
+      "type": "textarea",
+      "id": "measure_intro",
+      "label": "Intro",
+      "default": "Measurements are taken over light clothing, with the tape held snug but not pulled tight. Stand naturally — knees soft, weight even."
+    },
+    {
+      "type": "textarea",
+      "id": "step_a",
+      "label": "Step A — Bust",
+      "default": "Measure around the fullest part of your chest, keeping the tape parallel to the floor. Arms relaxed at your sides."
+    },
+    {
+      "type": "textarea",
+      "id": "step_b",
+      "label": "Step B — Waist",
+      "default": "Find the narrowest point of your torso — usually an inch above the navel. Measure there, not at the hip bone."
+    },
+    {
+      "type": "textarea",
+      "id": "step_c",
+      "label": "Step C — Hip",
+      "default": "Stand with feet together. Measure around the widest part of your hips and seat, about 8 inches below the waist."
+    },
+    {
+      "type": "textarea",
+      "id": "step_d",
+      "label": "Step D — Inseam",
+      "default": "From the crotch seam to the ankle bone, along the inner leg. Measure a pair of trousers that fit well, or ask a friend."
+    },
+    {
+      "type": "header",
+      "content": "Size Table"
+    },
+    {
+      "type": "textarea",
+      "id": "table_note",
+      "label": "Table note",
+      "default": "VELA sizes run true. The row marked is what most customers of that build choose — but every body is its own."
+    },
+    {
+      "type": "header",
+      "content": "Fit Philosophy"
+    },
+    {
+      "type": "text",
+      "id": "fit_heading",
+      "label": "Heading",
+      "default": "We cut to the body, not the rack."
+    },
+    {
+      "type": "textarea",
+      "id": "fit_tailoring",
+      "label": "Tailoring note",
+      "default": "Take your natural size. Linen jackets soften with wear and ease half a size within a season."
+    },
+    {
+      "type": "textarea",
+      "id": "fit_linen",
+      "label": "Linen note",
+      "default": "Size down for closer, up for considered. The cloth relaxes; the cut does not."
+    },
+    {
+      "type": "textarea",
+      "id": "fit_knitwear",
+      "label": "Knitwear note",
+      "default": "Two builds: Held (close) and Long (relaxed). Held runs true; Long is meant oversized."
+    },
+    {
+      "type": "textarea",
+      "id": "fit_trousers",
+      "label": "Trousers note",
+      "default": "The waist is true; the rise is generous. We can take in the waist for free, in-studio."
+    },
+    {
+      "type": "image_picker",
+      "id": "fit_image",
+      "label": "Fit image (right panel)"
+    },
+    {
+      "type": "header",
+      "content": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "Heading",
+      "default": "Eight things you have asked."
+    },
+    {
+      "type": "header",
+      "content": "Appointment CTA"
+    },
+    {
+      "type": "text",
+      "id": "appt_heading",
+      "label": "Heading",
+      "default": "Or, come to the studio."
+    },
+    {
+      "type": "textarea",
+      "id": "appt_body",
+      "label": "Body",
+      "default": "Forty minutes, by appointment. We measure, photograph each fit, and post you a size card — kept on file for next season."
+    },
+    {
+      "type": "url",
+      "id": "appt_primary_url",
+      "label": "Book a fitting URL"
+    },
+    {
+      "type": "text",
+      "id": "appt_primary_label",
+      "label": "Primary button label",
+      "default": "Book a Fitting"
+    },
+    {
+      "type": "text",
+      "id": "appt_secondary_label",
+      "label": "Secondary button label",
+      "default": "Write to the Studio"
+    },
+    {
+      "type": "text",
+      "id": "appt_address",
+      "label": "Address",
+      "default": "Vesterbrogade 14, Copenhagen"
+    },
+    {
+      "type": "text",
+      "id": "appt_hours",
+      "label": "Hours",
+      "default": "Wed–Sat · by appointment"
+    },
+    {
+      "type": "text",
+      "id": "appt_service",
+      "label": "Service",
+      "default": "Fittings · Mending · Made-to-measure"
+    },
+    {
+      "type": "text",
+      "id": "appt_fee",
+      "label": "Fee",
+      "default": "None."
+    }
+  ]
+}
+{% endschema %}

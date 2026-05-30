@@ -1,0 +1,235 @@
+<!-- Footer — mobile accordion + desktop 5-col grid -->
+<footer class="site-footer" role="contentinfo">
+
+  <!-- Desktop 5-col grid (hidden mobile) -->
+  <div class="footer-desktop-grid">
+    <!-- Brand col -->
+    <div>
+      <div class="footer-brand-logo">VELA</div>
+      <div style="font-size:10px; letter-spacing:0.4em; text-transform:uppercase; color:var(--clay); margin-bottom:28px;">Studio</div>
+      <p class="footer-brand-quote">"Restraint, not refusal. A wardrobe of twelve, for the woman who has already decided."</p>
+      <div class="footer-social-icons">
+        {%- if settings.social_instagram != blank -%}
+          <a href="{{ settings.social_instagram }}" class="footer-social-icon" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".8" fill="currentColor"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if settings.social_pinterest != blank -%}
+          <a href="{{ settings.social_pinterest }}" class="footer-social-icon" target="_blank" rel="noopener" aria-label="Pinterest">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10.5 21 13 12m-1.2-.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if settings.social_tiktok != blank -%}
+          <a href="{{ settings.social_tiktok }}" class="footer-social-icon" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 2.5 2.5 4.5 5 5"/></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+    <!-- Link columns -->
+    {%- assign footer_col_data = 'Shop|footer_menu_1|footer_title_1,Studio|footer_menu_2|footer_title_2,Care|footer_menu_3|footer_title_3,Account|footer_menu_4|footer_title_4' | split: ',' -%}
+    {%- for col in footer_col_data -%}
+      {%- assign col_parts = col | split: '|' -%}
+      {%- assign col_default_title = col_parts[0] -%}
+      {%- assign col_menu_id = col_parts[1] -%}
+      {%- assign col_title_id = col_parts[2] -%}
+      {%- assign col_menu_handle = section.settings[col_menu_id] -%}
+      {%- assign col_links = linklists[col_menu_handle].links -%}
+      <div>
+        <div class="footer-desktop-col-title">{{ section.settings[col_title_id] | default: col_default_title }}</div>
+        <div class="footer-desktop-links">
+          {%- if col_links.size > 0 -%}
+            {%- for link in col_links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          {%- elsif col_default_title == 'Shop' -%}
+            <a href="/collections/new-in">New In</a>
+            <a href="/collections/dresses">Dresses</a>
+            <a href="/collections/knitwear">Knitwear</a>
+            <a href="/collections/outerwear">Outerwear</a>
+            <a href="/collections/tailoring">Tailoring</a>
+            <a href="/collections/sale">Sale</a>
+          {%- elsif col_default_title == 'Studio' -%}
+            <a href="/pages/our-story">Our Story</a>
+            <a href="/pages/the-atelier">The Atelier</a>
+            <a href="/pages/sustainability">Sustainability</a>
+            <a href="/blogs/journal">Journal</a>
+            <a href="/pages/press">Press</a>
+            <a href="/pages/stockists">Stockists</a>
+          {%- elsif col_default_title == 'Care' -%}
+            <a href="/pages/contact">Contact</a>
+            <a href="/pages/shipping">Shipping</a>
+            <a href="/pages/returns">Returns &amp; Exchanges</a>
+            <a href="/pages/size-guide">Size Guide</a>
+            <a href="/pages/garment-care">Garment Care</a>
+            <a href="/pages/faq">FAQ</a>
+          {%- elsif col_default_title == 'Account' -%}
+            <a href="/account/login">Sign In</a>
+            <a href="/account">Track an Order</a>
+            <a href="/pages/wishlist">Wishlist</a>
+            <a href="/products/gift-card">Gift Cards</a>
+            <a href="/pages/loyalty">The List (Loyalty)</a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <!-- Desktop bottom row -->
+  <div class="footer-bottom-desktop" style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,244,242,0.4);">
+    <div>&copy; {{ 'now' | date: '%Y' }} VELA Studio · All rights reserved</div>
+    <div class="footer-bottom-legal-desktop">
+      {%- for link in linklists[section.settings.legal_menu].links -%}
+        <span onclick="window.location='{{ link.url }}'">{{ link.title }}</span>
+      {%- endfor -%}
+    </div>
+    <div style="letter-spacing:0.1em;text-transform:none;">{{ section.settings.tagline | default: 'Designed in Copenhagen · Made considerately in Italy & Portugal' }}</div>
+  </div>
+
+  <!-- Mobile-only content (hidden on desktop via CSS) -->
+  <div class="footer-mobile-only">
+    <!-- Mobile: brand wordmark -->
+    <div style="text-align:center; margin-bottom: 6px;">
+      <div class="footer-brand-logo">VELA</div>
+      <div style="font-size:9px; letter-spacing:0.32em; text-transform:uppercase; color:var(--clay);">Studio</div>
+    </div>
+
+    <!-- Mobile: accordion columns -->
+    <div class="footer-accordion" style="margin-top:36px;">
+      {%- for i in (1..3) -%}
+        {%- assign menu_setting = 'footer_menu_' | append: i -%}
+        {%- assign title_setting = 'footer_title_' | append: i -%}
+        {%- if section.settings[menu_setting] != blank -%}
+          <details>
+            <summary>
+              {{ section.settings[title_setting] | default: 'Shop' }}
+              <span class="footer-acc-icon">+</span>
+            </summary>
+            <ul>
+              {%- for link in linklists[section.settings[menu_setting]].links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Social icons -->
+    <div style="border-top:1px solid rgba(245,244,242,0.1); margin-top:24px; padding-top:24px; display:flex; justify-content:center; gap:18px;">
+      {%- if settings.social_instagram != blank -%}
+        <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram" style="color:rgba(245,244,242,0.5);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r=".8" fill="currentColor"/>
+          </svg>
+        </a>
+      {%- endif -%}
+      {%- if settings.social_pinterest != blank -%}
+        <a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener" aria-label="Pinterest" style="color:rgba(245,244,242,0.5);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/><path d="M10.5 21 13 12m-1.2-.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z"/>
+          </svg>
+        </a>
+      {%- endif -%}
+      {%- if settings.social_tiktok != blank -%}
+        <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="TikTok" style="color:rgba(245,244,242,0.5);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 4v10.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 2.5 2.5 4.5 5 5"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <!-- Legal + copyright -->
+    <div style="text-align:center; margin-top:20px;">
+      <div style="font-size:9px; line-height:1.7; letter-spacing:0.18em; text-transform:uppercase; color:rgba(245,244,242,0.3);">
+        &copy; {{ 'now' | date: '%Y' }} VELA Studio
+        {%- for link in linklists[section.settings.legal_menu].links -%}
+          &nbsp;&middot;&nbsp;<a href="{{ link.url }}" style="color:inherit;">{{ link.title }}</a>
+        {%- endfor -%}
+      </div>
+      <div style="margin-top:4px; font-size:10px; letter-spacing:0.1em; color:rgba(245,244,242,0.2);">
+        {{ section.settings.tagline | default: 'Designed with intention · Made considerately' }}
+      </div>
+    </div>
+
+    <!-- Payment icons -->
+    <div style="display:flex; justify-content:center; gap:8px; margin-top:20px; opacity:0.3; filter:brightness(10);">
+      {%- for type in shop.enabled_payment_types -%}
+        {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+      {%- endfor -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Menu Columns"
+    },
+    {
+      "type": "text",
+      "id": "footer_title_1",
+      "label": "Column 1 title",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_1",
+      "label": "Column 1 menu"
+    },
+    {
+      "type": "text",
+      "id": "footer_title_2",
+      "label": "Column 2 title",
+      "default": "Studio"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_2",
+      "label": "Column 2 menu"
+    },
+    {
+      "type": "text",
+      "id": "footer_title_3",
+      "label": "Column 3 title",
+      "default": "Help"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_3",
+      "label": "Column 3 menu"
+    },
+    {
+      "type": "text",
+      "id": "footer_title_4",
+      "label": "Column 4 title",
+      "default": "Legal"
+    },
+    {
+      "type": "link_list",
+      "id": "footer_menu_4",
+      "label": "Column 4 menu"
+    },
+    {
+      "type": "header",
+      "content": "Legal"
+    },
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Legal links menu"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Footer tagline",
+      "default": "Designed in Copenhagen · Made considerately in Italy & Portugal"
+    }
+  ]
+}
+{% endschema %}

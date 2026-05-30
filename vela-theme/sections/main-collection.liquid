@@ -1,0 +1,169 @@
+{%- paginate collection.products by section.settings.products_per_page -%}
+
+<!-- Collection Header — stone bg, centered, matches JSX VCollection -->
+<div class="collection-header">
+  <div class="collection-header-eyebrow fade-up">Shop · {{ collection.title }}</div>
+  <h1 class="collection-header-title fade-up">{{ collection.title }}</h1>
+  {%- if collection.description != blank -%}
+    <p class="collection-header-desc fade-up">{{ collection.description | strip_html }}</p>
+  {%- endif -%}
+  <div class="collection-header-rule fade-up" aria-hidden="true"></div>
+  <div class="collection-header-count fade-up">
+    {{ collection.products_count }} pieces
+    {%- if section.settings.materials != blank -%} · {{ section.settings.materials }}{%- endif -%}
+  </div>
+</div>
+
+<!-- Toolbar (sticky) -->
+<div class="collection-toolbar">
+  <span class="collection-count">
+    {{ collection.products_count }} products
+  </span>
+  <div class="collection-filter-sort">
+    <button class="filter-sort-btn" aria-label="Filter products">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M1 3h10M3 6h6M5 9h2"/>
+      </svg>
+      Filter
+      {%- if section.settings.show_filter_badge -%}
+        <span class="filter-badge">{{ section.settings.filter_count | default: 0 }}</span>
+      {%- endif -%}
+    </button>
+    <button class="filter-sort-btn" aria-label="Sort products">
+      Sort · Newest
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Product Grid -->
+<div class="collection-products">
+  <div class="collection-grid collection-grid--mixed">
+    {%- assign feature_interval = section.settings.feature_interval | default: 5 | minus: 1 -%}
+    {%- for product in collection.products -%}
+      {%- if forloop.index0 == feature_interval -%}
+        <!-- Feature tile interrupts flow (JSX: FeatureTile + EditorialCard pattern) -->
+        <div class="collection-feature-tile fade-up">
+          <div class="collection-feature-tile-inner">
+            <p class="collection-feature-label">{{ section.settings.feature_label | default: 'The Edit' }}</p>
+            <p class="collection-feature-text">{{ section.settings.feature_quote | default: 'Pieces that move with the rhythm of your life.' }}</p>
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if forloop.index0 == 9 and section.settings.show_quote_block -%}
+        <!-- Quote block (JSX: QuoteBlock) -->
+        <div class="collection-feature-tile fade-up" style="background: var(--ink);">
+          <div class="collection-feature-tile-inner" style="text-align: center;">
+            <div style="font-family: var(--font-heading); font-size: clamp(40px,10vw,56px); color: var(--clay); opacity:0.7; line-height:0.6; margin-bottom:10px;">"</div>
+            <p style="font-family: var(--font-heading); font-style: italic; font-size: clamp(16px,3.5vw,19px); font-weight:300; color: var(--stone); margin: 0 auto; max-width: 260px; line-height:1.45;">{{ section.settings.quote_text | default: 'The kind of clothes that survive being packed badly.' }}</p>
+            <div style="font-size:9px; letter-spacing:0.32em; text-transform:uppercase; color:rgba(245,244,242,0.5); margin-top:16px;">{{ section.settings.quote_attr | default: 'VELA Studio' }}</div>
+          </div>
+        </div>
+      {%- endif -%}
+      {% render 'product-card', product: product %}
+    {%- else -%}
+      <p style="grid-column: 1/-1; padding: 40px 0; text-align:center; color: var(--ash); font-family: var(--font-heading); font-style:italic; font-size:20px;">
+        No products in this collection yet.
+      </p>
+    {%- endfor -%}
+  </div>
+
+  <!-- Load more / Pagination -->
+  {%- if paginate.pages > 1 -%}
+    <div style="padding:8px 24px 64px; text-align:center;">
+      <div style="font-size:11px; color:var(--ash); letter-spacing:0.06em; margin-bottom:18px;">
+        Showing {{ collection.products | size }} of {{ collection.products_count }}
+      </div>
+      <div style="width:60%; height:1px; background:rgba(26,26,26,0.08); margin:0 auto 18px; position:relative;">
+        <div style="position:absolute; left:0; top:0; height:1px; width:{{ paginate.current_page | times: 100 | divided_by: paginate.pages }}%; background:var(--clay);"></div>
+      </div>
+      <nav class="pagination" aria-label="Pagination">
+        {%- if paginate.previous -%}
+          <a href="{{ paginate.previous.url }}" class="pagination-link" aria-label="Previous page">←</a>
+        {%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}" class="pagination-link">{{ part.title }}</a>
+          {%- else -%}
+            <span class="pagination-link active" aria-current="page">{{ part.title }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}
+          <a href="{{ paginate.next.url }}" class="pagination-link" aria-label="Next page">→</a>
+        {%- endif -%}
+      </nav>
+    </div>
+  {%- endif -%}
+</div>
+
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Main Collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "label": "Products per page",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "materials",
+      "label": "Materials subtitle (e.g. Linen, Silk, Wool)",
+      "default": "Linen, Silk, Wool, Cashmere"
+    },
+    {
+      "type": "range",
+      "id": "feature_interval",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "label": "Feature tile after product #",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "feature_label",
+      "label": "Feature tile label",
+      "default": "The Edit"
+    },
+    {
+      "type": "textarea",
+      "id": "feature_quote",
+      "label": "Feature tile quote",
+      "default": "Pieces that move with the rhythm of your life."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quote_block",
+      "label": "Show quote block at product #10",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote text",
+      "default": "The kind of clothes that survive being packed badly."
+    },
+    {
+      "type": "text",
+      "id": "quote_attr",
+      "label": "Quote attribution",
+      "default": "Resort 26 · VELA Studio"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter_badge",
+      "label": "Show active filter count badge",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

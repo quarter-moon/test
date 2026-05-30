@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>VELA Studio — Storefront Design</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; color: #1A1A1A; font-family: 'DM Sans', system-ui, sans-serif; }
+  * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+  /* Hide scrollbars inside the mobile artboards but keep scroll for inner horizontal strips */
+  .dc-card *::-webkit-scrollbar { display: none; }
+  .dc-card * { scrollbar-width: none; }
+  /* Pretty image renderer */
+  .vela-app img { display: block; max-width: 100%; }
+  /* Buttons reset */
+  button { font-family: inherit; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="vela-shared.jsx"></script>
+<script type="text/babel" src="vela-home.jsx"></script>
+<script type="text/babel" src="vela-collection.jsx"></script>
+<script type="text/babel" src="vela-product.jsx"></script>
+<script type="text/babel" src="vela-blog.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "palette": "default",
+  "dark": false,
+  "display": "cormorant",
+  "hero": "cinematic",
+  "density": "mixed"
+}/*EDITMODE-END*/;
+
+const PAGE_DIMS = {
+  home:       { w: 390, h: 5180 },
+  collection: { w: 390, h: 6000 },
+  product:    { w: 390, h: 5800 },
+  blog:       { w: 390, h: 4640 },
+};
+
+// PageHost wraps a single mobile artboard. It owns local "which page is shown"
+// state so internal CTAs (header logo, "Shop all", "Visit journal") feel like
+// real navigation when an artboard is focused fullscreen.
+function PageHost({ initial, palette, display, hero, density }) {
+  const [page, setPage] = React.useState(initial);
+  const onNav = (p) => setPage(p);
+  const shared = { p: palette, display, onNav };
+  return (
+    <div className="vela-app" style={{
+      width: '100%', minHeight: '100%', background: palette.stone,
+      fontFamily: '"DM Sans", system-ui, sans-serif',
+      WebkitFontSmoothing: 'antialiased',
+    }}>
+      {page === 'home' && <VHome {...shared} heroVariant={hero}/>}
+      {page === 'collection' && <VCollection {...shared} density={density}/>}
+      {page === 'product' && <VProduct {...shared}/>}
+      {page === 'blog' && <VBlog {...shared}/>}
+    </div>
+  );
+}
+
+function VelaApp() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  const base = VELA_PALETTES[t.palette] || VELA_PALETTES.default;
+  const palette = t.dark ? { ...base, ...veladark(base) } : base;
+  const display = veladisplay[t.display] || veladisplay.cormorant;
+
+  // Apply background tint to canvas
+  React.useEffect(() => {
+    document.body.style.background = t.dark ? '#0a0a0a' : '#f0eee9';
+  }, [t.dark]);
+
+  return (
+    <>
+      <DesignCanvas>
+        <DCSection id="storefront" title="VELA Studio — Storefront"
+                   subtitle="Mobile-first · Shopify · Resort 26. Click an artboard's ⤢ icon to view fullscreen, then tap the in-page nav to walk the prototype.">
+          <DCArtboard id="home" label="01 · Home"
+                      width={PAGE_DIMS.home.w} height={PAGE_DIMS.home.h}>
+            <PageHost initial="home" palette={palette} display={display} hero={t.hero} density={t.density}/>
+          </DCArtboard>
+          <DCArtboard id="collection" label="02 · Collection"
+                      width={PAGE_DIMS.collection.w} height={PAGE_DIMS.collection.h}>
+            <PageHost initial="collection" palette={palette} display={display} hero={t.hero} density={t.density}/>
+          </DCArtboard>
+          <DCArtboard id="product" label="03 · Product"
+                      width={PAGE_DIMS.product.w} height={PAGE_DIMS.product.h}>
+            <PageHost initial="product" palette={palette} display={display} hero={t.hero} density={t.density}/>
+          </DCArtboard>
+          <DCArtboard id="blog" label="04 · Journal"
+                      width={PAGE_DIMS.blog.w} height={PAGE_DIMS.blog.h}>
+            <PageHost initial="blog" palette={palette} display={display} hero={t.hero} density={t.density}/>
+          </DCArtboard>
+
+          <DCPostIt x={30} y={420} w={210}>
+            <b>Pitch.</b><br/>
+            VELA Studio for Shopify — minimal womenswear, "dressed with intention." Mobile-first; Cormorant Garamond × DM Sans on Ink / Stone / Clay.
+          </DCPostIt>
+          <DCPostIt x={30} y={620} w={210} tone="clay">
+            <b>How to use.</b><br/>
+            • Click ⤢ on any artboard to focus<br/>
+            • In-page nav (Home / Shop / Product / Journal) is wired up<br/>
+            • Open Tweaks (toolbar) for palette, type, hero & grid variants
+          </DCPostIt>
+        </DCSection>
+      </DesignCanvas>
+
+      <TweaksPanel>
+        <TweakSection label="Palette"/>
+        <TweakColor label="Theme" value={t.palette === 'default' ? VELA_PALETTES.default.clay :
+                                          t.palette === 'olive' ? VELA_PALETTES.olive.clay :
+                                          t.palette === 'warm' ? VELA_PALETTES.warm.clay :
+                                          VELA_PALETTES.ice.clay}
+          options={[VELA_PALETTES.default.clay, VELA_PALETTES.olive.clay, VELA_PALETTES.warm.clay, VELA_PALETTES.ice.clay]}
+          onChange={(v) => {
+            const k = v === VELA_PALETTES.default.clay ? 'default'
+                    : v === VELA_PALETTES.olive.clay ? 'olive'
+                    : v === VELA_PALETTES.warm.clay ? 'warm' : 'ice';
+            setTweak('palette', k);
+          }}/>
+        <TweakToggle label="Dark mode" value={t.dark} onChange={(v) => setTweak('dark', v)}/>
+
+        <TweakSection label="Typography"/>
+        <TweakRadio label="Display face" value={t.display}
+          options={['cormorant', 'playfair', 'lora']}
+          onChange={(v) => setTweak('display', v)}/>
+
+        <TweakSection label="Home hero"/>
+        <TweakRadio label="Layout" value={t.hero}
+          options={['cinematic', 'split', 'duotone']}
+          onChange={(v) => setTweak('hero', v)}/>
+
+        <TweakSection label="Collection grid"/>
+        <TweakRadio label="Density" value={t.density}
+          options={['mixed', 'standard', 'spacious']}
+          onChange={(v) => setTweak('density', v)}/>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<VelaApp/>);
+</script>
+
+</body>
+</html>

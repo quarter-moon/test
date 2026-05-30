@@ -1,0 +1,24 @@
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "secondary_menu": "secondary-menu",
+        "transparent": false,
+        "announcement_text": "Resort 26 — New In",
+        "announcement_cta": "Shop Now",
+        "announcement_link": "/collections/new-in",
+        "phone": "Studio +44 207 945 0001",
+        "logo_width": 140,
+        "mega_label_1": "Featured",
+        "mega_title_1": "Resort 26 — The Edit →",
+        "mega_label_2": "Just In",
+        "mega_title_2": "The Brera Trouser →"
+      }
+    }
+  },
+  "order": ["header"]
+}

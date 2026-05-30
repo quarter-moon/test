@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "eyebrow": "VELA Studio",
+        "feature_interval": 5,
+        "feature_label": "The Edit",
+        "feature_quote": "Pieces that move with the rhythm of your life."
+      }
+    }
+  },
+  "order": ["main"]
+}

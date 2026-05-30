@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "vela-size-guide",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

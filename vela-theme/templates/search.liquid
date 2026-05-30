@@ -1,0 +1,35 @@
+{% layout 'theme' %}
+
+<div class="container section">
+  <div style="text-align:center; margin-bottom:48px;">
+    <p class="label-caps" style="margin-bottom:12px;">Search</p>
+    <form action="{{ routes.search_url }}" method="get" style="max-width:480px; margin:0 auto; display:flex; gap:0;">
+      <input type="hidden" name="type" value="product">
+      <input
+        type="text"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="Search VELA..."
+        style="flex:1; border:1px solid var(--pebble); padding:14px 20px; font-size:15px; font-family:var(--font-body); outline:none; background:transparent; color:var(--ink);"
+      >
+      <button type="submit" class="btn btn-dark" style="padding:14px 24px;">→</button>
+    </form>
+  </div>
+
+  {%- if search.performed -%}
+    {%- if search.results_count > 0 -%}
+      <p class="label-caps" style="text-align:center; margin-bottom:32px;">{{ search.results_count }} results for "{{ search.terms }}"</p>
+      <div class="collection-grid">
+        {%- for result in search.results -%}
+          {%- if result.object_type == 'product' -%}
+            {% render 'product-card', product: result %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p style="text-align:center; font-family:var(--font-heading); font-style:italic; font-size:20px; color:var(--ash); padding:40px 0;">
+        No results for "{{ search.terms }}" — try a different search.
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+</div>

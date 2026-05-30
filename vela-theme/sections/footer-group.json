@@ -1,0 +1,19 @@
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "footer": {
+      "type": "site-footer",
+      "settings": {
+        "footer_menu_1": "footer-shop",
+        "footer_menu_2": "footer-studio",
+        "footer_menu_3": "footer-help",
+        "footer_menu_4": "footer-legal",
+        "legal_menu": "footer-legal"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

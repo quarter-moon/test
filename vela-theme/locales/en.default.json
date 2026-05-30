@@ -1,0 +1,128 @@
+{
+  "general": {
+    "search": {
+      "search": "Search",
+      "placeholder": "Search VELA...",
+      "no_results": "No results for \"{{ terms }}\"",
+      "results_with_count": {
+        "one": "{{ count }} result",
+        "other": "{{ count }} results"
+      }
+    },
+    "newsletter": {
+      "label": "Email address",
+      "submit": "Subscribe"
+    },
+    "password_page": {
+      "password_label": "Password",
+      "password_placeholder": "Your password",
+      "submit": "Enter",
+      "error": "Wrong password"
+    },
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Bag",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "on_sale": "Sale",
+      "quantity": {
+        "label": "Quantity"
+      },
+      "size": {
+        "label": "Size"
+      },
+      "color": {
+        "label": "Color"
+      },
+      "description": "Description",
+      "shipping": "Free shipping on orders over $150",
+      "returns": "Easy 30-day returns"
+    },
+    "general": {
+      "view_all": "View All",
+      "from_price_html": "From <span>{{ price }}</span>"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your Bag",
+      "empty": "Your bag is empty",
+      "continue_browsing": "Continue Shopping",
+      "update": "Update",
+      "remove": "Remove",
+      "checkout": "Checkout",
+      "subtotal": "Subtotal",
+      "item": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
+    }
+  },
+  "collections": {
+    "general": {
+      "view_all": "View All",
+      "items_with_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      }
+    }
+  },
+  "blogs": {
+    "general": {
+      "read_more": "Read More",
+      "article_comments": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
+    },
+    "comments": {
+      "title": "Leave a comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "post": "Post Comment",
+      "success": "Your comment was posted.",
+      "moderation": "Your comment is awaiting moderation."
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Sign In",
+      "email": "Email",
+      "password": "Password",
+      "forgot": "Forgot your password?",
+      "submit": "Sign In",
+      "no_account": "Don't have an account?",
+      "sign_up": "Create Account"
+    },
+    "register": {
+      "title": "Create Account",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create Account",
+      "have_account": "Already have an account?",
+      "sign_in": "Sign In"
+    },
+    "account": {
+      "title": "My Account",
+      "details": "Account Details",
+      "orders": "Order History",
+      "sign_out": "Sign Out"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "open_menu": "Open menu",
+    "close_menu": "Close menu",
+    "open_cart": "Open cart",
+    "close_cart": "Close cart",
+    "loading": "Loading"
+  }
+}

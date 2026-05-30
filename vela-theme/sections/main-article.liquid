@@ -1,0 +1,125 @@
+<article itemscope itemtype="https://schema.org/Article">
+  <!-- Article Hero -->
+  <div class="article-hero">
+    {%- if article.image -%}
+      <img
+        src="{{ article.image | image_url: width: 1800 }}"
+        srcset="
+          {{ article.image | image_url: width: 750 }} 750w,
+          {{ article.image | image_url: width: 1200 }} 1200w,
+          {{ article.image | image_url: width: 1800 }} 1800w
+        "
+        sizes="100vw"
+        alt="{{ article.image.alt | escape | default: article.title }}"
+        loading="eager"
+        fetchpriority="high"
+        itemprop="image"
+      >
+    {%- endif -%}
+
+    <div class="article-hero-overlay">
+      <div class="container">
+        <p class="article-hero-meta">
+          {%- if article.tags.size > 0 -%}
+            {{ article.tags | join: ' · ' }} &nbsp;·&nbsp;
+          {%- endif -%}
+          <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" itemprop="datePublished">
+            {{ article.published_at | date: '%B %-d, %Y' }}
+          </time>
+        </p>
+        <h1 class="article-hero-title" itemprop="headline">{{ article.title }}</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- Article Body -->
+  <div class="article-body" itemprop="articleBody">
+    {%- if article.excerpt != blank -%}
+      <p style="font-family: var(--font-heading); font-style: italic; font-size: 20px; color: rgba(26,26,26,0.6); margin-bottom: 32px; line-height: 1.5;">
+        {{ article.excerpt | strip_html }}
+      </p>
+      <hr style="border: none; border-top: 0.5px solid var(--clay); width: 60px; margin: 32px 0;">
+    {%- endif -%}
+
+    {{ article.content }}
+
+    <!-- Author + Tags -->
+    <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--pebble); display:flex; flex-wrap:wrap; gap:16px; justify-content:space-between; align-items:center;">
+      {%- if article.author != blank -%}
+        <p style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--ash);">
+          By {{ article.author }}
+        </p>
+      {%- endif -%}
+      {%- if article.tags.size > 0 -%}
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          {%- for tag in article.tags -%}
+            <a
+              href="{{ blog.url }}/tagged/{{ tag | handle }}"
+              style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ash); border:1px solid var(--pebble); padding:4px 10px; transition:border-color 0.3s;"
+            >{{ tag }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <!-- Prev / Next Nav -->
+  <div style="border-top: 1px solid var(--pebble); display:grid; grid-template-columns:1fr 1fr; margin-top: 0;">
+    {%- if blog.previous_article -%}
+      <a href="{{ blog.previous_article.url }}" style="padding:32px 24px; border-right:1px solid var(--pebble); display:block;">
+        <p style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--clay); margin-bottom:8px;">← Previous</p>
+        <p style="font-family:var(--font-heading); font-size:17px; font-weight:300; color:var(--ink);">{{ blog.previous_article.title }}</p>
+      </a>
+    {%- else -%}
+      <div></div>
+    {%- endif -%}
+    {%- if blog.next_article -%}
+      <a href="{{ blog.next_article.url }}" style="padding:32px 24px; text-align:right; display:block;">
+        <p style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--clay); margin-bottom:8px;">Next →</p>
+        <p style="font-family:var(--font-heading); font-size:17px; font-weight:300; color:var(--ink);">{{ blog.next_article.title }}</p>
+      </a>
+    {%- endif -%}
+  </div>
+</article>
+
+<!-- Related articles -->
+{%- if section.settings.show_related -%}
+  <section class="section container">
+    <div class="section-header">
+      <p class="label-caps fade-up">More from the Journal</p>
+      <div class="section-rule fade-up"></div>
+    </div>
+    <div class="blog-list" style="padding:0;">
+      {%- for a in blog.articles limit: 3 -%}
+        {%- unless a.id == article.id -%}
+          <article class="blog-article fade-up">
+            {%- if a.image -%}
+              <a href="{{ a.url }}" class="blog-article-image">
+                <img src="{{ a.image | image_url: width: 560 }}" alt="{{ a.image.alt | escape }}" loading="lazy">
+              </a>
+            {%- endif -%}
+            <div class="blog-article-body">
+              <p class="blog-article-meta">{{ a.published_at | date: '%B %-d, %Y' }}</p>
+              <h3 class="blog-article-title"><a href="{{ a.url }}">{{ a.title }}</a></h3>
+              <a href="{{ a.url }}" class="blog-article-link">Read More</a>
+            </div>
+          </article>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Main Article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_related",
+      "label": "Show related articles",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

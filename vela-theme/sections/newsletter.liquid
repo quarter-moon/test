@@ -1,0 +1,77 @@
+<!-- Newsletter — bone bg, underline form (matches JSX VNewsletter) -->
+<section class="newsletter-section">
+  <div class="container">
+    <div class="newsletter-eyebrow fade-up">{{ section.settings.eyebrow | default: 'The Studio Letter' }}</div>
+    <h2 class="newsletter-title fade-up">
+      {{ section.settings.title | default: 'Considered, never crowded.' }}
+    </h2>
+    <p class="newsletter-subtitle fade-up">
+      {{ section.settings.subtitle | default: 'A monthly note on new arrivals, editorial stories, and the rituals of dressing.' }}
+    </p>
+    {%- form 'customer', id: 'newsletter-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="newsletter-form fade-up">
+        <input
+          type="email"
+          name="contact[email]"
+          class="newsletter-input"
+          placeholder="{{ section.settings.placeholder | default: 'Email address' }}"
+          required
+          aria-label="Email address"
+          autocomplete="email"
+        >
+        <button type="submit" class="newsletter-submit">
+          {{ section.settings.button_label | default: 'Subscribe →' }}
+        </button>
+      </div>
+      {%- if form.posted_successfully? -%}
+        <p style="font-size:12px; color:var(--clay); margin-top:16px; letter-spacing:0.1em; text-align:center;">
+          Thank you — you're on the list.
+        </p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Studio Letter"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Considered, never crowded."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "A monthly note on new arrivals, editorial stories, and the rituals of dressing."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe →"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

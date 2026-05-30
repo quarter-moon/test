@@ -1,0 +1,185 @@
+<section class="section" style="background: {{ section.settings.background | default: 'var(--stone)' }};">
+  <div class="container">
+    <div class="section-header">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="label-caps fade-up">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <div class="section-rule fade-up"></div>
+        <h2 class="fade-up" style="font-family: var(--font-heading); font-weight: 300; font-size: clamp(24px, 5vw, 48px);">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="fade-up" style="font-family: var(--font-heading); font-style: italic; font-size: 17px; color: var(--ash); margin-top: 8px;">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- assign source_collection = collections[section.settings.collection] -%}
+
+    <div class="collection-grid">
+      {%- if source_collection != blank and source_collection.products.size > 0 -%}
+        {%- for product in source_collection.products limit: section.settings.product_limit -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      {%- elsif section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'product' -%}
+            {%- assign prod = all_products[block.settings.product] -%}
+            {%- if prod != blank -%}
+              {% render 'product-card', product: prod %}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%}Demo placeholder cards — shown when no collection or blocks are configured{%- endcomment -%}
+        {%- assign demo_products = "The Brera Trouser|Italian Linen · Bone|285|1572804013427-4d7ca7268217|E8E2D4,1A1A1A,7B8068|,The Linen Camisole|Belgian Linen · Shell|165|1581338834647-b0fb40704e21|F2EAE0,1A1A1A|,The Plaster Knit|Merino Cashmere · Clay|340|1566174053879-31528523f8ae|C4A882,1A1A1A,F2EAE0|New,The Field Coat|Brushed Wool · Ash|620|1485125639709-a60c3a500bf1|B8B0A4,1A1A1A|,The Long Slip|Washed Silk · Pearl|395|1583846783214-7229a91b20ed|EAE3D6,1A1A1A,7B8068|,The Camisole|Washed Silk · Ivory|195|1483985988355-763728e1935b|F2EAE0,1A1A1A|,The Shirt Dress|Laundered Cotton · Ecru|320|1496747611176-843222e1e57c|F2EAE0,1A1A1A|New,The Brera Trouser|Italian Linen · Ink|285|1583744946564-b52ac1c389c8|1A1A1A,888780|" | split: "," -%}
+        {%- assign demo_limit = section.settings.product_limit | default: 8 -%}
+        {%- assign demo_idx = 0 -%}
+        {%- assign demo_row_size = 0 -%}
+        {%- assign demo_names = "The Brera Trouser,The Linen Camisole,The Plaster Knit,The Field Coat,The Long Slip,The Camisole,The Shirt Dress,The Brera Trouser" | split: "," -%}
+        {%- assign demo_fabrics = "Italian Linen · Bone,Belgian Linen · Shell,Merino Cashmere · Clay,Brushed Wool · Ash,Washed Silk · Pearl,Washed Silk · Ivory,Laundered Cotton · Ecru,Italian Linen · Ink" | split: "," -%}
+        {%- assign demo_prices = "285,165,340,620,395,195,320,285" | split: "," -%}
+        {%- assign demo_photos = "1572804013427-4d7ca7268217,1581338834647-b0fb40704e21,1566174053879-31528523f8ae,1485125639709-a60c3a500bf1,1583846783214-7229a91b20ed,1483985988355-763728e1935b,1496747611176-843222e1e57c,1583744946564-b52ac1c389c8" | split: "," -%}
+        {%- assign demo_tags = ",,,,,,,New,New,,,,,,," | split: "," -%}
+        {%- assign demo_colors = "E8E2D4|1A1A1A|7B8068,F2EAE0|1A1A1A,C4A882|1A1A1A|F2EAE0,B8B0A4|1A1A1A,EAE3D6|1A1A1A|7B8068,F2EAE0|1A1A1A,F2EAE0|1A1A1A,1A1A1A|888780" | split: "," -%}
+        {%- for i in (0..7) -%}
+          {%- if demo_row_size >= demo_limit -%}{%- break -%}{%- endif -%}
+          {%- assign p_name = demo_names[i] -%}
+          {%- assign p_fabric = demo_fabrics[i] -%}
+          {%- assign p_price = demo_prices[i] -%}
+          {%- assign p_photo = demo_photos[i] -%}
+          {%- assign p_tag = demo_tags[i] -%}
+          {%- assign p_colors = demo_colors[i] | split: "|" -%}
+          <div class="product-card demo-card">
+            <div class="product-card-image-wrap" style="position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--pebble);">
+              <img
+                src="https://images.unsplash.com/photo-{{ p_photo }}?w=600&q=80&auto=format&fit=crop"
+                srcset="
+                  https://images.unsplash.com/photo-{{ p_photo }}?w=400&q=80&auto=format&fit=crop 400w,
+                  https://images.unsplash.com/photo-{{ p_photo }}?w=600&q=80&auto=format&fit=crop 600w,
+                  https://images.unsplash.com/photo-{{ p_photo }}?w=900&q=80&auto=format&fit=crop 900w
+                "
+                sizes="(min-width: 1024px) 25vw, (min-width: 600px) 50vw, 100vw"
+                alt="{{ p_name }}"
+                loading="lazy"
+                style="width:100%;height:100%;object-fit:cover;object-position:center top;transition:transform 0.5s ease;"
+              >
+              {%- if p_tag != blank -%}
+                <div style="position:absolute;top:16px;left:16px;font-family:var(--font-body);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);background:rgba(255,255,255,0.92);padding:4px 10px;">{{ p_tag }}</div>
+              {%- endif -%}
+              <button style="position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:var(--ash);padding:4px;" aria-label="Save to wishlist">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="product-card-info" style="padding:14px 0 0;">
+              <div style="font-family:var(--font-body);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ash);margin-bottom:4px;">{{ p_fabric }}</div>
+              <div style="font-family:var(--font-heading);font-size:17px;font-weight:300;color:var(--ink);margin-bottom:8px;">{{ p_name }}</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="font-family:var(--font-body);font-size:14px;color:var(--ink);">£{{ p_price }}</div>
+                <div style="display:flex;gap:6px;">
+                  {%- for c in p_colors -%}
+                    <div style="width:12px;height:12px;border-radius:50%;background:#{{ c }};border:1px solid rgba(0,0,0,0.12);"></div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            </div>
+          </div>
+          {%- assign demo_row_size = demo_row_size | plus: 1 -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="text-center">
+        <a href="{{ section.settings.cta_url | default: routes.collections_url }}" class="section-link fade-up">
+          {{ section.settings.cta_label }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Products",
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "Just Arrived"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Auto-populate from collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "label": "Products to show (from collection)",
+      "default": 4
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Link label",
+      "default": "View All"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Link URL"
+    },
+    {
+      "type": "select",
+      "id": "background",
+      "label": "Section background",
+      "options": [
+        { "value": "var(--stone)", "label": "Stone (light)" },
+        { "value": "var(--pebble)", "label": "Pebble (warm grey)" },
+        { "value": "var(--ink)", "label": "Ink (dark)" },
+        { "value": "#FFFFFF", "label": "White" }
+      ],
+      "default": "var(--stone)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ]
+}
+{% endschema %}

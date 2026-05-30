@@ -1,0 +1,44 @@
+<!-- Atelier Quote — founder quote, bone bg, matches VDeskHome atelier section -->
+<section class="atelier-quote">
+  <div class="atelier-quote-inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="atelier-quote-eyebrow fade-up">{{ section.settings.eyebrow }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.quote != blank -%}
+      <p class="atelier-quote-text fade-up">"{{ section.settings.quote }}"</p>
+    {%- endif -%}
+
+    {%- if section.settings.name != blank -%}
+      <div class="atelier-quote-attribution fade-up">
+        <div class="atelier-quote-avatar">
+          {%- if section.settings.avatar != blank -%}
+            <img src="{{ section.settings.avatar | image_url: width: 96 }}" alt="{{ section.settings.name }}" loading="lazy">
+          {%- endif -%}
+        </div>
+        <div>
+          <div class="atelier-quote-name">{{ section.settings.name }}</div>
+          {%- if section.settings.role != blank -%}
+            <div class="atelier-quote-role">{{ section.settings.role }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Atelier Quote",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Atelier" },
+    { "type": "textarea", "id": "quote", "label": "Quote (without quotation marks)", "default": "Restraint, not refusal. We design for the woman who has already decided." },
+    { "type": "image_picker", "id": "avatar", "label": "Avatar image" },
+    { "type": "text", "id": "name", "label": "Name", "default": "Mae Lindqvist" },
+    { "type": "text", "id": "role", "label": "Role", "default": "Founder & Creative Director" }
+  ],
+  "presets": [
+    { "name": "Atelier Quote" }
+  ]
+}
+{% endschema %}

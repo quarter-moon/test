@@ -1,0 +1,45 @@
+{
+  "sections": {
+    "main": {
+      "type": "vela-about",
+      "blocks": {
+        "tenet-1": {
+          "type": "tenet",
+          "settings": {}
+        },
+        "tenet-2": {
+          "type": "tenet",
+          "settings": {}
+        },
+        "tenet-3": {
+          "type": "tenet",
+          "settings": {}
+        },
+        "tenet-4": {
+          "type": "tenet",
+          "settings": {}
+        },
+        "tenet-5": {
+          "type": "tenet",
+          "settings": {}
+        },
+        "tenet-6": {
+          "type": "tenet",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "tenet-1",
+        "tenet-2",
+        "tenet-3",
+        "tenet-4",
+        "tenet-5",
+        "tenet-6"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
