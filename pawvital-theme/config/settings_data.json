@@ -1,5 +1,14 @@
 {
-  "current": "PawVital",
+  "current": {
+    "color_primary": "#0F6E56",
+    "color_primary_deep": "#085041",
+    "color_accent": "#D85A30",
+    "color_background": "#FCFBF7",
+    "color_text": "#18261f",
+    "corner_radius": "soft",
+    "cart_type": "drawer",
+    "free_shipping_threshold": 49
+  },
   "presets": {
     "PawVital": {
       "color_primary": "#0F6E56",
