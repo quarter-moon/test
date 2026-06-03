@@ -109,9 +109,11 @@
       <span id="cart-subtotal">{{ cart.total_price | money }}</span>
     </div>
     <div class="cf-fine">Shipping &amp; taxes calculated at checkout.</div>
-    <a href="{{ routes.checkout_url }}" class="btn btn-primary btn-lg btn-block" id="checkout-btn">
-      Checkout &middot; <span id="checkout-price">{{ cart.total_price | money }}</span>
-    </a>
+    <form action="/cart" method="post">
+      <button type="submit" name="checkout" class="btn btn-primary btn-lg btn-block" id="checkout-btn">
+        Checkout &middot; <span id="checkout-price">{{ cart.total_price | money }}</span>
+      </button>
+    </form>
     <button class="btn btn-block" style="color:var(--brand);margin-top:8px;" data-cart-close>
       Continue shopping
     </button>
