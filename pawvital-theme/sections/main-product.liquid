@@ -1,0 +1,338 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_form_id = 'product-form-' | append: section.id -%}
+
+<div class="wrap">
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    {%- render 'icon', name: 'chevron', style: 'transform:rotate(-90deg)' -%}
+    <a href="{{ product.collections.first.url | default: '/collections/all' }}">
+      {{ product.collections.first.title | default: product.type }}
+    </a>
+    {%- render 'icon', name: 'chevron', style: 'transform:rotate(-90deg)' -%}
+    <span>{{ product.title }}</span>
+  </nav>
+
+  <div class="pdp">
+    <!-- Gallery -->
+    <div class="pdp-gallery" id="pdp-gallery">
+      <div class="pdp-main-img" id="pdp-main-img">
+        {%- if product.featured_media -%}
+          <img id="pdp-main-image"
+               src="{{ product.featured_media | image_url: width: 800 }}"
+               alt="{{ product.featured_media.alt | escape }}"
+               width="800" height="800" loading="eager">
+        {%- else -%}
+          <div class="pdp-img-placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="pdp-thumbs" role="list">
+          {%- for media in product.media limit: 4 -%}
+            <button class="pdp-thumb{% if forloop.first %} active{% endif %}"
+                    data-media-id="{{ media.id }}"
+                    data-media-src="{{ media | image_url: width: 800 }}"
+                    role="listitem"
+                    aria-label="Product image {{ forloop.index }}">
+              <img src="{{ media | image_url: width: 180 }}"
+                   alt="{{ media.alt | escape }}"
+                   width="90" height="90" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Product info -->
+    <div class="pdp-info" id="pdp-info">
+      <div class="pi-cat">
+        {{ product.collections.first.title | default: product.type }}
+      </div>
+      <h1>{{ product.title }}</h1>
+
+      <!-- Rating (metafield or stars display) -->
+      {%- assign rating_value = product.metafields.reviews.rating.value -%}
+      {%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+      <div class="pdp-rating">
+        <div class="stars" aria-label="{{ rating_value | default: '5' }} out of 5 stars">
+          {%- for i in (1..5) -%}
+            {%- render 'icon', name: 'star' -%}
+          {%- endfor -%}
+        </div>
+        <b style="font-family:var(--font-head);">{{ rating_value | default: '4.9' }}</b>
+        <a href="#reviews" style="text-decoration:underline;text-underline-offset:2px;">
+          {{ rating_count | default: '2,000+' }} reviews
+        </a>
+      </div>
+
+      <!-- Price -->
+      <div class="pdp-price" id="pdp-price">
+        <span class="now" id="pdp-price-now">
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            {{ current_variant.price | money }}
+          {%- else -%}
+            {{ current_variant.price | money }}
+          {%- endif -%}
+        </span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="was" id="pdp-price-was">{{ current_variant.compare_at_price | money }}</span>
+          <span class="save" id="pdp-price-save">
+            Save {{ current_variant.compare_at_price | minus: current_variant.price | money }}
+          </span>
+        {%- endif -%}
+        <span class="save" id="pdp-sub-save" style="display:none;">Save 15%</span>
+      </div>
+
+      <p class="pdp-desc">{{ product.description | strip_html | truncate: 300 }}</p>
+
+      <!-- Variant selectors -->
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          <div class="opt-group">
+            <div class="og-label">
+              {{ option.name }}
+              <span id="opt-val-{{ forloop.index0 }}">&middot; {{ option.selected_value }}</span>
+            </div>
+            <div class="opt-chips" role="group" aria-label="{{ option.name }} options">
+              {%- for value in option.values -%}
+                {%- assign is_selected = false -%}
+                {%- if value == option.selected_value -%}{%- assign is_selected = true -%}{%- endif -%}
+                <button class="opt-chip{% if is_selected %} active{% endif %}"
+                        data-option-index="{{ forloop.parentloop.index0 }}"
+                        data-option-value="{{ value }}"
+                        aria-pressed="{% if is_selected %}true{% else %}false{% endif %}">
+                  {{ value }}
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endunless -%}
+
+      <!-- Subscribe & Save / One-time toggle -->
+      <div class="buy-modes" id="buy-modes">
+        <div class="buy-mode active" data-buy-mode="sub" role="button" tabindex="0">
+          <div class="bm-radio"></div>
+          <div class="bm-main">
+            <div class="bm-title">Subscribe &amp; Save</div>
+            <div class="bm-sub">Delivered every 30 days &middot; skip or cancel anytime</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="bm-price" id="bm-sub-price">
+              {{ current_variant.price | times: 0.85 | round | money }}
+            </div>
+            <div class="bm-save">Save 15%</div>
+          </div>
+        </div>
+        <div class="buy-mode" data-buy-mode="one" role="button" tabindex="0">
+          <div class="bm-radio"></div>
+          <div class="bm-main">
+            <div class="bm-title">One-time purchase</div>
+            <div class="bm-sub">Ship it once, no commitment</div>
+          </div>
+          <div class="bm-price" id="bm-one-price">
+            {{ current_variant.price | money }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      {%- form 'product', product, id: product_form_id, class: 'js-product-form', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" id="variant-id" value="{{ current_variant.id }}">
+        <div class="pdp-actions" id="pdp-atc-anchor">
+          <div class="qty" role="group" aria-label="Quantity">
+            <button type="button" class="qty-btn" data-qty="-1" aria-label="Decrease quantity">
+              {%- render 'icon', name: 'minus' -%}
+            </button>
+            <span class="qv" id="qty-display" aria-live="polite">1</span>
+            <input type="hidden" name="quantity" id="qty-input" value="1">
+            <button type="button" class="qty-btn" data-qty="1" aria-label="Increase quantity">
+              {%- render 'icon', name: 'plus' -%}
+            </button>
+          </div>
+
+          <button type="submit"
+                  name="add"
+                  class="btn btn-primary btn-lg"
+                  style="flex:1;"
+                  id="pdp-add-btn"
+                  {%- unless current_variant.available -%}disabled aria-disabled="true"{%- endunless -%}>
+            {%- render 'icon', name: 'bag', style: 'width:19px;height:19px;' -%}
+            <span id="pdp-btn-text">
+              {%- if current_variant.available -%}
+                Add to cart &middot; <span id="pdp-btn-price">{{ current_variant.price | times: 0.85 | round | money }}</span>
+              {%- else -%}
+                Sold out
+              {%- endif -%}
+            </span>
+          </button>
+
+          <button type="button"
+                  class="pc-add"
+                  style="width:54px;height:54px;"
+                  id="pdp-wishlist-btn"
+                  aria-label="Save to wishlist"
+                  data-product-id="{{ product.id }}">
+            {%- render 'icon', name: 'heart' -%}
+          </button>
+        </div>
+      {%- endform -%}
+
+      <!-- Trust badges -->
+      <div class="pdp-trust">
+        <div class="pt">{%- render 'icon', name: 'truck' -%} Free shipping over $49</div>
+        <div class="pt">{%- render 'icon', name: 'sync' -%} 30-day money-back</div>
+        <div class="pt">{%- render 'icon', name: 'shield' -%} Vet-formulated</div>
+      </div>
+
+      <!-- Benefit chips from metafields or tags -->
+      <div class="pdp-benefits">
+        {%- assign benefit_items = 'Joint support,Natural source,Daily comfort' | split: ',' -%}
+        {%- assign benefit_icons = 'shield,leaf,clock' | split: ',' -%}
+        {%- for benefit in benefit_items -%}
+          <div class="pdp-benefit">
+            <div class="pb-ico">
+              {%- render 'icon', name: benefit_icons[forloop.index0] -%}
+            </div>
+            <b>{{ benefit }}</b>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Accordions -->
+      <div class="accordions">
+        <div class="acc open" data-accordion>
+          <button class="acc-head" aria-expanded="true">
+            Description
+            <span class="acc-ico">{%- render 'icon', name: 'plus' -%}</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">{{ product.description }}</div>
+          </div>
+        </div>
+
+        {%- if product.metafields.custom.ingredients != blank -%}
+          <div class="acc" data-accordion>
+            <button class="acc-head" aria-expanded="false">
+              Ingredients
+              <span class="acc-ico">{%- render 'icon', name: 'plus' -%}</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner">
+                {{ product.metafields.custom.ingredients | metafield_tag }}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if product.metafields.custom.how_to_use != blank -%}
+          <div class="acc" data-accordion>
+            <button class="acc-head" aria-expanded="false">
+              How to use
+              <span class="acc-ico">{%- render 'icon', name: 'plus' -%}</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner">
+                {{ product.metafields.custom.how_to_use | metafield_tag }}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="acc" data-accordion>
+          <button class="acc-head" aria-expanded="false">
+            Shipping &amp; returns
+            <span class="acc-ico">{%- render 'icon', name: 'plus' -%}</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-body-inner">
+              <p>Free carbon-neutral shipping on orders over $49. Subscriptions always ship free. Not happy? Our 30-day money-back guarantee means you can return it — even if the bag is open.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /pdp-info -->
+  </div><!-- /pdp -->
+</div>
+
+<!-- Sticky add-to-cart bar -->
+<div class="sticky-atc" id="sticky-atc" aria-hidden="true">
+  <div class="wrap">
+    <div class="sa-row">
+      <div class="sa-img">
+        {%- if product.featured_media -%}
+          <img src="{{ product.featured_media | image_url: width: 100 }}"
+               alt="{{ product.title }}" width="50" height="50" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="sa-info">
+        <div class="sa-title">{{ product.title }}</div>
+        <div class="sa-price" id="sticky-variant-info">{{ current_variant.title }}</div>
+      </div>
+      <div class="sa-spacer"></div>
+      <button class="sa-btn" id="sticky-atc-btn">
+        Add to cart — <span id="sticky-price">{{ current_variant.price | money }}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Related products -->
+{%- assign related_products = product.collections.first.products -%}
+{%- if related_products.size > 1 -%}
+  <section class="section related" style="margin-top:40px;">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="sh-left">
+          <div class="eyebrow">Complete the routine</div>
+          <h2>Pairs well with</h2>
+        </div>
+        <a href="{{ product.collections.first.url | default: '/collections/all' }}" class="link-more">
+          Shop all {%- render 'icon', name: 'arrow-right' -%}
+        </a>
+      </div>
+      <div class="prod-grid">
+        {%- for related in related_products limit: 4 -%}
+          {%- unless related.id == product.id -%}
+            {%- render 'product-card', product: related -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<script>
+  window.productData = {
+    id: {{ product.id }},
+    variants: {{ product.variants | json }},
+    url: {{ product.url | json }},
+    title: {{ product.title | json }}
+  };
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_subscribe_save",
+      "label": "Show Subscribe & Save option",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "subscribe_discount",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "%",
+      "label": "Subscription discount",
+      "default": 15
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,81 @@
+<div class="wrap" style="padding:60px 20px;max-width:700px;margin:0 auto;">
+  <h1 style="font-family:var(--font-head);font-size:clamp(22px,4vw,36px);color:var(--ink);margin:0 0 8px;">{{ 'customer.addresses.title' | t }}</h1>
+  <p style="color:var(--muted);margin:0 0 40px;">Manage the addresses saved to your account.</p>
+
+  <button type="button"
+          onclick="document.getElementById('new-address-form').style.display='block';this.style.display='none';"
+          class="btn btn-primary" style="margin-bottom:32px;">
+    + {{ 'customer.addresses.add_new' | t }}
+  </button>
+
+  <div id="new-address-form" style="display:none;background:#fff;border:1.5px solid var(--border);border-radius:var(--r-lg);padding:28px;margin-bottom:32px;">
+    <h2 style="font-family:var(--font-head);font-size:20px;color:var(--ink);margin:0 0 24px;">{{ 'customer.addresses.add_new' | t }}</h2>
+    {%- form 'customer_address', customer.new_address -%}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">{{ 'customer.addresses.first_name' | t }}</label>
+          <input type="text" name="address[first_name]" value="{{ form.first_name }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:15px;font-family:var(--font-body);box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">{{ 'customer.addresses.last_name' | t }}</label>
+          <input type="text" name="address[last_name]" value="{{ form.last_name }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:15px;font-family:var(--font-body);box-sizing:border-box;">
+        </div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">{{ 'customer.addresses.address1' | t }}</label>
+        <input type="text" name="address[address1]" value="{{ form.address1 }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:15px;font-family:var(--font-body);box-sizing:border-box;">
+      </div>
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">{{ 'customer.addresses.address2' | t }}</label>
+        <input type="text" name="address[address2]" value="{{ form.address2 }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:15px;font-family:var(--font-body);box-sizing:border-box;">
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+          <label style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">{{ 'customer.addresses.city' | t }}</label>
+          <input type="text" name="address[city]" value="{{ form.city }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:15px;font-family:var(--font-body);box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">{{ 'customer.addresses.zip' | t }}</label>
+          <input type="text" name="address[zip]" value="{{ form.zip }}" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:15px;font-family:var(--font-body);box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="display:block;font-weight:600;font-size:14px;margin-bottom:6px;">{{ 'customer.addresses.country' | t }}</label>
+          <select name="address[country]" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:15px;font-family:var(--font-body);box-sizing:border-box;">
+            {{ all_country_option_tags }}
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">
+        <input type="checkbox" name="address[default]" id="address_default" value="1">
+        <label for="address_default" style="font-size:14px;color:var(--ink);">{{ 'customer.addresses.set_default' | t }}</label>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button type="submit" class="btn btn-primary">{{ 'customer.addresses.add' | t }}</button>
+        <button type="button" onclick="document.getElementById('new-address-form').style.display='none';" class="btn">{{ 'customer.addresses.cancel' | t }}</button>
+      </div>
+    {%- endform -%}
+  </div>
+
+  {%- if customer.addresses.size == 0 -%}
+    <p style="color:var(--muted);">No addresses saved yet.</p>
+  {%- else -%}
+    <div style="display:grid;gap:16px;">
+      {%- for address in customer.addresses -%}
+        <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--r-lg);padding:24px;">
+          {%- if address == customer.default_address -%}
+            <span style="background:var(--mint);color:var(--brand-deep);padding:3px 10px;border-radius:var(--r-pill);font-size:12px;font-weight:700;margin-bottom:12px;display:inline-block;">{{ 'customer.addresses.default' | t }}</span>
+          {%- endif -%}
+          <address style="font-style:normal;font-size:15px;color:var(--ink);line-height:1.7;margin-bottom:16px;">
+            {{ address | format_address }}
+          </address>
+          <div style="display:flex;gap:8px;">
+            <a href="{{ routes.account_addresses_url }}/{{ address.id }}/edit" class="btn">{{ 'customer.addresses.edit' | t }}</a>
+            {%- form 'customer_address', address, method: 'delete' -%}
+              <button type="submit" class="btn" onclick="return confirm('{{ 'customer.addresses.delete_confirm' | t }}');" style="color:#c0392b;">{{ 'customer.addresses.delete' | t }}</button>
+            {%- endform -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,86 @@
+{%- assign card_product = product -%}
+{%- assign badge_label = '' -%}
+{%- assign badge_class = '' -%}
+{%- if card_product.tags contains 'best-seller' -%}
+  {%- assign badge_label = 'Best Seller' -%}
+  {%- assign badge_class = 'best' -%}
+{%- elsif card_product.tags contains 'new-arrival' -%}
+  {%- assign badge_label = 'New' -%}
+  {%- assign badge_class = 'new' -%}
+{%- elsif card_product.compare_at_price > card_product.price -%}
+  {%- assign saved = card_product.compare_at_price | minus: card_product.price | money -%}
+  {%- assign badge_label = 'Save ' | append: saved -%}
+  {%- assign badge_class = 'sale' -%}
+{%- endif -%}
+
+<article class="prod-card" data-product-id="{{ card_product.id }}">
+  <a href="{{ card_product.url }}" class="pc-media-link" aria-label="{{ card_product.title }}">
+    <div class="pc-media">
+      <div class="pc-img">
+        {%- if card_product.featured_media -%}
+          <img src="{{ card_product.featured_media | image_url: width: 600 }}"
+               alt="{{ card_product.featured_media.alt | escape }}"
+               width="300" height="300"
+               loading="lazy">
+        {%- else -%}
+          <div class="pc-img-placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+      {%- if badge_label != '' -%}
+        <div class="pc-tags">
+          <span class="pc-tag {{ badge_class }}">{{ badge_label }}</span>
+        </div>
+      {%- endif -%}
+
+      <button class="pc-fav" aria-label="Save {{ card_product.title }}" data-wishlist="{{ card_product.id }}" type="button">
+        {%- render 'icon', name: 'heart' -%}
+      </button>
+
+      <div class="pc-quick">
+        <button class="btn btn-brand btn-block" type="button"
+                data-quick-add="{{ card_product.variants.first.id }}"
+                data-product-title="{{ card_product.title | escape }}"
+                data-product-image="{{ card_product.featured_media | image_url: width: 160 }}">
+          {%- render 'icon', name: 'plus', style: 'width:17px;height:17px;' -%}
+          Quick add
+        </button>
+      </div>
+    </div>
+  </a>
+
+  <div class="pc-body">
+    <div class="pc-cat">{{ card_product.type }}</div>
+    <h3 class="pc-title">
+      <a href="{{ card_product.url }}">{{ card_product.title }}</a>
+    </h3>
+
+    {%- assign rating = card_product.metafields.reviews.rating.value -%}
+    {%- assign rating_count = card_product.metafields.reviews.rating_count.value -%}
+    <div class="pc-rating">
+      <span class="stars" aria-label="{{ rating | default: '4.9' }} stars">
+        {%- for i in (1..5) -%}
+          {%- render 'icon', name: 'star' -%}
+        {%- endfor -%}
+      </span>
+      <span>{{ rating | default: '4.9' }} &middot; {{ rating_count | default: '1,000+' }} reviews</span>
+    </div>
+
+    <div class="pc-foot">
+      <div class="pc-price">
+        {{ card_product.price | money }}
+        {%- if card_product.compare_at_price > card_product.price -%}
+          <span class="was">{{ card_product.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+      <button class="pc-add"
+              type="button"
+              aria-label="Add {{ card_product.title }} to cart"
+              data-quick-add="{{ card_product.variants.first.id }}"
+              data-product-title="{{ card_product.title | escape }}"
+              data-product-image="{{ card_product.featured_media | image_url: width: 160 }}">
+        {%- render 'icon', name: 'plus' -%}
+      </button>
+    </div>
+  </div>
+</article>

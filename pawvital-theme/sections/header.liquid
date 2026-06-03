@@ -1,0 +1,298 @@
+{%- assign main_menu = linklists[section.settings.menu] -%}
+
+<header class="site-header" id="site-header" role="banner">
+  <div class="wrap">
+    <div class="header-row">
+
+      <a href="{{ routes.root_url }}" class="brand-logo" aria-label="{{ shop.name }}">
+        {%- if section.settings.logo != blank -%}
+          <img class="mark" src="{{ section.settings.logo | image_url: width: 84 }}" alt="{{ shop.name }}" width="42" height="42">
+        {%- else -%}
+          <img class="mark" src="{{ 'favicon.svg' | asset_url }}" alt="{{ shop.name }}" width="42" height="42">
+        {%- endif -%}
+        <span class="wordmark">
+          <span class="wm-name">
+            <span class="paw">Paw</span><span class="vital">Vital</span>
+          </span>
+          <span class="wm-tag">PET HEALTH &amp; WELLNESS</span>
+        </span>
+      </a>
+
+      <nav class="main-nav" role="navigation" aria-label="Main navigation">
+        {%- if main_menu.links.size > 0 -%}
+          {%- for link in main_menu.links -%}
+            {%- assign has_children = false -%}
+            {%- if link.links.size > 0 -%}
+              {%- assign has_children = true -%}
+            {%- endif -%}
+            {%- assign is_shop = false -%}
+            {%- if link.title == 'Shop' -%}
+              {%- assign is_shop = true -%}
+            {%- endif -%}
+
+            {%- if has_children or is_shop -%}
+              <div class="nav-item has-mega" data-nav-item aria-haspopup="true" aria-expanded="false">
+                <a href="{{ link.url }}" class="nav-link" aria-haspopup="true">
+                  {{ link.title }}
+                  <span class="chev" aria-hidden="true">{%- render 'icon', name: 'chevron' -%}</span>
+                </a>
+
+                {%- if is_shop -%}
+                  <div class="mega" role="region" aria-label="Shop menu" data-mega>
+                    <div class="wrap">
+                      <div class="mega-grid">
+                        <div class="mega-col">
+                          <h5>By Need</h5>
+                          <a href="/collections/joint-mobility">Joint &amp; Mobility</a>
+                          <a href="/collections/calm-anxiety">Calm &amp; Anxiety</a>
+                          <a href="/collections/skin-coat">Skin &amp; Coat</a>
+                          <a href="/collections/digestion-gut">Digestion &amp; Gut</a>
+                          <a href="/collections/immune-support">Immune Support</a>
+                        </div>
+                        <div class="mega-col">
+                          <h5>By Category</h5>
+                          <a href="/collections/supplements">Supplements</a>
+                          <a href="/collections/food-treats">Food &amp; Treats</a>
+                          <a href="/collections/wellness">Wellness</a>
+                          <a href="/collections/grooming">Grooming</a>
+                          <a href="/collections/dental">Dental</a>
+                        </div>
+                        <div class="mega-col">
+                          <h5>Shop</h5>
+                          <a href="/collections/best-sellers">Best Sellers</a>
+                          <a href="/collections/new-arrivals">New Arrivals</a>
+                          <a href="/collections/bundles">Bundles &amp; Sets</a>
+                          <a href="/pages/subscriptions">Subscriptions</a>
+                          <a href="/collections/sale">Sale</a>
+                        </div>
+                        <div class="mega-feature">
+                          {%- if section.settings.mega_image != blank -%}
+                            <div>
+                              <div class="mf-tile">
+                                <img src="{{ section.settings.mega_image | image_url: width: 360 }}" alt="{{ section.settings.mega_title }}" width="360" height="225" loading="lazy">
+                              </div>
+                              <div style="font-family:var(--font-head);font-weight:800;font-size:16px;">{{ section.settings.mega_title }}</div>
+                              <div style="font-size:13px;color:var(--muted);margin-top:4px;">{{ section.settings.mega_subtitle }}</div>
+                            </div>
+                            <a href="{{ section.settings.mega_link }}" class="btn btn-primary" style="margin-top:14px;">{{ section.settings.mega_cta }}</a>
+                          {%- else -%}
+                            <div>
+                              <div class="mf-tile mf-tile--placeholder">
+                                <div class="ph-paw-bg" aria-hidden="true">{%- render 'icon', name: 'paw' -%}</div>
+                              </div>
+                              <div style="font-family:var(--font-head);font-weight:800;font-size:16px;">Starter Wellness Kit</div>
+                              <div style="font-size:13px;color:var(--muted);margin-top:4px;">Joint + Calm + Gut — save 20%</div>
+                            </div>
+                            <a href="/collections/bundles" class="btn btn-primary" style="margin-top:14px;">Shop the kit</a>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {%- else -%}
+                  <div class="mega mega--simple" role="region" data-mega>
+                    <div class="wrap">
+                      <div class="mega-col">
+                        {%- for child in link.links -%}
+                          <a href="{{ child.url }}">{{ child.title }}</a>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            {%- else -%}
+              <a href="{{ link.url }}" class="nav-link">{{ link.title }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          <div class="nav-item has-mega" data-nav-item aria-haspopup="true" aria-expanded="false">
+            <a href="/collections/all" class="nav-link" aria-haspopup="true">
+              Shop
+              <span class="chev" aria-hidden="true">{%- render 'icon', name: 'chevron' -%}</span>
+            </a>
+            <div class="mega" role="region" aria-label="Shop menu" data-mega>
+              <div class="wrap">
+                <div class="mega-grid">
+                  <div class="mega-col">
+                    <h5>By Need</h5>
+                    <a href="/collections/joint-mobility">Joint &amp; Mobility</a>
+                    <a href="/collections/calm-anxiety">Calm &amp; Anxiety</a>
+                    <a href="/collections/skin-coat">Skin &amp; Coat</a>
+                    <a href="/collections/digestion-gut">Digestion &amp; Gut</a>
+                    <a href="/collections/immune-support">Immune Support</a>
+                  </div>
+                  <div class="mega-col">
+                    <h5>By Category</h5>
+                    <a href="/collections/supplements">Supplements</a>
+                    <a href="/collections/food-treats">Food &amp; Treats</a>
+                    <a href="/collections/wellness">Wellness</a>
+                    <a href="/collections/grooming">Grooming</a>
+                    <a href="/collections/dental">Dental</a>
+                  </div>
+                  <div class="mega-col">
+                    <h5>Shop</h5>
+                    <a href="/collections/best-sellers">Best Sellers</a>
+                    <a href="/collections/new-arrivals">New Arrivals</a>
+                    <a href="/collections/bundles">Bundles &amp; Sets</a>
+                    <a href="/pages/subscriptions">Subscriptions</a>
+                    <a href="/collections/sale">Sale</a>
+                  </div>
+                  <div class="mega-feature">
+                    <div>
+                      <div class="mf-tile mf-tile--placeholder" aria-hidden="true"></div>
+                      <div style="font-family:var(--font-head);font-weight:800;font-size:16px;">Starter Wellness Kit</div>
+                      <div style="font-size:13px;color:var(--muted);margin-top:4px;">Joint + Calm + Gut - save 20%</div>
+                    </div>
+                    <a href="/collections/bundles" class="btn btn-primary" style="margin-top:14px;">Shop the kit</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="/collections/supplements" class="nav-link">Supplements</a>
+          <a href="/collections/food-treats" class="nav-link">Food</a>
+          <a href="/collections/wellness" class="nav-link">Wellness</a>
+          <a href="/pages/about" class="nav-link">About</a>
+        {%- endif -%}
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn mobile-menu-btn" aria-label="Open menu" data-mobile-nav-open>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Search" data-search-toggle>
+          {%- render 'icon', name: 'search' -%}
+        </button>
+        <a href="{{ routes.account_url }}" class="icon-btn" aria-label="Account">
+          {%- render 'icon', name: 'user' -%}
+        </a>
+        <button class="icon-btn" aria-label="Open cart" data-cart-toggle>
+          {%- render 'icon', name: 'bag' -%}
+          {%- assign cart_hidden = '' -%}
+          {%- if cart.item_count == 0 -%}
+            {%- assign cart_hidden = ' hidden' -%}
+          {%- endif -%}
+          <span class="cart-count{{ cart_hidden }}" id="cart-count" aria-live="polite">{{ cart.item_count }}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="search-overlay" aria-hidden="true" role="dialog" aria-label="Search">
+  <div class="search-panel">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="so-form">
+      <input type="hidden" name="type" value="product">
+      <span class="so-ico" aria-hidden="true">{%- render 'icon', name: 'search' -%}</span>
+      <input type="search"
+             name="q"
+             class="so-input"
+             id="search-overlay-input"
+             placeholder="{{ section.settings.search_placeholder | default: 'Search for joint chews, calming drops…' }}"
+             aria-label="Search products"
+             autocomplete="off"
+             data-search-input>
+      <button type="submit" class="btn btn-primary so-submit">Search</button>
+      <button type="button" class="so-close" aria-label="Close search" data-search-close>
+        {%- render 'icon', name: 'close' -%}
+      </button>
+    </form>
+    <div class="so-popular">
+      <span class="so-popular-label">Popular searches</span>
+      <a href="{{ routes.search_url }}?q=joint&type=product">Joint &amp; mobility</a>
+      <a href="{{ routes.search_url }}?q=calm&type=product">Calming</a>
+      <a href="{{ routes.search_url }}?q=skin&type=product">Skin &amp; coat</a>
+      <a href="{{ routes.search_url }}?q=digestion&type=product">Digestion</a>
+      <a href="{{ routes.search_url }}?q=bundle&type=product">Bundles</a>
+    </div>
+  </div>
+</div>
+<div class="drawer-scrim" id="search-scrim" data-search-close></div>
+
+<div class="mobile-nav-drawer" id="mobile-nav" aria-hidden="true">
+  <div class="mn-header">
+    <span class="mn-title">Menu</span>
+    <button class="cd-close" aria-label="Close menu" data-mobile-nav-close>
+      {%- render 'icon', name: 'close' -%}
+    </button>
+  </div>
+  <nav class="mn-body">
+    {%- if main_menu.links.size > 0 -%}
+      {%- for link in main_menu.links -%}
+        <a href="{{ link.url }}" class="mn-link">{{ link.title }}</a>
+        {%- if link.links.size > 0 -%}
+          {%- for child in link.links -%}
+            <a href="{{ child.url }}" class="mn-link mn-link--child">{{ child.title }}</a>
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- else -%}
+      <a href="/collections/all" class="mn-link">Shop</a>
+      <a href="/collections/supplements" class="mn-link">Supplements</a>
+      <a href="/collections/food-treats" class="mn-link">Food &amp; Treats</a>
+      <a href="/collections/wellness" class="mn-link">Wellness</a>
+      <a href="/pages/about" class="mn-link">About</a>
+    {%- endif -%}
+  </nav>
+</div>
+<div class="drawer-scrim" id="mobile-nav-scrim" data-mobile-nav-scrim></div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search for joint chews, calming drops…"
+    },
+    {
+      "type": "header",
+      "content": "Mega menu featured column"
+    },
+    {
+      "type": "image_picker",
+      "id": "mega_image",
+      "label": "Featured image"
+    },
+    {
+      "type": "text",
+      "id": "mega_title",
+      "label": "Featured title",
+      "default": "Starter Wellness Kit"
+    },
+    {
+      "type": "text",
+      "id": "mega_subtitle",
+      "label": "Featured subtitle",
+      "default": "Joint + Calm + Gut - save 20%"
+    },
+    {
+      "type": "url",
+      "id": "mega_link",
+      "label": "Featured link"
+    },
+    {
+      "type": "text",
+      "id": "mega_cta",
+      "label": "Featured button text",
+      "default": "Shop the kit"
+    }
+  ]
+}
+{% endschema %}

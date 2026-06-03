@@ -1,0 +1,122 @@
+<!-- Cart drawer overlay -->
+<div class="drawer-scrim" id="cart-scrim" data-cart-scrim aria-hidden="true"></div>
+
+<!-- Cart drawer -->
+<aside class="cart-drawer"
+       id="cart-drawer"
+       aria-label="Shopping cart"
+       aria-hidden="true"
+       role="dialog">
+
+  <div class="cd-head">
+    <h3>
+      {%- render 'icon', name: 'bag', style: 'width:22px;height:22px;' -%}
+      Your Cart
+      <span class="cd-n" id="cart-item-count" aria-live="polite">
+        {{ cart.item_count }} items
+      </span>
+    </h3>
+    <button class="cd-close" id="cart-close" aria-label="Close cart">
+      {%- render 'icon', name: 'close' -%}
+    </button>
+  </div>
+
+  <!-- Shipping progress bar -->
+  <div class="ship-bar" id="ship-bar">
+    {%- assign free_shipping_threshold = 4900 -%}
+    {%- assign cart_total_cents = cart.total_price -%}
+    {%- assign remaining_cents = free_shipping_threshold | minus: cart_total_cents -%}
+    {%- assign pct = cart_total_cents | times: 100 | divided_by: free_shipping_threshold -%}
+    {%- if pct > 100 -%}{%- assign pct = 100 -%}{%- endif -%}
+
+    <div class="sb-label">
+      {%- render 'icon', name: 'truck' -%}
+      {%- if remaining_cents > 0 -%}
+        <span id="ship-bar-label">
+          You're <b>{{ remaining_cents | money }}</b> away from <b>free shipping</b>
+        </span>
+      {%- else -%}
+        <span id="ship-bar-label">🎉 You've unlocked free shipping!</span>
+      {%- endif -%}
+    </div>
+    <div class="sb-track">
+      <div class="sb-fill" id="ship-bar-fill" style="width:{{ pct }}%"></div>
+    </div>
+  </div>
+
+  <!-- Cart items -->
+  <div class="cd-items" id="cart-items">
+    {%- if cart.item_count == 0 -%}
+      <div class="cd-empty" id="cart-empty">
+        <div class="ce-ico">
+          {%- render 'icon', name: 'bag' -%}
+        </div>
+        <div>
+          <div style="font-family:var(--font-head);font-weight:800;font-size:18px;color:var(--ink);">
+            Your cart is empty
+          </div>
+          <div style="margin-top:4px;">Let's find something your pet will love.</div>
+        </div>
+        <button class="btn btn-brand" data-cart-close>Start shopping</button>
+      </div>
+    {%- else -%}
+      {%- for item in cart.items -%}
+        <div class="cd-line" data-line-item="{{ forloop.index }}">
+          <div class="cl-img">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 152 }}"
+                   alt="{{ item.title | escape }}"
+                   width="76" height="76"
+                   loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="cl-info">
+            <div class="cl-title">{{ item.product.title }}</div>
+            {%- unless item.variant.title == 'Default Title' -%}
+              <div class="cl-variant">{{ item.variant.title }}</div>
+            {%- endunless -%}
+            <div class="cl-bottom">
+              <div class="qty" role="group" aria-label="Quantity for {{ item.product.title }}">
+                <button class="cart-qty-btn"
+                        data-line="{{ forloop.index }}"
+                        data-change="-1"
+                        aria-label="Decrease">
+                  {%- render 'icon', name: 'minus' -%}
+                </button>
+                <span class="qv">{{ item.quantity }}</span>
+                <button class="cart-qty-btn"
+                        data-line="{{ forloop.index }}"
+                        data-change="1"
+                        aria-label="Increase">
+                  {%- render 'icon', name: 'plus' -%}
+                </button>
+              </div>
+              <div class="cl-price">{{ item.final_line_price | money }}</div>
+            </div>
+            <button class="cl-remove"
+                    data-line="{{ forloop.index }}"
+                    data-remove>Remove</button>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  <!-- Cart footer -->
+  {%- if cart.item_count > 0 -%}
+    <div class="cd-foot" id="cart-foot">
+      <div class="cd-subtotal">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">{{ cart.total_price | money }}</span>
+      </div>
+      <div class="cf-fine">Shipping &amp; taxes calculated at checkout.</div>
+      <a href="{{ routes.checkout_url }}" class="btn btn-primary btn-lg btn-block" id="checkout-btn">
+        Checkout &middot; <span id="checkout-price">{{ cart.total_price | money }}</span>
+      </a>
+      <button class="btn btn-block" style="color:var(--brand);margin-top:8px;" data-cart-close>
+        Continue shopping
+      </button>
+    </div>
+  {%- endif -%}
+
+</aside>

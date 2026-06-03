@@ -1,0 +1,32 @@
+<div class="wrap" style="max-width:480px;margin:80px auto;padding:0 20px;">
+  <h1 style="font-family:var(--font-head);font-size:32px;color:var(--ink);margin:0 0 8px;">{{ 'customer.login.title' | t }}</h1>
+  <p style="color:var(--muted);margin:0 0 32px;">Sign in to track orders and manage your subscription.</p>
+
+  {%- form 'customer_login' -%}
+    {%- if form.errors -%}
+      <div style="background:#fee;border:1px solid #fcc;border-radius:var(--r-md);padding:14px;margin-bottom:20px;color:#c0392b;font-size:14px;">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+
+    <div style="margin-bottom:16px;">
+      <label for="customer_email" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.login.email' | t }}</label>
+      <input type="email" name="customer[email]" id="customer_email" autocomplete="email" required
+             style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+    </div>
+    <div style="margin-bottom:8px;">
+      <label for="customer_password" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.login.password' | t }}</label>
+      <input type="password" name="customer[password]" id="customer_password" autocomplete="current-password" required
+             style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+    </div>
+    <div style="text-align:right;margin-bottom:24px;">
+      <a href="{{ routes.account_recover_url }}" style="font-size:14px;color:var(--brand);">{{ 'customer.login.forgot_password' | t }}</a>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">{{ 'customer.login.submit' | t }}</button>
+  {%- endform -%}
+
+  <p style="text-align:center;margin-top:24px;font-size:15px;color:var(--muted);">
+    New here?
+    <a href="{{ routes.account_register_url }}" style="color:var(--brand);font-weight:600;">{{ 'customer.login.create_account' | t }}</a>
+  </p>
+</div>

@@ -1,0 +1,113 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "PawVital",
+    "theme_version": "1.0.0",
+    "theme_author": "PawVital",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary (green)",
+        "default": "#0F6E56"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_deep",
+        "label": "Primary deep",
+        "default": "#085041"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent (terracotta)",
+        "default": "#D85A30"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Page background",
+        "default": "#FCFBF7"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body text",
+        "default": "#18261f"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "nunito_n8"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "plus_jakarta_sans_n4"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "corner_radius",
+        "label": "Corner radius style",
+        "options": [
+          { "value": "sharp", "label": "Sharp" },
+          { "value": "soft",  "label": "Soft (default)" },
+          { "value": "round", "label": "Round" }
+        ],
+        "default": "soft"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          { "value": "drawer", "label": "Slide-out drawer" },
+          { "value": "page",   "label": "Cart page" }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold ($)",
+        "default": 49
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_facebook",  "label": "Facebook URL"  },
+      { "type": "text", "id": "social_tiktok",    "label": "TikTok URL"    },
+      { "type": "text", "id": "social_youtube",   "label": "YouTube URL"   }
+    ]
+  }
+]

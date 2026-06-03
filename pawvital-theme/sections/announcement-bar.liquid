@@ -1,0 +1,77 @@
+<div class="announce" aria-label="Announcements">
+  <div class="wrap">
+    {%- for block in section.blocks -%}
+      {%- if forloop.index > 1 -%}
+        <span class="dot" aria-hidden="true"></span>
+      {%- endif -%}
+      <span class="ann-item" {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          {%- render 'icon', name: block.settings.icon -%}
+        {%- endif -%}
+        {{ block.settings.text }}
+      </span>
+    {%- else -%}
+      <span class="ann-item">
+        {%- render 'icon', name: 'truck' -%}
+        Free shipping over $49
+      </span>
+      <span class="dot" aria-hidden="true"></span>
+      <span class="ann-item">
+        {%- render 'icon', name: 'flask' -%}
+        Vet-formulated, always
+      </span>
+      <span class="dot" aria-hidden="true"></span>
+      <span class="ann-item">
+        {%- render 'icon', name: 'sync' -%}
+        Subscribe &amp; save 15%
+      </span>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping over $49"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Truck" },
+            { "value": "flask", "label": "Flask" },
+            { "value": "sync", "label": "Subscribe" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "tag", "label": "Tag" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "truck"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "blocks": [
+        { "type": "announcement", "settings": { "text": "Free shipping over $49", "icon": "truck" } },
+        { "type": "announcement", "settings": { "text": "Vet-formulated, always", "icon": "flask" } },
+        { "type": "announcement", "settings": { "text": "Subscribe & save 15%", "icon": "sync" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

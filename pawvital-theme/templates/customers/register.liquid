@@ -1,0 +1,41 @@
+<div class="wrap" style="max-width:480px;margin:80px auto;padding:0 20px;">
+  <h1 style="font-family:var(--font-head);font-size:32px;color:var(--ink);margin:0 0 8px;">{{ 'customer.register.title' | t }}</h1>
+  <p style="color:var(--muted);margin:0 0 32px;">Create an account to track orders and manage subscriptions.</p>
+
+  {%- form 'create_customer' -%}
+    {%- if form.errors -%}
+      <div style="background:#fee;border:1px solid #fcc;border-radius:var(--r-md);padding:14px;margin-bottom:20px;color:#c0392b;font-size:14px;">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+      <div>
+        <label for="first_name" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.register.first_name' | t }}</label>
+        <input type="text" name="customer[first_name]" id="first_name" autocomplete="given-name"
+               style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+      </div>
+      <div>
+        <label for="last_name" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.register.last_name' | t }}</label>
+        <input type="text" name="customer[last_name]" id="last_name" autocomplete="family-name"
+               style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+      </div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <label for="email" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.register.email' | t }}</label>
+      <input type="email" name="customer[email]" id="email" autocomplete="email" required
+             style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+    </div>
+    <div style="margin-bottom:24px;">
+      <label for="password" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.register.password' | t }}</label>
+      <input type="password" name="customer[password]" id="password" autocomplete="new-password" required
+             style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">{{ 'customer.register.submit' | t }}</button>
+  {%- endform -%}
+
+  <p style="text-align:center;margin-top:24px;font-size:15px;color:var(--muted);">
+    Already have an account?
+    <a href="{{ routes.account_login_url }}" style="color:var(--brand);font-weight:600;">Sign in</a>
+  </p>
+</div>

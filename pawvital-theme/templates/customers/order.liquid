@@ -1,0 +1,86 @@
+<div class="wrap" style="padding:60px 20px;max-width:900px;margin:0 auto;">
+  <a href="{{ routes.account_url }}" style="color:var(--brand);font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-bottom:24px;">
+    {%- render 'icon', name: 'chevron' -%} Back to account
+  </a>
+
+  <div style="display:flex;align-items:start;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:40px;">
+    <div>
+      <h1 style="font-family:var(--font-head);font-size:clamp(22px,4vw,36px);color:var(--ink);margin:0 0 6px;">{{ 'customer.order.title' | t: name: order.name }}</h1>
+      {%- assign order_date_formatted = order.created_at | date: '%B %d, %Y' -%}
+      <p style="color:var(--muted);margin:0;">{{ 'customer.order.date' | t: date: order_date_formatted }}</p>
+      {%- if order.cancelled -%}
+        {%- assign cancelled_date_formatted = order.cancelled_at | date: '%B %d, %Y' -%}
+        <p style="color:#c0392b;margin:4px 0 0;">{{ 'customer.order.cancelled' | t: date: cancelled_date_formatted }}</p>
+      {%- endif -%}
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:2px;">{{ 'customer.order.payment_status' | t }}</div>
+      <span style="background:var(--mint);color:var(--brand-deep);padding:4px 12px;border-radius:var(--r-pill);font-size:13px;font-weight:600;">{{ order.financial_status | capitalize }}</span>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:32px;">
+    <table style="width:100%;border-collapse:collapse;font-size:15px;">
+      <thead style="background:var(--paper);">
+        <tr>
+          <th style="text-align:left;padding:16px 20px;font-weight:700;color:var(--ink);">{{ 'customer.order.product' | t }}</th>
+          <th style="text-align:left;padding:16px;font-weight:700;color:var(--ink);">{{ 'customer.order.sku' | t }}</th>
+          <th style="text-align:center;padding:16px;font-weight:700;color:var(--ink);">{{ 'customer.order.quantity' | t }}</th>
+          <th style="text-align:right;padding:16px;font-weight:700;color:var(--ink);">{{ 'customer.order.price' | t }}</th>
+          <th style="text-align:right;padding:16px 20px;font-weight:700;color:var(--ink);">{{ 'customer.order.total' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr style="border-top:1px solid var(--border);">
+            <td style="padding:16px 20px;">
+              <div style="font-weight:700;color:var(--ink);">{{ line_item.title }}</div>
+              {%- unless line_item.variant.title == 'Default Title' -%}
+                <div style="font-size:13px;color:var(--muted);">{{ line_item.variant.title }}</div>
+              {%- endunless -%}
+              {%- if line_item.fulfillment -%}
+                <div style="font-size:12px;color:var(--brand);margin-top:4px;font-weight:600;">{{ 'customer.order.fulfilled' | t }}</div>
+              {%- endif -%}
+            </td>
+            <td style="padding:16px;color:var(--muted);font-size:13px;">{{ line_item.sku | default: '—' }}</td>
+            <td style="padding:16px;text-align:center;color:var(--ink);">{{ line_item.quantity }}</td>
+            <td style="padding:16px;text-align:right;color:var(--ink);">{{ line_item.price | money }}</td>
+            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--ink);">{{ line_item.final_line_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+      <tfoot style="border-top:2px solid var(--border);">
+        <tr>
+          <td colspan="4" style="padding:14px 16px;text-align:right;color:var(--muted);">Subtotal</td>
+          <td style="padding:14px 20px;text-align:right;font-weight:700;color:var(--ink);">{{ order.subtotal_price | money }}</td>
+        </tr>
+        {%- for shipping_method in order.shipping_methods -%}
+          <tr>
+            <td colspan="4" style="padding:8px 16px;text-align:right;color:var(--muted);">Shipping ({{ shipping_method.title }})</td>
+            <td style="padding:8px 20px;text-align:right;color:var(--ink);">{{ shipping_method.price | money }}</td>
+          </tr>
+        {%- endfor -%}
+        <tr style="border-top:1px solid var(--border);">
+          <td colspan="4" style="padding:14px 16px;text-align:right;font-weight:700;color:var(--ink);">{{ 'customer.order.total' | t }}</td>
+          <td style="padding:14px 20px;text-align:right;font-family:var(--font-head);font-weight:900;font-size:18px;color:var(--brand);">{{ order.total_price | money }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--r-lg);padding:24px;">
+      <h3 style="font-family:var(--font-head);font-size:16px;color:var(--ink);margin:0 0 12px;">{{ 'customer.order.billing_address' | t }}</h3>
+      <address style="font-style:normal;font-size:14px;color:var(--muted);line-height:1.7;">
+        {{ order.billing_address | format_address }}
+      </address>
+    </div>
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:var(--r-lg);padding:24px;">
+      <h3 style="font-family:var(--font-head);font-size:16px;color:var(--ink);margin:0 0 12px;">{{ 'customer.order.shipping_address' | t }}</h3>
+      <address style="font-style:normal;font-size:14px;color:var(--muted);line-height:1.7;">
+        {{ order.shipping_address | format_address }}
+      </address>
+      <div style="margin-top:12px;font-size:13px;color:var(--muted);">{{ 'customer.order.fulfillment_status' | t }}: <strong style="color:var(--ink);">{{ order.fulfillment_status | default: 'Unfulfilled' | capitalize }}</strong></div>
+    </div>
+  </div>
+</div>

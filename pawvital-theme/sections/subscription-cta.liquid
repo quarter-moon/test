@@ -1,0 +1,89 @@
+<section class="section wrap">
+  <div class="sub-cta">
+    <div class="sc-inner">
+      <div class="eyebrow on-dark">{{ section.settings.eyebrow | default: 'Never run out' }}</div>
+      <h2>{{ section.settings.heading | default: 'Subscribe & save 15% on every delivery' }}</h2>
+      <p>{{ section.settings.subtext | default: "Set your schedule, skip or swap anytime, and cancel whenever. Wellness on autopilot — your pet won't miss a day." }}</p>
+
+      <div class="sub-pills">
+        {%- for block in section.blocks -%}
+          <span class="sub-pill" {{ block.shopify_attributes }}>
+            {%- render 'icon', name: 'check' -%}
+            {{ block.settings.text }}
+          </span>
+        {%- else -%}
+          <span class="sub-pill">{%- render 'icon', name: 'check' -%} Free shipping always</span>
+          <span class="sub-pill">{%- render 'icon', name: 'check' -%} Skip or pause anytime</span>
+          <span class="sub-pill">{%- render 'icon', name: 'check' -%} Exclusive member perks</span>
+        {%- endfor -%}
+      </div>
+
+      <a href="{{ section.settings.btn_url | default: '/pages/subscriptions' }}"
+         class="btn btn-primary btn-lg" style="margin-top:26px;">
+        {{ section.settings.btn_label | default: 'Build my subscription' }}
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Subscription CTA",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Never run out"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Subscribe & save 15% on every delivery"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Set your schedule, skip or swap anytime, and cancel whenever. Wellness on autopilot — your pet won't miss a day."
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button text",
+      "default": "Build my subscription"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Benefit pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping always"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Subscription CTA",
+      "blocks": [
+        { "type": "pill", "settings": { "text": "Free shipping always" } },
+        { "type": "pill", "settings": { "text": "Skip or pause anytime" } },
+        { "type": "pill", "settings": { "text": "Exclusive member perks" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
