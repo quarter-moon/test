@@ -205,13 +205,15 @@
     }
 
     function updateCartCount(count) {
-      if (!countEl) return;
-      countEl.textContent = count;
-      countEl.classList.toggle('hidden', count === 0);
-      // Pulse animation
-      countEl.classList.remove('pulse');
-      void countEl.offsetWidth; // reflow
-      countEl.classList.add('pulse');
+      if (countEl) {
+        countEl.textContent = count;
+        countEl.classList.toggle('hidden', count === 0);
+        countEl.classList.remove('pulse');
+        void countEl.offsetWidth;
+        countEl.classList.add('pulse');
+      }
+      const drawerCount = $('#cart-item-count');
+      if (drawerCount) drawerCount.textContent = count + (count === 1 ? ' item' : ' items');
     }
 
     function updateShippingBar(totalCents) {
