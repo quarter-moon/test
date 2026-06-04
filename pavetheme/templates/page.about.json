@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "hero": {
+      "type": "about-hero",
+      "settings": {
+        "eyebrow": "The House of Pavé",
+        "heading": "Jewels made to outlast the moment.",
+        "subheading": "Three generations of artisans. One obsession with light."
+      }
+    },
+    "story": {
+      "type": "about-story",
+      "settings": {
+        "title": "Our Story",
+        "text": "Pavé was founded in a single workshop in Antwerp in 1962, where the art of setting tiny stones flush into precious metal was elevated into a house style. Today we work with master artisans across three continents — each piece still finished by hand, still held to the same impossible standard our founder called \"the light test.\""
+      }
+    },
+    "process": {
+      "type": "about-process",
+      "settings": {
+        "eyebrow": "How we work",
+        "title": "Craft at every step"
+      }
+    }
+  },
+  "order": ["hero", "story", "process"]
+}

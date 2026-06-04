@@ -1,0 +1,79 @@
+<section class="pave-container" style="padding-block:var(--sp-20);">
+  <div class="pave-section-head reveal">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="pave-ornament">
+        <span class="pave-eyebrow" style="color:var(--accent-2);">{{ section.settings.eyebrow }}</span>
+      </div>
+    {%- endif -%}
+    <h2 class="pave-display pave-section-head__title">{{ section.settings.title }}</h2>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="pave-section-head__sub">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="pave-tile-grid">
+    {%- for block in section.blocks -%}
+      {%- assign loop_index = forloop.index0 -%}
+      <a href="{{ block.settings.url }}"
+         class="pave-tile reveal"
+         style="{% if loop_index == 0 %}grid-column:span 2;{% endif %}"
+         {{ block.shopify_attributes }}>
+        <div class="pave-tile__img" style="aspect-ratio:{% if loop_index == 0 %}2 / 1{% else %}4 / 5{% endif %};">
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 1200 }}"
+                 alt="{{ block.settings.image.alt | escape }}"
+                 style="width:100%;height:100%;object-fit:cover;">
+          {%- else -%}
+            <div style="width:100%;height:100%;background:radial-gradient(120% 120% at {% if loop_index == 1 %}30% 20%{% else %}70% 25%{% endif %},var(--placeholder-{% if loop_index == 1 %}2{% else %}1{% endif %}),var(--placeholder-{% if loop_index == 1 %}1{% else %}2{% endif %}));display:grid;place-items:center;">
+              <div style="width:{% if loop_index == 0 %}30%{% else %}55%{% endif %};color:var(--accent);opacity:.82;">
+                {%- render 'placeholder-gem', motif: block.settings.motif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="pave-tile__cap">
+          <div>
+            <div class="pave-eyebrow" style="font-size:9.5px;color:var(--ink-soft);">{{ block.settings.tag }}</div>
+            <div class="pave-display" style="font-size:24px;color:var(--ink);margin-top:2px;">{{ block.settings.label }}</div>
+          </div>
+          <span class="pave-tile__arrow">{%- render 'icon', name: 'arrow', size: 16 -%}</span>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection tiles",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Browse by Category" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Find your form" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "From the proposal to the everyday — explore the house, collection by collection." }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "motif", "label": "Placeholder motif (if no image)", "default": "ring-solitaire" },
+        { "type": "text", "id": "label", "label": "Category label", "default": "Engagement Rings" },
+        { "type": "text", "id": "tag", "label": "Tag line", "default": "The proposal starts here" },
+        { "type": "url", "id": "url", "label": "Link URL" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection tiles",
+      "blocks": [
+        { "type": "tile", "settings": { "label": "Engagement Rings", "tag": "The proposal starts here", "motif": "ring-solitaire" } },
+        { "type": "tile", "settings": { "label": "Necklaces", "tag": "Worn close to the heart", "motif": "pendant" } },
+        { "type": "tile", "settings": { "label": "Earrings", "tag": "Light with every turn", "motif": "drop" } },
+        { "type": "tile", "settings": { "label": "Bracelets", "tag": "A line of brilliance", "motif": "tennis-bracelet" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

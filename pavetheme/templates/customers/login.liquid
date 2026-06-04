@@ -1,0 +1,30 @@
+{% layout 'theme' %}
+
+<div class="pave-container" style="padding-block:var(--sp-20);max-width:440px;">
+  <h1 class="pave-display" style="font-size:clamp(28px,4vw,44px);color:var(--heading);font-weight:300;margin:0 0 var(--sp-8);">Sign In</h1>
+
+  {%- form 'customer_login' -%}
+    {%- if form.errors -%}
+      <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--pave-radius);padding:var(--sp-4) var(--sp-5);margin-bottom:var(--sp-6);font-size:13px;color:#991b1b;">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+
+    <div style="display:flex;flex-direction:column;gap:var(--sp-5);">
+      <div>
+        <label class="pave-label" for="customer-email">Email</label>
+        <input type="email" id="customer-email" name="customer[email]" class="pave-input" autocomplete="email" autofocus>
+      </div>
+      <div>
+        <label class="pave-label" for="customer-password">Password</label>
+        <input type="password" id="customer-password" name="customer[password]" class="pave-input" autocomplete="current-password">
+      </div>
+      <button type="submit" class="pave-btn pave-btn--primary" style="width:100%;justify-content:center;">Sign In</button>
+    </div>
+  {%- endform -%}
+
+  <div style="display:flex;justify-content:space-between;margin-top:var(--sp-6);font-size:12px;">
+    <a href="{{ routes.account_recover_url }}" style="color:var(--ink-soft);text-decoration:underline;">Forgot password?</a>
+    <a href="{{ routes.account_register_url }}" style="color:var(--accent);">Create account →</a>
+  </div>
+</div>

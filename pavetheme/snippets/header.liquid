@@ -1,0 +1,45 @@
+<header class="pave-header" id="pave-header">
+  <div class="pave-container pave-header__inner">
+    <!-- Mobile menu button -->
+    <button class="pave-icon-btn pave-mob-only" id="pave-mobile-menu-btn" aria-label="Menu" aria-expanded="false" aria-controls="pave-mobile-nav">
+      {%- render 'icon', name: 'menu', size: 18 -%}
+    </button>
+
+    <!-- Desktop nav -->
+    <nav class="pave-nav pave-desk-only" aria-label="Main navigation">
+      {%- for link in linklists['main-menu'].links -%}
+        <a href="{{ link.url }}"
+           class="pave-nav__link{% if link.active %} is-active{% endif %}">
+          {{- link.title -}}
+        </a>
+      {%- endfor -%}
+    </nav>
+
+    <!-- Logo (centered) -->
+    <div class="pave-header__logo">
+      <a href="{{ routes.root_url }}" class="pave-wordmark">Pavé</a>
+    </div>
+
+    <!-- Icons -->
+    <div class="pave-header__icons">
+      <button class="pave-icon-btn" id="pave-search-btn" aria-label="Search">
+        {%- render 'icon', name: 'search', size: 17 -%}
+      </button>
+
+      <a href="{{ routes.root_url }}pages/wishlist" class="pave-icon-btn pave-desk-only" aria-label="Wishlist" style="position:relative;">
+        {%- render 'icon', name: 'heart', size: 17 -%}
+      </a>
+
+      <a href="{{ routes.account_url }}" class="pave-icon-btn pave-desk-only" aria-label="Account">
+        {%- render 'icon', name: 'user', size: 17 -%}
+      </a>
+
+      <button class="pave-icon-btn" id="pave-cart-btn" aria-label="Cart" style="position:relative;">
+        {%- render 'icon', name: 'cart', size: 17 -%}
+        <span class="pave-badge-dot" id="pave-cart-count" style="{% if cart.item_count == 0 %}display:none;{% endif %}">
+          {{- cart.item_count -}}
+        </span>
+      </button>
+    </div>
+  </div>
+</header>

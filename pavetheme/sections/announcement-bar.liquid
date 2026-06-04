@@ -1,0 +1,20 @@
+<div class="pave-announce" id="pave-announce">
+  <span class="pave-announce__text">{{ section.settings.text }}</span>
+  <button class="pave-announce__close" onclick="this.closest('#pave-announce').remove()" aria-label="Dismiss">
+    {%- render 'icon', name: 'close', size: 13 -%}
+  </button>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "Complimentary engraving & insured shipping on every order"
+    }
+  ]
+}
+{% endschema %}

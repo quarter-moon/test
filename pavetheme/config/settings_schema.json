@@ -1,0 +1,171 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Pavé",
+    "theme_version": "1.0.0",
+    "theme_author": "Pavé Studio",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Accent color",
+        "default": "#B8975A",
+        "info": "Used for buttons, highlights, and gold accents."
+      },
+      {
+        "type": "color",
+        "id": "accent_color_2",
+        "label": "Secondary accent",
+        "default": "#9E7E3E"
+      },
+      {
+        "type": "select",
+        "id": "color_scheme",
+        "label": "Default color scheme",
+        "options": [
+          { "value": "light", "label": "Light (Ivory)" },
+          { "value": "dark", "label": "Dark (Onyx)" }
+        ],
+        "default": "light"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "label": "Heading font",
+        "default": "cormorant_garamond_n3"
+      },
+      {
+        "type": "font_picker",
+        "id": "body_font",
+        "label": "Body font",
+        "default": "jost_n4"
+      },
+      {
+        "type": "range",
+        "id": "body_font_size",
+        "label": "Base font size",
+        "min": 12,
+        "max": 18,
+        "step": 1,
+        "unit": "px",
+        "default": 14
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_density",
+        "label": "Product card style",
+        "options": [
+          { "value": "detailed", "label": "Detailed (badge + stone info)" },
+          { "value": "minimal", "label": "Minimal (image + price)" }
+        ],
+        "default": "detailed"
+      },
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Max page width",
+        "min": 1000,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "default": 1280
+      },
+      {
+        "type": "range",
+        "id": "grid_gap",
+        "label": "Grid gap",
+        "min": 8,
+        "max": 40,
+        "step": 4,
+        "unit": "px",
+        "default": 24
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_announcement",
+        "label": "Show announcement bar",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_header",
+        "label": "Sticky header",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Product pages",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_engraving",
+        "label": "Enable engraving input by default",
+        "default": true,
+        "info": "Can also be enabled per-product via metafield pave.engraving"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_gift_wrap",
+        "label": "Show gift wrap option",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_certificate",
+        "label": "Show certificate of authenticity",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      {
+        "type": "text",
+        "id": "instagram_url",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "pinterest_url",
+        "label": "Pinterest URL"
+      },
+      {
+        "type": "text",
+        "id": "facebook_url",
+        "label": "Facebook URL"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image"
+      }
+    ]
+  }
+]

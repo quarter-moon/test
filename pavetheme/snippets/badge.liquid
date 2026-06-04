@@ -1,0 +1,7 @@
+{%- comment -%}
+  Renders a product badge.
+  Usage: {% render 'badge', label: 'Sale' %}
+{%- endcomment -%}
+
+{%- assign badge_class = label | downcase -%}
+<span class="pave-badge pave-badge--{{ badge_class }}">{{ label }}</span>

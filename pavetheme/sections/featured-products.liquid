@@ -1,0 +1,59 @@
+{%- liquid
+  assign col = collections[section.settings.collection]
+  assign products_to_show = section.settings.products_to_show | default: 4
+-%}
+
+<section style="background:var(--bg-alt);">
+  <div class="pave-container" style="padding-block:var(--sp-20);">
+    <div class="pave-section-head reveal">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="pave-ornament">
+          <span class="pave-eyebrow" style="color:var(--accent-2);">{{ section.settings.eyebrow }}</span>
+        </div>
+      {%- endif -%}
+      <h2 class="pave-display pave-section-head__title">{{ section.settings.title }}</h2>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="pave-section-head__sub">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <div style="margin-top:6px;">
+          <a href="{{ section.settings.cta_url | default: routes.collections_url }}" class="pave-btn pave-btn--ghost">
+            {{ section.settings.cta_label }}
+            {%- render 'icon', name: 'arrow', size: 14 -%}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="pave-prod-grid">
+      {%- if col != blank -%}
+        {%- for product in col.products limit: products_to_show -%}
+          {%- render 'product-card', product: product, detailed: section.settings.detailed -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for product in collections.all.products limit: products_to_show -%}
+          {%- render 'product-card', product: product, detailed: section.settings.detailed -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured products",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Just Arrived" },
+    { "type": "text", "id": "title", "label": "Title", "default": "New arrivals" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "The latest pieces to leave the atelier." },
+    { "type": "collection", "id": "collection", "label": "Collection to feature" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "detailed", "label": "Detailed cards (show stone/metal chips)", "default": true },
+    { "type": "text", "id": "cta_label", "label": "View all button label", "default": "View All" },
+    { "type": "url", "id": "cta_url", "label": "View all URL" }
+  ],
+  "presets": [
+    { "name": "Featured products" }
+  ]
+}
+{% endschema %}

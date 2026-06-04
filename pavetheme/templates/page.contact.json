@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-page",
+      "settings": {
+        "eyebrow": "Get in touch",
+        "heading": "We'd love to hear from you.",
+        "subheading": "Whether you have a question about a piece, want to arrange a private viewing, or need help finding the perfect gift — our team is here.",
+        "email": "hello@pavejewelry.com",
+        "phone": "+1 (212) 555-0190",
+        "address": "21 East 69th Street, Suite 4\nNew York, NY 10021",
+        "hours": "Monday–Saturday 10am–6pm\nSunday by appointment"
+      }
+    }
+  },
+  "order": ["main"]
+}

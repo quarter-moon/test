@@ -1,0 +1,71 @@
+<div class="pave-container" style="padding-block:var(--sp-12);max-width:760px;">
+  <div class="pave-eyebrow" style="font-size:9.5px;margin-bottom:22px;display:flex;gap:8px;align-items:center;">
+    <a href="{{ blog.url }}" style="color:inherit;text-decoration:none;">Journal</a>
+    <span>/</span>
+    <span style="color:var(--accent-2);">{{ article.tags.first | default: 'Craft' }}</span>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;margin-bottom:16px;">
+    <span class="pave-chip">{{ article.tags.first | default: 'Journal' }}</span>
+    <span class="pave-eyebrow" style="font-size:9.5px;">{{ article.published_at | date: '%B %Y' }} · {{ article.read_time | default: '5' }} min read</span>
+  </div>
+  <h1 class="pave-display" style="font-weight:300;font-size:clamp(34px,5.5vw,58px);color:var(--heading);line-height:1.06;margin:0 0 28px;">{{ article.title }}</h1>
+</div>
+
+<div class="pave-container" style="max-width:980px;margin-bottom:var(--sp-12);">
+  {%- if article.image -%}
+    <div style="border-radius:var(--pave-radius-card);overflow:hidden;border:1px solid var(--divider);">
+      <img src="{{ article.image | image_url: width: 1800 }}" alt="{{ article.image.alt | escape }}" style="width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;">
+    </div>
+  {%- else -%}
+    <div style="border-radius:var(--pave-radius-card);overflow:hidden;border:1px solid var(--divider);aspect-ratio:16/9;">
+      {%- render 'placeholder-gem', motif: 'band-eternity' -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<article class="pave-container" style="max-width:680px;">
+  <div style="font-size:17px;line-height:1.9;color:var(--ink);">
+    {{ article.content }}
+  </div>
+
+  <div style="display:flex;align-items:center;gap:14px;padding:24px 0;border-top:1px solid var(--divider);border-bottom:1px solid var(--divider);margin:24px 0 0;">
+    <div style="width:44px;height:44px;border-radius:50%;background:var(--bg-alt);display:grid;place-items:center;color:var(--accent);font-family:var(--pave-font-display);font-style:italic;font-size:20px;">P</div>
+    <div>
+      <div style="font-size:13px;font-weight:500;">The Pavé Atelier</div>
+      <div class="pave-eyebrow" style="font-size:9.5px;">Master setters since 1962</div>
+    </div>
+  </div>
+</article>
+
+{%- if blog.articles.size > 1 -%}
+  <section class="pave-container" style="padding-block:var(--sp-16);">
+    <div class="pave-section-head pave-section-head--left">
+      <div class="pave-ornament">
+        <span class="pave-eyebrow" style="color:var(--accent-2);">Keep Reading</span>
+      </div>
+      <h2 class="pave-display pave-section-head__title">More from the Journal</h2>
+    </div>
+    <div class="pave-journal-grid">
+      {%- for a in blog.articles limit: 3 -%}
+        {%- unless a.handle == article.handle -%}
+          <a href="{{ a.url }}" class="pave-journal-card" style="text-decoration:none;color:inherit;">
+            <div style="border-radius:var(--pave-radius-card);overflow:hidden;border:1px solid var(--divider);margin-bottom:14px;aspect-ratio:4/3;">
+              {%- if a.image -%}
+                <img src="{{ a.image | image_url: width: 600 }}" alt="{{ a.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover;">
+              {%- else -%}
+                {%- render 'placeholder-gem', motif: 'ring-solitaire' -%}
+              {%- endif -%}
+            </div>
+            <h3 class="pave-display" style="margin:0;font-weight:400;font-size:21px;color:var(--heading);line-height:1.15;text-align:left;">{{ a.title }}</h3>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Article"
+}
+{% endschema %}

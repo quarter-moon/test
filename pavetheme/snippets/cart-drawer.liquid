@@ -1,0 +1,66 @@
+<div class="pave-cart-overlay" id="pave-cart-overlay">
+  <div class="pave-cart-bg" id="pave-cart-bg"></div>
+  <div class="pave-cart-drawer" role="dialog" aria-label="Shopping cart" aria-modal="true">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--divider);">
+      <span class="pave-display" style="font-size:24px;color:var(--heading);">
+        Your Bag
+        <span id="pave-cart-item-count" style="font-size:14px;color:var(--ink-soft);font-family:var(--pave-font-body);margin-left:8px;">({{ cart.item_count }})</span>
+      </span>
+      <button id="pave-cart-close" class="pave-icon-btn" aria-label="Close cart">
+        {%- render 'icon', name: 'close', size: 18 -%}
+      </button>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:8px 24px;" id="pave-cart-items">
+      {%- if cart.item_count == 0 -%}
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:60px 30px;text-align:center;">
+          <p class="pave-display" style="font-size:22px;color:var(--heading);margin:0;">Your bag is empty</p>
+          <p style="font-size:13.5px;color:var(--ink-soft);margin:0;">Beautiful things await.</p>
+          <a href="{{ routes.collections_url }}" class="pave-btn pave-btn--primary" id="pave-cart-browse">Browse Jewelry</a>
+        </div>
+      {%- else -%}
+        {%- for item in cart.items -%}
+          <div style="display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--divider);" data-cart-item="{{ item.key }}">
+            <a href="{{ item.url }}" style="width:72px;flex-shrink:0;border-radius:6px;overflow:hidden;border:1px solid var(--divider);">
+              {%- if item.image -%}
+                <img src="{{ item.image | image_url: width: 144 }}" alt="{{ item.image.alt | escape }}" width="72" height="72" style="width:100%;height:100%;object-fit:cover;">
+              {%- endif -%}
+            </a>
+            <div style="flex:1;min-width:0;">
+              <div class="pave-display" style="font-size:16px;color:var(--ink);line-height:1.2;">{{ item.product.title }}</div>
+              <div style="font-size:11px;color:var(--ink-soft);margin-top:3px;">
+                {%- if item.variant.title != 'Default Title' -%}{{ item.variant.title }}{%- endif -%}
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+                <div class="pave-qty" data-key="{{ item.key }}">
+                  <button class="pave-qty__btn pave-cart-qty-minus" style="font-size:13px;" aria-label="Decrease quantity">−</button>
+                  <span class="pave-qty__val">{{ item.quantity }}</span>
+                  <button class="pave-qty__btn pave-cart-qty-plus" style="font-size:13px;" aria-label="Increase quantity">+</button>
+                </div>
+                <span class="pave-price" style="font-size:13px;">{{ item.final_line_price | money }}</span>
+              </div>
+            </div>
+            <button class="pave-cart-remove" data-key="{{ item.key }}" style="background:none;border:none;color:var(--ink-soft);align-self:flex-start;padding:2px;cursor:pointer;">
+              {%- render 'icon', name: 'close', size: 13 -%}
+            </button>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    {%- if cart.item_count > 0 -%}
+      <div style="padding:18px 24px 22px;border-top:1px solid var(--divider);background:var(--bg-alt);">
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);margin-bottom:8px;">
+          <span>Insured shipping</span>
+          <span style="color:var(--accent-2);">Complimentary</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;">
+          <span class="pave-display" style="font-size:20px;color:var(--heading);">Subtotal</span>
+          <span class="pave-display" style="font-size:26px;color:var(--ink);">{{ cart.total_price | money }}</span>
+        </div>
+        <a href="{{ routes.cart_url }}" class="pave-btn pave-btn--primary pave-btn--full" style="height:48px;">Proceed to Checkout</a>
+        <button id="pave-cart-continue" style="width:100%;background:none;border:none;color:var(--ink-soft);font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-top:12px;cursor:pointer;">Continue Shopping</button>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

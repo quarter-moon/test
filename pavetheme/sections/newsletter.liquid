@@ -1,0 +1,39 @@
+<section class="pave-newsletter">
+  <div class="pave-container reveal" style="padding-block:var(--sp-16);max-width:620px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;">
+    <div class="pave-ornament"></div>
+    <h2 class="pave-display" style="margin:0;font-weight:400;font-size:clamp(26px,3.5vw,36px);color:var(--heading);">{{ section.settings.title }}</h2>
+    <p style="margin:0;color:var(--ink-soft);font-size:14.5px;max-width:420px;">{{ section.settings.subtitle }}</p>
+
+    {%- form 'customer', id: 'pave-newsletter-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="pave-newsletter__form">
+        <input
+          type="email"
+          name="contact[email]"
+          placeholder="{{ section.settings.placeholder | default: 'Your email' }}"
+          class="pave-input"
+          required
+          autocomplete="email">
+        <button type="submit" class="pave-btn pave-btn--primary">{{ section.settings.button_label | default: 'Subscribe' }}</button>
+      </div>
+      {%- if form.posted_successfully? -%}
+        <p style="color:var(--accent-2);font-family:var(--pave-font-display);font-style:italic;font-size:20px;margin-top:8px;">Welcome to the house. ◆</p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "The Pavé Letter" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "New arrivals, atelier stories, and private previews. No noise — just beautiful things, occasionally." },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Your email" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" }
+  ],
+  "presets": [
+    { "name": "Newsletter" }
+  ]
+}
+{% endschema %}

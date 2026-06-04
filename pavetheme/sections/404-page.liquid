@@ -1,0 +1,26 @@
+<div class="pave-container" style="padding-block:var(--sp-24);text-align:center;min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+  <p class="pave-eyebrow" style="font-size:9.5px;margin-bottom:20px;">404</p>
+  <h1 class="pave-display" style="font-size:clamp(36px,6vw,64px);font-weight:300;color:var(--heading);margin:0 0 16px;">Page not found</h1>
+  <p style="color:var(--ink-soft);font-size:15px;max-width:400px;margin:0 auto 32px;line-height:1.6;">
+    The page you're looking for has moved or doesn't exist. Let us help you find what you need.
+  </p>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:48px;">
+    <a href="{{ routes.root_url }}" class="pave-btn pave-btn--primary">Back to Home</a>
+    <a href="{{ routes.collections_url }}" class="pave-btn pave-btn--outline">Browse Collections</a>
+  </div>
+
+  <div style="border-top:1px solid var(--divider);padding-top:40px;width:100%;max-width:600px;">
+    <p class="pave-eyebrow" style="font-size:9.5px;margin-bottom:20px;">Popular Collections</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+      {%- for collection in collections limit: 6 -%}
+        <a href="{{ collection.url }}" class="pave-btn pave-btn--outline" style="padding:8px 18px;font-size:12px;">
+          {{ collection.title }}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "404 Page" }
+{% endschema %}

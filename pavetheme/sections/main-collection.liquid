@@ -1,0 +1,243 @@
+{%- liquid
+  assign products_per_page = section.settings.products_per_page | default: 12
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+-%}
+
+<div class="pave-container" style="padding-block:var(--sp-12);">
+  <!-- Breadcrumb + header -->
+  <div style="margin-bottom:28px;">
+    <div class="pave-eyebrow" style="font-size:9.5px;margin-bottom:16px;display:flex;gap:8px;align-items:center;">
+      <a href="{{ routes.root_url }}" style="color:inherit;">Home</a>
+      <span>/</span>
+      <span style="color:var(--accent-2);">{{ collection.title }}</span>
+    </div>
+    <h1 class="pave-display" style="margin:0;font-weight:300;font-size:clamp(34px,5vw,56px);color:var(--heading);line-height:1.05;">
+      {{ collection.title }}
+    </h1>
+    {%- if collection.description != blank -%}
+      <p style="margin:10px 0 0;color:var(--ink-soft);font-size:15px;max-width:520px;">{{ collection.description }}</p>
+    {%- endif -%}
+  </div>
+
+  <!-- Toolbar -->
+  <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--divider);border-bottom:1px solid var(--divider);padding:12px 0;margin-bottom:28px;">
+    <span class="pave-desk-only" data-pave-count style="color:var(--ink-soft);font-size:12px;letter-spacing:.04em;">{{ collection.products_count }} pieces</span>
+
+    <button id="pave-filter-btn" class="pave-mob-only" style="display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid var(--divider);border-radius:2px;padding:8px 14px;color:var(--ink);font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">
+      {%- render 'icon', name: 'filter', size: 14 -%}
+      Filter
+    </button>
+
+    <label style="display:inline-flex;align-items:center;gap:8px;">
+      <span class="pave-eyebrow" style="font-size:9.5px;">Sort</span>
+      <select class="pave-select" onchange="location.href=this.value;">
+        {%- for option in collection.sort_options -%}
+          <option value="{{ collection.url }}?sort_by={{ option.value }}"
+                  {% if option.value == sort_by %}selected{% endif %}>
+            {{ option.name }}
+          </option>
+        {%- endfor -%}
+      </select>
+    </label>
+  </div>
+
+  <!-- Mobile filter drawer (outside layout flow) -->
+  <div id="pave-filter-overlay" class="pave-filter-overlay">
+    <div class="pave-filter-bg" id="pave-filter-bg"></div>
+    <div class="pave-filter-drawer" id="pave-filter-drawer" role="dialog" aria-modal="true" aria-label="Filters">
+      <div class="pave-filter-drawer__header">
+        <span class="pave-display" style="font-size:20px;color:var(--heading);">Refine</span>
+        <div style="display:flex;align-items:center;gap:16px;">
+          {%- if current_tags.size > 0 -%}
+            <a href="{{ collection.url }}" style="color:var(--accent-2);font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;">
+              Clear ({{ current_tags.size }})
+            </a>
+          {%- endif -%}
+          <button class="pave-filter-drawer__close" id="pave-filter-close" aria-label="Close filters">
+            {%- render 'icon', name: 'close', size: 18 -%}
+          </button>
+        </div>
+      </div>
+      <div class="pave-filter-drawer__body">
+        {%- for filter in collection.filters -%}
+          <details open style="border-bottom:1px solid var(--divider);padding-block:16px;">
+            <summary style="display:flex;justify-content:space-between;align-items:center;list-style:none;cursor:pointer;user-select:none;">
+              <span class="pave-eyebrow" style="color:var(--ink);">{{ filter.label }}</span>
+              <span class="pave-filter-chevron" style="color:var(--ink-soft);transition:transform .2s ease;">{%- render 'icon', name: 'chevron-down', size: 14 -%}</span>
+            </summary>
+
+            {%- if filter.type == 'price_range' -%}
+              {%- liquid
+                assign range_min = filter.range_min | divided_by: 100.0
+                assign range_max = filter.range_max | divided_by: 100.0
+                assign val_min = filter.min_value.value | default: filter.range_min | divided_by: 100.0
+                assign val_max = filter.max_value.value | default: filter.range_max | divided_by: 100.0
+              -%}
+              <div class="pave-price-filter" style="margin-top:18px;"
+                   data-min="{{ range_min }}"
+                   data-max="{{ range_max }}"
+                   data-filter-url="{{ collection.url }}">
+                <div style="display:flex;justify-content:space-between;margin-bottom:14px;">
+                  <span class="pave-price-filter__label" style="font-size:13px;color:var(--ink);">${{ val_min | round }}</span>
+                  <span class="pave-price-filter__label" style="font-size:13px;color:var(--ink);">${{ val_max | round }}</span>
+                </div>
+                <div class="pave-range-wrap" style="position:relative;height:20px;margin-bottom:4px;">
+                  <div class="pave-range-track" style="position:absolute;top:50%;left:0;right:0;height:2px;background:var(--divider);transform:translateY(-50%);border-radius:1px;">
+                    <div class="pave-range-fill" style="position:absolute;height:100%;background:var(--accent);border-radius:1px;"></div>
+                  </div>
+                  <input type="range" class="pave-range pave-range--min"
+                         min="{{ range_min }}" max="{{ range_max }}"
+                         value="{{ val_min }}" step="10"
+                         aria-label="Minimum price">
+                  <input type="range" class="pave-range pave-range--max"
+                         min="{{ range_min }}" max="{{ range_max }}"
+                         value="{{ val_max }}" step="10"
+                         aria-label="Maximum price">
+                </div>
+                <input type="hidden" name="filter.v.price.gte" value="{{ val_min }}">
+                <input type="hidden" name="filter.v.price.lte" value="{{ val_max }}">
+              </div>
+
+            {%- else -%}
+              <div style="display:flex;flex-direction:column;gap:2px;margin-top:12px;">
+                {%- for value in filter.values -%}
+                  <label style="display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;">
+                    <span style="width:15px;height:15px;border-radius:2px;border:1px solid {% if value.active %}var(--accent){% else %}var(--divider){% endif %};background:{% if value.active %}var(--accent){% else %}transparent{% endif %};display:grid;place-items:center;color:var(--pave-ivory);flex-shrink:0;transition:all .15s ease;">
+                      {%- if value.active -%}{%- render 'icon', name: 'check', size: 10 -%}{%- endif -%}
+                    </span>
+                    <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}" style="color:{% if value.active %}var(--ink){% else %}var(--ink-soft){% endif %};font-size:13.5px;text-decoration:none;">
+                      {{ value.label }}
+                    </a>
+                  </label>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="pave-collection-layout">
+    <!-- Sidebar filters (desktop) -->
+    <aside class="pave-desk-only pave-sidebar">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:8px;">
+        <span class="pave-display" style="font-size:20px;color:var(--heading);">Refine</span>
+        {%- if current_tags.size > 0 -%}
+          <a href="{{ collection.url }}" style="background:none;border:none;color:var(--accent-2);font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;">
+            Clear ({{ current_tags.size }})
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- for filter in collection.filters -%}
+        <details open style="border-bottom:1px solid var(--divider);padding-block:16px;">
+          <summary style="display:flex;justify-content:space-between;align-items:center;list-style:none;cursor:pointer;user-select:none;">
+            <span class="pave-eyebrow" style="color:var(--ink);">{{ filter.label }}</span>
+            <span class="pave-filter-chevron" style="color:var(--ink-soft);transition:transform .2s ease;">{%- render 'icon', name: 'chevron-down', size: 14 -%}</span>
+          </summary>
+
+          {%- if filter.type == 'price_range' -%}
+            {%- liquid
+              assign range_min = filter.range_min | divided_by: 100.0
+              assign range_max = filter.range_max | divided_by: 100.0
+              assign val_min = filter.min_value.value | default: filter.range_min | divided_by: 100.0
+              assign val_max = filter.max_value.value | default: filter.range_max | divided_by: 100.0
+            -%}
+            <div class="pave-price-filter" style="margin-top:18px;"
+                 data-min="{{ range_min }}"
+                 data-max="{{ range_max }}"
+                 data-filter-url="{{ collection.url }}">
+              <!-- Labels -->
+              <div style="display:flex;justify-content:space-between;margin-bottom:14px;">
+                <span class="pave-price-filter__label" id="pf-min-label" style="font-size:13px;color:var(--ink);">${{ val_min | round }}</span>
+                <span class="pave-price-filter__label" id="pf-max-label" style="font-size:13px;color:var(--ink);">${{ val_max | round }}</span>
+              </div>
+              <!-- Dual range slider -->
+              <div class="pave-range-wrap" style="position:relative;height:20px;margin-bottom:4px;">
+                <div class="pave-range-track" style="position:absolute;top:50%;left:0;right:0;height:2px;background:var(--divider);transform:translateY(-50%);border-radius:1px;">
+                  <div class="pave-range-fill" id="pf-fill" style="position:absolute;height:100%;background:var(--accent);border-radius:1px;"></div>
+                </div>
+                <input type="range" class="pave-range pave-range--min" id="pf-min"
+                       min="{{ range_min }}" max="{{ range_max }}"
+                       value="{{ val_min }}" step="10"
+                       aria-label="Minimum price">
+                <input type="range" class="pave-range pave-range--max" id="pf-max"
+                       min="{{ range_min }}" max="{{ range_max }}"
+                       value="{{ val_max }}" step="10"
+                       aria-label="Maximum price">
+              </div>
+              <!-- Hidden inputs for form submission -->
+              <input type="hidden" id="pf-min-val" name="filter.v.price.gte" value="{{ val_min }}">
+              <input type="hidden" id="pf-max-val" name="filter.v.price.lte" value="{{ val_max }}">
+            </div>
+
+          {%- else -%}
+            <div style="display:flex;flex-direction:column;gap:2px;margin-top:12px;">
+              {%- for value in filter.values -%}
+                <label style="display:flex;align-items:center;gap:10px;padding:6px 0;cursor:pointer;">
+                  <span style="width:15px;height:15px;border-radius:2px;border:1px solid {% if value.active %}var(--accent){% else %}var(--divider){% endif %};background:{% if value.active %}var(--accent){% else %}transparent{% endif %};display:grid;place-items:center;color:var(--pave-ivory);flex-shrink:0;transition:all .15s ease;">
+                    {%- if value.active -%}{%- render 'icon', name: 'check', size: 10 -%}{%- endif -%}
+                  </span>
+                  <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}" style="color:{% if value.active %}var(--ink){% else %}var(--ink-soft){% endif %};font-size:13.5px;text-decoration:none;">
+                    {{ value.label }}
+                  </a>
+                </label>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+        </details>
+      {%- endfor -%}
+    </aside>
+
+    <!-- Product grid -->
+    <div>
+      {%- if collection.products.size == 0 -%}
+        <div style="padding:80px 0;text-align:center;color:var(--ink-soft);">
+          <p class="pave-display" style="font-size:22px;color:var(--heading);margin:0;">Nothing matches those filters</p>
+          <p style="font-size:13.5px;">Try removing a filter or two.</p>
+          <a href="{{ collection.url }}" class="pave-btn pave-btn--outline" style="margin-top:8px;display:inline-flex;">Clear Filters</a>
+        </div>
+      {%- else -%}
+        {%- paginate collection.products by products_per_page -%}
+          <div class="pave-prod-grid">
+            {%- for product in collection.products -%}
+              {%- render 'product-card', product: product -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <div style="display:flex;justify-content:center;gap:8px;margin-top:48px;">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="pave-btn pave-btn--outline" style="padding:10px 20px;">← Previous</a>
+              {%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="pave-btn pave-btn--outline" style="padding:10px 16px;min-width:44px;">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="pave-btn pave-btn--primary" style="padding:10px 16px;min-width:44px;">{{ part.title }}</span>
+                {%- else -%}
+                  <span style="padding:10px 8px;color:var(--ink-soft);">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="pave-btn pave-btn--outline" style="padding:10px 20px;">Next →</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 12 }
+  ]
+}
+{% endschema %}

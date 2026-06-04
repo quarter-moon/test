@@ -1,0 +1,118 @@
+<div class="pave-container" style="padding-block:var(--sp-16);">
+  <div style="max-width:640px;margin-bottom:var(--sp-12);">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="pave-eyebrow">{{ section.settings.eyebrow }}</p>
+    {%- endif -%}
+    <h1 class="pave-display" style="font-size:clamp(28px,4vw,52px);color:var(--heading);font-weight:300;margin:var(--sp-2) 0 var(--sp-4);">{{ section.settings.heading }}</h1>
+    {%- if section.settings.subheading != blank -%}
+      <p style="color:var(--ink-soft);line-height:1.7;font-size:15px;">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);" class="pave-contact-grid">
+
+    {%- comment -%} Left: form {%- endcomment -%}
+    <div class="reveal">
+      {%- form 'contact' -%}
+        {%- if form.posted_successfully? -%}
+          <div style="background:var(--surface);border:1px solid var(--divider);border-radius:var(--pave-radius-card);padding:var(--sp-10);text-align:center;">
+            <div style="font-size:32px;margin-bottom:var(--sp-4);">✦</div>
+            <p class="pave-display" style="font-size:20px;color:var(--heading);">Thank you</p>
+            <p style="color:var(--ink-soft);font-size:13px;margin-top:var(--sp-2);">We'll be in touch within one business day.</p>
+          </div>
+        {%- else -%}
+          <div style="display:flex;flex-direction:column;gap:var(--sp-5);">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4);">
+              <div>
+                <label class="pave-label">First name</label>
+                <input type="text" name="contact[first_name]" class="pave-input" autocomplete="given-name">
+              </div>
+              <div>
+                <label class="pave-label">Last name</label>
+                <input type="text" name="contact[last_name]" class="pave-input" autocomplete="family-name">
+              </div>
+            </div>
+            <div>
+              <label class="pave-label">Email <span style="color:var(--accent);">*</span></label>
+              <input type="email" name="contact[email]" class="pave-input" required autocomplete="email" value="{{ form.email }}">
+            </div>
+            <div>
+              <label class="pave-label">Subject</label>
+              <select name="contact[subject]" class="pave-input pave-select">
+                <option value="">Choose a topic</option>
+                <option>Order inquiry</option>
+                <option>Custom piece</option>
+                <option>Private viewing</option>
+                <option>Press &amp; media</option>
+                <option>General question</option>
+              </select>
+            </div>
+            <div>
+              <label class="pave-label">Message <span style="color:var(--accent);">*</span></label>
+              <textarea name="contact[body]" class="pave-input" rows="5" required style="resize:vertical;font-family:inherit;">{{ form.body }}</textarea>
+            </div>
+            <button type="submit" class="pave-btn pave-btn--primary" style="align-self:flex-start;">Send message</button>
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+
+    {%- comment -%} Right: info {%- endcomment -%}
+    <div class="reveal" style="display:flex;flex-direction:column;gap:var(--sp-8);">
+      {%- if section.settings.email != blank -%}
+        <div>
+          <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:var(--sp-2);">Email</p>
+          <a href="mailto:{{ section.settings.email }}" style="color:var(--ink);font-size:15px;">{{ section.settings.email }}</a>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.phone != blank -%}
+        <div>
+          <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:var(--sp-2);">Phone</p>
+          <a href="tel:{{ section.settings.phone | remove: ' ' }}" style="color:var(--ink);font-size:15px;">{{ section.settings.phone }}</a>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.address != blank -%}
+        <div>
+          <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:var(--sp-2);">Visit us</p>
+          <address style="font-style:normal;color:var(--ink);font-size:15px;line-height:1.6;">{{ section.settings.address | newline_to_br }}</address>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.hours != blank -%}
+        <div>
+          <p style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:var(--sp-2);">Hours</p>
+          <p style="color:var(--ink);font-size:15px;line-height:1.6;">{{ section.settings.hours | newline_to_br }}</p>
+        </div>
+      {%- endif -%}
+
+      <div style="background:var(--surface);border:1px solid var(--divider);border-radius:var(--pave-radius-card);padding:var(--sp-7);">
+        <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:var(--sp-3);">Private viewings</p>
+        <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;margin-bottom:var(--sp-5);">Arrange a private appointment to view pieces from our full collection in an unhurried setting.</p>
+        <a href="mailto:{{ section.settings.email | default: 'hello@pavejewelry.com' }}?subject=Private%20viewing%20request" class="pave-btn pave-btn--outline" style="font-size:11px;">Request appointment</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media (max-width:767px) {
+    .pave-contact-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Get in touch" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "We'd love to hear from you." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading" },
+    { "type": "text", "id": "email", "label": "Email address" },
+    { "type": "text", "id": "phone", "label": "Phone number" },
+    { "type": "textarea", "id": "address", "label": "Address" },
+    { "type": "textarea", "id": "hours", "label": "Opening hours" }
+  ]
+}
+{% endschema %}

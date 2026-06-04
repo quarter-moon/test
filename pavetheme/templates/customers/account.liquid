@@ -1,0 +1,40 @@
+{% layout 'theme' %}
+
+<div class="pave-container" style="padding-block:var(--sp-16);">
+  <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--sp-10);">
+    <h1 class="pave-display" style="font-size:clamp(24px,3vw,40px);color:var(--heading);font-weight:300;margin:0;">Welcome, {{ customer.first_name }}</h1>
+    <a href="{{ routes.account_logout_url }}" style="font-size:12px;color:var(--ink-soft);text-decoration:underline;">Sign out</a>
+  </div>
+
+  <h2 class="pave-display" style="font-size:20px;color:var(--heading);font-weight:400;margin:0 0 var(--sp-6);">Order history</h2>
+
+  {%- if customer.orders.size == 0 -%}
+    <div style="background:var(--surface);border:1px solid var(--divider);border-radius:var(--pave-radius-card);padding:var(--sp-12);text-align:center;">
+      <p style="color:var(--ink-soft);margin-bottom:var(--sp-5);">You haven't placed any orders yet.</p>
+      <a href="{{ routes.collections_url }}" class="pave-btn pave-btn--primary">Browse Jewelry</a>
+    </div>
+  {%- else -%}
+    <div style="display:flex;flex-direction:column;gap:var(--sp-4);">
+      {%- for order in customer.orders -%}
+        <a href="{{ order.customer_url }}" style="display:block;background:var(--surface);border:1px solid var(--divider);border-radius:var(--pave-radius-card);padding:var(--sp-6) var(--sp-7);text-decoration:none;color:inherit;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-4);">
+            <div>
+              <div style="font-size:13px;font-weight:500;color:var(--ink);">Order {{ order.name }}</div>
+              <div style="font-size:12px;color:var(--ink-soft);margin-top:2px;">{{ order.created_at | date: "%B %d, %Y" }}</div>
+              <div style="font-size:12px;color:var(--ink-soft);margin-top:4px;">{{ order.line_items.size }} {% if order.line_items.size == 1 %}item{% else %}items{% endif %}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:13px;color:var(--ink);font-weight:500;">{{ order.total_price | money }}</div>
+              <div style="margin-top:4px;">
+                {%- assign status_color = '#6b7280' -%}
+                {%- if order.financial_status == 'paid' %}{%- assign status_color = '#15803d' -%}{%- endif -%}
+                {%- if order.financial_status == 'refunded' %}{%- assign status_color = '#b91c1c' -%}{%- endif -%}
+                <span style="font-size:11px;color:{{ status_color }};text-transform:capitalize;letter-spacing:.04em;">{{ order.financial_status }}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

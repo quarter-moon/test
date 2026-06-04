@@ -1,0 +1,84 @@
+{%- comment -%}
+  Renders a product card.
+  Usage: {% render 'product-card', product: product, detailed: true %}
+{%- endcomment -%}
+
+{%- liquid
+  if detailed != blank
+    assign is_detailed = detailed
+  else
+    assign is_detailed = false
+    if settings.card_density == 'detailed'
+      assign is_detailed = true
+    endif
+  endif
+  assign first_image = product.featured_image
+  assign badge = product.metafields.pave.badge.value
+  assign stone = product.metafields.pave.stone.value
+  assign metal = product.metafields.pave.metal.value
+  assign first_variant_id = product.variants.first.id
+-%}
+
+<article class="pave-card reveal" data-product-id="{{ product.id }}">
+  <div class="pave-card__image">
+    <div class="pave-card__img-wrap">
+      <a href="{{ product.url }}">
+        {%- if first_image -%}
+          <img
+            src="{{ first_image | image_url: width: 600 }}"
+            alt="{{ first_image.alt | escape }}"
+            width="600"
+            height="600"
+            loading="lazy">
+        {%- else -%}
+          {%- render 'placeholder-gem', motif: product.metafields.pave.motif.value -%}
+        {%- endif -%}
+      </a>
+    </div>
+
+    {%- if badge != blank -%}
+      <div class="pave-card__badge">
+        {%- render 'badge', label: badge -%}
+      </div>
+    {%- endif -%}
+
+    <button
+      class="pave-card__wish"
+      aria-label="Add to wishlist"
+      data-wishlist-btn="{{ product.id }}"
+      onclick="paveToggleWishlist(this, '{{ product.id }}')">
+      {%- render 'icon', name: 'heart', size: 16 -%}
+    </button>
+  </div>
+
+  <div class="pave-card__body">
+    <div class="pave-eyebrow pave-card__category" style="font-size:9.5px;">
+      {{- product.type -}}
+    </div>
+
+    <h3 class="pave-display pave-card__name">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    {%- if is_detailed -%}
+      <div class="pave-card__meta">
+        {%- if stone != blank and stone != 'None' -%}
+          <span class="pave-chip">{{ stone }}</span>
+        {%- endif -%}
+        {%- if metal != blank -%}
+          <span class="pave-chip">{{ metal }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="pave-card__foot">
+      {%- render 'price', product: product -%}
+      <button
+        class="pave-card__add"
+        aria-label="Add to bag"
+        onclick="paveAddToCart({{ first_variant_id }}, 1)">
+        {%- render 'icon', name: 'plus', size: 13 -%}
+      </button>
+    </div>
+  </div>
+</article>

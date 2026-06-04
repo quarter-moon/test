@@ -1,0 +1,122 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "stat1": { "type": "stat", "settings": { "value": "40,000+", "label": "Stones set by hand" } },
+        "stat2": { "type": "stat", "settings": { "value": "GIA / IGI", "label": "Every stone certified" } },
+        "stat3": { "type": "stat", "settings": { "value": "Lifetime", "label": "Free service guarantee" } }
+      },
+      "block_order": ["stat1", "stat2", "stat3"],
+      "settings": {
+        "style": "split",
+        "eyebrow": "Fine Jewelry · Est. 2025",
+        "heading_line_1": "Where luxury",
+        "heading_line_2": "finds its form.",
+        "subheading": "A house of hand-set diamonds and coloured stones. Every piece GIA certified, every setting signed, every stone chosen by eye.",
+        "primary_cta_label": "Shop the Collection",
+        "primary_cta_url": "/collections/all",
+        "secondary_cta_label": "Our Story",
+        "secondary_cta_url": "/pages/our-story"
+      }
+    },
+    "collection_tiles": {
+      "type": "collection-tiles",
+      "blocks": {
+        "tile1": {
+          "type": "tile",
+          "settings": {
+            "label": "Engagement Rings",
+            "tag": "The proposal starts here",
+            "motif": "ring-solitaire",
+            "url": "/collections/engagement-rings"
+          }
+        },
+        "tile2": {
+          "type": "tile",
+          "settings": {
+            "label": "Necklaces",
+            "tag": "Worn close to the heart",
+            "motif": "pendant",
+            "url": "/collections/necklaces"
+          }
+        },
+        "tile3": {
+          "type": "tile",
+          "settings": {
+            "label": "Earrings",
+            "tag": "Light with every turn",
+            "motif": "drop",
+            "url": "/collections/earrings"
+          }
+        },
+        "tile4": {
+          "type": "tile",
+          "settings": {
+            "label": "Bracelets",
+            "tag": "A line of brilliance",
+            "motif": "tennis-bracelet",
+            "url": "/collections/bracelets"
+          }
+        }
+      },
+      "block_order": ["tile1", "tile2", "tile3", "tile4"],
+      "settings": {
+        "eyebrow": "Browse by Category",
+        "title": "Find your form",
+        "subtitle": "From the proposal to the everyday — explore the house, collection by collection."
+      }
+    },
+    "new_arrivals": {
+      "type": "featured-products",
+      "settings": {
+        "eyebrow": "Just Arrived",
+        "title": "New arrivals",
+        "subtitle": "Fresh from the bench. Each piece set by hand, inspected three times, and ready to wear.",
+        "products_to_show": 4,
+        "detailed": true,
+        "cta_label": "See the Full Collection",
+        "cta_url": "/collections/all"
+      }
+    },
+    "spotlight": {
+      "type": "product-spotlight",
+      "settings": {
+        "eyebrow": "The Piece · Rare Find",
+        "product": "riviere-necklace",
+        "title": "A necklace without compromise",
+        "description": "Twenty-one graduated round brilliants, open-claw set so each stone floats independently. 7.2 carats. GIA certified. The kind of piece that stops a room."
+      }
+    },
+    "lookbook": {
+      "type": "lookbook",
+      "settings": {
+        "eyebrow": "The Atelier",
+        "title": "Stone by stone.\nThe old way, on purpose.",
+        "text": "Every Pavé piece is set under magnification by a craftsperson who has spent years learning to read a stone — its grain, its depth, the angle at which it holds light. We haven't found a machine that can do it better. We've stopped looking.",
+        "cta_label": "Inside the Atelier",
+        "cta_url": "/pages/our-story"
+      }
+    },
+    "trust": {
+      "type": "trust-bar",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "icon": "shield", "title": "Certified Authentic", "text": "GIA, IGI & SSEF reports with every stone" } },
+        "t2": { "type": "item", "settings": { "icon": "ring", "title": "Hand-Finished", "text": "Set and polished by master jewelers" } },
+        "t3": { "type": "item", "settings": { "icon": "truck", "title": "Insured Shipping", "text": "Free, fully insured, signature on delivery" } },
+        "t4": { "type": "item", "settings": { "icon": "leaf", "title": "Ethically Sourced", "text": "Conflict-free & traceable to origin" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "title": "The Pavé Letter",
+        "subtitle": "New arrivals, atelier stories, and private previews. No noise — just beautiful things, occasionally.",
+        "placeholder": "Your email",
+        "button_label": "Subscribe"
+      }
+    }
+  },
+  "order": ["hero", "collection_tiles", "new_arrivals", "spotlight", "lookbook", "trust", "newsletter"]
+}

@@ -1,0 +1,99 @@
+{%- comment -%}
+  Gold line-art gem placeholder. Replace with real product imagery.
+  Usage: {% render 'placeholder-gem', motif: 'ring-solitaire' %}
+{%- endcomment -%}
+
+{%- assign gem_motif = motif | default: 'ring-solitaire' -%}
+
+<div style="width:100%;height:100%;background:radial-gradient(120% 120% at 70% 25%, var(--placeholder-1), var(--placeholder-2));display:grid;place-items:center;position:relative;">
+  <div style="position:absolute;inset:14%;color:var(--accent);opacity:.82;">
+    <svg viewBox="0 0 200 200" width="100%" height="100%" stroke="currentColor" fill="none" style="display:block;" aria-hidden="true">
+      {%- case gem_motif -%}
+        {%- when 'ring-solitaire' -%}
+          <ellipse cx="100" cy="138" rx="46" ry="30" fill="none" stroke-width="1.4"/>
+          <ellipse cx="100" cy="138" rx="40" ry="24.8" fill="none" stroke-width="1.4" opacity=".7"/>
+          <line x1="80" y1="112" x2="88" y2="86" stroke-width="1"/>
+          <line x1="120" y1="112" x2="112" y2="86" stroke-width="1"/>
+          <path d="M 100 24 C 122 24 122 60.4 100 104 C 78 60.4 78 24 100 24 Z" fill="none" stroke-width="1"/>
+          <line x1="100" y1="24" x2="100" y2="104" stroke-width=".5" opacity=".4"/>
+          <line x1="78" y1="64" x2="122" y2="64" stroke-width=".5" opacity=".4"/>
+          <path d="M 78 64 L 100 24 L 122 64 L 100 104 Z" fill="none" stroke-width=".6" opacity=".6"/>
+        {%- when 'ring-halo' -%}
+          <ellipse cx="100" cy="140" rx="44" ry="28" fill="none" stroke-width="1.4"/>
+          <ellipse cx="100" cy="140" rx="38.8" ry="22.8" fill="none" stroke-width="1.4" opacity=".7"/>
+          <circle cx="100" cy="74" r="26" fill="none" stroke-width="1"/>
+          <circle cx="100" cy="74" r="15.08" fill="none" stroke-width=".8" opacity=".75"/>
+          <polygon points="109.2,83.1 114.5,74 109.2,64.9 100,60 90.8,64.9 85.5,74 90.8,83.1 100,88" fill="none" stroke-width=".8" opacity=".9"/>
+          <circle cx="136" cy="74" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="127.5" cy="96.5" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="108.7" cy="109.7" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="87.3" cy="109.7" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="68.5" cy="96.5" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="64" cy="74" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="68.5" cy="51.5" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="87.3" cy="38.3" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="108.7" cy="38.3" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+          <circle cx="127.5" cy="51.5" r="2.4" fill="currentColor" stroke="none" opacity=".8"/>
+        {%- when 'band-eternity' -%}
+          <ellipse cx="100" cy="100" rx="62" ry="40" fill="none" stroke-width="1.4"/>
+          <ellipse cx="100" cy="100" rx="54.4" ry="34.4" fill="none" stroke-width="1.4" opacity=".7"/>
+          <circle cx="100" cy="60" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="121.4" cy="63.9" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="138.8" cy="75.4" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="148.5" cy="91.9" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="148.5" cy="108.1" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="138.8" cy="124.6" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="121.4" cy="136.1" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="100" cy="140" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="78.6" cy="136.1" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="61.2" cy="124.6" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="51.5" cy="108.1" r="2.6" fill="currentColor" stroke="none" opacity=".85"/>
+        {%- when 'studs' -%}
+          <circle cx="66" cy="100" r="30" fill="none" stroke-width="1"/>
+          <circle cx="66" cy="100" r="17.4" fill="none" stroke-width=".8" opacity=".75"/>
+          <circle cx="134" cy="100" r="30" fill="none" stroke-width="1"/>
+          <circle cx="134" cy="100" r="17.4" fill="none" stroke-width=".8" opacity=".75"/>
+        {%- when 'pendant' -%}
+          <path d="M 40 50 Q 100 78 160 50" fill="none" stroke-width="1"/>
+          <line x1="100" y1="70" x2="100" y2="92" stroke-width="1"/>
+          <ellipse cx="100" cy="122" rx="26" ry="30" fill="none" stroke-width="1"/>
+          <ellipse cx="100" cy="122" rx="14.3" ry="16.5" fill="none" stroke-width=".7" opacity=".5"/>
+          <circle cx="136" cy="122" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>
+          <circle cx="130.5" cy="139.8" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>
+          <circle cx="118.5" cy="152.8" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>
+          <circle cx="103.1" cy="158.4" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>
+          <circle cx="83.7" cy="155.4" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>
+          <circle cx="68.7" cy="145.4" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>
+          <circle cx="62.6" cy="128.5" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>
+        {%- when 'tennis-bracelet' -%}
+          <line x1="30" y1="100" x2="170" y2="100" stroke-width=".8" opacity=".4"/>
+          <circle cx="38" cy="100" r="9" fill="none" stroke-width=".8"/>
+          <circle cx="55.5" cy="100" r="9" fill="none" stroke-width=".8"/>
+          <circle cx="73" cy="100" r="9" fill="none" stroke-width=".8"/>
+          <circle cx="90.5" cy="100" r="9" fill="none" stroke-width=".8"/>
+          <circle cx="108" cy="100" r="9" fill="none" stroke-width=".8"/>
+          <circle cx="125.5" cy="100" r="9" fill="none" stroke-width=".8"/>
+          <circle cx="143" cy="100" r="9" fill="none" stroke-width=".8"/>
+          <circle cx="160.5" cy="100" r="9" fill="none" stroke-width=".8"/>
+        {%- when 'drop' -%}
+          <circle cx="94" cy="56" r="2.2" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="104.3" cy="52.5" r="2.2" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="113.7" cy="60.2" r="2.2" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="113.7" cy="71.3" r="2.2" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="104.3" cy="79.1" r="2.2" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="94" cy="75.5" r="2.2" fill="currentColor" stroke="none" opacity=".85"/>
+          <circle cx="88.5" cy="65.2" r="2.2" fill="currentColor" stroke="none" opacity=".85"/>
+          <line x1="100" y1="64" x2="100" y2="96" stroke-width="1"/>
+          <ellipse cx="100" cy="126" rx="22" ry="32" fill="none" stroke-width="1"/>
+          <ellipse cx="100" cy="126" rx="12.1" ry="17.6" fill="none" stroke-width=".7" opacity=".5"/>
+        {%- else -%}
+          <ellipse cx="100" cy="138" rx="46" ry="30" fill="none" stroke-width="1.4"/>
+          <ellipse cx="100" cy="138" rx="40" ry="24.8" fill="none" stroke-width="1.4" opacity=".7"/>
+          <line x1="80" y1="112" x2="88" y2="86" stroke-width="1"/>
+          <line x1="120" y1="112" x2="112" y2="86" stroke-width="1"/>
+          <path d="M 100 24 C 122 24 122 60.4 100 104 C 78 60.4 78 24 100 24 Z" fill="none" stroke-width="1"/>
+      {%- endcase -%}
+    </svg>
+  </div>
+  <div style="position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 38%,rgba(212,180,131,.10),transparent 70%);pointer-events:none;"></div>
+</div>
