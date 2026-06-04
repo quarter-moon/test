@@ -1,0 +1,20 @@
+{
+  "current": {
+    "accent_color": "#B8975A",
+    "accent_color_2": "#9E7E3E",
+    "color_scheme": "light",
+    "card_density": "detailed",
+    "page_width": 1280,
+    "grid_gap": 24,
+    "body_font_size": 14,
+    "show_announcement": true,
+    "sticky_header": true,
+    "show_engraving": true,
+    "show_gift_wrap": true,
+    "show_certificate": true,
+    "instagram_url": "",
+    "pinterest_url": "",
+    "facebook_url": ""
+  },
+  "presets": {}
+}

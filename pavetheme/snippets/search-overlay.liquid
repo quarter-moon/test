@@ -1,0 +1,31 @@
+<div class="pave-search-overlay" id="pave-search-overlay">
+  <div class="pave-search-bg" id="pave-search-bg"></div>
+  <div class="pave-search-panel">
+    <div class="pave-container">
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <input type="hidden" name="type" value="product">
+        <div style="display:flex;align-items:center;gap:14px;border-bottom:1.5px solid var(--ink);padding-bottom:14px;">
+          <span style="color:var(--accent);">{%- render 'icon', name: 'search', size: 22 -%}</span>
+          <input id="pave-search-input"
+                 name="q"
+                 type="search"
+                 placeholder="Search for rings, diamonds, gifts…"
+                 autocomplete="off"
+                 style="flex:1;border:none;background:none;outline:none;font-family:var(--pave-font-display);font-size:clamp(22px,3vw,32px);color:var(--ink);">
+          <button type="button" id="pave-search-close" style="background:none;border:none;color:var(--ink-soft);cursor:pointer;">
+            {%- render 'icon', name: 'close', size: 20 -%}
+          </button>
+        </div>
+      </form>
+
+      <div id="pave-search-results" style="margin-top:20px;display:grid;gap:4px;"></div>
+
+      <div id="pave-search-suggestions" style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <span class="pave-eyebrow" style="font-size:9.5px;">Popular</span>
+        {%- for tag in 'Engagement Rings,Diamond Studs,Tennis Bracelet,Emerald' | split: ',' -%}
+          <button class="pave-chip pave-search-suggest" style="cursor:pointer;" data-q="{{ tag }}">{{ tag }}</button>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>

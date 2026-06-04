@@ -1,0 +1,184 @@
+{%- liquid
+  assign hero_style = section.settings.style
+-%}
+
+{%- if hero_style == 'minimal' -%}
+  <section style="position:relative;overflow:hidden;background:var(--bg);border-bottom:1px solid var(--divider);">
+    <div class="pave-container" style="padding-block:clamp(56px,9vw,120px);display:grid;grid-template-columns:1fr;justify-items:center;text-align:center;gap:26px;">
+      <div class="pave-ornament reveal in">
+        <span class="pave-eyebrow" style="color:var(--accent-2);">{{ section.settings.eyebrow }}</span>
+      </div>
+      <h1 class="pave-display reveal in" style="margin:0;font-weight:300;font-size:clamp(48px,9vw,104px);line-height:.98;letter-spacing:.01em;color:var(--heading);">
+        {%- if section.settings.heading_line_2 != blank -%}
+          {{ section.settings.heading_line_1 }}<br><em style="font-weight:300;">{{ section.settings.heading_line_2 }}</em>
+        {%- else -%}
+          {{ section.settings.heading_line_1 }}
+        {%- endif -%}
+      </h1>
+      {%- if section.settings.subheading != blank -%}
+        <p class="reveal in" style="max-width:480px;color:var(--ink-soft);font-size:15.5px;margin:0;">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      <div class="reveal in" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px;">
+        {%- if section.settings.primary_cta_label != blank -%}
+          <a href="{{ section.settings.primary_cta_url }}" class="pave-btn pave-btn--primary">
+            {{ section.settings.primary_cta_label }}
+            {%- render 'icon', name: 'arrow', size: 14 -%}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.secondary_cta_label != blank -%}
+          <a href="{{ section.settings.secondary_cta_url }}" class="pave-btn pave-btn--outline">{{ section.settings.secondary_cta_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+{%- elsif hero_style == 'fullscreen' -%}
+  <section style="position:relative;overflow:hidden;background:var(--pave-onyx);color:var(--pave-ivory);min-height:min(86vh,760px);display:flex;align-items:center;">
+    <div aria-hidden="true" style="position:absolute;inset:0;background:radial-gradient(80% 90% at 70% 30%,rgba(184,151,90,.22),transparent 60%);"></div>
+    {%- if section.settings.image != blank -%}
+      <div style="position:absolute;inset:0;overflow:hidden;">
+        <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover;opacity:.4;">
+      </div>
+    {%- endif -%}
+    <div class="pave-container" style="position:relative;">
+      <div style="max-width:620px;display:flex;flex-direction:column;gap:22px;">
+        <div class="pave-ornament reveal in">
+          <span class="pave-eyebrow" style="color:var(--pave-gold-light);">{{ section.settings.eyebrow }}</span>
+        </div>
+        <h1 class="pave-display reveal in" style="margin:0;font-weight:300;font-size:clamp(44px,7vw,88px);line-height:1.02;color:var(--pave-ivory);">
+          {{ section.settings.heading_line_1 }}
+          {%- if section.settings.heading_line_2 != blank -%}
+            <br><em class="pave-shimmer" style="font-style:italic;">{{ section.settings.heading_line_2 }}</em>
+          {%- endif -%}
+        </h1>
+        {%- if section.settings.subheading != blank -%}
+          <p class="reveal in" style="max-width:440px;color:var(--pave-warm-gray-lt);font-size:16px;line-height:1.8;margin:0;">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        <div class="reveal in" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;">
+          {%- if section.settings.primary_cta_label != blank -%}
+            <a href="{{ section.settings.primary_cta_url }}" class="pave-btn pave-btn--gold">
+              {{ section.settings.primary_cta_label }}
+              {%- render 'icon', name: 'arrow', size: 14 -%}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.secondary_cta_label != blank -%}
+            <a href="{{ section.settings.secondary_cta_url }}" class="pave-btn pave-btn--outline" style="color:var(--pave-gold-light);border-color:var(--pave-gold-light);">{{ section.settings.secondary_cta_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+
+{%- else -%}
+  {%- comment -%}Split hero (default){%- endcomment -%}
+  <section style="position:relative;overflow:hidden;background:var(--bg);">
+    <div class="pave-hero-split">
+      <div style="padding:clamp(40px,6vw,88px) clamp(20px,5vw,80px);display:flex;flex-direction:column;justify-content:center;gap:24px;">
+        <div class="pave-ornament reveal in">
+          <span class="pave-eyebrow" style="color:var(--accent-2);">{{ section.settings.eyebrow }}</span>
+        </div>
+        <h1 class="pave-display reveal in" style="margin:0;font-weight:300;font-size:clamp(42px,5.6vw,82px);line-height:1.0;letter-spacing:.01em;color:var(--heading);">
+          {{ section.settings.heading_line_1 }}
+          {%- if section.settings.heading_line_2 != blank -%}
+            <br><em style="font-weight:300;">{{ section.settings.heading_line_2 }}</em>
+          {%- endif -%}
+        </h1>
+        {%- if section.settings.subheading != blank -%}
+          <p class="reveal in" style="max-width:440px;color:var(--ink-soft);font-size:16px;line-height:1.8;margin:0;">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+        <div class="reveal in" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;">
+          {%- if section.settings.primary_cta_label != blank -%}
+            <a href="{{ section.settings.primary_cta_url }}" class="pave-btn pave-btn--primary">
+              {{ section.settings.primary_cta_label }}
+              {%- render 'icon', name: 'arrow', size: 14 -%}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.secondary_cta_label != blank -%}
+            <a href="{{ section.settings.secondary_cta_url }}" class="pave-btn pave-btn--ghost">{{ section.settings.secondary_cta_label }}</a>
+          {%- endif -%}
+        </div>
+        <div class="reveal in" style="display:flex;gap:28px;margin-top:16px;flex-wrap:wrap;">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'stat' -%}
+              <div>
+                <div class="pave-display" style="font-size:26px;color:var(--heading);line-height:1;">{{ block.settings.value }}</div>
+                <div class="pave-eyebrow" style="font-size:9.5px;margin-top:4px;">{{ block.settings.label }}</div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="pave-hero-image">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.image.alt | escape }}">
+        {%- else -%}
+          <div style="position:absolute;inset:0;background:radial-gradient(50% 50% at 55% 40%,rgba(184,151,90,.18),transparent 70%);"></div>
+          <div style="width:64%;color:var(--accent);filter:drop-shadow(0 12px 30px rgba(140,110,58,.25));position:relative;">
+            {%- render 'placeholder-gem', motif: 'ring-halo' -%}
+          </div>
+          {%- if section.settings.featured_product != blank -%}
+            {%- assign feat = all_products[section.settings.featured_product] -%}
+            <div style="position:absolute;bottom:22px;left:22px;right:22px;display:flex;justify-content:space-between;align-items:flex-end;">
+              <div>
+                <div class="pave-eyebrow" style="font-size:9.5px;">Featured</div>
+                <div class="pave-display" style="font-size:20px;color:var(--ink);">{{ feat.title }}</div>
+              </div>
+              <span class="pave-price" style="font-size:15px;font-weight:500;">{{ feat.price | money }}</span>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Hero style",
+      "options": [
+        { "value": "split", "label": "Split (text + image)" },
+        { "value": "fullscreen", "label": "Fullscreen" },
+        { "value": "minimal", "label": "Minimal (text only)" }
+      ],
+      "default": "split"
+    },
+    { "type": "image_picker", "id": "image", "label": "Background / hero image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "Fine Jewelry · Est. 2025" },
+    { "type": "text", "id": "heading_line_1", "label": "Heading line 1", "default": "Where luxury" },
+    { "type": "text", "id": "heading_line_2", "label": "Heading line 2 (italic)", "default": "finds its form." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "A house of hand-set diamonds and coloured stones — every piece certified, every setting signed, every story told beautifully." },
+    { "type": "text", "id": "primary_cta_label", "label": "Primary button label", "default": "Shop the Collection" },
+    { "type": "url", "id": "primary_cta_url", "label": "Primary button URL" },
+    { "type": "text", "id": "secondary_cta_label", "label": "Secondary button label", "default": "Our Story" },
+    { "type": "url", "id": "secondary_cta_url", "label": "Secondary button URL" },
+    { "type": "product", "id": "featured_product", "label": "Featured product (split hero)" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "40,000+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Stones set" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "40,000+", "label": "Stones set" } },
+        { "type": "stat", "settings": { "value": "GIA", "label": "Certified" } },
+        { "type": "stat", "settings": { "value": "Lifetime", "label": "Guarantee" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

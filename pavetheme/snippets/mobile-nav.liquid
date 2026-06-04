@@ -1,0 +1,19 @@
+<div class="pave-mobile-nav" id="pave-mobile-nav">
+  <div class="pave-mobile-nav__bg" id="pave-mobile-nav-bg"></div>
+  <div class="pave-mobile-nav__panel">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+      <a href="{{ routes.root_url }}" class="pave-wordmark" style="font-size:26px;">Pavé</a>
+      <button id="pave-mobile-nav-close" style="background:none;border:none;color:var(--pave-warm-gray-lt);cursor:pointer;" aria-label="Close menu">
+        {%- render 'icon', name: 'close', size: 18 -%}
+      </button>
+    </div>
+
+    {%- for link in linklists['main-menu'].links -%}
+      <a href="{{ link.url }}" style="text-align:left;border-bottom:1px solid rgba(212,180,131,.12);color:var(--pave-gold-light);font-family:var(--pave-font-display);font-size:22px;padding:12px 0;display:block;text-decoration:none;">
+        {{- link.title -}}
+      </a>
+    {%- endfor -%}
+
+    <a href="{{ routes.account_url }}" style="text-align:left;color:var(--pave-warm-gray-lt);font-family:var(--pave-font-body);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:16px 0 6px;display:block;text-decoration:none;">Account</a>
+  </div>
+</div>

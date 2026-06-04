@@ -1,0 +1,76 @@
+{%- assign featured = all_products[section.settings.product] -%}
+
+<section class="pave-spotlight-section">
+  <div class="pave-container pave-spotlight" style="padding-block:var(--sp-20);">
+    <div style="position:relative;background:radial-gradient(80% 80% at 50% 40%,#26231F,#1C1A17);border-radius:var(--pave-radius-card);min-height:420px;display:grid;place-items:center;overflow:hidden;border:1px solid rgba(212,180,131,.16);">
+      {%- if section.settings.image != blank -%}
+        <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:.6;">
+      {%- elsif featured != blank -%}
+        <div style="width:78%;color:var(--pave-gold-light);">
+          {%- render 'placeholder-gem', motif: featured.metafields.pave.motif.value | default: 'tennis-necklace' -%}
+        </div>
+      {%- endif -%}
+      {%- if featured != blank and featured.metafields.pave.badge.value != blank -%}
+        <div style="position:absolute;top:16px;left:16px;">
+          {%- render 'badge', label: featured.metafields.pave.badge.value -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="reveal" style="display:flex;flex-direction:column;gap:20px;justify-content:center;">
+      <div class="pave-ornament">
+        <span class="pave-eyebrow" style="color:var(--pave-gold-light);">{{ section.settings.eyebrow }}</span>
+      </div>
+      <h2 class="pave-display" style="margin:0;font-weight:300;font-size:clamp(30px,4vw,48px);line-height:1.05;color:var(--pave-ivory);">
+        {%- if featured != blank -%}{{ featured.title }}{%- else -%}{{ section.settings.title }}{%- endif -%}
+      </h2>
+      <p style="color:var(--pave-warm-gray-lt);font-size:15.5px;line-height:1.85;margin:0;max-width:460px;">
+        {%- if featured != blank -%}{{ featured.description | strip_html | truncate: 220 }}{%- else -%}{{ section.settings.description }}{%- endif -%}
+      </p>
+      {%- if featured != blank -%}
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:10px;">
+          {%- for i in (1..3) -%}
+            {%- assign detail_key = 'detail_' | append: i -%}
+            {%- assign detail = featured.metafields.pave[detail_key].value -%}
+            {%- if detail != blank -%}
+              <li style="display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--pave-warm-gray-lt);">
+                <span style="color:var(--pave-gold-light);">{%- render 'icon', name: 'check', size: 13 -%}</span>
+                {{ detail }}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        <div style="display:flex;gap:18px;align-items:center;margin-top:4px;">
+          <span class="pave-display" style="font-size:30px;color:var(--pave-gold-light);">{{ featured.price | money }}</span>
+          <a href="{{ featured.url }}" class="pave-btn pave-btn--gold">
+            View Piece
+            {%- render 'icon', name: 'arrow', size: 14 -%}
+          </a>
+        </div>
+      {%- else -%}
+        <a href="{{ section.settings.cta_url }}" class="pave-btn pave-btn--gold">
+          {{ section.settings.cta_label | default: 'View Piece' }}
+          {%- render 'icon', name: 'arrow', size: 14 -%}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product spotlight",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Featured product" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "Spotlight" },
+    { "type": "image_picker", "id": "image", "label": "Override image (optional)" },
+    { "type": "text", "id": "title", "label": "Title (if no product)", "default": "A piece to last forever" },
+    { "type": "textarea", "id": "description", "label": "Description (if no product)" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "View Piece" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" }
+  ],
+  "presets": [
+    { "name": "Product spotlight" }
+  ]
+}
+{% endschema %}

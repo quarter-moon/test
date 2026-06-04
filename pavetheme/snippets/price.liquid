@@ -1,0 +1,27 @@
+{%- comment -%}
+  Renders price with optional compare-at.
+  Usage: {% render 'price', product: product %}
+         {% render 'price', variant: variant %}
+{%- endcomment -%}
+
+{%- liquid
+  if variant
+    assign target = variant
+  else
+    assign target = product.selected_or_first_available_variant
+  endif
+
+  assign price = target.price | money
+  assign compare_price = target.compare_at_price | money
+  assign on_sale = false
+  if target.compare_at_price > target.price
+    assign on_sale = true
+  endif
+-%}
+
+<div class="pave-price{% if on_sale %} pave-price--sale{% endif %}">
+  {%- if on_sale -%}
+    <span class="pave-price__compare">{{ compare_price }}</span>
+  {%- endif -%}
+  <span class="pave-price__current">{{ price }}</span>
+</div>

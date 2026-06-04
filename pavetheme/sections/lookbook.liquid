@@ -1,0 +1,41 @@
+<section class="pave-lookbook" style="position:relative;overflow:hidden;min-height:400px;">
+  {%- if section.settings.image != blank -%}
+    <div style="position:absolute;inset:0;">
+      <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover;opacity:.35;">
+    </div>
+  {%- endif -%}
+  <div style="position:absolute;inset:0;background:radial-gradient(100% 120% at 20% 0%,var(--placeholder-1),var(--placeholder-2));{% if section.settings.image != blank %}opacity:.6;{% endif %}"></div>
+  <div aria-hidden="true" style="position:absolute;right:-4%;bottom:-10%;width:min(560px,60vw);color:var(--accent);opacity:.16;">
+    {%- render 'placeholder-gem', motif: 'ring-three' -%}
+  </div>
+  <div class="pave-container reveal" style="position:relative;padding-block:clamp(72px,11vw,150px);max-width:700px;">
+    <div class="pave-ornament">
+      <span class="pave-eyebrow" style="color:var(--accent-2);">{{ section.settings.eyebrow }}</span>
+    </div>
+    <h2 class="pave-display" style="font-weight:300;font-size:clamp(32px,5vw,60px);line-height:1.06;color:var(--heading);margin:14px 0 18px;">{{ section.settings.title }}</h2>
+    <p style="color:var(--ink-soft);font-size:16px;line-height:1.85;max-width:520px;margin:0 0 26px;">{{ section.settings.text }}</p>
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url }}" class="pave-btn pave-btn--outline">
+        {{ section.settings.cta_label }}
+        {%- render 'icon', name: 'arrow', size: 14 -%}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lookbook / Atelier",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image (optional)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Atelier" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Handcrafted. Unhurried. Made to outlast trends." },
+    { "type": "textarea", "id": "text", "label": "Body text", "default": "For three generations our setters have worked stone by stone, the old way — because fine jewelry deserves a fine hand. Discover how a Pavé piece comes to be." },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Inside the Atelier" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" }
+  ],
+  "presets": [
+    { "name": "Lookbook / Atelier" }
+  ]
+}
+{% endschema %}

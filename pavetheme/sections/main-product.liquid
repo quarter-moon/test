@@ -1,0 +1,361 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign cert_carat = product.metafields.pave.cert_carat.value
+  assign cert_cut = product.metafields.pave.cert_cut.value
+  assign cert_clarity = product.metafields.pave.cert_clarity.value
+  assign cert_color = product.metafields.pave.cert_color.value
+  assign cert_report = product.metafields.pave.cert_report.value
+  assign has_cert = false
+  if cert_carat != blank
+    assign has_cert = true
+  endif
+  assign is_ring = false
+  if product.type contains 'Ring' or product.type contains 'Band'
+    assign is_ring = true
+  endif
+  assign engraving_enabled = product.metafields.pave.engraving.value
+-%}
+
+<div class="pave-container" style="padding-block:var(--sp-12);">
+  <!-- Breadcrumb -->
+  <div class="pave-eyebrow" style="font-size:9.5px;margin-bottom:22px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <a href="{{ routes.root_url }}" style="color:inherit;">Home</a>
+    <span>/</span>
+    <a href="{{ product.collections.first.url }}" style="color:inherit;">{{ product.type }}</a>
+    <span>/</span>
+    <span style="color:var(--accent-2);">{{ product.title }}</span>
+  </div>
+
+  <!-- Main grid: gallery + buy box -->
+  <div class="pave-product-main">
+    <!-- Gallery -->
+    <div class="pave-gallery">
+      <div class="pave-gallery-thumbs">
+        {%- for media in product.media limit: 4 -%}
+          <button class="pave-thumb{% if forloop.first %} is-active{% endif %}" data-thumb="{{ forloop.index0 }}" onclick="paveSetGallery({{ forloop.index0 }})">
+            {%- if media.media_type == 'image' -%}
+              <img src="{{ media | image_url: width: 150 }}" alt="{{ media.alt | escape }}" width="75" height="75">
+            {%- else -%}
+              {%- render 'placeholder-gem', motif: product.metafields.pave.motif.value -%}
+            {%- endif -%}
+          </button>
+        {%- else -%}
+          {%- for i in (1..3) -%}
+            <button class="pave-thumb{% if forloop.first %} is-active{% endif %}" data-thumb="{{ forloop.index0 }}" onclick="paveSetGallery({{ forloop.index0 }})">
+              <div style="width:100%;height:100%;background:radial-gradient(120% 120% at 50% 50%,var(--placeholder-1),var(--placeholder-2));">
+                {%- render 'placeholder-gem', motif: product.metafields.pave.motif.value -%}
+              </div>
+            </button>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+
+      <div>
+        <div class="pave-product-gallery" id="pave-main-gallery">
+          {%- if product.featured_image -%}
+            <img id="pave-gallery-img"
+                 src="{{ product.featured_image | image_url: width: 900 }}"
+                 alt="{{ product.featured_image.alt | escape }}"
+                 style="width:100%;height:100%;object-fit:cover;">
+          {%- else -%}
+            {%- render 'placeholder-gem', motif: product.metafields.pave.motif.value -%}
+          {%- endif -%}
+          {%- assign badge = product.metafields.pave.badge.value -%}
+          {%- if badge != blank -%}
+            <div style="position:absolute;top:14px;left:14px;">{%- render 'badge', label: badge -%}</div>
+          {%- endif -%}
+          <div style="position:absolute;bottom:12px;right:12px;display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--divider);border-radius:100px;padding:6px 12px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);">
+            {%- render 'icon', name: 'search', size: 12 -%}
+            Hover to zoom · 360°
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buy box -->
+    <div>
+      {%- assign badge = product.metafields.pave.badge.value -%}
+      {%- if badge != blank -%}
+        <div style="margin-bottom:12px;">{%- render 'badge', label: badge -%}</div>
+      {%- endif -%}
+      <div class="pave-eyebrow" style="font-size:10px;">{{ product.type }}</div>
+      <h1 class="pave-display" style="margin:6px 0 0;font-weight:400;font-size:clamp(28px,3.4vw,42px);color:var(--heading);line-height:1.08;">
+        {{ product.title }}
+      </h1>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:10px;flex-wrap:wrap;">
+        <span class="pave-display" style="font-size:30px;color:var(--ink);">{{ current_variant.price | money }}</span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span style="color:var(--ink-soft);text-decoration:line-through;">{{ current_variant.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+
+      <p style="margin:16px 0 0;color:var(--ink-soft);font-size:14.5px;line-height:1.8;">{{ product.description | strip_html | truncate: 220 }}</p>
+
+      {%- form 'product', product, id: 'pave-product-form' -%}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" id="pave-variant-id">
+
+        <!-- Metal selector -->
+        {%- if product.options_with_values.size > 0 -%}
+          {%- for option in product.options_with_values -%}
+            {%- if option.name == 'Metal' or option.name == 'Color' -%}
+              <div style="margin-top:18px;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:10px;">
+                  <span class="pave-eyebrow" style="color:var(--ink);">{{ option.name }}</span>
+                  <span id="pave-selected-metal" style="font-size:12px;color:var(--ink-soft);">{{ option.values.first }}</span>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  {%- assign swatches = 'Platinum:#D9D9D6,White Gold:#E6E4DC,Yellow Gold:#D4B483,Rose Gold:#E0B6A0' | split: ',' -%}
+                  {%- for value in option.values -%}
+                    {%- assign swatch_color = '#D4B483' -%}
+                    {%- for s in swatches -%}
+                      {%- assign s_parts = s | split: ':' -%}
+                      {%- if s_parts[0] == value -%}
+                        {%- assign swatch_color = s_parts[1] -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    <button type="button"
+                            class="pave-swatch-btn{% if option.selected_value == value %} is-active{% endif %}"
+                            style="background:{{ swatch_color }};"
+                            aria-label="{{ value }}"
+                            title="{{ value }}"
+                            data-option="{{ option.name }}"
+                            data-value="{{ value }}"
+                            onclick="paveSelectOption(this)">
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- elsif option.name == 'Size' or option.name == 'Ring Size' -%}
+              <div style="margin-top:18px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                  <span class="pave-eyebrow" style="color:var(--ink);">Ring Size</span>
+                  <button type="button" onclick="document.getElementById('pave-size-guide').classList.add('is-open')" style="background:none;border:none;color:var(--accent-2);font-size:11.5px;letter-spacing:.06em;display:inline-flex;gap:6px;align-items:center;cursor:pointer;">
+                    {%- render 'icon', name: 'ruler', size: 13 -%}
+                    Size Guide
+                  </button>
+                </div>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                  {%- for value in option.values -%}
+                    <button type="button"
+                            class="pave-size-btn{% if option.selected_value == value %} is-active{% endif %}"
+                            data-option="{{ option.name }}"
+                            data-value="{{ value }}"
+                            onclick="paveSelectOption(this)">
+                      {{ value }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        <!-- Engraving -->
+        {%- if engraving_enabled == 'true' or engraving_enabled == true -%}
+          <div class="pave-engrave" style="margin-top:16px;">
+            <button type="button" class="pave-engrave__head" onclick="this.nextElementSibling.classList.toggle('pave-accordion__body--open');this.querySelector('.pave-engrave-icon').style.transform=this.nextElementSibling.classList.contains('pave-accordion__body--open')?'rotate(180deg)':''">
+              <span style="display:flex;align-items:center;gap:10px;">
+                <span style="color:var(--accent);">{%- render 'icon', name: 'sparkle', size: 15 -%}</span>
+                <span style="font-size:13px;letter-spacing:.04em;">Add engraving</span>
+                <span style="font-size:11px;color:var(--accent-2);">Complimentary</span>
+              </span>
+              <span class="pave-engrave-icon" style="transition:transform .3s;color:var(--ink-soft);">
+                {%- render 'icon', name: 'chevron-down', size: 14 -%}
+              </span>
+            </button>
+            <div class="pave-engrave__body" style="display:none;">
+              <input type="text"
+                     name="properties[Engraving]"
+                     maxlength="20"
+                     placeholder="e.g. Forever · 24.07.25"
+                     class="pave-input"
+                     id="pave-engrave-input"
+                     oninput="document.getElementById('pave-engrave-preview').textContent=this.value||'Your words here';document.getElementById('pave-engrave-count').textContent=(20-this.value.length)+' left'">
+              <div style="display:flex;justify-content:space-between;margin-top:8px;">
+                <span id="pave-engrave-preview" class="pave-display" style="font-style:italic;font-size:20px;color:var(--accent-2);">Your words here</span>
+                <span id="pave-engrave-count" style="font-size:11px;color:var(--ink-soft);">20 left</span>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <!-- Gift wrap -->
+        <button type="button" id="pave-gift-btn" class="pave-gift-btn" style="margin-top:16px;" onclick="this.classList.toggle('is-selected');document.getElementById('pave-gift-input').value=this.classList.contains('is-selected')?'Yes':'No'">
+          <span style="color:var(--accent);">{%- render 'icon', name: 'gift', size: 16 -%}</span>
+          <span style="flex:1;">
+            <span style="font-size:13px;font-weight:500;">Signature gift wrapping</span>
+            <span style="display:block;font-size:11.5px;color:var(--ink-soft);">Lacquered box, ribbon & hand-written note · +$0</span>
+          </span>
+          <span id="pave-gift-check" style="width:18px;height:18px;border-radius:2px;border:1px solid var(--divider);background:transparent;display:grid;place-items:center;color:#fff;transition:all .2s;"></span>
+        </button>
+        <input type="hidden" name="properties[Gift wrap]" id="pave-gift-input" value="No">
+
+        <!-- Qty + Add -->
+        <div style="display:flex;gap:12px;margin-top:20px;">
+          <div class="pave-qty">
+            <button type="button" class="pave-qty__btn" onclick="paveAdjustQty(-1)">−</button>
+            <input type="number" name="quantity" value="1" min="1" id="pave-qty-input" class="pave-qty__val" style="border:none;width:40px;text-align:center;background:none;">
+            <button type="button" class="pave-qty__btn" onclick="paveAdjustQty(1)">+</button>
+          </div>
+          <button type="submit" class="pave-btn pave-btn--primary pave-btn--full" style="height:46px;" id="pave-add-btn">
+            Add to Bag · {{ current_variant.price | money }}
+          </button>
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+
+  <!-- Details + Certificate -->
+  <div class="pave-product-detail">
+    <div>
+      <div class="pave-accordion__head" onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')=='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open')" aria-expanded="true">
+        <span class="pave-accordion__title">The Details</span>
+        <span style="color:var(--ink-soft);">{%- render 'icon', name: 'minus', size: 14 -%}</span>
+      </div>
+      <div class="pave-accordion__body is-open">
+        <ul style="list-style:none;margin:0;padding:0;display:grid;gap:10px;">
+          {%- for i in (1..6) -%}
+            {%- assign detail_key = 'detail_' | append: i -%}
+            {%- assign detail = product.metafields.pave[detail_key].value -%}
+            {%- if detail != blank -%}
+              <li style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-soft);">
+                <span style="color:var(--accent);margin-top:2px;">{%- render 'icon', name: 'check', size: 13 -%}</span>
+                {{ detail }}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div class="pave-accordion__head" onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')=='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open')" aria-expanded="false">
+        <span class="pave-accordion__title">Materials & Care</span>
+        <span style="color:var(--ink-soft);">{%- render 'icon', name: 'plus', size: 14 -%}</span>
+      </div>
+      <div class="pave-accordion__body">
+        <p style="margin:0;font-size:14px;color:var(--ink-soft);line-height:1.8;">{{ product.metafields.pave.care.value | default: 'Crafted in solid gold with hand-set stones. Store away from other pieces to avoid scratching. We offer complimentary cleaning and re-polishing for life.' }}</p>
+      </div>
+
+      <div class="pave-accordion__head" onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')=='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open')" aria-expanded="false">
+        <span class="pave-accordion__title">Shipping & Returns</span>
+        <span style="color:var(--ink-soft);">{%- render 'icon', name: 'plus', size: 14 -%}</span>
+      </div>
+      <div class="pave-accordion__body">
+        <p style="margin:0;font-size:14px;color:var(--ink-soft);line-height:1.8;">Free insured shipping, signature on delivery. 30-day returns on un-engraved pieces, and complimentary resizing within 30 days. Engraved pieces are final sale.</p>
+      </div>
+    </div>
+
+    <!-- Certificate or guarantee -->
+    {%- if has_cert -%}
+      <div class="pave-cert">
+        <div aria-hidden="true" style="position:absolute;right:-30px;top:-30px;width:160px;color:var(--pave-gold-light);opacity:.1;">
+          {%- render 'placeholder-gem', motif: 'band-eternity' -%}
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;position:relative;">
+          <span style="color:var(--pave-gold-light);">{%- render 'icon', name: 'shield', size: 18 -%}</span>
+          <span class="pave-eyebrow" style="color:var(--pave-gold-light);">Certificate of Authenticity</span>
+        </div>
+        <div class="pave-cert__grid" style="position:relative;">
+          <div class="pave-cert__item">
+            <div class="pave-cert__label">Carat</div>
+            <div class="pave-cert__value">{{ cert_carat }}</div>
+          </div>
+          <div class="pave-cert__item">
+            <div class="pave-cert__label">Cut</div>
+            <div class="pave-cert__value">{{ cert_cut }}</div>
+          </div>
+          <div class="pave-cert__item">
+            <div class="pave-cert__label">Clarity</div>
+            <div class="pave-cert__value">{{ cert_clarity }}</div>
+          </div>
+          <div class="pave-cert__item">
+            <div class="pave-cert__label">Colour</div>
+            <div class="pave-cert__value">{{ cert_color }}</div>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid rgba(212,180,131,.18);font-size:11.5px;color:var(--pave-warm-gray-lt);letter-spacing:.06em;">
+          <span>Lab Report</span>
+          <span style="color:var(--pave-gold-light);font-weight:500;">{{ cert_report }}</span>
+        </div>
+      </div>
+    {%- else -%}
+      <div style="background:var(--bg-alt);border-radius:var(--pave-radius-card);padding:28px;display:flex;flex-direction:column;gap:12px;justify-content:center;">
+        <span style="color:var(--accent);">{%- render 'icon', name: 'shield', size: 22 -%}</span>
+        <h4 class="pave-display" style="margin:0;font-size:22px;color:var(--heading);">Signed & guaranteed for life</h4>
+        <p style="margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.75;">Every Pavé piece is stamped with our maker's mark and backed by a lifetime guarantee against defects, plus complimentary cleaning and re-polishing.</p>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <!-- Pairs well with -->
+  {%- if product.metafields.pave.pairs_with.value != blank -%}
+    <div style="margin-top:var(--sp-16);">
+      <div class="pave-section-head pave-section-head--left">
+        <div class="pave-ornament">
+          <span class="pave-eyebrow" style="color:var(--accent-2);">Complete the Look</span>
+        </div>
+        <h2 class="pave-display pave-section-head__title">Pairs well with</h2>
+      </div>
+      <div class="pave-pairs">
+        {%- assign pairs = product.metafields.pave.pairs_with.value -%}
+        {%- for pair_handle in pairs -%}
+          {%- assign pair = all_products[pair_handle] -%}
+          {%- if pair != blank -%}
+            <a href="{{ pair.url }}" style="display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--divider);border-radius:var(--pave-radius-card);padding:12px;text-align:left;transition:border-color .3s;text-decoration:none;">
+              <div style="width:76px;flex-shrink:0;border-radius:6px;overflow:hidden;">
+                {%- if pair.featured_image -%}
+                  <img src="{{ pair.featured_image | image_url: width: 152 }}" alt="{{ pair.featured_image.alt | escape }}" width="76" height="76" style="width:100%;height:100%;object-fit:cover;">
+                {%- else -%}
+                  {%- render 'placeholder-gem', motif: pair.metafields.pave.motif.value -%}
+                {%- endif -%}
+              </div>
+              <div style="flex:1;">
+                <div class="pave-eyebrow" style="font-size:9px;">{{ pair.type }}</div>
+                <div class="pave-display" style="font-size:17px;color:var(--ink);line-height:1.15;margin:2px 0 4px;">{{ pair.title }}</div>
+                {%- render 'price', product: pair -%}
+              </div>
+              <span style="color:var(--accent);">{%- render 'icon', name: 'arrow', size: 15 -%}</span>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+<!-- Size Guide Modal -->
+<div class="pave-modal-overlay" id="pave-size-guide">
+  <div class="pave-modal-bg" onclick="document.getElementById('pave-size-guide').classList.remove('is-open')"></div>
+  <div class="pave-modal" style="padding:36px 36px 40px;">
+    <button onclick="document.getElementById('pave-size-guide').classList.remove('is-open')" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:2px;background:var(--surface);border:1px solid var(--divider);color:var(--ink);display:grid;place-items:center;cursor:pointer;">
+      {%- render 'icon', name: 'close', size: 16 -%}
+    </button>
+    <div class="pave-ornament" style="margin-bottom:12px;"></div>
+    <h3 class="pave-display" style="margin:0;font-weight:400;font-size:30px;color:var(--heading);">Ring Size Guide</h3>
+    <p style="color:var(--ink-soft);font-size:13.5px;margin-top:8px;">Two ways to find your size. When between sizes, we recommend rounding up.</p>
+    <table class="pave-size-table">
+      <thead>
+        <tr>
+          <th>US Size</th>
+          <th>Diameter (mm)</th>
+          <th>Circumference (mm)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>4</td><td>14.8</td><td>46.5</td></tr>
+        <tr><td>5</td><td>15.7</td><td>49.3</td></tr>
+        <tr><td>6</td><td>16.5</td><td>51.9</td></tr>
+        <tr><td>7</td><td>17.3</td><td>54.4</td></tr>
+        <tr><td>8</td><td>18.1</td><td>57.0</td></tr>
+        <tr><td>9</td><td>19.0</td><td>59.5</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:18px;font-size:12px;color:var(--ink-soft);">Prefer to be precise? We'll mail a complimentary ring sizer — just ask at checkout. Complimentary resizing within 30 days.</p>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,70 @@
+<div class="pave-container" style="padding-block:var(--sp-12);">
+  <div style="text-align:center;margin-bottom:var(--sp-12);">
+    <div class="pave-ornament" style="margin-bottom:12px;">
+      <span class="pave-eyebrow" style="color:var(--accent-2);">{{ section.settings.eyebrow | default: 'The Journal' }}</span>
+    </div>
+    <h1 class="pave-display" style="font-weight:300;font-size:clamp(36px,6vw,68px);color:var(--heading);margin:0;line-height:1.04;">{{ blog.title }}</h1>
+    <p style="color:var(--ink-soft);font-size:15.5px;max-width:480px;margin:14px auto 0;">{{ section.settings.subtitle | default: 'On craft, choosing stones, caring for what you own — and the occasional note on love.' }}</p>
+  </div>
+
+  {%- if blog.articles.size > 0 -%}
+    {%- assign featured = blog.articles.first -%}
+
+    <!-- Featured article -->
+    <a href="{{ featured.url }}" class="pave-journal-feat reveal" style="display:grid;margin-bottom:var(--sp-12);text-decoration:none;color:inherit;">
+      <div style="border-radius:var(--pave-radius-card);overflow:hidden;border:1px solid var(--divider);">
+        {%- if featured.image -%}
+          <img src="{{ featured.image | image_url: width: 900 }}" alt="{{ featured.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;">
+        {%- else -%}
+          <div style="aspect-ratio:4/3;">{%- render 'placeholder-gem', motif: 'band-eternity' -%}</div>
+        {%- endif -%}
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:14px;text-align:left;">
+        <div style="display:flex;gap:10px;align-items:center;">
+          <span class="pave-chip">{{ featured.tags.first | default: 'Craft' }}</span>
+          <span class="pave-eyebrow" style="font-size:9.5px;">{{ featured.read_time | default: '5' }} min read</span>
+        </div>
+        <h2 class="pave-display" style="margin:0;font-weight:400;font-size:clamp(28px,3.6vw,42px);color:var(--heading);line-height:1.1;">{{ featured.title }}</h2>
+        <p style="margin:0;color:var(--ink-soft);font-size:15.5px;line-height:1.8;">{{ featured.excerpt | strip_html | truncate: 200 }}</p>
+        <span style="display:inline-flex;gap:8px;align-items:center;color:var(--accent-2);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-top:4px;">
+          Read Story
+          {%- render 'icon', name: 'arrow', size: 14 -%}
+        </span>
+      </div>
+    </a>
+
+    <!-- Article grid -->
+    <div class="pave-journal-grid">
+      {%- paginate blog.articles by section.settings.articles_per_page -%}
+        {%- for article in blog.articles offset: 1 -%}
+          <a href="{{ article.url }}" class="pave-journal-card reveal" style="text-decoration:none;color:inherit;">
+            <div style="border-radius:var(--pave-radius-card);overflow:hidden;border:1px solid var(--divider);margin-bottom:16px;aspect-ratio:4/3;">
+              {%- if article.image -%}
+                <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.image.alt | escape }}" style="width:100%;height:100%;object-fit:cover;">
+              {%- else -%}
+                {%- render 'placeholder-gem', motif: 'ring-solitaire' -%}
+              {%- endif -%}
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;">
+              <span class="pave-chip">{{ article.tags.first | default: 'Journal' }}</span>
+              <span class="pave-eyebrow" style="font-size:9px;">{{ article.published_at | date: '%B %Y' }}</span>
+            </div>
+            <h3 class="pave-display" style="margin:0 0 8px;font-weight:400;font-size:24px;color:var(--heading);line-height:1.15;">{{ article.title }}</h3>
+            <p style="margin:0;color:var(--ink-soft);font-size:14px;line-height:1.7;">{{ article.excerpt | strip_html | truncate: 140 }}</p>
+          </a>
+        {%- endfor -%}
+      {%- endpaginate -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Journal" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "On craft, choosing stones, caring for what you own — and the occasional note on love." },
+    { "type": "range", "id": "articles_per_page", "label": "Articles per page", "min": 3, "max": 12, "step": 3, "default": 6 }
+  ]
+}
+{% endschema %}

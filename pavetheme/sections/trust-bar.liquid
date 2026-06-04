@@ -1,0 +1,54 @@
+<section class="pave-container" style="padding-block:var(--sp-16);">
+  <div class="pave-trust-grid">
+    {%- for block in section.blocks -%}
+      <div class="pave-trust-item reveal" {{ block.shopify_attributes }}>
+        <span class="pave-trust-item__icon">
+          {%- render 'icon', name: block.settings.icon, size: 26 -%}
+        </span>
+        <div class="pave-display pave-trust-item__title">{{ block.settings.title }}</div>
+        <p class="pave-trust-item__text">{{ block.settings.text }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust bar",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "ring", "label": "Ring" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "sparkle", "label": "Sparkle" }
+          ],
+          "default": "shield"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Certified Authentic" },
+        { "type": "text", "id": "text", "label": "Description", "default": "GIA, IGI & SSEF reports with every stone" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust bar",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "shield", "title": "Certified Authentic", "text": "GIA, IGI & SSEF reports with every stone" } },
+        { "type": "item", "settings": { "icon": "ring", "title": "Hand-Finished", "text": "Set and polished by master jewelers" } },
+        { "type": "item", "settings": { "icon": "truck", "title": "Insured Shipping", "text": "Free, fully insured, signature on delivery" } },
+        { "type": "item", "settings": { "icon": "leaf", "title": "Ethically Sourced", "text": "Conflict-free & traceable to origin" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

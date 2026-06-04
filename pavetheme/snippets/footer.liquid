@@ -1,0 +1,58 @@
+<footer class="pave-footer">
+  <div class="pave-container">
+    <div class="pave-footer__grid">
+      <div style="max-width:300px;">
+        <a href="{{ routes.root_url }}" class="pave-wordmark" style="font-size:34px;">Pavé</a>
+        <p style="margin-top:16px;font-size:13.5px;line-height:1.8;color:var(--pave-warm-gray-lt);">
+          Fine jewelry, made by hand and made to outlast trends. Every stone certified. Every setting signed.
+        </p>
+        <div class="pave-ornament" style="margin-top:20px;"></div>
+      </div>
+
+      <div>
+        <h4 class="pave-footer__heading">Shop</h4>
+        <ul class="pave-footer__list">
+          <li><a href="/collections/engagement-rings" class="pave-footer__link">Engagement Rings</a></li>
+          <li><a href="/collections/wedding-bands" class="pave-footer__link">Wedding Bands</a></li>
+          <li><a href="/collections/necklaces" class="pave-footer__link">Necklaces</a></li>
+          <li><a href="/collections/earrings" class="pave-footer__link">Earrings</a></li>
+          <li><a href="/collections/everyday" class="pave-footer__link">Everyday</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="pave-footer__heading">The House</h4>
+        <ul class="pave-footer__list">
+          <li><a href="/pages/our-story" class="pave-footer__link">Our Story</a></li>
+          <li><a href="/pages/craftsmanship" class="pave-footer__link">Craftsmanship</a></li>
+          <li><a href="/blogs/journal" class="pave-footer__link">The Journal</a></li>
+          <li><a href="/pages/sustainability" class="pave-footer__link">Sustainability</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="pave-footer__heading">Service</h4>
+        <ul class="pave-footer__list">
+          <li><a href="/pages/contact" class="pave-footer__link">Book an Appointment</a></li>
+          <li><a href="/pages/contact" class="pave-footer__link">Contact</a></li>
+          <li><a href="/pages/ring-size-guide" class="pave-footer__link">Ring Size Guide</a></li>
+          <li><a href="/policies/shipping-policy" class="pave-footer__link">Shipping & Returns</a></li>
+          <li><a href="/pages/care-repairs" class="pave-footer__link">Care & Repairs</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pave-footer__bottom">
+      <span>© {{ 'now' | date: '%Y' }} Pavé Fine Jewelry. All rights reserved.</span>
+      <div style="display:flex;gap:22px;">
+        <a href="{{ shop.privacy_policy.url }}" class="pave-footer__link">Privacy</a>
+        <a href="{{ shop.terms_of_service.url }}" class="pave-footer__link">Terms</a>
+        <a href="/pages/accessibility" class="pave-footer__link">Accessibility</a>
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;">
+        <span class="pave-eyebrow" style="font-size:9.5px;color:var(--pave-warm-gray);">Certified by</span>
+        <span style="font-family:var(--pave-font-display);font-style:italic;color:var(--pave-gold-light);font-size:15px;">GIA · IGI · SSEF</span>
+      </div>
+    </div>
+  </div>
+</footer>

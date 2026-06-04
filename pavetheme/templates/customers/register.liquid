@@ -1,0 +1,40 @@
+{% layout 'theme' %}
+
+<div class="pave-container" style="padding-block:var(--sp-20);max-width:440px;">
+  <h1 class="pave-display" style="font-size:clamp(28px,4vw,44px);color:var(--heading);font-weight:300;margin:0 0 var(--sp-8);">Create Account</h1>
+
+  {%- form 'create_customer' -%}
+    {%- if form.errors -%}
+      <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--pave-radius);padding:var(--sp-4) var(--sp-5);margin-bottom:var(--sp-6);font-size:13px;color:#991b1b;">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+
+    <div style="display:flex;flex-direction:column;gap:var(--sp-5);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4);">
+        <div>
+          <label class="pave-label" for="first-name">First name</label>
+          <input type="text" id="first-name" name="customer[first_name]" class="pave-input" autocomplete="given-name">
+        </div>
+        <div>
+          <label class="pave-label" for="last-name">Last name</label>
+          <input type="text" id="last-name" name="customer[last_name]" class="pave-input" autocomplete="family-name">
+        </div>
+      </div>
+      <div>
+        <label class="pave-label" for="register-email">Email</label>
+        <input type="email" id="register-email" name="customer[email]" class="pave-input" autocomplete="email">
+      </div>
+      <div>
+        <label class="pave-label" for="register-password">Password</label>
+        <input type="password" id="register-password" name="customer[password]" class="pave-input" autocomplete="new-password">
+        <p style="font-size:11px;color:var(--ink-soft);margin-top:4px;">Minimum 5 characters</p>
+      </div>
+      <button type="submit" class="pave-btn pave-btn--primary" style="width:100%;justify-content:center;">Create Account</button>
+    </div>
+  {%- endform -%}
+
+  <p style="text-align:center;margin-top:var(--sp-6);font-size:12px;color:var(--ink-soft);">
+    Already have an account? <a href="{{ routes.account_login_url }}" style="color:var(--accent);">Sign in →</a>
+  </p>
+</div>

@@ -1,0 +1,58 @@
+{%- comment -%}
+  Renders a line icon.
+  Usage: {% render 'icon', name: 'search' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign icon_size = size | default: 16
+  assign stroke_width = sw | default: 1.3
+-%}
+
+<svg width="{{ icon_size }}" height="{{ icon_size }}" viewBox="0 0 16 16" fill="none"
+     stroke="currentColor" stroke-width="{{ stroke_width }}" stroke-linecap="round" stroke-linejoin="round"
+     aria-hidden="true" style="display:block;flex-shrink:0;">
+  {%- case name -%}
+    {%- when 'search' -%}
+      <path d="M11 11l4 4M7.5 13a5.5 5.5 0 100-11 5.5 5.5 0 000 11z"/>
+    {%- when 'heart' -%}
+      <path d="M8 14s-5.5-3.4-5.5-7.2A2.8 2.8 0 018 4.6 2.8 2.8 0 0113.5 6.8C13.5 10.6 8 14 8 14z"/>
+    {%- when 'cart' -%}
+      <path d="M2 3h2l1.2 9.2a1 1 0 001 .8h6.6a1 1 0 001-.8L15 5.5H4.2"/>
+    {%- when 'user' -%}
+      <path d="M8 8a2.6 2.6 0 100-5.2A2.6 2.6 0 008 8zm-5 6c0-2.6 2.2-4 5-4s5 1.4 5 4"/>
+    {%- when 'close' -%}
+      <path d="M4 4l8 8M12 4l-8 8"/>
+    {%- when 'plus' -%}
+      <path d="M8 3v10M3 8h10"/>
+    {%- when 'minus' -%}
+      <path d="M3 8h10"/>
+    {%- when 'arrow' -%}
+      <path d="M3 8h10M9.5 4.5L13 8l-3.5 3.5"/>
+    {%- when 'chevron' -%}
+      <path d="M6 4l4 4-4 4"/>
+    {%- when 'chevron-down' -%}
+      <path d="M4 6l4 4 4-4"/>
+    {%- when 'check' -%}
+      <path d="M3 8.5L6.5 12 13 4.5"/>
+    {%- when 'star' -%}
+      <path d="M8 1.8l1.8 3.8 4.2.6-3 3 .7 4.2L8 11.4 4.3 13.4l.7-4.2-3-3 4.2-.6z"/>
+    {%- when 'shield' -%}
+      <path d="M8 1.8l5 2v4c0 3.2-2.2 5.4-5 6.4-2.8-1-5-3.2-5-6.4v-4z"/>
+    {%- when 'truck' -%}
+      <path d="M1.5 4.5h8v6h-8zM9.5 6.5h3l2 2v2h-5zM4 12.5a1.2 1.2 0 100-2.4 1.2 1.2 0 000 2.4zm8 0a1.2 1.2 0 100-2.4 1.2 1.2 0 000 2.4z"/>
+    {%- when 'gift' -%}
+      <path d="M2.5 7.5h11v6h-11zM2 5h12v2.5H2zM8 5v8.5M8 5S6.5 1.8 4.8 3.2C3.6 4.2 5.5 5 8 5zm0 0s1.5-3.2 3.2-1.8C12.4 4.2 10.5 5 8 5z"/>
+    {%- when 'leaf' -%}
+      <path d="M3 13C3 7 7 3 13 3c0 6-4 10-10 10zM3 13c2-2 4-3.5 6.5-4.5"/>
+    {%- when 'ring' -%}
+      <path d="M8 6.2a3.8 3.8 0 100 7.6 3.8 3.8 0 000-7.6zM6.2 6L8 2.5 9.8 6"/>
+    {%- when 'sparkle' -%}
+      <path d="M8 2l1.1 4.9L14 8l-4.9 1.1L8 14l-1.1-4.9L2 8l4.9-1.1z"/>
+    {%- when 'filter' -%}
+      <path d="M2 4h12M4 8h8M6 12h4"/>
+    {%- when 'menu' -%}
+      <path d="M2 4h12M2 8h12M2 12h12"/>
+    {%- when 'ruler' -%}
+      <path d="M2 5h12v6H2zM5 5v2.5M8 5v3.5M11 5v2.5"/>
+  {%- endcase -%}
+</svg>

@@ -1,0 +1,72 @@
+<div class="pave-container" style="padding-block:var(--sp-20);">
+  {%- if section.settings.eyebrow != blank or section.settings.title != blank -%}
+    <div style="text-align:center;margin-bottom:var(--sp-16);">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="pave-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="pave-display" style="font-size:clamp(28px,3vw,44px);color:var(--heading);font-weight:300;margin:var(--sp-2) 0 0;">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--sp-8);">
+    {%- for block in section.blocks -%}
+      <div class="reveal" style="text-align:center;padding:var(--sp-8) var(--sp-6);" {{ block.shopify_attributes }}>
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--surface);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;margin:0 auto var(--sp-5);">
+          <span style="font-size:22px;color:var(--accent);">{{ forloop.index }}</span>
+        </div>
+        {%- if block.settings.title != blank -%}
+          <h3 class="pave-display" style="font-size:20px;color:var(--heading);font-weight:400;margin:0 0 var(--sp-3);">{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">{{ block.settings.text }}</p>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      {%- assign default_steps = 'Design,Sourcing,Setting,Finishing,Certification' | split: ',' -%}
+      {%- assign default_texts = 'Each piece begins as a sketch — proportions, light-play, and silhouette refined before a single stone is selected.,We travel to source only stones that pass our strict criteria for cut, clarity, and provenance.,Master setters work stone by stone — the most demanding step in our process.,Hand-polishing and quality inspection by our atelier director before any piece leaves the workshop.,Every piece is accompanied by a GIA or IGI report and our lifetime craftsmanship guarantee.' | split: ',' -%}
+      {%- for step in default_steps -%}
+        <div class="reveal" style="text-align:center;padding:var(--sp-8) var(--sp-6);">
+          <div style="width:56px;height:56px;border-radius:50%;background:var(--surface);border:1px solid var(--divider);display:flex;align-items:center;justify-content:center;margin:0 auto var(--sp-5);">
+            <span style="font-size:22px;color:var(--accent);">{{ forloop.index }}</span>
+          </div>
+          <h3 class="pave-display" style="font-size:20px;color:var(--heading);font-weight:400;margin:0 0 var(--sp-3);">{{ step }}</h3>
+          <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">{{ default_texts[forloop.index0] }}</p>
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About – Process",
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Step title" },
+        { "type": "textarea", "id": "text", "label": "Description" }
+      ]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "How we work" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Craft at every step" }
+  ],
+  "presets": [
+    {
+      "name": "About – Process",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "step" },
+        { "type": "step" }
+      ]
+    }
+  ]
+}
+{% endschema %}

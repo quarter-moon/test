@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "eyebrow": "The Journal",
+        "subtitle": "On craft, choosing stones, caring for what you own — and the occasional note on love.",
+        "articles_per_page": 6
+      }
+    }
+  },
+  "order": ["main"]
+}

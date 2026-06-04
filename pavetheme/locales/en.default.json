@@ -1,0 +1,124 @@
+{
+  "general": {
+    "loading": "Loading…",
+    "search": "Search",
+    "close": "Close",
+    "cancel": "Cancel",
+    "open_menu": "Open menu",
+    "skip_content": "Skip to content"
+  },
+  "navigation": {
+    "account": "Account",
+    "wishlist": "Wishlist",
+    "cart": "Bag"
+  },
+  "cart": {
+    "title": "Your Bag",
+    "empty": "Your bag is empty",
+    "empty_sub": "Beautiful things await.",
+    "browse": "Browse Jewelry",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "shipping_free": "Complimentary",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "continue": "Continue Shopping",
+    "remove": "Remove",
+    "add": "Add to Bag",
+    "adding": "Adding…",
+    "added": "Added to your bag",
+    "error": "Could not add to bag — please try again."
+  },
+  "product": {
+    "sold_out": "Sold Out",
+    "unavailable": "Unavailable",
+    "from": "From",
+    "choose_size": "Choose Ring Size",
+    "size_guide": "Size Guide",
+    "engraving": "Add Engraving",
+    "engraving_placeholder": "Enter up to 20 characters",
+    "engraving_preview": "Your text",
+    "gift_wrap": "Gift Wrapping",
+    "gift_wrap_note_placeholder": "Add a gift message (optional)",
+    "pairs_with": "Pairs beautifully with",
+    "certificate": "Certificate of Authenticity",
+    "certificate_sub": "Each piece accompanied by paperwork from leading gemological institutes.",
+    "guarantee": "Lifetime Guarantee",
+    "guarantee_text": "Every Pavé piece is backed by our lifetime craftsmanship guarantee. We stand by the quality of our work — forever.",
+    "quick_view": "Quick View"
+  },
+  "collection": {
+    "all_products": "All",
+    "sort": "Sort",
+    "filter": "Filter",
+    "sort_by": {
+      "featured": "Featured",
+      "price_asc": "Price: Low to High",
+      "price_desc": "Price: High to Low",
+      "title_asc": "Alphabetical: A–Z",
+      "title_desc": "Alphabetical: Z–A",
+      "created_desc": "Newest"
+    },
+    "no_results": "No products match your selection.",
+    "clear_filters": "Clear filters",
+    "products_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    }
+  },
+  "blog": {
+    "read_more": "Read more",
+    "back": "Back to Journal",
+    "more": "More from the Journal",
+    "written_by": "Written by"
+  },
+  "newsletter": {
+    "success": "Thank you — you're on the list.",
+    "error": "Something went wrong. Please try again."
+  },
+  "search": {
+    "placeholder": "Search for rings, necklaces, earrings…",
+    "popular": "Popular searches",
+    "no_results": "No results for "{{ terms }}"",
+    "results_count": {
+      "one": "{{ count }} result for "{{ terms }}"",
+      "other": "{{ count }} results for "{{ terms }}""
+    }
+  },
+  "size_guide": {
+    "title": "Ring Size Guide",
+    "us": "US",
+    "uk": "UK",
+    "eu": "EU",
+    "diameter": "Diameter (mm)",
+    "circumference": "Circumference (mm)",
+    "tip": "Measure your finger at the end of the day when it's at its largest. If between sizes, size up."
+  },
+  "customer": {
+    "login": {
+      "title": "Sign In",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "forgot": "Forgot password?",
+      "new": "New customer?",
+      "create": "Create account"
+    },
+    "register": {
+      "title": "Create Account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Create Account",
+      "have_account": "Already have an account?",
+      "login": "Sign in"
+    }
+  },
+  "trust": {
+    "certified": "Certified",
+    "insured": "Insured",
+    "gift_wrap": "Gift wrap",
+    "complimentary_shipping": "Complimentary shipping"
+  }
+}
