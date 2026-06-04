@@ -1,0 +1,13 @@
+<div class="error-page wrap" style="text-align:center;padding:80px 20px;">
+  <div style="font-size:72px;line-height:1;color:var(--brand);margin-bottom:16px;">
+    {%- render 'icon', name: 'paw' -%}
+  </div>
+  <h1 style="font-family:var(--font-head);font-size:clamp(32px,6vw,56px);color:var(--ink);margin:0 0 12px;">
+    Page not found
+  </h1>
+  <p style="font-size:18px;color:var(--muted);max-width:440px;margin:0 auto 32px;">
+    Looks like this page wandered off. Let's get you back on the right track.
+  </p>
+  <a href="{{ routes.root_url }}" class="btn btn-primary">Back to home</a>
+  <a href="{{ routes.all_products_collection_url }}" class="btn" style="margin-left:12px;">Shop all products</a>
+</div>

@@ -1,0 +1,152 @@
+<section class="band">
+  <div class="wrap section">
+    <div class="band-split">
+
+      <div class="band-img">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 700 }}"
+               alt="{{ section.settings.image.alt | escape }}"
+               width="700" height="595" loading="lazy">
+        {%- else -%}
+          <div class="band-img-placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+      <div class="band-text">
+        <div class="eyebrow">{{ section.settings.eyebrow | default: 'The PawVital difference' }}</div>
+        <h2 style="font-size:clamp(28px,3.2vw,40px);margin-top:12px;">
+          {{ section.settings.heading | default: 'Real science. Real ingredients. Real results.' }}
+        </h2>
+
+        <div class="benefit-list">
+          {%- for block in section.blocks -%}
+            <div class="benefit" {{ block.shopify_attributes }}>
+              <div class="bf-ico">
+                {%- render 'icon', name: block.settings.icon -%}
+              </div>
+              <div>
+                <h4>{{ block.settings.heading }}</h4>
+                <p>{{ block.settings.text }}</p>
+              </div>
+            </div>
+          {%- else -%}
+            <div class="benefit">
+              <div class="bf-ico">{%- render 'icon', name: 'flask' -%}</div>
+              <div>
+                <h4>Formulated by veterinarians</h4>
+                <p>Every formula is developed and reviewed by licensed DVMs and made in cGMP facilities.</p>
+              </div>
+            </div>
+            <div class="benefit">
+              <div class="bf-ico">{%- render 'icon', name: 'leaf' -%}</div>
+              <div>
+                <h4>Clean, traceable sourcing</h4>
+                <p>Human-grade, single-source proteins and actives you can actually pronounce.</p>
+              </div>
+            </div>
+            <div class="benefit">
+              <div class="bf-ico">{%- render 'icon', name: 'shield' -%}</div>
+              <div>
+                <h4>Third-party tested</h4>
+                <p>Each batch is independently tested for purity, potency, and safety.</p>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.btn_label != blank -%}
+          <a href="{{ section.settings.btn_url | default: '/pages/our-science' }}"
+             class="btn btn-brand btn-lg" style="margin-top:28px;">
+            {{ section.settings.btn_label }}
+          </a>
+        {%- else -%}
+          <a href="/pages/our-science" class="btn btn-brand btn-lg" style="margin-top:28px;">
+            Read our science
+          </a>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefit band",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "The PawVital difference"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real science. Real ingredients. Real results."
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button text",
+      "default": "Read our science"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "flask",  "label": "Flask (Science)" },
+            { "value": "leaf",   "label": "Leaf (Natural)" },
+            { "value": "shield", "label": "Shield (Safety)" },
+            { "value": "check",  "label": "Check" },
+            { "value": "heart",  "label": "Heart" },
+            { "value": "star",   "label": "Star" }
+          ],
+          "default": "flask"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Formulated by veterinarians"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Every formula is developed and reviewed by licensed DVMs."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Benefit band",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "flask",  "heading": "Formulated by veterinarians",  "text": "Every formula is developed and reviewed by licensed DVMs and made in cGMP facilities." } },
+        { "type": "benefit", "settings": { "icon": "leaf",   "heading": "Clean, traceable sourcing",    "text": "Human-grade, single-source proteins and actives you can actually pronounce." } },
+        { "type": "benefit", "settings": { "icon": "shield", "heading": "Third-party tested",           "text": "Each batch is independently tested for purity, potency, and safety." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,163 @@
+<section class="section wrap">
+  <div class="section-head">
+    <div class="sh-left">
+      <div class="eyebrow">{{ section.settings.eyebrow | default: 'Shop by need' }}</div>
+      <h2>{{ section.settings.heading | default: 'Find their perfect routine' }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p>{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.view_all_label != blank -%}
+      <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="link-more">
+        {{ section.settings.view_all_label }}
+        {%- render 'icon', name: 'arrow-right' -%}
+      </a>
+    {%- else -%}
+      <a href="/collections/all" class="link-more">
+        View all categories {%- render 'icon', name: 'arrow-right' -%}
+      </a>
+    {%- endif -%}
+  </div>
+
+  <div class="cat-grid">
+    {%- for block in section.blocks -%}
+      {%- assign cat_url = block.settings.collection | prepend: '/collections/' -%}
+      <a href="{{ block.settings.url | default: cat_url }}" class="cat-card" {{ block.shopify_attributes }}>
+        <div class="cc-bg">
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 600 }}"
+                 alt="{{ block.settings.title }}"
+                 width="600" height="680" loading="lazy">
+          {%- else -%}
+            <div class="cat-card-placeholder cat-card-placeholder--{{ block.settings.color_scheme | default: 'forest' }}" aria-hidden="true"></div>
+          {%- endif -%}
+        </div>
+        <h3>{{ block.settings.title }}</h3>
+        <div class="cc-count">{{ block.settings.blurb }} · {{ block.settings.product_count }} products</div>
+        <span class="cc-go">
+          Shop now {%- render 'icon', name: 'arrow-right' -%}
+        </span>
+      </a>
+    {%- else -%}
+      <!-- Default categories when no blocks configured -->
+      {%- assign defaults = 'Supplements,Food & Treats,Wellness,Grooming' | split: ',' -%}
+      {%- assign default_blurbs = 'Joint, calm, gut & coat,Gently-cooked & grain-free,Beds, comfort & recovery,Baths, brushes & balms' | split: ',' -%}
+      {%- assign default_counts = '24,31,18,15' | split: ',' -%}
+      {%- assign default_colors = 'forest,clay,sage,mintdeep' | split: ',' -%}
+      {%- assign default_urls = '/collections/supplements,/collections/food-treats,/collections/wellness,/collections/grooming' | split: ',' -%}
+      {%- for name in defaults -%}
+        <a href="{{ default_urls[forloop.index0] }}" class="cat-card">
+          <div class="cc-bg">
+            <div class="cat-card-placeholder cat-card-placeholder--{{ default_colors[forloop.index0] }}" aria-hidden="true"></div>
+          </div>
+          <h3>{{ name }}</h3>
+          <div class="cc-count">{{ default_blurbs[forloop.index0] }} &middot; {{ default_counts[forloop.index0] }} products</div>
+          <span class="cc-go">Shop now {%- render 'icon', name: 'arrow-right' -%}</span>
+        </a>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured categories",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Shop by need"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Find their perfect routine"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Every product is grouped by what your pet actually needs — so building a wellness routine is simple."
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all button text",
+      "default": "View all categories"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all button URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Supplements"
+        },
+        {
+          "type": "text",
+          "id": "blurb",
+          "label": "Short description",
+          "default": "Joint, calm, gut & coat"
+        },
+        {
+          "type": "text",
+          "id": "product_count",
+          "label": "Product count",
+          "default": "24"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category image"
+        },
+        {
+          "type": "select",
+          "id": "color_scheme",
+          "label": "Placeholder color",
+          "options": [
+            { "value": "forest",   "label": "Forest green" },
+            { "value": "clay",     "label": "Clay / terracotta" },
+            { "value": "sage",     "label": "Sage" },
+            { "value": "mintdeep", "label": "Mint" }
+          ],
+          "default": "forest"
+        },
+        {
+          "type": "text",
+          "id": "collection",
+          "label": "Collection handle (fallback URL)",
+          "info": "Used to build the link URL when no Link URL is set. Enter the collection handle, e.g. supplements"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured categories",
+      "blocks": [
+        { "type": "category", "settings": { "title": "Supplements", "blurb": "Joint, calm, gut & coat", "product_count": "24", "color_scheme": "forest" } },
+        { "type": "category", "settings": { "title": "Food & Treats", "blurb": "Gently-cooked & grain-free", "product_count": "31", "color_scheme": "clay" } },
+        { "type": "category", "settings": { "title": "Wellness", "blurb": "Beds, comfort & recovery", "product_count": "18", "color_scheme": "sage" } },
+        { "type": "category", "settings": { "title": "Grooming", "blurb": "Baths, brushes & balms", "product_count": "15", "color_scheme": "mintdeep" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

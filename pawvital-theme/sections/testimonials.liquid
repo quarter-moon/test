@@ -1,0 +1,121 @@
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head" style="justify-content:center;text-align:center;flex-direction:column;align-items:center;">
+      <div class="eyebrow">{{ section.settings.eyebrow | default: 'Tail wags, verified' }}</div>
+      <h2>{{ section.settings.heading | default: 'Pet parents keep coming back' }}</h2>
+    </div>
+
+    <div class="testi-grid">
+      {%- for block in section.blocks -%}
+        <div class="testi" {{ block.shopify_attributes }}>
+          <div class="stars" aria-label="5 stars">
+            {%- for i in (1..5) -%}{%- render 'icon', name: 'star' -%}{%- endfor -%}
+          </div>
+          <blockquote>&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
+          <div class="who">
+            <div class="av" style="background:{{ block.settings.avatar_color | default: '#b8e6d2' }};"
+                 aria-hidden="true">
+              {%- if block.settings.avatar != blank -%}
+                <img src="{{ block.settings.avatar | image_url: width: 88 }}"
+                     alt="{{ block.settings.name }}" width="44" height="44">
+              {%- endif -%}
+            </div>
+            <div>
+              <b>{{ block.settings.name }}</b>
+              <span>{{ block.settings.role }}</span>
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        <!-- Default testimonials -->
+        {%- assign quotes = "The Hip & Joint chews gave my 11-year-old lab his zoomies back. He takes the stairs again — I genuinely teared up.|Storm season used to be chaos. The Calm drops actually work, and there's no groggy hangover after. Lifesaver.|Switched to the salmon recipe for our sensitive pup and the itching stopped within two weeks. Shiniest coat ever." | split: '|' -%}
+        {%- assign names = 'Marcus T.|Priya N.|Dana & Wú' | split: '|' -%}
+        {%- assign roles = 'Dad to Biscuit 🐕|Mom to Mochi 🐈|Parents to Pepper 🐕' | split: '|' -%}
+        {%- assign colors = '#b8e6d2|#f3c7ad|#8fcfb2' | split: '|' -%}
+        {%- for quote in quotes -%}
+          <div class="testi">
+            <div class="stars" aria-label="5 stars">
+              {%- for i in (1..5) -%}{%- render 'icon', name: 'star' -%}{%- endfor -%}
+            </div>
+            <blockquote>&ldquo;{{ quote }}&rdquo;</blockquote>
+            <div class="who">
+              <div class="av" style="background:{{ colors[forloop.index0] }};" aria-hidden="true"></div>
+              <div>
+                <b>{{ names[forloop.index0] }}</b>
+                <span>{{ roles[forloop.index0] }}</span>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Tail wags, verified"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Pet parents keep coming back"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "PawVital transformed my pet's health."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer name",
+          "default": "Happy pet parent"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role / pet description",
+          "default": "Dog parent"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar photo"
+        },
+        {
+          "type": "color",
+          "id": "avatar_color",
+          "label": "Avatar fallback color",
+          "default": "#b8e6d2"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "The Hip & Joint chews gave my 11-year-old lab his zoomies back.", "name": "Marcus T.", "role": "Dad to Biscuit 🐕", "avatar_color": "#b8e6d2" } },
+        { "type": "testimonial", "settings": { "quote": "The Calm drops actually work, and there's no groggy hangover after.", "name": "Priya N.", "role": "Mom to Mochi 🐈", "avatar_color": "#f3c7ad" } },
+        { "type": "testimonial", "settings": { "quote": "Switched to the salmon recipe and the itching stopped within two weeks.", "name": "Dana & Wú", "role": "Parents to Pepper 🐕", "avatar_color": "#8fcfb2" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,88 @@
+<div class="wrap" style="padding:60px 20px;max-width:900px;margin:0 auto;">
+  <h1 style="font-family:var(--font-head);font-size:clamp(24px,4vw,40px);color:var(--ink);margin:0 0 40px;">Your Cart</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div style="text-align:center;padding:80px 20px;">
+      <div style="color:var(--brand);opacity:.3;margin-bottom:20px;">{%- render 'icon', name: 'bag' -%}</div>
+      <h2 style="font-family:var(--font-head);font-size:24px;color:var(--ink);margin:0 0 8px;">Your cart is empty</h2>
+      <p style="color:var(--muted);margin:0 0 28px;">Let's find something your pet will love.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary">Shop all products</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate>
+      <div style="display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start;">
+
+        <div>
+          {%- for item in cart.items -%}
+            <div style="display:grid;grid-template-columns:88px 1fr;gap:20px;padding:24px 0;border-bottom:1px solid var(--border);">
+              <a href="{{ item.url }}">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 176 }}"
+                       alt="{{ item.title | escape }}"
+                       width="88" height="88"
+                       style="border-radius:var(--r-md);object-fit:cover;">
+                {%- endif -%}
+              </a>
+              <div>
+                <a href="{{ item.url }}" style="font-family:var(--font-head);font-weight:800;font-size:16px;color:var(--ink);text-decoration:none;">{{ item.product.title }}</a>
+                {%- unless item.variant.title == 'Default Title' -%}
+                  <div style="font-size:13px;color:var(--muted);margin-top:2px;">{{ item.variant.title }}</div>
+                {%- endunless -%}
+                {%- if item.selling_plan_allocation -%}
+                  <div style="font-size:13px;color:var(--brand);margin-top:2px;font-weight:600;">{{ item.selling_plan_allocation.selling_plan.name }}</div>
+                {%- endif -%}
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+                  <div class="qty" style="display:inline-flex;align-items:center;gap:0;border:1.5px solid var(--border);border-radius:var(--r-md);overflow:hidden;">
+                    <button type="button" class="cart-qty-btn" data-line="{{ forloop.index }}" data-change="-1" style="width:36px;height:36px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);">
+                      {%- render 'icon', name: 'minus' -%}
+                    </button>
+                    <input type="number"
+                           name="updates[]"
+                           id="updates_{{ item.key }}"
+                           value="{{ item.quantity }}"
+                           min="0"
+                           style="width:40px;border:none;text-align:center;font-size:15px;font-family:var(--font-body);color:var(--ink);">
+                    <button type="button" class="cart-qty-btn" data-line="{{ forloop.index }}" data-change="1" style="width:36px;height:36px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);">
+                      {%- render 'icon', name: 'plus' -%}
+                    </button>
+                  </div>
+                  <div style="font-family:var(--font-head);font-weight:800;font-size:16px;color:var(--ink);">{{ item.final_line_price | money }}</div>
+                </div>
+                <button type="button" class="cl-remove" data-line="{{ forloop.index }}" data-remove style="background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;margin-top:8px;padding:0;text-decoration:underline;">Remove</button>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div style="background:#fff;border-radius:var(--r-lg);border:1.5px solid var(--border);padding:28px;position:sticky;top:100px;">
+          <h3 style="font-family:var(--font-head);font-size:18px;color:var(--ink);margin:0 0 20px;">Order summary</h3>
+          <div style="display:flex;justify-content:space-between;font-size:15px;color:var(--muted);margin-bottom:8px;">
+            <span>Subtotal</span>
+            <span>{{ cart.total_price | money }}</span>
+          </div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">Shipping &amp; taxes calculated at checkout.</div>
+
+          {%- assign free_threshold = 4900 -%}
+          {%- if cart.total_price < free_threshold -%}
+            {%- assign remaining = free_threshold | minus: cart.total_price -%}
+            <div style="background:var(--mint);border-radius:var(--r-md);padding:12px 14px;font-size:13px;color:var(--brand-deep);margin-bottom:16px;">
+              {%- render 'icon', name: 'truck' -%}
+              Add <strong>{{ remaining | money }}</strong> more for free shipping
+            </div>
+          {%- else -%}
+            <div style="background:var(--mint);border-radius:var(--r-md);padding:12px 14px;font-size:13px;color:var(--brand-deep);margin-bottom:16px;">
+              {%- render 'icon', name: 'truck' -%}
+              <strong>Free shipping unlocked!</strong>
+            </div>
+          {%- endif -%}
+
+          <a href="{{ routes.checkout_url }}" class="btn btn-primary btn-lg btn-block">
+            Checkout &middot; {{ cart.total_price | money }}
+          </a>
+          <button type="submit" name="update" class="btn btn-block" style="margin-top:8px;">Update cart</button>
+        </div>
+
+      </div>
+    </form>
+  {%- endif -%}
+</div>

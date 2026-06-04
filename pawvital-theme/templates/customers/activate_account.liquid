@@ -1,0 +1,25 @@
+<div class="wrap" style="max-width:480px;margin:80px auto;padding:0 20px;">
+  <h1 style="font-family:var(--font-head);font-size:32px;color:var(--ink);margin:0 0 8px;">{{ 'customer.activate_account.title' | t }}</h1>
+  <p style="color:var(--muted);margin:0 0 32px;">{{ 'customer.activate_account.subtext' | t }}</p>
+
+  {%- form 'activate_customer_password' -%}
+    {%- if form.errors -%}
+      <div style="background:#fee;border:1px solid #fcc;border-radius:var(--r-md);padding:14px;margin-bottom:20px;color:#c0392b;font-size:14px;">
+        {{ form.errors | default_errors }}
+      </div>
+    {%- endif -%}
+
+    <div style="margin-bottom:16px;">
+      <label for="password" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.activate_account.password' | t }}</label>
+      <input type="password" name="customer[password]" id="password" autocomplete="new-password" required
+             style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+    </div>
+    <div style="margin-bottom:24px;">
+      <label for="password_confirmation" style="display:block;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px;">{{ 'customer.activate_account.password_confirm' | t }}</label>
+      <input type="password" name="customer[password_confirmation]" id="password_confirmation" autocomplete="new-password" required
+             style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--r-md);font-size:16px;font-family:var(--font-body);color:var(--ink);box-sizing:border-box;">
+    </div>
+    <button type="submit" name="commit" class="btn btn-primary btn-lg btn-block" style="margin-bottom:10px;">{{ 'customer.activate_account.submit' | t }}</button>
+    <button type="submit" name="decline" class="btn btn-block" style="color:var(--brand);">{{ 'customer.activate_account.cancel' | t }}</button>
+  {%- endform -%}
+</div>

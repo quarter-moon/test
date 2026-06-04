@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10.5pt;
+    color: #18261f;
+    background: #fff;
+    line-height: 1.65;
+  }
+
+  /* ── COVER ───────────────────────────────── */
+  .cover {
+    background: #0F6E56;
+    min-height: 297mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 70px 64px;
+    page-break-after: always;
+  }
+  .cover-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 56px;
+  }
+  .cover-logo-circle {
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .paw { font-size: 26px; }
+  .cover-logo-text .name { font-size: 20pt; font-weight: 900; color: #fff; }
+  .cover-logo-text .name span { color: #D85A30; }
+  .cover-logo-text .sub { font-size: 8pt; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #6fcfad; }
+
+  .cover-tag {
+    font-size: 9pt; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: #6fcfad; margin-bottom: 16px;
+  }
+  .cover h1 {
+    font-size: 34pt; font-weight: 900; color: #fff;
+    line-height: 1.08; margin-bottom: 20px;
+  }
+  .cover h1 em { color: #D85A30; font-style: normal; }
+  .cover-desc {
+    font-size: 12pt; color: #b2dece; line-height: 1.55;
+    max-width: 500px; margin-bottom: 56px;
+  }
+  .cover-pills { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cover-pill {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    color: #fff; font-size: 9pt; font-weight: 600;
+    padding: 7px 18px; border-radius: 99px;
+  }
+  .cover-footer {
+    margin-top: auto;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,.18);
+    font-size: 9pt; color: #6fcfad;
+    display: flex; gap: 36px;
+  }
+
+  /* ── PAGE ────────────────────────────────── */
+  .page { padding: 46px 56px; }
+  @page { margin: 0; size: A4; }
+  .pb { page-break-before: always; }
+
+  /* ── CHAPTER HEADER ──────────────────────── */
+  .ch-header {
+    background: #0F6E56;
+    color: #fff;
+    margin: -46px -56px 32px;
+    padding: 28px 56px 24px;
+  }
+  .ch-label {
+    font-size: 8pt; font-weight: 700; letter-spacing: .18em;
+    text-transform: uppercase; color: #6fcfad; margin-bottom: 6px;
+  }
+  .ch-header h2 { font-size: 20pt; font-weight: 900; color: #fff; line-height: 1.1; }
+  .ch-header p { font-size: 10pt; color: #b2dece; margin-top: 6px; }
+
+  /* ── SECTION TITLE ───────────────────────── */
+  h2 { font-size: 16pt; font-weight: 900; color: #0F6E56; margin: 28px 0 12px; line-height: 1.15; }
+  h3 { font-size: 12pt; font-weight: 700; color: #18261f; margin: 22px 0 8px; }
+  h4 { font-size: 10pt; font-weight: 700; color: #0F6E56; margin: 14px 0 5px; }
+  p  { color: #2d4a3e; margin-bottom: 9px; font-size: 10pt; }
+
+  /* ── STEPS ───────────────────────────────── */
+  .steps { margin: 14px 0; }
+  .step { display: flex; gap: 14px; margin-bottom: 13px; align-items: flex-start; }
+  .sn {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #0F6E56; color: #fff;
+    font-size: 9.5pt; font-weight: 700; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .sn.orange { background: #D85A30; }
+  .sb { flex: 1; }
+  .sb strong { font-weight: 700; display: block; margin-bottom: 2px; font-size: 10pt; }
+  .sb span, .sb p { color: #4a6e5e; font-size: 9.5pt; margin: 0; }
+
+  /* ── NAV PATH ────────────────────────────── */
+  .nav-path {
+    background: #f4faf7; border: 1px solid #c8e6d8;
+    border-left: 4px solid #0F6E56;
+    border-radius: 0 6px 6px 0;
+    padding: 9px 16px; margin: 8px 0 12px;
+    font-size: 9.5pt; font-weight: 600; color: #0F6E56;
+    font-family: Arial, sans-serif;
+  }
+  .arr { color: #6fcfad; margin: 0 4px; }
+
+  /* ── CODE ────────────────────────────────── */
+  code {
+    background: #eaf5ef; color: #0F6E56;
+    font-family: 'Courier New', monospace;
+    font-size: 9pt; padding: 2px 6px;
+    border-radius: 4px; font-weight: 700;
+  }
+
+  /* ── BOXES ───────────────────────────────── */
+  .tip  { background:#fff8e7; border-left:4px solid #e6a817; border-radius:0 6px 6px 0; padding:11px 15px; margin:12px 0; font-size:9.5pt; color:#5a4000; }
+  .tip strong { color:#c07800; }
+  .info { background:#eaf5ef; border-left:4px solid #0F6E56; border-radius:0 6px 6px 0; padding:11px 15px; margin:12px 0; font-size:9.5pt; color:#18261f; }
+  .warn { background:#fff0ec; border-left:4px solid #D85A30; border-radius:0 6px 6px 0; padding:11px 15px; margin:12px 0; font-size:9.5pt; color:#5a1a00; }
+  .warn strong { color:#D85A30; }
+  .note { background:#f0f4ff; border-left:4px solid #4a6adf; border-radius:0 6px 6px 0; padding:11px 15px; margin:12px 0; font-size:9.5pt; color:#1a2460; }
+
+  /* ── TABLE ───────────────────────────────── */
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:9.5pt; }
+  th { background:#0F6E56; color:#fff; font-weight:700; padding:9px 12px; text-align:left; font-size:9pt; }
+  td { padding:8px 12px; border-bottom:1px solid #e0ede7; vertical-align:top; }
+  tr:nth-child(even) td { background:#f7fbf9; }
+
+  /* ── TWO COL ─────────────────────────────── */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:12px 0; }
+  .col-box { background:#f4faf7; border:1px solid #c8e6d8; border-radius:8px; padding:16px; }
+  .col-box h4 { margin-top:0; }
+
+  /* ── CHECKLIST ───────────────────────────── */
+  ul.cl { list-style:none; padding:0; margin:8px 0; }
+  ul.cl li { padding:4px 0 4px 22px; position:relative; font-size:9.5pt; color:#2d4a3e; }
+  ul.cl li::before { content:"✓"; position:absolute; left:0; color:#0F6E56; font-weight:700; }
+
+  /* ── TOC ─────────────────────────────────── */
+  .toc-row { display:flex; justify-content:space-between; align-items:baseline; padding:6px 0; border-bottom:1px dotted #c8e6d8; font-size:10pt; }
+  .toc-row:last-child { border:none; }
+  .toc-ch { color:#0F6E56; font-weight:700; min-width:26px; font-size:9pt; }
+  .toc-title { flex:1; padding:0 8px; }
+  .toc-sub { color:#6a9e85; font-size:9pt; display:block; padding-left:8px; margin-top:-4px; padding-bottom:4px; }
+  .toc-pg { color:#6a9e85; font-size:9pt; font-weight:600; }
+
+  /* ── OPTIONAL BADGE ──────────────────────── */
+  .badge { display:inline-block; background:#D85A30; color:#fff; font-size:7.5pt; font-weight:700; padding:2px 7px; border-radius:99px; margin-left:5px; vertical-align:middle; }
+  .badge-g { background:#0F6E56; }
+  .badge-b { background:#4a6adf; }
+
+  /* ── DIVIDER ─────────────────────────────── */
+  hr { border:none; border-top:1px solid #e0ede7; margin:20px 0; }
+
+  /* ── SCREEN MOCK ─────────────────────────── */
+  .screen {
+    background:#f4faf7; border:1px solid #c8e6d8;
+    border-radius:8px; padding:14px 18px; margin:12px 0;
+    font-size:9pt; color:#2d4a3e;
+  }
+  .screen-bar {
+    background:#0F6E56; color:#fff; border-radius:4px;
+    padding:6px 12px; font-size:8.5pt; font-weight:700;
+    margin-bottom:10px; display:flex; align-items:center; gap:8px;
+  }
+  .screen-item {
+    padding:6px 10px; border-bottom:1px solid #dceee5;
+    display:flex; align-items:center; gap:8px; font-size:9pt;
+  }
+  .screen-item:last-child { border:none; }
+  .dot { width:8px; height:8px; border-radius:50%; background:#0F6E56; flex-shrink:0; }
+  .dot-o { background:#D85A30; }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════ COVER -->
+<div class="cover">
+  <div class="cover-logo">
+    <div class="cover-logo-circle"><span class="paw">🐾</span></div>
+    <div class="cover-logo-text">
+      <div class="name">Paw<span>Vital</span></div>
+      <div class="sub">Pet Health &amp; Wellness</div>
+    </div>
+  </div>
+
+  <div class="cover-tag">Complete Store Setup Manual</div>
+  <h1>Your <em>Shopify Store</em><br>From Zero to Live</h1>
+  <p class="cover-desc">A beginner-friendly, step-by-step guide to building your PawVital store — adding products, creating collections, setting up menus, configuring your homepage, and going live. No prior Shopify experience needed.</p>
+
+  <div class="cover-pills">
+    <div class="cover-pill">Products &amp; Variants</div>
+    <div class="cover-pill">Collections</div>
+    <div class="cover-pill">Navigation Menus</div>
+    <div class="cover-pill">Homepage Setup</div>
+    <div class="cover-pill">Pages &amp; Blog</div>
+    <div class="cover-pill">Store Settings</div>
+    <div class="cover-pill">Matrixify (Optional)</div>
+  </div>
+
+  <div class="cover-footer">
+    <span>Theme: PawVital v14</span>
+    <span>Platform: Shopify OS 2.0</span>
+    <span>Difficulty: Beginner</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ TOC -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Navigation</div>
+    <h2>Table of Contents</h2>
+  </div>
+
+  <div class="toc-row"><span class="toc-ch">1</span><span class="toc-title">Shopify Admin — Getting Your Bearings<span class="toc-sub">Overview of the dashboard, key sections, and how to navigate</span></span><span class="toc-pg">3</span></div>
+  <div class="toc-row"><span class="toc-ch">2</span><span class="toc-title">Adding Products<span class="toc-sub">Title, description, images, pricing, variants, and inventory</span></span><span class="toc-pg">4</span></div>
+  <div class="toc-row"><span class="toc-ch">3</span><span class="toc-title">Creating Collections<span class="toc-sub">Manual collections, smart (auto) collections, and collection images</span></span><span class="toc-pg">6</span></div>
+  <div class="toc-row"><span class="toc-ch">4</span><span class="toc-title">Setting Up Navigation Menus<span class="toc-sub">Main menu, footer menu, adding links and sub-links</span></span><span class="toc-pg">8</span></div>
+  <div class="toc-row"><span class="toc-ch">5</span><span class="toc-title">Creating Pages<span class="toc-sub">About, Contact, FAQ, Shipping policy and custom pages</span></span><span class="toc-pg">9</span></div>
+  <div class="toc-row"><span class="toc-ch">6</span><span class="toc-title">Setting Up the Blog<span class="toc-sub">Creating blog posts and managing the PawVital Blog</span></span><span class="toc-pg">10</span></div>
+  <div class="toc-row"><span class="toc-ch">7</span><span class="toc-title">Homepage Setup in the Customizer<span class="toc-sub">Hero, categories, featured products, testimonials, footer</span></span><span class="toc-pg">11</span></div>
+  <div class="toc-row"><span class="toc-ch">8</span><span class="toc-title">Store Settings<span class="toc-sub">Shipping, payments, taxes, email, and domain</span></span><span class="toc-pg">14</span></div>
+  <div class="toc-row"><span class="toc-ch">9</span><span class="toc-title">Matrixify Bulk Import <span class="badge badge-b">Optional</span><span class="toc-sub">Skip manual entry — import everything at once with one Excel file</span></span></span><span class="toc-pg">15</span></div>
+  <div class="toc-row"><span class="toc-ch">10</span><span class="toc-title">Go-Live Checklist<span class="toc-sub">Everything to verify before sharing the store with customers</span></span><span class="toc-pg">17</span></div>
+</div>
+
+<!-- ════════════════════════════════ CH 1 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 1</div>
+    <h2>Shopify Admin — Getting Your Bearings</h2>
+    <p>Your Shopify Admin is at <strong>your-store.myshopify.com/admin</strong>. This is where you manage everything.</p>
+  </div>
+
+  <h3>The Left Sidebar — Your Main Menu</h3>
+  <table>
+    <thead><tr><th>Menu Item</th><th>What it's for</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Home</strong></td><td>Dashboard with sales overview and quick actions</td></tr>
+      <tr><td><strong>Orders</strong></td><td>View and manage customer orders</td></tr>
+      <tr><td><strong>Products</strong></td><td>Add, edit products and manage collections</td></tr>
+      <tr><td><strong>Customers</strong></td><td>View customer accounts and contact info</td></tr>
+      <tr><td><strong>Analytics</strong></td><td>Sales reports, traffic, and conversion stats</td></tr>
+      <tr><td><strong>Marketing</strong></td><td>Discount codes, email campaigns</td></tr>
+      <tr><td><strong>Online Store</strong></td><td>Theme, pages, blog posts, navigation, and preferences</td></tr>
+      <tr><td><strong>Settings</strong></td><td>Store info, payments, shipping, taxes, and more</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Key Areas You'll Use Most</h3>
+  <div class="two-col">
+    <div class="col-box">
+      <h4>Products Section</h4>
+      <p style="font-size:9.5pt;">Everything under <strong>Products</strong> in the sidebar:</p>
+      <ul class="cl">
+        <li>Products — add/edit items</li>
+        <li>Collections — group products</li>
+        <li>Inventory — stock levels</li>
+        <li>Gift cards</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <h4>Online Store Section</h4>
+      <p style="font-size:9.5pt;">Everything under <strong>Online Store</strong>:</p>
+      <ul class="cl">
+        <li>Themes — install &amp; customize</li>
+        <li>Blog posts — articles</li>
+        <li>Pages — static pages</li>
+        <li>Navigation — menus</li>
+        <li>Preferences — SEO, password</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="info">
+    <strong>Bookmark tip:</strong> Open your Shopify Admin in one tab and your live storefront in another. After making changes, refresh the storefront tab to see them instantly.
+  </div>
+
+  <h3>Understanding the Theme Customizer</h3>
+  <p>The Customizer is a visual editor for your homepage and theme settings. To open it:</p>
+  <div class="nav-path">Online Store <span class="arr">→</span> Themes <span class="arr">→</span> Customize</div>
+  <p>The Customizer has:</p>
+  <ul class="cl">
+    <li><strong>Left panel</strong> — list of sections you can click to edit</li>
+    <li><strong>Center preview</strong> — live preview of your homepage</li>
+    <li><strong>Top bar</strong> — switch between Desktop / Mobile / Tablet view</li>
+    <li><strong>Save button</strong> — always click Save after making changes</li>
+  </ul>
+
+  <div class="warn">
+    <strong>Important:</strong> Changes in the Customizer are NOT saved automatically. Always click the <strong>Save</strong> button at the top right before leaving.
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 2 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 2</div>
+    <h2>Adding Products</h2>
+    <p>Products are the core of your store. Follow these steps to add each product manually.</p>
+  </div>
+
+  <div class="nav-path">Products <span class="arr">→</span> Add product</div>
+
+  <h3>Step-by-Step: Add a Product</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Product title</strong>
+        <span>Enter the product name, e.g. <em>"Hip &amp; Joint Chews for Dogs"</em>. Keep it clear and searchable.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Description</strong>
+        <span>Write a description using the rich text editor. Use bullet points for key ingredients or benefits. This text appears in the product page accordion.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Add images</strong>
+        <span>Drag &amp; drop product photos into the <em>Media</em> section. <strong>Recommended: 1000×1000px square, JPG or PNG.</strong> The first image becomes the main photo.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Set pricing</strong>
+        <span>Enter the <strong>Price</strong>. Optionally enter a <strong>Compare-at price</strong> (the original price shown crossed out — creates a "Sale" badge automatically).</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Inventory &amp; SKU</strong>
+        <span>Enter a <strong>SKU</strong> (your internal code, e.g. <code>PV-JOINT-30</code>). Set <em>Track quantity</em> and enter stock count. If you don't track inventory, uncheck it.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">6</div>
+      <div class="sb">
+        <strong>Shipping weight</strong>
+        <span>Under <em>Shipping</em>, enter the product weight. This is used to calculate shipping rates at checkout.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">7</div>
+      <div class="sb">
+        <strong>Add variants (if needed)</strong>
+        <span>If your product comes in different sizes or flavors, scroll to <em>Variants</em> → click <strong>Add options like size or color</strong> → enter option name (e.g. "Size") and values (e.g. "30 count, 90 count").</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">8</div>
+      <div class="sb">
+        <strong>Add product tags</strong>
+        <span>Tags are used by Smart Collections to auto-group products. Add relevant tags separated by commas, e.g. <code>joint, supplement, dog, senior</code>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">9</div>
+      <div class="sb">
+        <strong>Set product type &amp; vendor</strong>
+        <span>In the right sidebar, enter <em>Product type</em> (e.g. <code>Supplement</code>) and <em>Vendor</em> (e.g. <code>PawVital</code>).</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">10</div>
+      <div class="sb">
+        <strong>Save the product</strong>
+        <span>Click <strong>Save</strong> at the top right. The product is now live if your store is published.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Recommended Tags for PawVital Products</h3>
+  <table>
+    <thead><tr><th>Product</th><th>Tags to Add</th></tr></thead>
+    <tbody>
+      <tr><td>Hip &amp; Joint Chews</td><td><code>joint</code>, <code>supplement</code>, <code>dog</code>, <code>mobility</code></td></tr>
+      <tr><td>Feline Calm Drops</td><td><code>calm</code>, <code>supplement</code>, <code>cat</code>, <code>anxiety</code></td></tr>
+      <tr><td>Omega-3 Skin &amp; Coat Oil</td><td><code>skin</code>, <code>supplement</code>, <code>coat</code>, <code>dog</code></td></tr>
+      <tr><td>Probiotic Digestive Chews</td><td><code>digestion</code>, <code>supplement</code>, <code>gut</code>, <code>dog</code></td></tr>
+      <tr><td>Immune Boost Mushroom Blend</td><td><code>immune</code>, <code>supplement</code>, <code>dog</code></td></tr>
+      <tr><td>Dental Fresh Sticks</td><td><code>dental</code>, <code>dog</code>, <code>grooming</code></td></tr>
+      <tr><td>Calming Anxiety Wrap</td><td><code>calm</code>, <code>wellness</code>, <code>anxiety</code>, <code>dog</code></td></tr>
+      <tr><td>Starter Wellness Bundle</td><td><code>bundle</code>, <code>bestseller</code>, <code>new</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Tip:</strong> Tags are case-sensitive in Smart Collection rules. Use all lowercase and be consistent — <code>joint</code> not <code>Joint</code>.
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 3 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 3</div>
+    <h2>Creating Collections</h2>
+    <p>Collections group products together. There are two types: <strong>Manual</strong> (you pick products) and <strong>Smart / Automated</strong> (products added automatically by rules).</p>
+  </div>
+
+  <div class="nav-path">Products <span class="arr">→</span> Collections <span class="arr">→</span> Create collection</div>
+
+  <h3>Type 1 — Manual Collection</h3>
+  <p>You choose exactly which products appear. Good for: <em>Best Sellers, Bundles, Sale, New Arrivals.</em></p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Enter collection title</strong>
+        <span>E.g. <em>"Best Sellers"</em> or <em>"Bundles &amp; Sets"</em>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Set Collection type to Manual</strong>
+        <span>Under <em>Collection type</em>, select <strong>Manual</strong>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Add products</strong>
+        <span>Scroll to the <em>Products</em> section → click <strong>Browse</strong> → search for and select products → click <strong>Add</strong>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Add a collection image</strong>
+        <span>Scroll to <em>Collection image</em> → click <strong>Add image</strong> → upload a photo. <strong>Recommended: 800×800px.</strong></span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Save</strong>
+        <span>Click <strong>Save</strong>. The collection is now live at <code>/collections/best-sellers</code>.</span>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h3>Type 2 — Smart (Automated) Collection</h3>
+  <p>Products are added automatically based on rules like tags, price, or product type. Good for: <em>Joint &amp; Mobility, Calm &amp; Anxiety, Supplements, Dental.</em></p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Enter collection title</strong>
+        <span>E.g. <em>"Joint &amp; Mobility"</em>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Set Collection type to Automated</strong>
+        <span>Under <em>Collection type</em>, select <strong>Automated</strong>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Add a condition / rule</strong>
+        <span>Click <strong>Add condition</strong> → select <em>Product tag</em> → <em>is equal to</em> → type <code>joint</code>. Products tagged <code>joint</code> will appear here automatically.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Add collection image &amp; save</strong>
+        <span>Upload an image and click <strong>Save</strong>.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>All Collections to Create for PawVital</h3>
+  <table>
+    <thead><tr><th>Collection Name</th><th>Type</th><th>Rule / Products</th></tr></thead>
+    <tbody>
+      <tr><td>Joint &amp; Mobility</td><td>Smart</td><td>Tag = <code>joint</code></td></tr>
+      <tr><td>Calm &amp; Anxiety</td><td>Smart</td><td>Tag = <code>calm</code></td></tr>
+      <tr><td>Skin &amp; Coat</td><td>Smart</td><td>Tag = <code>skin</code></td></tr>
+      <tr><td>Digestion &amp; Gut</td><td>Smart</td><td>Tag = <code>digestion</code></td></tr>
+      <tr><td>Immune Support</td><td>Smart</td><td>Tag = <code>immune</code></td></tr>
+      <tr><td>Supplements</td><td>Smart</td><td>Product type = <code>Supplement</code></td></tr>
+      <tr><td>Dental</td><td>Smart</td><td>Tag = <code>dental</code></td></tr>
+      <tr><td>Wellness</td><td>Smart</td><td>Tag = <code>wellness</code></td></tr>
+      <tr><td>Best Sellers</td><td>Manual</td><td>Hand-pick top products</td></tr>
+      <tr><td>New Arrivals</td><td>Manual</td><td>Hand-pick newest products</td></tr>
+      <tr><td>Bundles &amp; Sets</td><td>Smart</td><td>Tag = <code>bundle</code></td></tr>
+      <tr><td>Sale</td><td>Smart</td><td>Compare-at price &gt; 0</td></tr>
+      <tr><td>Food &amp; Treats</td><td>Smart</td><td>Product type = <code>Food</code></td></tr>
+      <tr><td>All Products</td><td>Smart</td><td>No conditions (shows everything)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tip">
+    <strong>Tip:</strong> Create all collections <strong>after</strong> adding products. Smart collections only populate when matching products already exist.
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 4 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 4</div>
+    <h2>Setting Up Navigation Menus</h2>
+    <p>Menus control what links appear in your header and footer. You need to set up two menus: <strong>Main menu</strong> and <strong>Footer menu</strong>.</p>
+  </div>
+
+  <div class="nav-path">Online Store <span class="arr">→</span> Navigation</div>
+
+  <h3>Setting Up the Main Menu</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Click "Main menu"</strong>
+        <span>You'll see Shopify's default links. Delete any you don't need by clicking the trash icon.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Add a menu item — click "Add menu item"</strong>
+        <span>Enter a <em>Name</em> (what shows in the nav) and a <em>Link</em> (where it goes).</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Link to a collection</strong>
+        <span>In the Link field, click the dropdown → select <em>Collections</em> → choose your collection. E.g. Link "Shop" to <em>All Products</em>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Add sub-menu items (dropdown)</strong>
+        <span>Drag a menu item slightly to the right to make it a child of the item above. This creates a dropdown sub-menu.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Save menu</strong>
+        <span>Click <strong>Save menu</strong>. Your changes are live immediately.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Recommended Main Menu Structure</h3>
+  <div class="screen">
+    <div class="screen-bar">☰ Main Menu</div>
+    <div class="screen-item"><div class="dot"></div><strong>Home</strong> → /</div>
+    <div class="screen-item"><div class="dot"></div><strong>Shop</strong> → /collections/all
+      <span style="color:#6a9e85; font-size:8.5pt; margin-left:8px;">↳ has sub-items (see below)</span></div>
+    <div class="screen-item" style="padding-left:30px;"><div class="dot" style="background:#6fcfad"></div>Joint &amp; Mobility → /collections/joint-mobility</div>
+    <div class="screen-item" style="padding-left:30px;"><div class="dot" style="background:#6fcfad"></div>Calm &amp; Anxiety → /collections/calm-anxiety</div>
+    <div class="screen-item" style="padding-left:30px;"><div class="dot" style="background:#6fcfad"></div>Supplements → /collections/supplements</div>
+    <div class="screen-item" style="padding-left:30px;"><div class="dot" style="background:#6fcfad"></div>Best Sellers → /collections/best-sellers</div>
+    <div class="screen-item"><div class="dot"></div><strong>About</strong> → /pages/about</div>
+    <div class="screen-item"><div class="dot"></div><strong>Contact</strong> → /pages/contact</div>
+  </div>
+
+  <h3>How the Mega Menu Works <span class="badge badge-g">PawVital Theme</span></h3>
+  <p>The PawVital theme has a built-in mega menu with 3 columns (By Need / By Category / Shop) plus a featured image panel on the right. It activates automatically — no coding needed.</p>
+
+  <div class="info">
+    <strong>The trigger:</strong> Any menu item named exactly <code>Shop</code> (capital S) activates the full mega menu. Other items with child links show a simple dropdown instead.
+  </div>
+
+  <table>
+    <thead><tr><th>Menu Item Name</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>Shop</code> (exactly)</td><td>Full 3-column mega menu with featured image panel</td></tr>
+      <tr><td>Any other name with child links</td><td>Simple dropdown list</td></tr>
+      <tr><td>Any item with no children</td><td>Regular single link</td></tr>
+    </tbody>
+  </table>
+
+  <h4>The 3 Mega Menu Columns</h4>
+  <p>The column links (By Need, By Category, Shop) are built into the theme. They automatically point to these collection handles:</p>
+
+  <div class="two-col">
+    <div class="col-box">
+      <h4>By Need</h4>
+      <ul class="cl">
+        <li>/collections/joint-mobility</li>
+        <li>/collections/calm-anxiety</li>
+        <li>/collections/skin-coat</li>
+        <li>/collections/digestion-gut</li>
+        <li>/collections/immune-support</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <h4>By Category &amp; Shop</h4>
+      <ul class="cl">
+        <li>/collections/supplements</li>
+        <li>/collections/food-treats</li>
+        <li>/collections/wellness</li>
+        <li>/collections/grooming</li>
+        <li>/collections/best-sellers</li>
+        <li>/collections/bundles</li>
+        <li>/collections/sale</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>To change a mega menu link:</strong> Go to Online Store → Themes → Edit code → <code>sections/header.liquid</code> → find the link around line 44–66 and edit the <code>href</code> value.
+  </div>
+
+  <h4>Setting the Featured Image Panel (right column)</h4>
+  <p>The featured image, title, subtitle, and button in the right column of the mega menu are fully editable from the Customizer:</p>
+  <div class="nav-path">Customize <span class="arr">→</span> Header <span class="arr">→</span> Mega menu featured column</div>
+  <table>
+    <thead><tr><th>Field</th><th>What to enter</th></tr></thead>
+    <tbody>
+      <tr><td>Featured image</td><td>Lifestyle pet photo, 400×260px</td></tr>
+      <tr><td>Featured title</td><td>e.g. <em>Starter Wellness Kit</em></td></tr>
+      <tr><td>Featured subtitle</td><td>e.g. <em>Joint + Calm + Gut — save 20%</em></td></tr>
+      <tr><td>Featured link</td><td><code>/collections/bundles</code></td></tr>
+      <tr><td>Featured button text</td><td>e.g. <em>Shop the kit</em></td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h3>Setting Up the Footer Menus</h3>
+  <p>The footer has <strong>3 editable link columns</strong> (SHOP, LEARN, SUPPORT). Each column reads from its own Shopify menu — no coding needed.</p>
+
+  <h4>Step 1 — Create 3 Separate Menus</h4>
+  <div class="nav-path">Online Store <span class="arr">→</span> Navigation <span class="arr">→</span> Add menu</div>
+  <p>Create these 3 menus. The <strong>handle</strong> is auto-set from the name — make sure it matches exactly:</p>
+
+  <table>
+    <thead><tr><th>Menu Name</th><th>Handle</th><th>Links to Add</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Footer Shop</strong></td><td><code>footer-shop</code></td><td>Supplements, Food &amp; Treats, Wellness, Grooming, Bundles, Sale</td></tr>
+      <tr><td><strong>Footer Learn</strong></td><td><code>footer-learn</code></td><td>Our Science, Ingredient Glossary, The PawVital Blog, Dosage Guide, Reviews</td></tr>
+      <tr><td><strong>Footer Support</strong></td><td><code>footer-support</code></td><td>Contact Us, Shipping &amp; Returns, Subscriptions, Track Order, FAQ</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Step 2 — Add Blocks in the Customizer</h4>
+  <div class="nav-path">Customize <span class="arr">→</span> Footer <span class="arr">→</span> Add block <span class="arr">→</span> Link list</div>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Click Footer in the Customizer left panel</strong>
+        <span>Scroll to the bottom of the Footer settings panel.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Click "Add block" → select "Link list"</strong>
+        <span>A new column block appears.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Set Heading to "SHOP" and Menu to "Footer Shop"</strong>
+        <span>The footer column instantly shows the links from that menu.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Repeat for LEARN and SUPPORT</strong>
+        <span>Add 2 more blocks, selecting Footer Learn and Footer Support respectively.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Save</strong>
+        <span>Click Save. Footer columns are now fully editable from Navigation — no code changes ever needed.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info">
+    <strong>Updating footer links later:</strong> Just go to Online Store → Navigation → open the relevant footer menu → add, remove, or reorder links → Save. Changes appear on the site immediately.
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 5 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 5</div>
+    <h2>Creating Pages</h2>
+    <p>Pages are static content pages like About Us, Contact, FAQ, and policy pages. Create these before setting up your navigation.</p>
+  </div>
+
+  <div class="nav-path">Online Store <span class="arr">→</span> Pages <span class="arr">→</span> Add page</div>
+
+  <h3>Pages to Create for PawVital</h3>
+  <table>
+    <thead><tr><th>Page Title</th><th>URL Handle</th><th>Content Tips</th></tr></thead>
+    <tbody>
+      <tr><td><strong>About Us</strong></td><td><code>/pages/about</code></td><td>Brand story, mission, vet credentials, team photo</td></tr>
+      <tr><td><strong>Contact Us</strong></td><td><code>/pages/contact</code></td><td>Email, phone, hours, response time note</td></tr>
+      <tr><td><strong>FAQ</strong></td><td><code>/pages/faq</code></td><td>Common questions about dosing, safety, returns</td></tr>
+      <tr><td><strong>Shipping &amp; Returns</strong></td><td><code>/pages/shipping-returns</code></td><td>Delivery times, free shipping threshold, 30-day return policy</td></tr>
+      <tr><td><strong>Subscriptions</strong></td><td><code>/pages/subscriptions</code></td><td>How Subscribe &amp; Save works, pause/cancel info</td></tr>
+      <tr><td><strong>Dosage Guide</strong></td><td><code>/pages/dosage-guide</code></td><td>Weight-based dosing table for each product</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Step-by-Step: Create a Page</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Enter the page title</strong>
+        <span>E.g. <em>"About Us"</em>. Shopify auto-generates the URL handle (slug) from the title.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Write the content</strong>
+        <span>Use the rich text editor. You can add headings (H2, H3), bold text, bullet lists, and links. The PawVital theme styles these beautifully with proper spacing.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Set visibility</strong>
+        <span>Under <em>Visibility</em> on the right, set to <strong>Visible</strong> so the page is publicly accessible.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Save</strong>
+        <span>Click <strong>Save</strong>. The page is now live at its URL (e.g. <code>/pages/about</code>).</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Add the page to your menu</strong>
+        <span>Go to Online Store → Navigation → Main menu or Footer menu → Add menu item → Link → Pages → select your page.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>Contact page tip:</strong> The Contact Us page in the demo has pre-written content with Customer Service info. You can copy that content structure and replace the placeholder details with real ones.
+  </div>
+
+  <h3>Policy Pages (Auto-generated by Shopify)</h3>
+  <p>Shopify can auto-generate policy pages (Privacy Policy, Terms of Service, Refund Policy) under:</p>
+  <div class="nav-path">Settings <span class="arr">→</span> Policies</div>
+  <p>Click <strong>Create from template</strong> for each policy, edit as needed, and Save. These are separate from regular pages and appear in the checkout footer automatically.</p>
+</div>
+
+<!-- ════════════════════════════════ CH 6 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 6</div>
+    <h2>Setting Up the Blog</h2>
+    <p>The blog builds trust and drives organic traffic. PawVital uses a blog called <strong>"PawVital Blog"</strong>.</p>
+  </div>
+
+  <div class="nav-path">Online Store <span class="arr">→</span> Blog posts <span class="arr">→</span> Create blog post</div>
+
+  <h3>Step-by-Step: Create a Blog Post</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Enter the post title</strong>
+        <span>E.g. <em>"5 Signs Your Dog Needs a Joint Supplement"</em>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Write the content</strong>
+        <span>Use headings (H2, H3), paragraphs, and bullet lists. Aim for 400–800 words per article.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Add a featured image</strong>
+        <span>On the right side, click <em>Featured image</em> → upload. <strong>Recommended: 1200×630px.</strong> This image appears in blog listing pages and social previews.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Select or create a blog</strong>
+        <span>Under <em>Blog</em> on the right → select <strong>PawVital Blog</strong>. If it doesn't exist yet, type "PawVital Blog" and click <em>Create a new blog "PawVital Blog"</em>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Add tags</strong>
+        <span>Add topic tags like <code>dogs</code>, <code>joints</code>, <code>supplements</code>. These help with filtering on the blog page.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">6</div>
+      <div class="sb">
+        <strong>Set visibility and publish</strong>
+        <span>Set to <strong>Visible</strong> and click <strong>Save</strong>. The post is live immediately at <code>/blogs/pawvital-blog/post-title</code>.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Suggested Starter Blog Posts</h3>
+  <table>
+    <thead><tr><th>Title</th><th>Topic / Tags</th></tr></thead>
+    <tbody>
+      <tr><td>5 Signs Your Dog Needs a Joint Supplement</td><td>dogs, joints, mobility</td></tr>
+      <tr><td>How to Calm an Anxious Cat Naturally</td><td>cats, calm, anxiety</td></tr>
+      <tr><td>The Difference Between Omega-3 for Pets and Humans</td><td>supplements, nutrition, skin</td></tr>
+      <tr><td>Why Vet-Formulated Matters for Pet Supplements</td><td>vets, safety, quality</td></tr>
+    </tbody>
+  </table>
+
+  <div class="info">
+    The blog page URL is <code>/blogs/pawvital-blog</code>. Link to it from your footer menu under the LEARN column.
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 7 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 7</div>
+    <h2>Homepage Setup in the Customizer</h2>
+    <p>Once products, collections, and pages exist, configure the homepage sections. Open the Customizer:</p>
+  </div>
+
+  <div class="nav-path">Online Store <span class="arr">→</span> Themes <span class="arr">→</span> Customize</div>
+
+  <div class="warn">
+    <strong>Do this last</strong> — the Customizer sections need products and collections to already exist so you can link to them.
+  </div>
+
+  <h3>Section 1 — Announcement Bar</h3>
+  <p>The green bar at the very top of every page. Click it in the left panel to edit.</p>
+  <table>
+    <thead><tr><th>Field</th><th>Suggested Content</th></tr></thead>
+    <tbody>
+      <tr><td>Message 1</td><td>🚚 Free shipping over $49</td></tr>
+      <tr><td>Message 2</td><td>🔬 Vet-formulated, always</td></tr>
+      <tr><td>Message 3</td><td>🔄 Subscribe &amp; save 15%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Section 2 — Header</h3>
+  <p>Click <strong>Header</strong> in the left panel.</p>
+  <ul class="cl">
+    <li><strong>Logo image</strong> — upload your logo (PNG with transparent background, ~200×60px)</li>
+    <li><strong>Menu</strong> — select <em>Main menu</em></li>
+    <li><strong>Mega menu featured image</strong> — upload a lifestyle pet photo (400×260px)</li>
+    <li><strong>Featured title/subtitle/CTA</strong> — e.g. "Starter Kit" / "Joint + Calm + Gut" / "Shop the kit"</li>
+    <li><strong>Featured link</strong> — set to <code>/collections/bundles</code></li>
+  </ul>
+
+  <h3>Section 3 — Hero (Main Banner)</h3>
+  <p>The large banner at the top of the homepage.</p>
+  <table>
+    <thead><tr><th>Field</th><th>What to Enter</th></tr></thead>
+    <tbody>
+      <tr><td>Hero image</td><td>Upload a lifestyle pet photo — dog or cat with product. Recommended: 1400×900px.</td></tr>
+      <tr><td>Eyebrow text</td><td><em>"Trusted by 50,000+ pet parents"</em></td></tr>
+      <tr><td>Heading</td><td><em>"Give Your Pet the Best Years of Their Life"</em></td></tr>
+      <tr><td>Subtext</td><td><em>"Vet-formulated supplements designed for real results."</em></td></tr>
+      <tr><td>Primary button text</td><td><em>"Shop Supplements"</em></td></tr>
+      <tr><td>Primary button link</td><td><code>/collections/supplements</code></td></tr>
+      <tr><td>Secondary button text</td><td><em>"Learn Our Science"</em></td></tr>
+      <tr><td>Secondary button link</td><td><code>/pages/about</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Section 4 — Featured Categories</h3>
+  <p>The row of category tiles with icons. Select up to 6 collections.</p>
+  <ul class="cl">
+    <li>Joint &amp; Mobility</li>
+    <li>Calm &amp; Anxiety</li>
+    <li>Skin &amp; Coat</li>
+    <li>Digestion &amp; Gut</li>
+    <li>Immune Support</li>
+    <li>Dental</li>
+  </ul>
+
+  <h3>Section 5 — Featured Collection</h3>
+  <p>A grid showing products from one collection.</p>
+  <ul class="cl">
+    <li><strong>Collection</strong> — select <em>Best Sellers</em> or <em>All Products</em></li>
+    <li><strong>Heading</strong> — e.g. <em>"Best Sellers"</em></li>
+    <li><strong>View all link</strong> — <code>/collections/best-sellers</code></li>
+  </ul>
+
+  <h3>Section 6 — Benefit Band</h3>
+  <p>A two-column section with a photo on one side and benefit points on the other.</p>
+  <table>
+    <thead><tr><th>Field</th><th>Suggested Content</th></tr></thead>
+    <tbody>
+      <tr><td>Image</td><td>Happy pet lifestyle photo, 900×900px</td></tr>
+      <tr><td>Eyebrow</td><td><em>"Why PawVital"</em></td></tr>
+      <tr><td>Heading</td><td><em>"Science-Backed. Pet-Approved."</em></td></tr>
+      <tr><td>Benefit 1</td><td>🔬 Vet-formulated with clinical-grade ingredients</td></tr>
+      <tr><td>Benefit 2</td><td>🐾 Tested on real pets, loved by thousands</td></tr>
+      <tr><td>Benefit 3</td><td>🔄 30-day money-back guarantee</td></tr>
+      <tr><td>Benefit 4</td><td>🚚 Free shipping on orders over $49</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ════════════════════════════════ CH 7 continued -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 7 — Continued</div>
+    <h2>Homepage Setup (continued)</h2>
+  </div>
+
+  <h3>Section 7 — Subscription CTA</h3>
+  <ul class="cl">
+    <li><strong>Heading</strong> — e.g. <em>"Subscribe &amp; Save 15% Every Order"</em></li>
+    <li><strong>Subtext</strong> — <em>"Pause or cancel any time. No commitments."</em></li>
+    <li><strong>Button text</strong> — <em>"Learn About Subscriptions"</em></li>
+    <li><strong>Button link</strong> — <code>/pages/subscriptions</code></li>
+  </ul>
+
+  <h3>Section 8 — Testimonials</h3>
+  <p>Three customer review cards. Edit each one:</p>
+  <table>
+    <thead><tr><th>Field</th><th>Example Content</th></tr></thead>
+    <tbody>
+      <tr><td>Review text</td><td><em>"My 9-year-old lab is running like a puppy again after 3 weeks on the joint chews!"</em></td></tr>
+      <tr><td>Reviewer name</td><td>Sarah M., Golden Retriever Mom</td></tr>
+      <tr><td>Stars</td><td>5 (select from dropdown)</td></tr>
+      <tr><td>Product reviewed</td><td>Hip &amp; Joint Chews</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Section 9 — Newsletter</h3>
+  <ul class="cl">
+    <li><strong>Heading</strong> — <em>"Pet Health Tips, Straight to Your Inbox"</em></li>
+    <li><strong>Subtext</strong> — <em>"Join 30,000+ pet parents. Unsubscribe any time."</em></li>
+    <li>Connect to Shopify Email or your email provider in Marketing settings</li>
+  </ul>
+
+  <h3>Section 10 — Footer</h3>
+  <p>Click <strong>Footer</strong> in the left panel.</p>
+  <ul class="cl">
+    <li><strong>Footer menu</strong> — select <em>Footer menu</em></li>
+    <li><strong>Column 1 label</strong> — <em>"SHOP"</em></li>
+    <li><strong>Column 2 label</strong> — <em>"LEARN"</em></li>
+    <li><strong>Column 3 label</strong> — <em>"SUPPORT"</em></li>
+    <li><strong>Copyright text</strong> — <em>"© 2025 PawVital. All rights reserved."</em></li>
+    <li><strong>Social links</strong> — add your Instagram, Facebook, TikTok URLs</li>
+  </ul>
+
+  <div class="tip">
+    <strong>Mobile preview:</strong> Before saving, click the phone icon in the Customizer top bar to check how the homepage looks on mobile. The PawVital theme is fully responsive.
+  </div>
+
+  <hr>
+
+  <h3>After Configuring All Sections</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Click Save</strong>
+        <span>Top right button in the Customizer.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Exit the Customizer</strong>
+        <span>Click the ← arrow at the top left, or close the tab.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>View your live store</strong>
+        <span>Click <em>View your online store</em> from the Themes page, or go directly to your <code>.myshopify.com</code> URL.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 8 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 8</div>
+    <h2>Store Settings</h2>
+    <p>Before going live, configure these essential settings. Find them all under <strong>Settings</strong> in the sidebar.</p>
+  </div>
+
+  <h3>Store Details</h3>
+  <div class="nav-path">Settings <span class="arr">→</span> Store details</div>
+  <ul class="cl">
+    <li>Store name: <em>PawVital</em></li>
+    <li>Contact email: your real support email</li>
+    <li>Store currency: USD (or your local currency)</li>
+    <li>Store address: required for tax calculations</li>
+    <li>Time zone: set to your local time zone</li>
+  </ul>
+
+  <h3>Payments</h3>
+  <div class="nav-path">Settings <span class="arr">→</span> Payments</div>
+  <ul class="cl">
+    <li>Enable <strong>Shopify Payments</strong> (accepts all major cards) — requires bank account</li>
+    <li>Add <strong>PayPal</strong> as an alternative method</li>
+    <li>Optionally add <strong>Shop Pay</strong>, <strong>Apple Pay</strong>, or <strong>Google Pay</strong></li>
+  </ul>
+
+  <h3>Shipping</h3>
+  <div class="nav-path">Settings <span class="arr">→</span> Shipping and delivery</div>
+  <ul class="cl">
+    <li>Add shipping zones (e.g. "United States")</li>
+    <li>Add rate: <em>Free shipping</em> with minimum order $49</li>
+    <li>Add rate: <em>Standard shipping</em> — flat rate $5.99 (under $49)</li>
+    <li>Optionally add <em>Express shipping</em> with a higher rate</li>
+  </ul>
+
+  <h3>Taxes</h3>
+  <div class="nav-path">Settings <span class="arr">→</span> Taxes and duties</div>
+  <ul class="cl">
+    <li>Enable <em>Charge taxes on shipping rates</em> if required by your location</li>
+    <li>Shopify auto-calculates tax rates for most regions</li>
+  </ul>
+
+  <h3>Notifications (Emails)</h3>
+  <div class="nav-path">Settings <span class="arr">→</span> Notifications</div>
+  <ul class="cl">
+    <li>Customize order confirmation, shipping, and refund email templates</li>
+    <li>Add your store logo and brand colors to email templates</li>
+  </ul>
+
+  <h3>Domain</h3>
+  <div class="nav-path">Settings <span class="arr">→</span> Domains</div>
+  <ul class="cl">
+    <li>Buy a custom domain through Shopify (e.g. <code>pawvital.com</code>) or connect one you already own</li>
+    <li>Set your custom domain as the <em>Primary domain</em></li>
+  </ul>
+
+  <h3>Disable Password Protection</h3>
+  <div class="nav-path">Online Store <span class="arr">→</span> Preferences <span class="arr">→</span> Password protection</div>
+  <p>New Shopify stores have password protection ON by default. Uncheck <em>"Restrict access to this online store"</em> and save when you're ready to go live.</p>
+
+  <div class="warn">
+    <strong>Do not go live</strong> until payments and shipping are configured. Customers could place orders that you can't fulfill or charge incorrectly.
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 9 — OPTIONAL MATRIXIFY -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 9 — Optional</div>
+    <h2>Matrixify Bulk Import <span class="badge badge-b">Shortcut</span></h2>
+    <p>Instead of adding products, collections, pages, and menus manually one by one — you can import everything at once using a single Excel file and the Matrixify app.</p>
+  </div>
+
+  <div class="info">
+    <strong>When to use Matrixify:</strong> Use it when you want to set up the store quickly with all demo content pre-filled. You can always edit everything after import. Skip this chapter if you prefer to set up the store manually using Chapters 2–6.
+  </div>
+
+  <h3>What Matrixify Does</h3>
+  <p>The <code>pawvital-matrixify.xlsx</code> file contains pre-built sheets for every content type. Matrixify reads the file and creates everything automatically — including fetching images from the internet.</p>
+
+  <table>
+    <thead><tr><th>Sheet</th><th>Creates</th><th>Count</th></tr></thead>
+    <tbody>
+      <tr><td><code>Products</code></td><td>All 8 products with images, variants, tags, descriptions</td><td>8</td></tr>
+      <tr><td><code>Smart Collections</code></td><td>Auto-collections with rules</td><td>10</td></tr>
+      <tr><td><code>Custom Collections</code></td><td>Manual collections (Best Sellers, Bundles, etc.)</td><td>4</td></tr>
+      <tr><td><code>Pages</code></td><td>About, Contact, FAQ, Shipping, Subscriptions pages</td><td>5</td></tr>
+      <tr><td><code>Blogs / Articles</code></td><td>4 blog posts with images</td><td>4</td></tr>
+      <tr><td><code>Menus</code></td><td>Main menu + Footer menu with all links</td><td>2</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Step 1 — Install Matrixify</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Open Shopify App Store</strong>
+        <span>Admin → Apps → Visit Shopify App Store → search <em>"Matrixify"</em>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Install the app</strong>
+        <span>Click <em>Add app</em> → accept permissions. The free plan allows up to 10 products per import — enough for the demo.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Step 2 — Import the Excel File</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Open Matrixify</strong>
+        <span>Admin → Apps → Matrixify.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Click "Import"</strong>
+        <span>Click the Import button on the main screen.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Upload <code>pawvital-matrixify.xlsx</code></strong>
+        <span>Click <em>Choose file</em> → select the Excel file → click <strong>Import</strong>.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Wait for completion</strong>
+        <span>Matrixify shows live progress. Takes 2–5 minutes. Images are fetched automatically from the internet.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Check results</strong>
+        <span>When done, click <em>View results</em>. Green = success, red = error. If any images failed, re-run the import — Matrixify retries failed ones.</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>After Matrixify Import</h3>
+  <p>Matrixify creates all the products, collections, pages, and menus. You still need to:</p>
+  <ul class="cl">
+    <li>Go to the Customizer and configure homepage sections (Chapter 7)</li>
+    <li>In Header settings → select <em>Main menu</em></li>
+    <li>Replace placeholder images with real product photos</li>
+    <li>Edit page content with your real business information</li>
+    <li>Configure store settings (payments, shipping) — Chapter 8</li>
+  </ul>
+
+  <div class="tip">
+    <strong>Time saved:</strong> Manual setup (Chapters 2–6) takes approximately 2–4 hours. With Matrixify, the same content is imported in under 10 minutes.
+  </div>
+
+  <div class="warn">
+    <strong>Important:</strong> Run the Matrixify import on a fresh store (no existing products). If products already exist, the import uses MERGE mode — it will update matching products rather than create duplicates. This is safe, but check for unwanted changes afterwards.
+  </div>
+</div>
+
+<!-- ════════════════════════════════ CH 10 -->
+<div class="page pb">
+  <div class="ch-header">
+    <div class="ch-label">Chapter 10</div>
+    <h2>Go-Live Checklist</h2>
+    <p>Before sharing the store URL with customers, go through this checklist to make sure everything is working correctly.</p>
+  </div>
+
+  <h3>✅ Content</h3>
+  <ul class="cl">
+    <li>All products added with real photos, descriptions, and pricing</li>
+    <li>All product variants have correct prices and inventory set</li>
+    <li>All collections created and populated with products</li>
+    <li>Main menu and Footer menu configured correctly</li>
+    <li>All pages created: About, Contact, FAQ, Shipping, Subscriptions</li>
+    <li>Blog has at least 1 published post</li>
+    <li>No placeholder "Lorem ipsum" text anywhere on the store</li>
+  </ul>
+
+  <h3>✅ Theme &amp; Homepage</h3>
+  <ul class="cl">
+    <li>PawVital theme published (shows as "Current theme")</li>
+    <li>Announcement bar has real messages</li>
+    <li>Hero section has a real image, heading, and working CTA button</li>
+    <li>Featured Categories section links to correct collections</li>
+    <li>Featured Collection shows real products</li>
+    <li>Testimonials have real (or realistic demo) reviews</li>
+    <li>Footer shows correct menu links and contact info</li>
+  </ul>
+
+  <h3>✅ Store Settings</h3>
+  <ul class="cl">
+    <li>Store name and contact email set correctly</li>
+    <li>Payment provider connected and tested</li>
+    <li>Shipping zones and rates configured</li>
+    <li>Tax settings reviewed for your region</li>
+    <li>Custom domain connected and set as primary</li>
+    <li>Password protection <strong>disabled</strong></li>
+    <li>Policy pages created (Privacy, Refund, Terms)</li>
+  </ul>
+
+  <h3>✅ Testing</h3>
+  <ul class="cl">
+    <li>Add a product to cart — cart drawer opens and shows item</li>
+    <li>Change quantity in cart — total updates correctly</li>
+    <li>Click Checkout — proceeds to Shopify checkout page</li>
+    <li>Complete a test order using Shopify's Bogus Gateway (test payment)</li>
+    <li>Check order confirmation email arrives correctly</li>
+    <li>Open the store on a real mobile phone — no horizontal scroll</li>
+    <li>Test the search — searching "joint" returns products</li>
+    <li>Test product page accordions — open and close correctly</li>
+    <li>Test contact page — form submits and you receive the email</li>
+  </ul>
+
+  <h3>How to Place a Test Order</h3>
+  <div class="nav-path">Settings <span class="arr">→</span> Payments <span class="arr">→</span> Manage <span class="arr">→</span> Use Bogus Gateway for testing</div>
+  <p>At checkout, use card number <code>1</code> and any future expiry date. This places a real test order with no actual charge. Cancel or delete the test order afterwards.</p>
+
+  <hr>
+
+  <div style="background:#0F6E56; border-radius:10px; padding:24px 28px; color:#fff; margin-top:20px;">
+    <div style="font-size:8.5pt; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:#6fcfad; margin-bottom:8px;">You're Ready</div>
+    <div style="font-size:14pt; font-weight:900; margin-bottom:8px;">Store setup complete. 🐾</div>
+    <div style="font-size:10pt; color:#b2dece; line-height:1.55;">Once all checklist items are ticked, your PawVital store is ready for customers. Share your domain, connect your marketing channels, and start selling.</div>
+  </div>
+</div>
+
+</body>
+</html>

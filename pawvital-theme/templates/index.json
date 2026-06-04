@@ -1,0 +1,119 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "layout": "split",
+        "eyebrow": "Vet-formulated wellness",
+        "heading_pre": "Wellness that starts",
+        "heading_hl": "from the inside out",
+        "subheading": "Daily supplements, gently-cooked food, and comfort essentials — backed by science, made for the pets who give us everything.",
+        "btn_primary_label": "Shop best sellers",
+        "btn_primary_url": "/collections/best-sellers",
+        "btn_secondary_label": "Take the wellness quiz",
+        "btn_secondary_url": "/pages/quiz",
+        "rating_score": "4.9/5",
+        "review_count": "38,000+"
+      }
+    },
+    "trust-strip": {
+      "type": "trust-strip",
+      "blocks": {
+        "trust-1": { "type": "trust_item", "settings": { "icon": "flask",   "heading": "Vet-formulated",   "subtext": "By licensed DVMs" } },
+        "trust-2": { "type": "trust_item", "settings": { "icon": "leaf",    "heading": "Clean ingredients", "subtext": "No fillers or junk" } },
+        "trust-3": { "type": "trust_item", "settings": { "icon": "recycle", "heading": "Cruelty-free",      "subtext": "Never tested on animals" } },
+        "trust-4": { "type": "trust_item", "settings": { "icon": "truck",   "heading": "Free shipping",     "subtext": "On orders over $49" } }
+      },
+      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
+      "settings": {}
+    },
+    "featured-categories": {
+      "type": "featured-categories",
+      "blocks": {
+        "cat-1": { "type": "category", "settings": { "title": "Supplements",   "blurb": "Joint, calm, gut & coat",    "product_count": "24", "color_scheme": "forest" } },
+        "cat-2": { "type": "category", "settings": { "title": "Food & Treats", "blurb": "Gently-cooked & grain-free", "product_count": "31", "color_scheme": "clay" } },
+        "cat-3": { "type": "category", "settings": { "title": "Wellness",      "blurb": "Beds, comfort & recovery",   "product_count": "18", "color_scheme": "sage" } },
+        "cat-4": { "type": "category", "settings": { "title": "Grooming",      "blurb": "Baths, brushes & balms",     "product_count": "15", "color_scheme": "mintdeep" } }
+      },
+      "block_order": ["cat-1", "cat-2", "cat-3", "cat-4"],
+      "settings": {
+        "eyebrow": "Shop by need",
+        "heading": "Find their perfect routine",
+        "subheading": "Every product is grouped by what your pet actually needs — so building a wellness routine is simple.",
+        "view_all_label": "View all categories"
+      }
+    },
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Loved by 38,000+ pets",
+        "heading": "This month's best sellers",
+        "view_all_label": "Shop all",
+        "products_per_row": 4
+      }
+    },
+    "benefit-band": {
+      "type": "benefit-band",
+      "blocks": {
+        "b-1": { "type": "benefit", "settings": { "icon": "flask",  "heading": "Formulated by veterinarians",  "text": "Every formula is developed and reviewed by licensed DVMs and made in cGMP facilities." } },
+        "b-2": { "type": "benefit", "settings": { "icon": "leaf",   "heading": "Clean, traceable sourcing",    "text": "Human-grade, single-source proteins and actives you can actually pronounce." } },
+        "b-3": { "type": "benefit", "settings": { "icon": "shield", "heading": "Third-party tested",           "text": "Each batch is independently tested for purity, potency, and safety." } }
+      },
+      "block_order": ["b-1", "b-2", "b-3"],
+      "settings": {
+        "eyebrow": "The PawVital difference",
+        "heading": "Real science. Real ingredients. Real results.",
+        "btn_label": "Read our science",
+        "btn_url": "/pages/our-science"
+      }
+    },
+    "subscription-cta": {
+      "type": "subscription-cta",
+      "blocks": {
+        "p-1": { "type": "pill", "settings": { "text": "Free shipping always" } },
+        "p-2": { "type": "pill", "settings": { "text": "Skip or pause anytime" } },
+        "p-3": { "type": "pill", "settings": { "text": "Exclusive member perks" } }
+      },
+      "block_order": ["p-1", "p-2", "p-3"],
+      "settings": {
+        "eyebrow": "Never run out",
+        "heading": "Subscribe & save 15% on every delivery",
+        "subtext": "Set your schedule, skip or swap anytime, and cancel whenever. Wellness on autopilot — your pet won't miss a day.",
+        "btn_label": "Build my subscription",
+        "btn_url": "/pages/subscriptions"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "t-1": { "type": "testimonial", "settings": { "quote": "The Hip & Joint chews gave my 11-year-old lab his zoomies back. He takes the stairs again — I genuinely teared up.", "name": "Marcus T.", "role": "Dad to Biscuit 🐕", "avatar_color": "#b8e6d2" } },
+        "t-2": { "type": "testimonial", "settings": { "quote": "Storm season used to be chaos. The Calm drops actually work, and there's no groggy hangover after. Lifesaver.", "name": "Priya N.", "role": "Mom to Mochi 🐈", "avatar_color": "#f3c7ad" } },
+        "t-3": { "type": "testimonial", "settings": { "quote": "Switched to the salmon recipe for our sensitive pup and the itching stopped within two weeks. Shiniest coat ever.", "name": "Dana & Wú", "role": "Parents to Pepper 🐕", "avatar_color": "#8fcfb2" } }
+      },
+      "block_order": ["t-1", "t-2", "t-3"],
+      "settings": {
+        "eyebrow": "Tail wags, verified",
+        "heading": "Pet parents keep coming back"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Join the pack",
+        "heading": "Get 10% off your first order",
+        "subtext": "Wellness tips, new drops, and members-only deals — straight to your inbox. No spam, just good things for good pets.",
+        "btn_label": "Get my 10%"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "trust-strip",
+    "featured-categories",
+    "featured-collection",
+    "benefit-band",
+    "subscription-cta",
+    "testimonials",
+    "newsletter"
+  ]
+}

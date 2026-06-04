@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_subscribe_save": true,
+        "subscribe_discount": 15
+      }
+    }
+  },
+  "order": ["main"]
+}

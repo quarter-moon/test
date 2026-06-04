@@ -1,0 +1,253 @@
+{%- assign hero_centered = false -%}
+{%- if section.settings.layout == 'centered' -%}
+  {%- assign hero_centered = true -%}
+{%- endif -%}
+
+<section class="hero{% if hero_centered %} hero--centered{% endif %}">
+  {%- if hero_centered -%}
+    <div class="wrap hero-centered">
+      <span class="hero-eyebrow">
+        {%- render 'icon', name: 'flask' -%}
+        {{ section.settings.eyebrow | default: 'Vet-formulated wellness' }}
+      </span>
+      <h1>
+        {{ section.settings.heading_pre | default: 'Wellness that starts' }}
+        <span class="hl">{{ section.settings.heading_hl | default: 'from the inside out' }}</span>
+      </h1>
+      <p class="lede">{{ section.settings.subheading | default: 'Daily supplements, gently-cooked food, and comfort essentials — backed by science, made for the pets who give us everything.' }}</p>
+      <div class="hero-cta">
+        {%- if section.settings.btn_primary_label != blank -%}
+          <a href="{{ section.settings.btn_primary_url | default: '/collections/best-sellers' }}"
+             class="btn btn-primary btn-lg">
+            {{ section.settings.btn_primary_label }}
+            {%- render 'icon', name: 'arrow-right' -%}
+          </a>
+        {%- else -%}
+          <a href="/collections/best-sellers" class="btn btn-primary btn-lg">
+            Shop best sellers {%- render 'icon', name: 'arrow-right' -%}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn_secondary_label != blank -%}
+          <a href="{{ section.settings.btn_secondary_url | default: '/pages/quiz' }}"
+             class="btn btn-ghost btn-lg">
+            {{ section.settings.btn_secondary_label }}
+          </a>
+        {%- else -%}
+          <a href="/pages/quiz" class="btn btn-ghost btn-lg">Take the wellness quiz</a>
+        {%- endif -%}
+      </div>
+      <div class="hero-meta">
+        <div class="stars" aria-hidden="true">
+          {%- for i in (1..5) -%}
+            {%- render 'icon', name: 'star' -%}
+          {%- endfor -%}
+        </div>
+        <span>
+          <b>{{ section.settings.rating_score | default: '4.9/5' }}</b>
+          from {{ section.settings.review_count | default: '38,000+' }} happy pet parents
+        </span>
+      </div>
+    </div>
+    {%- if section.settings.hero_image != blank -%}
+      <div class="wrap">
+        <div class="hero-wide-img">
+          <img src="{{ section.settings.hero_image | image_url: width: 1400 }}"
+               alt="{{ section.settings.hero_image.alt | escape }}"
+               width="1400" height="600" loading="eager">
+        </div>
+      </div>
+    {%- else -%}
+      <div class="wrap">
+        <div class="hero-wide-img hero-wide-img--placeholder"></div>
+      </div>
+    {%- endif -%}
+
+  {%- else -%}
+    <!-- Split layout (default) -->
+    <div class="wrap hero-split">
+      <div class="hero-text">
+        <span class="hero-eyebrow">
+          {%- render 'icon', name: 'flask' -%}
+          {{ section.settings.eyebrow | default: 'Vet-formulated wellness' }}
+        </span>
+        <h1>
+          {{ section.settings.heading_pre | default: 'Wellness that starts' }}
+          <span class="hl">{{ section.settings.heading_hl | default: 'from the inside out' }}</span>
+        </h1>
+        <p class="lede">{{ section.settings.subheading | default: 'Daily supplements, gently-cooked food, and comfort essentials — backed by science, made for the pets who give us everything.' }}</p>
+        <div class="hero-cta">
+          {%- if section.settings.btn_primary_label != blank -%}
+            <a href="{{ section.settings.btn_primary_url | default: '/collections/best-sellers' }}"
+               class="btn btn-primary btn-lg">
+              {{ section.settings.btn_primary_label }}
+              {%- render 'icon', name: 'arrow-right' -%}
+            </a>
+          {%- else -%}
+            <a href="/collections/best-sellers" class="btn btn-primary btn-lg">
+              Shop best sellers {%- render 'icon', name: 'arrow-right' -%}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.btn_secondary_label != blank -%}
+            <a href="{{ section.settings.btn_secondary_url | default: '/pages/quiz' }}"
+               class="btn btn-ghost btn-lg">
+              {{ section.settings.btn_secondary_label }}
+            </a>
+          {%- else -%}
+            <a href="/pages/quiz" class="btn btn-ghost btn-lg">Take the wellness quiz</a>
+          {%- endif -%}
+        </div>
+        <div class="hero-meta">
+          <div class="hero-avatars" aria-hidden="true">
+            <span style="background:#b8e6d2;"></span>
+            <span style="background:#f3c7ad;"></span>
+            <span style="background:#8fcfb2;"></span>
+            <span style="background:#e89e7c;"></span>
+          </div>
+          <div>
+            <div class="stars" aria-hidden="true">
+              {%- for i in (1..5) -%}{%- render 'icon', name: 'star' -%}{%- endfor -%}
+            </div>
+            <div style="font-size:13.5px;color:var(--ink-soft);margin-top:2px;">
+              <b>{{ section.settings.rating_score | default: '4.9/5' }}</b>
+              &middot; {{ section.settings.review_count | default: '38,000+' }} reviews
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual column -->
+      <div class="hero-visual">
+        <div class="hero-blob" aria-hidden="true"></div>
+        <div class="hero-blob two" aria-hidden="true"></div>
+
+        <div class="hero-img">
+          {%- if section.settings.hero_image != blank -%}
+            <img src="{{ section.settings.hero_image | image_url: width: 700 }}"
+                 alt="{{ section.settings.hero_image.alt | escape }}"
+                 width="700" height="840" loading="eager">
+          {%- else -%}
+            <div class="hero-img-placeholder" aria-hidden="true"></div>
+          {%- endif -%}
+        </div>
+
+        <!-- Floating badges -->
+        <div class="hero-badge tl">
+          <div class="hb-ico" style="background:var(--mint);color:var(--brand);">
+            {%- render 'icon', name: 'shield' -%}
+          </div>
+          <div>
+            <b>Vet-approved</b>
+            <span>Formulated by DVMs</span>
+          </div>
+        </div>
+        <div class="hero-badge br">
+          <div class="hb-ico" style="background:var(--peach);color:var(--accent);">
+            {%- render 'icon', name: 'sync' -%}
+          </div>
+          <div>
+            <b>Save 15%</b>
+            <span>On every subscription</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "split",    "label": "Split (text + image)" },
+        { "value": "centered", "label": "Centered (wide image)" }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Vet-formulated wellness"
+    },
+    {
+      "type": "text",
+      "id": "heading_pre",
+      "label": "Heading — first part",
+      "default": "Wellness that starts"
+    },
+    {
+      "type": "text",
+      "id": "heading_hl",
+      "label": "Heading — highlighted part",
+      "default": "from the inside out"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Daily supplements, gently-cooked food, and comfort essentials — backed by science, made for the pets who give us everything."
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_label",
+      "label": "Button label",
+      "default": "Shop best sellers"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_label",
+      "label": "Button label",
+      "default": "Take the wellness quiz"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "text",
+      "id": "rating_score",
+      "label": "Rating score",
+      "default": "4.9/5"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count text",
+      "default": "38,000+"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %}
