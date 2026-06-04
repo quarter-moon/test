@@ -3,9 +3,9 @@
     "hero": {
       "type": "hero",
       "blocks": {
-        "stat1": { "type": "stat", "settings": { "value": "40,000+", "label": "Stones set" } },
-        "stat2": { "type": "stat", "settings": { "value": "GIA", "label": "Certified" } },
-        "stat3": { "type": "stat", "settings": { "value": "Lifetime", "label": "Guarantee" } }
+        "stat1": { "type": "stat", "settings": { "value": "40,000+", "label": "Stones set by hand" } },
+        "stat2": { "type": "stat", "settings": { "value": "GIA / IGI", "label": "Every stone certified" } },
+        "stat3": { "type": "stat", "settings": { "value": "Lifetime", "label": "Free service guarantee" } }
       },
       "block_order": ["stat1", "stat2", "stat3"],
       "settings": {
@@ -13,7 +13,7 @@
         "eyebrow": "Fine Jewelry · Est. 2025",
         "heading_line_1": "Where luxury",
         "heading_line_2": "finds its form.",
-        "subheading": "A house of hand-set diamonds and coloured stones — every piece certified, every setting signed, every story told beautifully.",
+        "subheading": "A house of hand-set diamonds and coloured stones. Every piece GIA certified, every setting signed, every stone chosen by eye.",
         "primary_cta_label": "Shop the Collection",
         "primary_cta_url": "/collections/all",
         "secondary_cta_label": "Our Story",
@@ -72,25 +72,28 @@
       "settings": {
         "eyebrow": "Just Arrived",
         "title": "New arrivals",
-        "subtitle": "The latest pieces to leave the atelier.",
+        "subtitle": "Fresh from the bench. Each piece set by hand, inspected three times, and ready to wear.",
         "products_to_show": 4,
         "detailed": true,
-        "cta_label": "View All",
+        "cta_label": "See the Full Collection",
         "cta_url": "/collections/all"
       }
     },
     "spotlight": {
       "type": "product-spotlight",
       "settings": {
-        "eyebrow": "Spotlight"
+        "eyebrow": "The Piece · Rare Find",
+        "product": "riviere-necklace",
+        "title": "A necklace without compromise",
+        "description": "Twenty-one graduated round brilliants, open-claw set so each stone floats independently. 7.2 carats. GIA certified. The kind of piece that stops a room."
       }
     },
     "lookbook": {
       "type": "lookbook",
       "settings": {
         "eyebrow": "The Atelier",
-        "title": "Handcrafted. Unhurried. Made to outlast trends.",
-        "text": "For three generations our setters have worked stone by stone, the old way — because fine jewelry deserves a fine hand. Discover how a Pavé piece comes to be.",
+        "title": "Stone by stone.\nThe old way, on purpose.",
+        "text": "Every Pavé piece is set under magnification by a craftsperson who has spent years learning to read a stone — its grain, its depth, the angle at which it holds light. We haven't found a machine that can do it better. We've stopped looking.",
         "cta_label": "Inside the Atelier",
         "cta_url": "/pages/our-story"
       }
