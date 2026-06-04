@@ -588,20 +588,128 @@
     <div class="screen-item"><div class="dot"></div><strong>Contact</strong> → /pages/contact</div>
   </div>
 
-  <h3>Setting Up the Footer Menu</h3>
-  <p>Go back to Navigation → click <strong>Footer menu</strong> (or create a new menu named "Footer menu").</p>
+  <h3>How the Mega Menu Works <span class="badge badge-g">PawVital Theme</span></h3>
+  <p>The PawVital theme has a built-in mega menu with 3 columns (By Need / By Category / Shop) plus a featured image panel on the right. It activates automatically — no coding needed.</p>
+
+  <div class="info">
+    <strong>The trigger:</strong> Any menu item named exactly <code>Shop</code> (capital S) activates the full mega menu. Other items with child links show a simple dropdown instead.
+  </div>
 
   <table>
-    <thead><tr><th>Column Group</th><th>Links to Add</th></tr></thead>
+    <thead><tr><th>Menu Item Name</th><th>Result</th></tr></thead>
     <tbody>
-      <tr><td><strong>SHOP</strong></td><td>Supplements, Food &amp; Treats, Wellness, Grooming, Bundles, Sale</td></tr>
-      <tr><td><strong>LEARN</strong></td><td>Our Science, Ingredient Glossary, The PawVital Blog, Dosage Guide, Reviews</td></tr>
-      <tr><td><strong>SUPPORT</strong></td><td>Contact Us, Shipping &amp; Returns, Subscriptions, Track Order, FAQ</td></tr>
+      <tr><td><code>Shop</code> (exactly)</td><td>Full 3-column mega menu with featured image panel</td></tr>
+      <tr><td>Any other name with child links</td><td>Simple dropdown list</td></tr>
+      <tr><td>Any item with no children</td><td>Regular single link</td></tr>
     </tbody>
   </table>
 
+  <h4>The 3 Mega Menu Columns</h4>
+  <p>The column links (By Need, By Category, Shop) are built into the theme. They automatically point to these collection handles:</p>
+
+  <div class="two-col">
+    <div class="col-box">
+      <h4>By Need</h4>
+      <ul class="cl">
+        <li>/collections/joint-mobility</li>
+        <li>/collections/calm-anxiety</li>
+        <li>/collections/skin-coat</li>
+        <li>/collections/digestion-gut</li>
+        <li>/collections/immune-support</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <h4>By Category &amp; Shop</h4>
+      <ul class="cl">
+        <li>/collections/supplements</li>
+        <li>/collections/food-treats</li>
+        <li>/collections/wellness</li>
+        <li>/collections/grooming</li>
+        <li>/collections/best-sellers</li>
+        <li>/collections/bundles</li>
+        <li>/collections/sale</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>To change a mega menu link:</strong> Go to Online Store → Themes → Edit code → <code>sections/header.liquid</code> → find the link around line 44–66 and edit the <code>href</code> value.
+  </div>
+
+  <h4>Setting the Featured Image Panel (right column)</h4>
+  <p>The featured image, title, subtitle, and button in the right column of the mega menu are fully editable from the Customizer:</p>
+  <div class="nav-path">Customize <span class="arr">→</span> Header <span class="arr">→</span> Mega menu featured column</div>
+  <table>
+    <thead><tr><th>Field</th><th>What to enter</th></tr></thead>
+    <tbody>
+      <tr><td>Featured image</td><td>Lifestyle pet photo, 400×260px</td></tr>
+      <tr><td>Featured title</td><td>e.g. <em>Starter Wellness Kit</em></td></tr>
+      <tr><td>Featured subtitle</td><td>e.g. <em>Joint + Calm + Gut — save 20%</em></td></tr>
+      <tr><td>Featured link</td><td><code>/collections/bundles</code></td></tr>
+      <tr><td>Featured button text</td><td>e.g. <em>Shop the kit</em></td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h3>Setting Up the Footer Menus</h3>
+  <p>The footer has <strong>3 editable link columns</strong> (SHOP, LEARN, SUPPORT). Each column reads from its own Shopify menu — no coding needed.</p>
+
+  <h4>Step 1 — Create 3 Separate Menus</h4>
+  <div class="nav-path">Online Store <span class="arr">→</span> Navigation <span class="arr">→</span> Add menu</div>
+  <p>Create these 3 menus. The <strong>handle</strong> is auto-set from the name — make sure it matches exactly:</p>
+
+  <table>
+    <thead><tr><th>Menu Name</th><th>Handle</th><th>Links to Add</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Footer Shop</strong></td><td><code>footer-shop</code></td><td>Supplements, Food &amp; Treats, Wellness, Grooming, Bundles, Sale</td></tr>
+      <tr><td><strong>Footer Learn</strong></td><td><code>footer-learn</code></td><td>Our Science, Ingredient Glossary, The PawVital Blog, Dosage Guide, Reviews</td></tr>
+      <tr><td><strong>Footer Support</strong></td><td><code>footer-support</code></td><td>Contact Us, Shipping &amp; Returns, Subscriptions, Track Order, FAQ</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Step 2 — Add Blocks in the Customizer</h4>
+  <div class="nav-path">Customize <span class="arr">→</span> Footer <span class="arr">→</span> Add block <span class="arr">→</span> Link list</div>
+  <div class="steps">
+    <div class="step">
+      <div class="sn">1</div>
+      <div class="sb">
+        <strong>Click Footer in the Customizer left panel</strong>
+        <span>Scroll to the bottom of the Footer settings panel.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">2</div>
+      <div class="sb">
+        <strong>Click "Add block" → select "Link list"</strong>
+        <span>A new column block appears.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">3</div>
+      <div class="sb">
+        <strong>Set Heading to "SHOP" and Menu to "Footer Shop"</strong>
+        <span>The footer column instantly shows the links from that menu.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">4</div>
+      <div class="sb">
+        <strong>Repeat for LEARN and SUPPORT</strong>
+        <span>Add 2 more blocks, selecting Footer Learn and Footer Support respectively.</span>
+      </div>
+    </div>
+    <div class="step">
+      <div class="sn">5</div>
+      <div class="sb">
+        <strong>Save</strong>
+        <span>Click Save. Footer columns are now fully editable from Navigation — no code changes ever needed.</span>
+      </div>
+    </div>
+  </div>
+
   <div class="info">
-    The PawVital theme's footer automatically reads the <strong>Footer menu</strong> and displays links. The column groupings (SHOP, LEARN, SUPPORT) are set in the Footer section of the Customizer.
+    <strong>Updating footer links later:</strong> Just go to Online Store → Navigation → open the relevant footer menu → add, remove, or reorder links → Save. Changes appear on the site immediately.
   </div>
 </div>
 
